@@ -1,10 +1,10 @@
 [
   {
-    "name": "wimpo",
+    "name": "Thresholds",
     "organization": "U.S. Geological Survey",
-    "description": "Documents best practices for software development within WIM",
-    "version": "v0.0.0",
-    "status": ["Ideation", "Development", "Alpha", "Beta", "Release Candidate", "Production", "Archival"],
+    "description": "Alternative Way of Delivering USGS Streamgage Data Using Thresholds",
+    "version": "v0.1.0",
+    "status": ["Development"],
 
     "permissions": {
       "usageType": "openSource",
@@ -17,9 +17,9 @@
     },
 
     "homepageURL": "https://wim.usgs.gov",
-    "downloadURL": "https://github.com/USGS-WiM/wimpo/archive/master.zip",
-    "disclaimerURL": "https://github.com/USGS-WiM/wimpo/blob/master/DISCLAIMER.md",
-    "repositoryUrl": "https://github.com/USGS-WiM/wimpo",
+    "downloadURL": "https://github.com/USGS-WiM/Thresholds/archive/master.zip",
+    "disclaimerURL": "https://github.com/USGS-WiM/Thresholds/blob/master/DISCLAIMER.md",
+    "repositoryUrl": "https://github.com/USGS-WiM/Thresholds",
     "vcs": "git",
 
     "laborHours": null,
@@ -37,10 +37,8 @@
 
     "languages": [
       "markdown",
-      "jquery",
-      "python",
-      "leaflet",
-      "etc"
+      "vue",
+      "leaflet"
     ],
 
     "contact": {
@@ -49,7 +47,7 @@
     },
 
     "date": {
-      "metadataLastUpdated": "2017-10-25"
+      "metadataLastUpdated": "2021-06-11"
     }
   }
 ]
