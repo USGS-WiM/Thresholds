@@ -1,16 +1,16 @@
 ![WiM](wim.png)
 
 
-# Project Title
+# Thresholds
 
-One Paragraph of project description goes here
+An alternative way of delivering USGS streamgage data using thresholds 
 
 ### Prerequisites
 
 What things you need to install the software and how to install them
 
 ```
-Give examples
+Vue 2
 ```
 
 ## Getting Started
@@ -19,18 +19,24 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Installing
 
-A step by step series of examples that tell you have to get a development env running
-
-Say what the step will be
-
+## Project setup
 ```
-Give the example
+npm install
 ```
 
-And repeat
-
+### Compiles and hot-reloads for development
 ```
-until finished
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Lints and fixes files
+```
+npm run lint
 ```
 
 ## Building and testing
@@ -45,8 +51,7 @@ Add additional notes about how to deploy this on a live system. **Do not include
 
 ## Built With
 
-* [Angular](https://angular.io/) - The main web framework used
-* [Clarity UI](https://vmware.github.io/clarity/) - Top-level UI framework if you have one
+* [Vue](https://vuejs.org/) - The main web framework used
 * [NPM](https://www.npmjs.com/) - Dependency Management
 * [Others](https://www.npmjs.com/) - Any other high-level dependencies
 
@@ -66,8 +71,8 @@ To push tags to remote origin: `git push origin --tags`
 
 ## Authors
 
-* **[Jordan Doe](PROFILE_PAGE_URL_HERE)**  - *Lead Developer* - [USGS Web Informatics & Mapping](https://wim.usgs.gov/)
-* **[Jessie Smith](PROFILE_PAGE_URL_HERE)** - *Developer* -  [USGS Web Informatics & Mapping](https://wim.usgs.gov/)
+* **[Lauren Privette](https://github.com/lprivette)**  - *Lead Developer* - [USGS Web Informatics & Mapping](https://wim.usgs.gov/)
+* **[Lily Houtman](https://github.com/lilyhoutman)**  - *Developer* - [USGS Web Informatics & Mapping](https://wim.usgs.gov/)
 
 See also the list of [contributors](../../graphs/contributors) who participated in this project.
 
