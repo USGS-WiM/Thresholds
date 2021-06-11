@@ -72,6 +72,7 @@ To push tags to remote origin: `git push origin --tags`
 ## Authors
 
 * **[Lauren Privette](https://github.com/lprivette)**  - *Lead Developer* - [USGS Web Informatics & Mapping](https://wim.usgs.gov/)
+* **[Lily Houtman](https://github.com/lilyhoutman)**  - *Developer* - [USGS Web Informatics & Mapping](https://wim.usgs.gov/)
 
 See also the list of [contributors](../../graphs/contributors) who participated in this project.
 
