@@ -21,6 +21,17 @@
         </v-container>
       </v-expansion-panel-content>
     </v-expansion-panel>
+    <v-expansion-panel>
+      <v-expansion-panel-header>
+        Basemaps
+      </v-expansion-panel-header>
+      <v-expansion-panel-content>
+        <v-container class="px-0" fluid>
+        <!-- these are not actually linked to anything right now, just an example of what is possible! -->
+            <p>test</p>
+        </v-container>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
   </v-expansion-panels>
 </template>
 

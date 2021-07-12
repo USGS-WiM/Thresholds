@@ -50,7 +50,7 @@
             :icon="nwisIcon"/>
         </l-layer-group>
       <!-- to load a geojson -->
-      <l-geo-json :geojson="geojson"></l-geo-json>
+      <l-geo-json :geojson="geojson" :options="options"></l-geo-json>
       </l-map>
     </div>
   </v-main>
@@ -60,6 +60,7 @@
 import { latLng, Icon, divIcon } from "leaflet"; //this is where you import leaflet components not found in vue2-leaflet
 import { LMap, LTileLayer, LMarker, LControlLayers, LControlScale, LControl, LGeoJson, LLayerGroup } from "vue2-leaflet"; //this is where you import components made easy by vue2-leaflet
 import "leaflet/dist/leaflet.css";
+import data from "../mvp_data/data.json";
 
 //this code is necessary for the default leaflet marker to work
 delete Icon.Default.prototype._getIconUrl;
@@ -138,7 +139,7 @@ export default {
       //url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       //attribution:
         //'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      markers: [
+      /* markers: [
         {
           id: "m1",
           position: { lat: 43.0689, lng: -89.3405 },
@@ -157,24 +158,29 @@ export default {
           draggable: true,
           visible: true
         },
-      ],
+      ], */
       currentZoom: 4,
       currentCenter: latLng(37.0902, -82.7129),
       nwisIcon: divIcon({className: 'wmm-circle wmm-mutedblue wmm-icon-triangle wmm-icon-black wmm-size-20 wmm-borderless'}), //custom WIM icons
       showParagraph: false,
       geojson: null,
+      options: {
+        onEachFeature: function onEachFeature(feature, layer) {
+          // does this feature have a property named popupContent?
+            layer.bindPopup("Elevation at " + feature.properties.Name + " is " + feature.properties.Elevation);
+        }
+      },
       fillColor: "#ffffff",
       mapOptions: {
         zoomSnap: 0.5,
       },
       showMap: true,
+      mapData: data
     };
   },
   //if you want to load a geojson layer
   async created () {
-    const response = await fetch('https://stn.wim.usgs.gov/STNServices/SensorViews.geojson?ViewType=baro_view&',
-    );
-    this.geojson = await response.json();
+    this.geojson = data
   },
   methods: {
     zoomUpdate(zoom) {
