@@ -3,6 +3,34 @@
     <!-- Filters Section -->
     <v-expansion-panel>
       <v-expansion-panel-header>
+        Basemaps
+      </v-expansion-panel-header>
+      <v-expansion-panel-content>
+        <v-container class="px-0" fluid>
+        <!-- these are not actually linked to anything right now, just an example of what is possible! -->
+            <input type="radio" id="streets" value="Streets" v-model="selected" />
+              <label for="streets">Streets</label>
+              <br/>
+            <input type="radio" id="satellite" value="Satellite" v-model="selected" />
+              <label for="satellite">Satellite</label>
+              <br/>
+            <input type="radio" id="topo" value="Topo" v-model="selected" />
+              <label for="topo">Topo</label>
+              <br/>
+            <input type="radio" id="terrain" value="Terrain" v-model="selected" />
+              <label for="terrain">Terrain</label>
+              <br/>
+            <input type="radio" id="gray" value="Gray" v-model="selected" />
+              <label for="gray">Gray</label>
+              <br/>
+            <input type="radio" id="natgeo" value="NatGeo" v-model="selected" />
+              <label for="natgeo">NatGeo</label>
+              <br/>
+        </v-container>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+    <v-expansion-panel>
+      <v-expansion-panel-header>
         Streamgages
       </v-expansion-panel-header>
       <v-expansion-panel-content>
@@ -21,17 +49,6 @@
         </v-container>
       </v-expansion-panel-content>
     </v-expansion-panel>
-    <v-expansion-panel>
-      <v-expansion-panel-header>
-        Basemaps
-      </v-expansion-panel-header>
-      <v-expansion-panel-content>
-        <v-container class="px-0" fluid>
-        <!-- these are not actually linked to anything right now, just an example of what is possible! -->
-            <p>test</p>
-        </v-container>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
   </v-expansion-panels>
 </template>
 
@@ -42,5 +59,16 @@
         picked: [],
       }
     },
+    computed: {
+      // use v-model to set basemap state
+      selected: {
+        get() {
+          return this.$store.state.basemapState;
+        },
+        set(value) {
+          return this.$store.commit("getBasemapState", value);
+        },
+      },
+  },
   }
 </script>

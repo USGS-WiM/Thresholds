@@ -6,7 +6,7 @@
       <v-toolbar-title style="color: white">Real-Time Flood Impact Map</v-toolbar-title>
       <Geosearch :map="map"></Geosearch>
     </v-app-bar>
-    <Map @getMap="getChildMap"></Map>
+    <Map @getMap="getChildMap" @emitTileProviders="selectBasemap"></Map>
   </v-app>
 </template>
 
@@ -23,7 +23,8 @@ export default {
   },
   data: function () {
         return {
-            map: ''
+            map: '',
+            tileProviders: []
         }
   },
   computed: {
@@ -32,9 +33,27 @@ export default {
       set (v) { return this.$store.commit('toggleDrawerState', v) }
     },
   },
+  // Watch basemap state and update visibility when state changes
+  watch: {
+    '$store.state.basemapState': function (){
+      this.selectBasemap(this.tileProviders);
+    }
+  },
   methods: {
+    // Makes map accessible from other child components (need for geosearch)
     getChildMap(mapObject){
       this.map = mapObject;
+    },
+    // compare tile provider name to basemap state and set visibility
+    selectBasemap(tileProviders) {
+      this.tileProviders = tileProviders;
+      for (let i = 0; i < tileProviders.length; i++){
+        if(this.$store.state.basemapState == tileProviders[i].name){
+          tileProviders[i].visible = true;
+        }else{
+          tileProviders[i].visible = false;
+        }
+      }
     }
   }
 };
