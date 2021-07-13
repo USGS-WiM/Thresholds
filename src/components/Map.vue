@@ -12,7 +12,7 @@
         @ready="getMapObject"
         @update:center="centerUpdate"
         @update:zoom="zoomUpdate"
-        @mousemove="getLatLng" 
+        @mousemove="getLatLng"
       >
       <!-- basemaps -->
         <l-tile-layer
@@ -35,11 +35,6 @@
           Current Zoom: {{ currentZoom }}
         </button>
       </l-control>
-      <!-- leaflet control panel -->
-      <l-control-layers
-        :position="layersPosition"
-        :collapsed="true"
-        :sort-layers="false"/>
       <!-- markers (these ones use custom wim divIcon styling not leaflet default) -->
       <l-layer-group 
         layer-type="overlay"
@@ -60,7 +55,7 @@
 
 <script>
 import { latLng, Icon, divIcon } from "leaflet"; //this is where you import leaflet components not found in vue2-leaflet
-import { LMap, LTileLayer, LMarker, LControlLayers, LControlScale, LControl, LGeoJson, LLayerGroup } from "vue2-leaflet"; //this is where you import components made easy by vue2-leaflet
+import { LMap, LTileLayer, LMarker, LControlScale, LControl, LGeoJson, LLayerGroup } from "vue2-leaflet"; //this is where you import components made easy by vue2-leaflet
 import "leaflet/dist/leaflet.css";
 import data from "../mvp_data/data.json";
 
@@ -124,7 +119,6 @@ export default {
     LMap,
     LTileLayer,
     LMarker,
-    LControlLayers,
     LControlScale,
     LControl,
     LGeoJson,
@@ -195,9 +189,11 @@ export default {
       this.lat = parseFloat(event.latlng.lat).toFixed(6);
       this.long = parseFloat(event.latlng.lng).toFixed(6);
     },
+    // Pass map object and tile providers to parent
     getMapObject() {
-        this.map = this.$refs.map.mapObject;
-        this.$emit('getMap', this.map)
+      this.map = this.$refs.map.mapObject;
+      this.$emit('getMap', this.map)
+      this.$emit('emitTileProviders', this.tileProviders)
     },
   },
 };
