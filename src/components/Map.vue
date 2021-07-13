@@ -3,11 +3,13 @@
     <div style="height: 100%; width: 100%">
     <!-- a leaflet map -->
       <l-map
+        ref="map"
         v-if="showMap"
         :zoom="zoom"
         :center="center"
         :options="mapOptions"
         style="height: 98%"
+        @ready="getMapObject"
         @update:center="centerUpdate"
         @update:zoom="zoomUpdate"
         @mousemove="getLatLng" 
@@ -192,6 +194,10 @@ export default {
     getLatLng: function(event) {
       this.lat = parseFloat(event.latlng.lat).toFixed(6);
       this.long = parseFloat(event.latlng.lng).toFixed(6);
+    },
+    getMapObject() {
+        this.map = this.$refs.map.mapObject;
+        this.$emit('getMap', this.map)
     },
   },
 };
