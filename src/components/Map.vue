@@ -3,15 +3,15 @@
     <div style="height: 100%; width: 100%">
     <!-- a leaflet map -->
       <l-map
+        ref="map"
         v-if="showMap"
         :zoom="zoom"
         :center="center"
-        :bounds="bounds"
         :options="mapOptions"
         style="height: 98%"
+        @ready="getMapObject"
         @update:center="centerUpdate"
         @update:zoom="zoomUpdate"
-        @update:bounds="boundsUpdate"
         @mousemove="getLatLng"
       >
       <!-- basemaps -->
@@ -22,19 +22,9 @@
         :visible="tileProvider.visible"
         :url="tileProvider.url"
         :attribution="tileProvider.attribution"
+        :token="token"
         layer-type="base"
       />
-      <l-layer-group
-      layer-type="overlay"
-      name="Real-time streamgages"
-      :visibile="true">
-      <ul>
-        <li v-for="(l,i) in latlong" :key="i">
-            <l-marker :lat-lng="l"
-            :icon="nwisIcon"></l-marker>
-        </li>
-      </ul>
-      </l-layer-group>
       <!-- dynamic scale in miles or kilometers -->
       <l-control-scale position="topright" :imperial="true" :metric="false"/>
       <!-- dynamic scale in zoom level and current lat/long of mouse -->
@@ -43,16 +33,21 @@
           Latitude: {{ lat }}, Longitude: {{ long }}
           <br/>
           Current Zoom: {{ currentZoom }}
-          <br/>
-          Test {{ currentBounds._southWest.lat }}
         </button>
       </l-control>
-      <!-- leaflet control panel -->
-      <l-control-layers
-        :collapsed="true"
-        :sort-layers="false"/>
+      <!-- markers (these ones use custom wim divIcon styling not leaflet default) -->
+      <l-layer-group 
+        layer-type="overlay"
+        name="Markers"
+        :visible="true">
+        <l-marker v-for="marker in markers"
+            :key="marker.id"
+            :visible="marker.visible"
+            :lat-lng="marker.position"
+            :icon="nwisIcon"/>
+        </l-layer-group>
       <!-- to load a geojson -->
-      <l-geo-json :geojson="geojson"></l-geo-json>
+      <l-geo-json :geojson="geojson" :options="options"></l-geo-json>
       </l-map>
     </div>
   </v-main>
@@ -60,9 +55,9 @@
 
 <script>
 import { latLng, Icon, divIcon } from "leaflet"; //this is where you import leaflet components not found in vue2-leaflet
-import { LMap, LTileLayer, LMarker, LControlLayers, LControlScale, LControl, LGeoJson, LLayerGroup } from "vue2-leaflet"; //this is where you import components made easy by vue2-leaflet
+import { LMap, LTileLayer, LMarker, LControlScale, LControl, LGeoJson, LLayerGroup } from "vue2-leaflet"; //this is where you import components made easy by vue2-leaflet
 import "leaflet/dist/leaflet.css";
-import axios from "axios";
+import data from "../mvp_data/data.json";
 
 //this code is necessary for the default leaflet marker to work
 delete Icon.Default.prototype._getIconUrl;
@@ -71,10 +66,6 @@ Icon.Default.mergeOptions({
     iconUrl: require('leaflet/dist/images/marker-icon.png'),
     shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
 });
-
-// var parseString = require('xml2js').parseString;
-
-// var USGSrtGages = featureGroup().addLayer(info);
 
 //define basemaps
 var tileProviders = [
@@ -122,29 +113,12 @@ var tileProviders = [
   },
 ];
 
-
-var parameterCodeList = "00065,63160,72214";
-var siteTypeList = "OC,OC-CO,ES,LK,ST,ST-CA,ST-DCH,ST-TS";
-var siteStatus = "active";
-//var bbox = currentBounds._southWest.lng + "," + currentBounds._southWest.lat + "," + currentBounds._northEast.lng + "," + currentBounds._northEast.lat;
-var bbox = "-83.000000,36.500000,-81.000000,38.500000";
-var url =
-    "https://waterservices.usgs.gov/nwis/iv/?format=json&bBox=" +
-    bbox +
-    "&parameterCd=" +
-    parameterCodeList +
-    "&siteType=" +
-    siteTypeList +
-    "&siteStatus=" +
-    siteStatus;
-
 export default {
   name: "Example",
   components: {
     LMap,
     LTileLayer,
     LMarker,
-    LControlLayers,
     LControlScale,
     LControl,
     LGeoJson,
@@ -152,46 +126,58 @@ export default {
   },
   data() {
     return {
-      info: null,
       show: true,
       zoom: 4,
       lat: 37.0902,
       long: -82.7129,
       center: latLng(37.0902, -82.7129),
       tileProviders: tileProviders,
-      latlong: [],
-      bounds: null,
       //url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       //attribution:
         //'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+      /* markers: [
+        {
+          id: "m1",
+          position: { lat: 43.0689, lng: -89.3405 },
+          draggable: true,
+          visible: true
+        },
+        {
+          id: "m2",
+          position: { lat: 44.9492, lng: -93.2077 },
+          draggable: true,
+          visible: true
+        },
+        {
+          id: "m3",
+          position: { lat: 38.9252, lng: -76.4646 },
+          draggable: true,
+          visible: true
+        },
+      ], */
       currentZoom: 4,
       currentCenter: latLng(37.0902, -82.7129),
-      currentBounds: {
-        _southWest: {
-          lat: {},
-          lng: {}
-        },
-        _northEast: {
-          lat: {},
-          lng: {}
-        }
-      },
       nwisIcon: divIcon({className: 'wmm-circle wmm-mutedblue wmm-icon-triangle wmm-icon-black wmm-size-20 wmm-borderless'}), //custom WIM icons
       showParagraph: false,
       geojson: null,
+      options: {
+        onEachFeature: function onEachFeature(feature, layer) {
+          // does this feature have a property named popupContent?
+            layer.bindPopup("Elevation at " + feature.properties.Name + " is " + feature.properties.Elevation);
+        }
+      },
       fillColor: "#ffffff",
       mapOptions: {
         zoomSnap: 0.5,
       },
       showMap: true,
+      mapData: data
     };
   },
   //if you want to load a geojson layer
-  /*async created () {
-    const response = await fetch('https://stn.wim.usgs.gov/STNServices/SensorViews.geojson?ViewType=baro_view&',
-    );
-    this.geojson = await response.json();
-  },*/
+  async created () {
+    this.geojson = data
+  },
   methods: {
     zoomUpdate(zoom) {
       this.currentZoom = zoom;
@@ -199,14 +185,16 @@ export default {
     centerUpdate(center) {
       this.currentCenter = center;
     },
-    boundsUpdate(bounds) {
-      this.currentBounds = bounds;
-      console.log(this.currentBounds);
-    },
     getLatLng: function(event) {
       this.lat = parseFloat(event.latlng.lat).toFixed(6);
       this.long = parseFloat(event.latlng.lng).toFixed(6);
-    }
+    },
+    // Pass map object and tile providers to parent
+    getMapObject() {
+      this.map = this.$refs.map.mapObject;
+      this.$emit('getMap', this.map)
+      this.$emit('emitTileProviders', this.tileProviders)
+    },
   },
   mounted () {
     axios.get(url)
@@ -220,7 +208,7 @@ export default {
         }
       }) 
   }
-}
+};
 </script>
 
 <style scoped> /*placing "scoped" after style affects only the current file*/
