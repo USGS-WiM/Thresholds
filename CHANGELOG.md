@@ -10,12 +10,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 -   Added TX location search to navbar
--   added 2 character minimum before displaying menu suggestions
+-   Added 2 character minimum before displaying menu suggestions
+-   Added basemap thumbnails
 
 ### Changed
 
 -   Moved basemap toggle from map to sidebar
 -   Moved location search to right side of navbar
+-   Changed basemap selector from radio input to buttons
 
 ### Fixed
 
