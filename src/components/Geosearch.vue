@@ -30,6 +30,7 @@
           window.search_api.create("geosearchBar", {
             size: "md",
             placeholder: "Search for a location",
+            menu_min_char: 2, // minimum number of characters required before attempting to find menu suggestions
             include_usgs_sw: true,
             include_usgs_gw: true,
             include_usgs_sp: true,
@@ -39,7 +40,7 @@
                 map 
                   .fitBounds([ // zoom to location 
                       [ o.result.properties.LatMin, o.result.properties.LonMin ], 
-                      [ o.result.properties.LatMax, o.result.properties.LonMax ] 
+                      [ o.result.properties.LatMax, o.result.properties.LonMax ]
                   ]) 
                   .openPopup( // open popup 
                       "<b>"+o.result.properties.Label+"</b><br/><i>"+o.result.properties.Category +"</i>", 
@@ -56,6 +57,6 @@
 
 <style>
 #geosearchBar{
-  margin-left: 30px;
+  margin-left: auto;
 }
 </style>
