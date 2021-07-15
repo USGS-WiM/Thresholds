@@ -37,13 +37,13 @@
       <v-expansion-panel-content>
         <v-container class="px-0" fluid>
         <!-- these are not actually linked to anything right now, just an example of what is possible! -->
-            <input type="checkbox" id="stream" value="Stream" v-model="picked" />
+            <input type="checkbox" ref="stream" id="stream" value="false" v-model="streamgagePicked" :disabled="streamCheckDisabled"/>
               <label for="stream">Real-time Stream Gage</label>
               <br/>
-            <input type="checkbox" id="rain" value="Rain" v-model="picked" />
+            <input type="checkbox" id="rain" value="false" v-model="picked" />
               <label for="rain">Real-time Rain Gage</label>
               <br/>
-            <input type="checkbox" id="tidal" value="Tidal" v-model="picked" />
+            <input type="checkbox" id="tidal" value="false" v-model="picked" />
               <label for="tidal">Tidal Gage</label>
               <br/>
               <span>Checked Gages: {{ picked }}</span>
@@ -58,20 +58,40 @@
     data () {
       return {
         picked: [],
+        streamCheckDisabled: true
       }
     },
+    props: ["currentZoom"],
     computed: {
       // use v-model to set basemap state
       selected: {
         get() {
-          console.log(this.$store.state.basemapState)
           return this.$store.state.basemapState;
         },
         set(value) {
           return this.$store.commit("getBasemapState", value);
         },
       },
-  },
+      // use v-model to set streamgage layer state
+      streamgagePicked: {
+        get() {
+          return this.$store.state.streamgageState;
+        },
+        set(value) {
+          return this.$store.commit("getStreamgageState", value);
+        },
+      },
+    },
+    // Watch the current zoom value to disable checkbox
+    watch: {
+      '$store.state.currentZoomState': function(){
+        if (this.$store.state.currentZoomState >= 9){
+          this.streamCheckDisabled = false;
+        }else{
+          this.streamCheckDisabled = true;
+        }
+      }
+    }
   }
 </script>
 
