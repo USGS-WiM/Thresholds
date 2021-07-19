@@ -1,11 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { MdProgress } from 'vue-material/dist/components'
-import 'vue-material/dist/vue-material.min.css'
-import 'vue-material/dist/theme/default.css'
 
 Vue.use(Vuex)
-Vue.use(MdProgress)
 
 export default new Vuex.Store({
   state: {

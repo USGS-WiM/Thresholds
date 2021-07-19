@@ -1,7 +1,7 @@
 <template>
   <v-main>
     <div style="height: 100%; width: 100%">
-      <div id="nwisLoadingAlert" class="alert nwisAlertClass fade" role="alert" :style="{ display: isDisplayed, opacity: alertOpacity }"><md-progress-spinner class="md-primary" :md-stroke="3" :md-diameter="20" md-mode="indeterminate"></md-progress-spinner>
+      <div id="nwisLoadingAlert" class="alert nwisAlertClass fade" role="alert" :style="{ display: isDisplayed, opacity: alertOpacity }"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular>
       <span class="loadingLabel">Loading Layers...</span></div>
 
     <!-- a leaflet map -->
@@ -302,11 +302,11 @@ export default {
         marker.data.siteCode +
         "</br>" +
         marker.data.siteName +
-        '</span></label></br><p id="graphLoadMessage"><md-progress-spinner class="md-primary" :md-stroke="3" :md-diameter="20" md-mode="indeterminate"></md-progress-spinner><span> NWIS data graph loading...</span></p><div id="graphContainer" style="width:100%; height:200px;display:none;"></div> <div>Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
+        '</label></br><p id="graphLoadMessage"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainer" style="width:100%; height:200px;display:none;"></div> <div>Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
         marker.data.siteCode +
         '"><b>Site ' +
         marker.data.siteCode +
-        ' on NWISWeb <i class="fa fa-external-link" aria-hidden="true"></i></b></a><div id="noDataMessage" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>'
+        ' on NWISWeb <i class="v-icon notranslate mdi mdi-open-in-new" style="font-size:16px"></i></b></a><div id="noDataMessage" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>'
       let url =
         "https://nwis.waterservices.usgs.gov/nwis/iv/?format=nwjson&sites=" +
         marker.data.siteCode +
@@ -437,7 +437,7 @@ button {
     left: 50px;
     z-index: 999;
     color: #333;
-    background-color: #ECEEF3;
+    background-color: #0089e5;
     border: 1px solid #205493;
     border-radius: 2px;
     opacity: 0.75;
