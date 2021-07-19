@@ -26,7 +26,6 @@
         :visible="tileProvider.visible"
         :url="tileProvider.url"
         :attribution="tileProvider.attribution"
-        :token="token"
         layer-type="base"
       />
       <!-- dynamic scale in miles or kilometers -->
@@ -236,7 +235,9 @@ export default {
     },
     // Get streamgage layer
     getData(){
+      // Display loading alert
       this.isDisplayed = "block";
+      // Clear existing streamgage markers
       this.streamgageMarkers = [];
       let zoomlevel = this.currentZoom;
       let extent = this.currentBounds;
@@ -260,6 +261,7 @@ export default {
             let lng = parseFloat(streamGageList[i].getAttribute('lng'))
             let siteID = streamGageList[i].getAttribute("sno");
             let siteName = streamGageList[i].getAttribute("sna");
+            // Return if zoom level or extent change during loop.  Prevents markers from remaining on map if zoom/extent is changed too quickly
             if (zoomlevel !== this.currentZoom || extent !== this.currentBounds){
               return;
             }
@@ -270,14 +272,14 @@ export default {
               this.streamgageMarkers.push({id: siteID, position: {lat: lat, lng: lng}, draggable: true, visible: false, data: {siteName: siteName, siteCode: siteID}})
             }
           }
-          // this.isDisplayed = "none";
+          // Fade out loading alert
           this.fadeOutAlert();
       })
       .catch((error) => {
         if (error.message == 'Request failed with status code 404'){
           console.log("No streamgages found")
         }
-        // this.isDisplayed = "none";
+        // Fade out loading alert
         this.fadeOutAlert();
       })
     },
@@ -313,7 +315,7 @@ export default {
         timeQueryRange;
       axios.get(url)
       .then(data => {
-        if (data.data == undefined || data.data.data[0].time_series_data.length == 0) {
+        if (data.data == undefined || data.data.response_code == 404 || data.data.data[0].time_series_data.length == 0) {
           console.log("No NWIS data available for this time period");
           this.$refs.streamgageLayer.mapObject.bindPopup(this.popupContent);
           document.getElementById('graphLoadMessage').style.display = 'none';
@@ -375,8 +377,8 @@ export default {
       })
       this.$refs.streamgageLayer.mapObject.openPopup(latLng);
     },
+    //Fade out loading alert by reducing opacity
     fadeOutAlert(){
-      //Fade out loading alert
       let opacity = 0.75;
       let self = this;
       let fadeOut = setInterval(function(){
@@ -392,6 +394,7 @@ export default {
       }, 50)
     }
   },
+  // Get streamgage data when current bounds change or streamgage checkbox is checked
   watch: {
     currentBounds: function(){
       this.streamgageMarkers = [];
@@ -401,6 +404,7 @@ export default {
       this.toggleStreamgage(this.streamgageMarkers, this.currentZoom);
     },
   },
+  // Store current zoom value in state to access from other components
   computed: {
     zoomValue: {
       get() {
