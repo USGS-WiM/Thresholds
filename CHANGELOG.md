@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 -   Added TX location search to navbar
 -   Added 2 character minimum before displaying menu suggestions
 -   Added basemap thumbnails
+-   Added NWIS streamgage layer with Highcharts in popups
+-   Added loading alert for streamgage layer
+-   Added zoom level alert message to sidebar layer toggle
 
 ### Changed
 
@@ -22,3 +25,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 -   Removed vertical scrollbar from page
+-   Removed console errors due to undefined token in Map.vue

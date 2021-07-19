@@ -36,14 +36,20 @@
       </v-expansion-panel-header>
       <v-expansion-panel-content>
         <v-container class="px-0" fluid>
+          <div class="zoom-alert" :style="{ display: isDisplayed }">Real-time Streamgages available at zoom level 9 and above.  Please zoom in to view.</div>
         <!-- these are not actually linked to anything right now, just an example of what is possible! -->
-            <input type="checkbox" id="stream" value="Stream" v-model="picked" />
-              <label for="stream">Real-time Stream Gage</label>
+            <input type="checkbox" ref="stream" id="stream" value="false" v-model="streamgagePicked" :disabled="streamCheckDisabled"/>
+              <div class='legend-icon'>
+                <div
+                    class='wmm-circle wmm-mutedblue wmm-icon-triangle wmm-icon-black wmm-size-20 wmm-borderless'>
+                </div>
+                <label for="stream">Real-time Stream Gage</label>
+              </div>
               <br/>
-            <input type="checkbox" id="rain" value="Rain" v-model="picked" />
+            <input type="checkbox" id="rain" value="false" v-model="picked" />
               <label for="rain">Real-time Rain Gage</label>
               <br/>
-            <input type="checkbox" id="tidal" value="Tidal" v-model="picked" />
+            <input type="checkbox" id="tidal" value="false" v-model="picked" />
               <label for="tidal">Tidal Gage</label>
               <br/>
               <span>Checked Gages: {{ picked }}</span>
@@ -58,20 +64,43 @@
     data () {
       return {
         picked: [],
+        streamCheckDisabled: true,
+        isDisplayed: "block"
       }
     },
+    props: ["currentZoom"],
     computed: {
       // use v-model to set basemap state
       selected: {
         get() {
-          console.log(this.$store.state.basemapState)
           return this.$store.state.basemapState;
         },
         set(value) {
           return this.$store.commit("getBasemapState", value);
         },
       },
-  },
+      // use v-model to set streamgage layer state
+      streamgagePicked: {
+        get() {
+          return this.$store.state.streamgageState;
+        },
+        set(value) {
+          return this.$store.commit("getStreamgageState", value);
+        },
+      },
+    },
+    // Watch the current zoom value to disable checkbox
+    watch: {
+      '$store.state.currentZoomState': function(){
+        if (this.$store.state.currentZoomState >= 9){
+          this.streamCheckDisabled = false;
+          this.isDisplayed = "none";
+        }else{
+          this.streamCheckDisabled = true;
+          this.isDisplayed = "block";
+        }
+      }
+    }
   }
 </script>
 
@@ -109,5 +138,30 @@
 
 .v-btn__content{
   color: #6F758E !important;
+}
+
+.legend-icon {
+    display: inline-block;
+    position: relative;
+    margin: 10px;
+    line-height: 24px;
+    height: 24px;
+}
+
+.legend-icon label {
+    display: inline-block;
+    -webkit-justify-content: center;
+    justify-content: center;
+    padding-left: 22px;
+}
+
+.legend-icon .wmm-circle {
+    left: 6px !important;
+}
+
+.zoom-alert{
+  font-size: small;
+  color: #6F758E;
+
 }
 </style>
