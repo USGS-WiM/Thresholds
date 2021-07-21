@@ -389,15 +389,11 @@ export default {
           data.data.data[0].time_series_data.length == 0
         ) {
           console.log("No NWIS data available for this time period");
-          e.layer.bindPopup(this.popupContent).openStreamGagePopup();
-          document
-            .getElementById("graphLoadMessage")
-            .setAttribute("style", "display: none");
-          document
-            .getElementById("noDataMessage")
-            .setAttribute("style", "display: block");
+          e.layer.bindPopup(this.popupContent, {minWidth: 350}).openStreamGagePopup();
+          document.getElementById('graphLoadMessage').setAttribute('style', 'display: none');
+          document.getElementById('noDataMessage').setAttribute('style', 'display: block');
         } else {
-          e.layer.bindPopup(this.popupContent).openStreamGagePopup();
+          e.layer.bindPopup(this.popupContent, {minWidth: 350}).openStreamGagePopup();
           let chartOptions = Highcharts.setOptions({
             global: { useUTC: false },
             title: {
@@ -710,5 +706,9 @@ export default {
 
 .loadingLabel {
   padding-left: 5px;
+}
+
+.nwis-link{
+  text-decoration: none !important;
 }
 </style>
