@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 -   Added NWIS streamgage layer with Highcharts in popups
 -   Added loading alert for streamgage layer
 -   Added zoom level alert message to sidebar layer toggle
+-   Added WIM favicon
 
 ### Changed
 
