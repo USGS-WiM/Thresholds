@@ -122,23 +122,21 @@ export default {
       }), //custom WIM icons
       deckIcon: L.icon({
         iconUrl: require("../assets/aq-icons/flooded_path.png"),
-        iconSize: [32, 32],
-        //iconAnchor: [22, 94]
+        iconSize: [50, 50],
       }),
       bankIcon: L.icon({
         iconUrl: require("../assets/aq-icons/flooded_bank.png"),
-        iconSize: [32, 32],
-        //iconAnchor: [22, 94]
+        iconSize: [50, 50],
+        iconAnchor: [10, 10]
       }),
       roadIcon: L.icon({
         iconUrl: require("../assets/aq-icons/flooded_road.png"),
-        iconSize: [32, 32],
-        //iconAnchor: [22, 94]
+        iconSize: [50, 50],
+        iconAnchor: [30, 30]
       }),
       rpIcon: L.icon({
         iconUrl: require("../assets/aq-icons/blue_tri.png"),
-        iconSize: [32, 32],
-        //iconAnchor: [22, 94]
+        iconSize: [50, 50],
       }),
       showParagraph: false,
       fillColor: "#ffffff",
@@ -172,18 +170,6 @@ export default {
       self.streamgageMarkers.on("click", function(e) {
         self.openStreamGagePopup(e);
       });
-
-      /* L.geoJSON(mvpAqData, {
-        onEachFeature: function(feature, layer) {
-          // does this feature have a property named popupContent?
-          layer.bindPopup(
-            "Elevation at " +
-              feature.properties.Name +
-              " is " +
-              feature.properties.Elevation
-          );
-        },
-      }).addTo(self.map); */
 
       let latlngDiv;
 
@@ -249,6 +235,7 @@ export default {
       // Emit map object to parent component
       self.getMapObject();
 
+      // loading data from Aquarius
       this.loadAQdata();
     },
     // Pass map object to parent
@@ -389,11 +376,11 @@ export default {
           data.data.data[0].time_series_data.length == 0
         ) {
           console.log("No NWIS data available for this time period");
-          e.layer.bindPopup(this.popupContent, {minWidth: 350}).openStreamGagePopup();
+          e.layer.bindPopup(this.popupContent, {minWidth: 350}).openPopup();
           document.getElementById('graphLoadMessage').setAttribute('style', 'display: none');
           document.getElementById('noDataMessage').setAttribute('style', 'display: block');
         } else {
-          e.layer.bindPopup(this.popupContent, {minWidth: 350}).openStreamGagePopup();
+          e.layer.bindPopup(this.popupContent, {minWidth: 350}).openPopup();
           let chartOptions = Highcharts.setOptions({
             global: { useUTC: false },
             title: {
@@ -457,31 +444,37 @@ export default {
     },
     openAQPopup(e) {
       //Clear out previous popup contents if existing
-      if (document.getElementById("graphContainer") != null) {
-        document.getElementById("graphContainer").remove();
+      if (document.getElementById("graphContainerAQ") != null) {
+        document.getElementById("graphContainerAQ").remove();
       }
-      if (document.getElementById("graphLoadMessage") != null) {
-        document.getElementById("graphLoadMessage").remove();
-      }
-
-      if (document.getElementById("popup-title") != null) {
-        document.getElementById("popup-title").remove();
+      if (document.getElementById("graphLoadMessageAQ") != null) {
+        document.getElementById("graphLoadMessageAQ").remove();
       }
 
-      if (document.getElementById("noDataMessage") != null) {
-        document.getElementById("noDataMessage").remove();
+      if (document.getElementById("popup-titleAQ") != null) {
+        document.getElementById("popup-titleAQ").remove();
+      }
+
+      if (document.getElementById("noDataMessageAQ") != null) {
+        document.getElementById("noDataMessageAQ").remove();
       }
       let data = e.layer.data
+      console.log(data)
       let sc = e.layer.data.LocationIdentifier
 
       this.aqPopupContent =
-        '<label id="popup-title">Reference Point: ' +
+        '<label id="popup-titleAQ"><b>Reference Point Name: </b>' +
         data.Name +
         "</br>" +
-        sc +
-        '</label></br><p id="graphLoadMessage"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainer" style="width:100%; height:200px;display:none;"></div> <div>Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
+         '<label id="popup-titleAQ"><b>Location ID: </b>' +
+        data.LocationIdentifier +
+        "</br>" +
+         '<label id="popup-titleAQ"><b>Elevation: </b>' +
+        data.ReferencePointPeriods[0].Elevation + " " + data.ReferencePointPeriods[0].Unit + 
+        "</br>" +
+        '</label></br><p id="graphLoadMessageAQ"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainerAQ" style="width:100%; height:200px;display:none;"></div> <div>Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
         '"><b>Site ' +
-        ' on NWISWeb <i class="v-icon notranslate mdi mdi-open-in-new" style="font-size:16px"></i></b></a><div id="noDataMessage" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>';
+        ' on NWISWeb <i class="v-icon notranslate mdi mdi-open-in-new" style="font-size:16px"></i></b></a><div id="noDataMessageAQ" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>';
       let url =
         "https://nwis.waterservices.usgs.gov/nwis/iv/?format=nwjson&sites=" +
         sc +
@@ -495,21 +488,21 @@ export default {
           data.data.data[0].time_series_data.length == 0
         ) {
           console.log("No NWIS data available for this time period");
-          e.layer.bindPopup(this.aqPopupContent).openAQPopup();
+          e.layer.bindPopup(this.aqPopupContent).openPopup();
           document
-            .getElementById("graphLoadMessage")
+            .getElementById("graphLoadMessageAQ")
             .setAttribute("style", "display: none");
           document
-            .getElementById("noDataMessage")
+            .getElementById("noDataMessageAQ")
             .setAttribute("style", "display: block");
         } else {
-          e.layer.bindPopup(this.aqPopupContent).openAQPopup();
+          e.layer.bindPopup(this.aqPopupContent).openPopup();
           let chartOptions = Highcharts.setOptions({
             global: { useUTC: false },
             title: {
               text:
                 "NWIS Site " +
-                e.layer.data.siteCode +
+                sc +
                 "<br> " +
                 e.layer.data.siteName,
               align: "left",
@@ -552,15 +545,12 @@ export default {
             ],
           });
           //Render chart
-          new Highcharts.Chart("graphContainer", chartOptions);
+          new Highcharts.Chart("graphContainerAQ", chartOptions);
           document
-            .getElementById("graphContainer")
+            .getElementById("graphContainerAQ")
             .setAttribute("style", "display: block");
           document
-            .getElementById("graphLoadMessage")
-            .setAttribute("style", "display: none");
-          document
-            .getElementById("popup-title")
+            .getElementById("graphLoadMessageAQ")
             .setAttribute("style", "display: none");
         }
       });
@@ -583,7 +573,7 @@ export default {
       }, 50);
     },
     loadAQdata() {
-
+      this.aqMarkers.clearLayers();
       // adding rp/threshold data from Aquarius
       for (let entry in this.mvpData) {
         let thresh = []
@@ -605,7 +595,7 @@ export default {
 
           } else {
             LocationIdentifier = this.mvpData[entry].referencePoint[i].LocationIdentifier
-            thresh.push(this.mvpData[entry].referencePoint[i].Thresholds)
+            thresh.push(this.mvpData[entry].referencePoint[i])
           }
 
         }
@@ -632,11 +622,14 @@ export default {
             Name: Name,
             ReferencePointPeriods:
               rpData,
+            lat: lat,
+            lng: lng
           };
 
       }
           console.log(this.aqMarkers);
           this.aqMarkers.addTo(this.map)
+          this.map.fitBounds(this.aqMarkers.getBounds());
     },
   },
   mounted() {
