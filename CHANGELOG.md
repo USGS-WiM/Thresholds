@@ -21,8 +21,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 -   Moved basemap toggle from map to sidebar
 -   Moved location search to right side of navbar
 -   Changed basemap selector from radio input to buttons
--   Refactored code to use pure Leaflet instead of Vue2-Leaflet
--   Moved basemap toggle method and basemap state watch method to Map.vue from App.vue to improve efficiency
 
 ### Fixed
 
