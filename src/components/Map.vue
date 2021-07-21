@@ -119,6 +119,26 @@ export default {
         className:
           "wmm-circle wmm-mutedblue wmm-icon-triangle wmm-icon-black wmm-size-20 wmm-borderless",
       }), //custom WIM icons
+      deckIcon: L.icon({
+        iconUrl: require("../assets/aq-icons/flooded_path.png"),
+        iconSize: [38, 95],
+        iconAnchor: [22, 94]
+      }),
+      bankIcon: L.icon({
+        iconUrl: require("../assets/aq-icons/flooded_bank.png"),
+        iconSize: [38, 95],
+        iconAnchor: [22, 94]
+      }),
+      roadIcon: L.icon({
+        iconUrl: require("../assets/aq-icons/flooded_road.png"),
+        iconSize: [38, 95],
+        iconAnchor: [22, 94]
+      }),
+      rpIcon: L.icon({
+        iconUrl: require("../assets/aq-icons/blue_tri.png"),
+        iconSize: [38, 95],
+        iconAnchor: [22, 94]
+      }),
       showParagraph: false,
       fillColor: "#ffffff",
     };
@@ -464,7 +484,7 @@ export default {
         let rpData;
         let lat;
         let lng;
-        let aqIconURL;
+        let aqIcon;
 
         for (let i = 0; i < this.mvpData[entry].referencePoint.length; i++) {
           if (this.mvpData[entry].referencePoint[i].Latitude !== undefined) {
@@ -490,27 +510,17 @@ export default {
 
         // Determine Icon for Reference Point
         if (Name === "DECK") {
-          aqIconURL = "../assets/aq-icons/flooded_path.png"
+          aqIcon = this.deckIcon
         } else if (Name === "BANK") {
-          aqIconURL = "../assets/aq-icons/flooded_bank.png"
+          aqIcon = this.bankIcon
         } else if (Name === "ROAD") {
-          aqIconURL = "../assets/aq-icons/flooded_road.png"
+          aqIcon = this.roadIcon
         } else {
-          aqIconURL = "../assets/aq-icons/blue_tri.png"
+          aqIcon = this.rpIcon
         }
 
-        var rpIcon = L.icon({
-            iconUrl: aqIconURL,
-
-            iconSize:     [38, 95], // size of the icon
-            shadowSize:   [50, 64], // size of the shadow
-            iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-            shadowAnchor: [4, 62],  // the same for the shadow
-            popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-        });
-
         let marker = L.marker([lat, lng], {
-            icon: rpIcon,
+            icon: aqIcon,
           }).addTo(this.aqMarkers);
 
           marker.data = {
