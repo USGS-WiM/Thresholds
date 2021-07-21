@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 -   Moved basemap toggle from map to sidebar
 -   Moved location search to right side of navbar
 -   Changed basemap selector from radio input to buttons
+-   Streamgage popup opens instead of default when USGS ground or surface sites are searched
 
 ### Fixed
 
