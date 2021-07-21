@@ -101,6 +101,7 @@ export default {
       streamgageMarkers: [],
       aqMarkers: [],
       popupContent: "",
+      aqPopupContent: "",
       alertOpacity: "0.75",
       mvpData: mvpAqData,
       isDisplayed: "none",
@@ -121,23 +122,23 @@ export default {
       }), //custom WIM icons
       deckIcon: L.icon({
         iconUrl: require("../assets/aq-icons/flooded_path.png"),
-        iconSize: [38, 95],
-        iconAnchor: [22, 94]
+        iconSize: [32, 32],
+        //iconAnchor: [22, 94]
       }),
       bankIcon: L.icon({
         iconUrl: require("../assets/aq-icons/flooded_bank.png"),
-        iconSize: [38, 95],
-        iconAnchor: [22, 94]
+        iconSize: [32, 32],
+        //iconAnchor: [22, 94]
       }),
       roadIcon: L.icon({
         iconUrl: require("../assets/aq-icons/flooded_road.png"),
-        iconSize: [38, 95],
-        iconAnchor: [22, 94]
+        iconSize: [32, 32],
+        //iconAnchor: [22, 94]
       }),
       rpIcon: L.icon({
         iconUrl: require("../assets/aq-icons/blue_tri.png"),
-        iconSize: [38, 95],
-        iconAnchor: [22, 94]
+        iconSize: [32, 32],
+        //iconAnchor: [22, 94]
       }),
       showParagraph: false,
       fillColor: "#ffffff",
@@ -458,6 +459,117 @@ export default {
         }
       });
     },
+    openAQPopup(e) {
+      //Clear out previous popup contents if existing
+      if (document.getElementById("graphContainer") != null) {
+        document.getElementById("graphContainer").remove();
+      }
+      if (document.getElementById("graphLoadMessage") != null) {
+        document.getElementById("graphLoadMessage").remove();
+      }
+
+      if (document.getElementById("popup-title") != null) {
+        document.getElementById("popup-title").remove();
+      }
+
+      if (document.getElementById("noDataMessage") != null) {
+        document.getElementById("noDataMessage").remove();
+      }
+      let data = e.layer.data
+      let sc = e.layer.data.LocationIdentifier
+
+      this.aqPopupContent =
+        '<label id="popup-title">Reference Point: ' +
+        data.Name +
+        "</br>" +
+        sc +
+        '</label></br><p id="graphLoadMessage"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainer" style="width:100%; height:200px;display:none;"></div> <div>Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
+        '"><b>Site ' +
+        ' on NWISWeb <i class="v-icon notranslate mdi mdi-open-in-new" style="font-size:16px"></i></b></a><div id="noDataMessage" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>';
+      let url =
+        "https://nwis.waterservices.usgs.gov/nwis/iv/?format=nwjson&sites=" +
+        sc +
+        "&parameterCd=" +
+        graphParameterCodeList +
+        timeQueryRange;
+      axios.get(url).then((data) => {
+        if (
+          data.data == undefined ||
+          data.data.response_code == 404 ||
+          data.data.data[0].time_series_data.length == 0
+        ) {
+          console.log("No NWIS data available for this time period");
+          e.layer.bindPopup(this.aqPopupContent).openAQPopup();
+          document
+            .getElementById("graphLoadMessage")
+            .setAttribute("style", "display: none");
+          document
+            .getElementById("noDataMessage")
+            .setAttribute("style", "display: block");
+        } else {
+          e.layer.bindPopup(this.aqPopupContent).openAQPopup();
+          let chartOptions = Highcharts.setOptions({
+            global: { useUTC: false },
+            title: {
+              text:
+                "NWIS Site " +
+                e.layer.data.siteCode +
+                "<br> " +
+                e.layer.data.siteName,
+              align: "left",
+              style: {
+                color: "rgba(0,0,0,0.6)",
+                fontSize: "small",
+                fontWeight: "bold",
+                fontFamily: "Open Sans, sans-serif",
+              },
+            },
+            exporting: {
+              enabled: true,
+              filename: "FEV_NWIS_Site" + e.layer.data.siteCode,
+            },
+            credits: {
+              enabled: false,
+            },
+            xAxis: {
+              type: "datetime",
+              labels: {
+                formatter: function() {
+                  let num = Number(this.value);
+                  return Highcharts.dateFormat("%d %b %y", num);
+                },
+                align: "center",
+              },
+            },
+            yAxis: {
+              title: { text: "Gage Height, feet" },
+            },
+            series: [
+              {
+                showInLegend: false,
+                type: "line",
+                data: data.data.data[0].time_series_data,
+                tooltip: {
+                  pointFormat: "Gage height: {point.y} feet",
+                },
+              },
+            ],
+          });
+          //Render chart
+          new Highcharts.Chart("graphContainer", chartOptions);
+          document
+            .getElementById("graphContainer")
+            .setAttribute("style", "display: block");
+          document
+            .getElementById("graphLoadMessage")
+            .setAttribute("style", "display: none");
+          document
+            .getElementById("popup-title")
+            .setAttribute("style", "display: none");
+        }
+      });
+
+    },
     //Fade out loading alert by reducing opacity
     fadeOutAlert() {
       let opacity = 0.75;
@@ -491,18 +603,12 @@ export default {
 
             lat = this.mvpData[entry].referencePoint[i].Latitude;
             lng = this.mvpData[entry].referencePoint[i].Longitude;
-            LocationIdentifier = this.mvpData[entry].referencePoint[i].LocationIdentifier
+            
             Name = this.mvpData[entry].referencePoint[i].Name
             rpData = this.mvpData[entry].referencePoint[i].ReferencePointPeriods
-/*
-             for (let thresh in mvpAqData[entry].referencePoint[item].Thresholds) {
-            console.log(
-              mvpAqData[entry].referencePoint[item].Thresholds[thresh]
-            );
-          } */
-
 
           } else {
+            LocationIdentifier = this.mvpData[entry].referencePoint[i].LocationIdentifier
             thresh.push(this.mvpData[entry].referencePoint[i].Thresholds)
           }
 
