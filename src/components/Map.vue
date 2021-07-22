@@ -503,8 +503,9 @@ export default {
               text:
                 "NWIS Site " +
                 sc +
-                "<br> " +
-                e.layer.data.siteName,
+                "<br> ",
+                // TODO include sitename in script
+                // e.layer.data.siteName,
               align: "left",
               style: {
                 color: "rgba(0,0,0,0.6)",
