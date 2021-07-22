@@ -81,7 +81,6 @@ let siteStatus = "active";
 
 let graphParameterCodeList = "00065,63160,72279";
 let timeQueryRange = "&period=P7D";
-let startDate;
 
 export default {
   name: "Map",
@@ -453,11 +452,13 @@ export default {
         document.getElementById("noDataMessageAQ").remove();
       }
 
-      // setting start date for now
+      // storing layer data and setting site id
       let data = e.layer.data;
       console.log(data);
       let sc = e.layer.data.LocationIdentifier;
 
+      // setting start date for now
+      let startDate;
       let day;
       let month;
       let year;
@@ -465,7 +466,7 @@ export default {
 
       // getting date elements
       day = startDate.getDate();
-      month = startDate.getMonth() + 1; // to get the correct date you must add 1
+      month = startDate.getMonth() + 1; // to get the correct month you must add 1
       year = startDate.getFullYear();
 
       // creating string for request
