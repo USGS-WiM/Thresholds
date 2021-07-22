@@ -8,17 +8,17 @@
 </template>
 
 <style>
-  @import '../styles/custom.less';
+@import "../styles/custom.less";
 </style>
 
 <script>
 // imports
-import MapFilters from '../components/MapFilters';
+import MapFilters from "../components/MapFilters";
 
 export default {
   name: "NavigationDrawer",
   components: {
-    MapFilters
+    MapFilters,
   },
   computed: {
     drawerState: {

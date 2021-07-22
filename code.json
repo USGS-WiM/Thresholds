@@ -35,11 +35,7 @@
       "webapp"
     ],
 
-    "languages": [
-      "markdown",
-      "vue",
-      "leaflet"
-    ],
+    "languages": ["markdown", "vue", "leaflet"],
 
     "contact": {
       "name": "jessie doe",

@@ -44,39 +44,33 @@ var tileProviders = [
   {
     name: "Streets",
     attribution: "Esri",
-    url:
-      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
   },
   {
     name: "Satellite",
     attribution:
       "Esri, DigitalGlobe, GeoEye, i-cubed, USDA, USGS, AEX, Getmapping, Aerogrid, IGN, IGP, swisstopo, and the GIS User Community",
-    url:
-      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
   },
   {
     name: "Topo",
     attribution: "Esri",
-    url:
-      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
   },
   {
     name: "Terrain",
     attribution: "Esri, NAVTEQ, DeLorme",
-    url:
-      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}",
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}",
   },
   {
     name: "Gray",
-    url:
-      "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
     attribution: "Esri, NAVTEQ, DeLorme",
   },
   {
     name: "NatGeo",
     attribution: "Esri",
-    url:
-      "https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}",
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}",
   },
 ];
 
@@ -127,12 +121,12 @@ export default {
       bankIcon: L.icon({
         iconUrl: require("../assets/aq-icons/flooded_bank.png"),
         iconSize: [50, 50],
-        iconAnchor: [10, 10]
+        iconAnchor: [10, 10],
       }),
       roadIcon: L.icon({
         iconUrl: require("../assets/aq-icons/flooded_road.png"),
         iconSize: [50, 50],
-        iconAnchor: [30, 30]
+        iconAnchor: [30, 30],
       }),
       rpIcon: L.icon({
         iconUrl: require("../assets/aq-icons/blue_tri.png"),
@@ -163,11 +157,11 @@ export default {
 
       // markers from Aquarius TEST environment
       self.aqMarkers = L.featureGroup();
-      self.aqMarkers.on("click", function(e) {
+      self.aqMarkers.on("click", function (e) {
         self.openAQPopup(e);
       });
 
-      self.streamgageMarkers.on("click", function(e) {
+      self.streamgageMarkers.on("click", function (e) {
         self.openStreamGagePopup(e);
       });
 
@@ -176,7 +170,7 @@ export default {
       //Create lat lon leaflet control
       L.Control.LatLngControl = L.Control.extend({
         options: { position: "bottomleft" },
-        onAdd: function() {
+        onAdd: function () {
           latlngDiv = L.DomUtil.create("div", "latlngcontrol");
           latlngDiv.innerHTML =
             "<button>Latitude: " +
@@ -190,14 +184,14 @@ export default {
         },
       });
 
-      L.control.LatLngControl = function(options) {
+      L.control.LatLngControl = function (options) {
         return new L.Control.LatLngControl(options);
       };
 
       L.control.LatLngControl({ position: "bottomleft" }).addTo(self.map);
 
       //Update lat lng control on mousemove
-      self.map.on("mousemove", function(e) {
+      self.map.on("mousemove", function (e) {
         if (e.latlng !== null) {
           let mouselat = e.latlng.lat.toFixed(4);
           let mouselon = e.latlng.lng.toFixed(4);
@@ -214,7 +208,7 @@ export default {
       });
 
       //Update lat lng control on zoomend
-      self.map.on("zoomend", function() {
+      self.map.on("zoomend", function () {
         self.currentZoom = self.map.getZoom();
         //Zoom value to update state
         self.zoomValue = self.currentZoom;
@@ -228,7 +222,7 @@ export default {
         .addTo(self.map);
 
       //Update current bounds
-      self.map.on("zoomend dragend", function() {
+      self.map.on("zoomend dragend", function () {
         self.currentBounds = self.map.getBounds();
       });
 
@@ -247,7 +241,7 @@ export default {
       let self = this;
       self.tileProviders = tileProviders;
       //Clear all basemaps before adding
-      self.map.eachLayer(function(layer) {
+      self.map.eachLayer(function (layer) {
         if (layer instanceof L.TileLayer) {
           layer.remove();
         }
@@ -376,11 +370,15 @@ export default {
           data.data.data[0].time_series_data.length == 0
         ) {
           console.log("No NWIS data available for this time period");
-          e.layer.bindPopup(this.popupContent, {minWidth: 350}).openPopup();
-          document.getElementById('graphLoadMessage').setAttribute('style', 'display: none');
-          document.getElementById('noDataMessage').setAttribute('style', 'display: block');
+          e.layer.bindPopup(this.popupContent, { minWidth: 350 }).openPopup();
+          document
+            .getElementById("graphLoadMessage")
+            .setAttribute("style", "display: none");
+          document
+            .getElementById("noDataMessage")
+            .setAttribute("style", "display: block");
         } else {
-          e.layer.bindPopup(this.popupContent, {minWidth: 350}).openPopup();
+          e.layer.bindPopup(this.popupContent, { minWidth: 350 }).openPopup();
           let chartOptions = Highcharts.setOptions({
             global: { useUTC: false },
             title: {
@@ -407,7 +405,7 @@ export default {
             xAxis: {
               type: "datetime",
               labels: {
-                formatter: function() {
+                formatter: function () {
                   let num = Number(this.value);
                   return Highcharts.dateFormat("%d %b %y", num);
                 },
@@ -458,19 +456,21 @@ export default {
       if (document.getElementById("noDataMessageAQ") != null) {
         document.getElementById("noDataMessageAQ").remove();
       }
-      let data = e.layer.data
-      console.log(data)
-      let sc = e.layer.data.LocationIdentifier
+      let data = e.layer.data;
+      console.log(data);
+      let sc = e.layer.data.LocationIdentifier;
 
       this.aqPopupContent =
         '<label id="popup-titleAQ"><b>Reference Point Name: </b>' +
         data.Name +
         "</br>" +
-         '<label id="popup-titleAQ"><b>Location ID: </b>' +
+        '<label id="popup-titleAQ"><b>Location ID: </b>' +
         data.LocationIdentifier +
         "</br>" +
-         '<label id="popup-titleAQ"><b>Elevation: </b>' +
-        data.ReferencePointPeriods[0].Elevation + " " + data.ReferencePointPeriods[0].Unit + 
+        '<label id="popup-titleAQ"><b>Elevation: </b>' +
+        data.ReferencePointPeriods[0].Elevation +
+        " " +
+        data.ReferencePointPeriods[0].Unit +
         "</br>" +
         '</label></br><p id="graphLoadMessageAQ"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainerAQ" style="width:100%; height:200px;display:none;"></div> <div>Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
         '"><b>Site ' +
@@ -500,12 +500,9 @@ export default {
           let chartOptions = Highcharts.setOptions({
             global: { useUTC: false },
             title: {
-              text:
-                "NWIS Site " +
-                sc +
-                "<br> ",
-                // TODO include sitename in script
-                // e.layer.data.siteName,
+              text: "NWIS Site " + sc + "<br> ",
+              // TODO include sitename in script
+              // e.layer.data.siteName,
               align: "left",
               style: {
                 color: "rgba(0,0,0,0.6)",
@@ -524,7 +521,7 @@ export default {
             xAxis: {
               type: "datetime",
               labels: {
-                formatter: function() {
+                formatter: function () {
                   let num = Number(this.value);
                   return Highcharts.dateFormat("%d %b %y", num);
                 },
@@ -555,13 +552,12 @@ export default {
             .setAttribute("style", "display: none");
         }
       });
-
     },
     //Fade out loading alert by reducing opacity
     fadeOutAlert() {
       let opacity = 0.75;
       let self = this;
-      let fadeOut = setInterval(function() {
+      let fadeOut = setInterval(function () {
         if (opacity > 0) {
           opacity -= 0.05;
           let opacityValue = String(opacity);
@@ -577,7 +573,7 @@ export default {
       this.aqMarkers.clearLayers();
       // adding rp/threshold data from Aquarius
       for (let entry in this.mvpData) {
-        let thresh = []
+        let thresh = [];
         let LocationIdentifier;
         let Name;
         let rpData;
@@ -587,50 +583,46 @@ export default {
 
         for (let i = 0; i < this.mvpData[entry].referencePoint.length; i++) {
           if (this.mvpData[entry].referencePoint[i].Latitude !== undefined) {
-
             lat = this.mvpData[entry].referencePoint[i].Latitude;
             lng = this.mvpData[entry].referencePoint[i].Longitude;
-            
-            Name = this.mvpData[entry].referencePoint[i].Name
-            rpData = this.mvpData[entry].referencePoint[i].ReferencePointPeriods
 
+            Name = this.mvpData[entry].referencePoint[i].Name;
+            rpData =
+              this.mvpData[entry].referencePoint[i].ReferencePointPeriods;
           } else {
-            LocationIdentifier = this.mvpData[entry].referencePoint[i].LocationIdentifier
-            thresh.push(this.mvpData[entry].referencePoint[i])
+            LocationIdentifier =
+              this.mvpData[entry].referencePoint[i].LocationIdentifier;
+            thresh.push(this.mvpData[entry].referencePoint[i]);
           }
-
         }
 
         // Determine Icon for Reference Point
         if (Name === "DECK") {
-          aqIcon = this.deckIcon
+          aqIcon = this.deckIcon;
         } else if (Name === "BANK") {
-          aqIcon = this.bankIcon
+          aqIcon = this.bankIcon;
         } else if (Name === "ROAD") {
-          aqIcon = this.roadIcon
+          aqIcon = this.roadIcon;
         } else {
-          aqIcon = this.rpIcon
+          aqIcon = this.rpIcon;
         }
 
         let marker = L.marker([lat, lng], {
-            icon: aqIcon,
-          }).addTo(this.aqMarkers);
+          icon: aqIcon,
+        }).addTo(this.aqMarkers);
 
-          marker.data = {
-            thresholds: thresh,
-            LocationIdentifier:
-              LocationIdentifier,
-            Name: Name,
-            ReferencePointPeriods:
-              rpData,
-            lat: lat,
-            lng: lng
-          };
-
+        marker.data = {
+          thresholds: thresh,
+          LocationIdentifier: LocationIdentifier,
+          Name: Name,
+          ReferencePointPeriods: rpData,
+          lat: lat,
+          lng: lng,
+        };
       }
-          console.log(this.aqMarkers);
-          this.aqMarkers.addTo(this.map)
-          this.map.fitBounds(this.aqMarkers.getBounds());
+      console.log(this.aqMarkers);
+      this.aqMarkers.addTo(this.map);
+      this.map.fitBounds(this.aqMarkers.getBounds());
     },
   },
   mounted() {
@@ -638,15 +630,15 @@ export default {
   },
   // Get streamgage data when current bounds change or streamgage checkbox is checked
   watch: {
-    currentBounds: function() {
+    currentBounds: function () {
       this.streamgageMarkers.clearLayers();
       this.toggleStreamgage(this.streamgageMarkers, this.currentZoom);
     },
-    "$store.state.streamgageState": function() {
+    "$store.state.streamgageState": function () {
       this.toggleStreamgage(this.streamgageMarkers, this.currentZoom);
     },
     // Watch basemap state and update visibility when state changes
-    "$store.state.basemapState": function() {
+    "$store.state.basemapState": function () {
       this.selectBasemap(this.tileProviders);
     },
   },
@@ -702,7 +694,7 @@ export default {
   padding-left: 5px;
 }
 
-.nwis-link{
+.nwis-link {
   text-decoration: none !important;
 }
 </style>

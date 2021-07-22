@@ -1,37 +1,35 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     drawerState: true,
     basemapState: "Topo",
     streamgageState: false,
-    currentZoomState: 4
+    currentZoomState: 4,
   },
   mutations: {
-    toggleDrawerState (state, data) {
-      state.drawerState = data
+    toggleDrawerState(state, data) {
+      state.drawerState = data;
     },
-    getBasemapState (state, selected){
-      state.basemapState = selected
+    getBasemapState(state, selected) {
+      state.basemapState = selected;
     },
-    getStreamgageState (state, streamgagePicked){
-      state.streamgageState = streamgagePicked
+    getStreamgageState(state, streamgagePicked) {
+      state.streamgageState = streamgagePicked;
     },
-    getCurrentZoomState (state, currentZoom){
-      state.currentZoomState = currentZoom
-    }
+    getCurrentZoomState(state, currentZoom) {
+      state.currentZoomState = currentZoom;
+    },
   },
-  getters : {
+  getters: {
     drawerState: (state) => state.drawerState,
     basemapState: (state) => state.basemapState,
     streamgageState: (state) => state.streamgageState,
-    currentZoomState: (state) => state.currentZoomState
+    currentZoomState: (state) => state.currentZoomState,
   },
-  actions: {
-  },
-  modules: {
-  }
-})
+  actions: {},
+  modules: {},
+});
