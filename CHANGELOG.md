@@ -9,25 +9,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
--   Added TX location search to navbar
--   Added 2 character minimum before displaying menu suggestions
--   Added basemap thumbnails
--   Added NWIS streamgage layer with Highcharts in popups
--   Added loading alert for streamgage layer
--   Added zoom level alert message to sidebar layer toggle
--   Added WIM favicon
--   Added Reference Point Icons for AQUARIUS layer
--   Added zoom to AQUARIUS layer on map load
--   Added popup to AQUARIUS layer
+- Added TX location search to navbar
+- Added 2 character minimum before displaying menu suggestions
+- Added basemap thumbnails
+- Added NWIS streamgage layer with Highcharts in popups
+- Added loading alert for streamgage layer
+- Added zoom level alert message to sidebar layer toggle
+- Added WIM favicon
+- Added Reference Point Icons for AQUARIUS layer
+- Added zoom to AQUARIUS layer on map load
+- Added popup to AQUARIUS layer
 
 ### Changed
 
--   Moved basemap toggle from map to sidebar
--   Moved location search to right side of navbar
--   Changed basemap selector from radio input to buttons
--   Streamgage popup opens instead of default when USGS ground or surface sites are searched
+- Moved basemap toggle from map to sidebar
+- Moved location search to right side of navbar
+- Changed basemap selector from radio input to buttons
+- Streamgage popup opens instead of default when USGS ground or surface sites are searched
 
 ### Fixed
 
--   Removed vertical scrollbar from page
--   Removed console errors due to undefined token in Map.vue
+- Removed vertical scrollbar from page
+- Removed console errors due to undefined token in Map.vue

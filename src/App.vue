@@ -2,8 +2,13 @@
   <v-app>
     <Sidebar></Sidebar>
     <v-app-bar app style="background-color: #0a0a57">
-      <v-app-bar-nav-icon @click="drawerState = !drawerState" style="color: white"></v-app-bar-nav-icon>
-      <v-toolbar-title style="color: white">Real-Time Flood Impact Map</v-toolbar-title>
+      <v-app-bar-nav-icon
+        @click="drawerState = !drawerState"
+        style="color: white"
+      ></v-app-bar-nav-icon>
+      <v-toolbar-title style="color: white"
+        >Real-Time Flood Impact Map</v-toolbar-title
+      >
       <Geosearch :map="map"></Geosearch>
     </v-app-bar>
     <Map @getMap="getChildMap"></Map>
@@ -14,7 +19,7 @@
 // imports
 import Map from "./components/Map";
 import Sidebar from "./components/Sidebar";
-import Geosearch from '@/components/Geosearch';
+import Geosearch from "@/components/Geosearch";
 export default {
   components: {
     Sidebar,
@@ -22,28 +27,32 @@ export default {
     Geosearch,
   },
   data: function () {
-        return {
-            map: '',
-            tileProviders: []
-        }
+    return {
+      map: "",
+      tileProviders: [],
+    };
   },
   computed: {
     drawerState: {
-      get () { return this.$store.getters.drawerState },
-      set (v) { return this.$store.commit('toggleDrawerState', v) }
+      get() {
+        return this.$store.getters.drawerState;
+      },
+      set(v) {
+        return this.$store.commit("toggleDrawerState", v);
+      },
     },
   },
   methods: {
     // Makes map accessible from other child components (need for geosearch)
-    getChildMap(mapObject){
+    getChildMap(mapObject) {
       this.map = mapObject;
     },
-  }
+  },
 };
 </script>
 
 <style>
-html{
+html {
   overflow-y: hidden;
 }
 </style>
