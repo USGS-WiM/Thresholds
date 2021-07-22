@@ -81,6 +81,7 @@ let siteStatus = "active";
 
 let graphParameterCodeList = "00065,63160,72279";
 let timeQueryRange = "&period=P7D";
+let startDate;
 
 export default {
   name: "Map",
@@ -451,9 +452,24 @@ export default {
       if (document.getElementById("noDataMessageAQ") != null) {
         document.getElementById("noDataMessageAQ").remove();
       }
+
+      // setting start date for now
       let data = e.layer.data;
       console.log(data);
       let sc = e.layer.data.LocationIdentifier;
+
+      let day;
+      let month;
+      let year;
+      startDate = new Date();
+
+      // getting date elements
+      day = startDate.getDate();
+      month = startDate.getMonth() + 1; // to get the correct date you must add 1
+      year = startDate.getFullYear();
+
+      // creating string for request
+      let dateString = "&startDT=" + year + "-" + month + "-" + day;
 
       this.aqPopupContent =
         '<label id="popup-titleAQ"><b>Reference Point Name: </b>' +
@@ -475,7 +491,7 @@ export default {
         sc +
         "&parameterCd=" +
         graphParameterCodeList +
-        timeQueryRange;
+        dateString;
       axios.get(url).then((data) => {
         if (
           data.data == undefined ||
