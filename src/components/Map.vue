@@ -321,7 +321,7 @@ export default {
       this.streamgageMarkers = streamgageMarkers;
       if (this.$store.state.streamgageState == true && currentZoom >= 9) {
         this.getData();
-      }else{
+      } else {
         this.streamgageMarkers.clearLayers();
       }
     },
