@@ -51,7 +51,7 @@ export default {
         "&parameterCd=" +
         graphParameterCodeList +
         timeQueryRange;
-      axios.get(url).then((data) => {
+      axios.get(url).then(data => {
         if (
           data.data == undefined ||
           data.data.response_code == 404 ||
@@ -76,28 +76,28 @@ export default {
                 color: "rgba(0,0,0,0.6)",
                 fontSize: "small",
                 fontWeight: "bold",
-                fontFamily: "Open Sans, sans-serif",
-              },
+                fontFamily: "Open Sans, sans-serif"
+              }
             },
             exporting: {
               enabled: true,
-              filename: "FEV_NWIS_Site" + siteCode,
+              filename: "FEV_NWIS_Site" + siteCode
             },
             credits: {
-              enabled: false,
+              enabled: false
             },
             xAxis: {
               type: "datetime",
               labels: {
-                formatter: function () {
+                formatter: function() {
                   let num = Number(this.value);
                   return Highcharts.dateFormat("%d %b %y", num);
                 },
-                align: "center",
-              },
+                align: "center"
+              }
             },
             yAxis: {
-              title: { text: "Gage Height, feet" },
+              title: { text: "Gage Height, feet" }
             },
             series: [
               {
@@ -105,10 +105,10 @@ export default {
                 type: "line",
                 data: data.data.data[0].time_series_data,
                 tooltip: {
-                  pointFormat: "Gage height: {point.y} feet",
-                },
-              },
-            ],
+                  pointFormat: "Gage height: {point.y} feet"
+                }
+              }
+            ]
           });
           //Render chart
           new Highcharts.Chart("graphContainer", chartOptions);
@@ -123,9 +123,9 @@ export default {
             .setAttribute("style", "display: none");
         }
       });
-    },
+    }
   },
-  mounted: function () {
+  mounted: function() {
     let self = this;
     let jqueryScript = document.createElement("script");
     jqueryScript.setAttribute(
@@ -134,66 +134,72 @@ export default {
     );
     document.head.appendChild(jqueryScript);
 
-    let geosearchStylesheet = document.createElement("link");
-    geosearchStylesheet.setAttribute("rel", "stylesheet");
-    geosearchStylesheet.setAttribute(
-      "href",
-      "https://txpub.usgs.gov/DSS/search_api/2.0/api/search_api.css"
-    );
-    document.head.appendChild(geosearchStylesheet);
+    jqueryScript.onload = () => {
+      let geosearchStylesheet = document.createElement("link");
+      geosearchStylesheet.setAttribute("rel", "stylesheet");
+      geosearchStylesheet.setAttribute(
+        "href",
+        "https://txpub.usgs.gov/DSS/search_api/2.0/api/search_api.css"
+      );
+      document.head.appendChild(geosearchStylesheet);
 
-    let geosearchScript = document.createElement("script");
-    geosearchScript.setAttribute(
-      "src",
-      "https://txpub.usgs.gov/DSS/search_api/2.0/api/search_api.min.js"
-    );
-    document.head.appendChild(geosearchScript);
+      geosearchStylesheet.onload = () => {
+        let geosearchScript = document.createElement("script");
+        geosearchScript.setAttribute(
+          "src",
+          "https://txpub.usgs.gov/DSS/search_api/2.0/api/search_api.min.js"
+        );
+        document.head.appendChild(geosearchScript);
 
-    geosearchScript.onload = () => {
-      let map = self.getMapFromParent();
-      window.search_api.create("geosearchBar", {
-        size: "md",
-        placeholder: "Search for a location",
-        menu_min_char: 2, // minimum number of characters required before attempting to find menu suggestions
-        include_usgs_sw: true,
-        include_usgs_gw: true,
-        include_usgs_sp: true,
-        include_usgs_at: true,
-        include_usgs_ot: true,
-        on_result: function (o) {
-          map.fitBounds([
-            // zoom to location
-            [o.result.properties.LatMin, o.result.properties.LonMin],
-            [o.result.properties.LatMax, o.result.properties.LonMax],
-          ]);
-          // Open streamgage popup with chart if USGS ground or surface water site was searched
-          if (
-            o.result.properties.Category.indexOf("USGS Site: Surface Water") !==
-              -1 ||
-            o.result.properties.Category.indexOf("USGS Site: Ground Water") !==
-              -1
-          ) {
-            let siteName = o.result.properties.Label.substr(
-              o.result.properties.Label.indexOf(" ") + 1
-            );
-            let siteCode = o.result.properties.Label.split(" ")[0];
-            let latlon = [o.result.properties.Lat, o.result.properties.Lon];
-            self.openPopUp(map, siteName, siteCode, latlon);
-          } else {
-            map.openPopup(
-              // open popup
-              "<b>" +
-                o.result.properties.Label +
-                "</b><br/><i>" +
-                o.result.properties.Category +
-                "</i>",
-              [o.result.properties.Lat, o.result.properties.Lon]
-            );
-          }
-        },
-      });
+        geosearchScript.onload = () => {
+          let map = self.getMapFromParent();
+          window.search_api.create("geosearchBar", {
+            size: "md",
+            placeholder: "Search for a location",
+            menu_min_char: 2, // minimum number of characters required before attempting to find menu suggestions
+            include_usgs_sw: true,
+            include_usgs_gw: true,
+            include_usgs_sp: true,
+            include_usgs_at: true,
+            include_usgs_ot: true,
+            on_result: function(o) {
+              map.fitBounds([
+                // zoom to location
+                [o.result.properties.LatMin, o.result.properties.LonMin],
+                [o.result.properties.LatMax, o.result.properties.LonMax]
+              ]);
+              // Open streamgage popup with chart if USGS ground or surface water site was searched
+              if (
+                o.result.properties.Category.indexOf(
+                  "USGS Site: Surface Water"
+                ) !== -1 ||
+                o.result.properties.Category.indexOf(
+                  "USGS Site: Ground Water"
+                ) !== -1
+              ) {
+                let siteName = o.result.properties.Label.substr(
+                  o.result.properties.Label.indexOf(" ") + 1
+                );
+                let siteCode = o.result.properties.Label.split(" ")[0];
+                let latlon = [o.result.properties.Lat, o.result.properties.Lon];
+                self.openPopUp(map, siteName, siteCode, latlon);
+              } else {
+                map.openPopup(
+                  // open popup
+                  "<b>" +
+                    o.result.properties.Label +
+                    "</b><br/><i>" +
+                    o.result.properties.Category +
+                    "</i>",
+                  [o.result.properties.Lat, o.result.properties.Lon]
+                );
+              }
+            }
+          });
+        };
+      };
     };
-  },
+  }
 };
 </script>
 
