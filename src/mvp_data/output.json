@@ -1,0 +1,1253 @@
+[
+  {
+    "referencePoint": [
+      {
+        "Identifier": "Gage height.GH@02207055",
+        "UniqueId": "f1ff986137424afb9fde25dd01f9871d",
+        "LocationIdentifier": "02207055",
+        "Parameter": "Gage height",
+        "Unit": "ft",
+        "UtcOffset": -5,
+        "UtcOffsetIsoDuration": "-PT5H",
+        "LastModified": "2021-05-04T09:02:45.0133570-05:00",
+        "RawStartTime": "2021-03-12T15:15:00.0000000-05:00",
+        "RawEndTime": "2021-05-04T09:00:00.0000000-05:00",
+        "CorrectedStartTime": "2021-03-12T15:30:00.0000000-05:00",
+        "CorrectedEndTime": "2021-05-04T09:00:00.0000000-05:00",
+        "TimeSeriesType": "ProcessorDerived",
+        "Label": "GH",
+        "Publish": true,
+        "ComputationIdentifier": "Instantaneous",
+        "ComputationPeriodIdentifier": "Points",
+        "SubLocationIdentifier": "",
+        "ExtendedAttributes": [
+          { "Name": "ACCESS_LEVEL", "Type": "String", "Value": "0-Public" },
+          { "Name": "PLOT_MEAS", "Type": "String", "Value": "Y" },
+          { "Name": "DATA_GAP", "Type": "Decimal" },
+          { "Name": "ACTIVE_FLAG", "Type": "String", "Value": "Y" },
+          { "Name": "WEB_DESCRIPTION", "Type": "String" },
+          { "Name": "STAT_BEGIN_YEAR", "Type": "String" },
+          { "Name": "ADAPS_DD", "Type": "Decimal" },
+          { "Name": "PRIMARY_FLAG", "Type": "String", "Value": "Primary" },
+          { "Name": "TRANSPORT_CODE", "Type": "String" },
+          { "Name": "SPECIAL_DATA_TYPE", "Type": "String" }
+        ],
+        "Thresholds": [
+          {
+            "Name": "Bridge Deck",
+            "Description": "Display reference value",
+            "ReferenceCode": "NWISWeb ref level - Public",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#990600",
+            "Periods": [
+              {
+                "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2021-03-16T11:23:20.1435246Z",
+                "ReferenceValue": 3.37,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "Bankfull",
+            "Description": "Display reference value",
+            "ReferenceCode": "NWISWeb ref level - Public",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#990600",
+            "Periods": [
+              {
+                "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2021-03-16T11:22:54.5329019Z",
+                "ReferenceValue": 2.66,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "VERY LOW",
+            "Description": "Unspecified threshold value",
+            "ReferenceCode": "AQUARIUS only",
+            "Severity": 0,
+            "Type": "ThresholdBelow",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#990600",
+            "Periods": [
+              {
+                "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2021-03-15T13:38:31.5112404Z",
+                "ReferenceValue": 0.01,
+                "SuppressData": true
+              }
+            ]
+          },
+          {
+            "Name": "VERY HIGH",
+            "Description": "Unspecified threshold value",
+            "ReferenceCode": "AQUARIUS only",
+            "Severity": 0,
+            "Type": "ThresholdAbove",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#990600",
+            "Periods": [
+              {
+                "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2021-03-15T13:38:15.8319192Z",
+                "ReferenceValue": 25,
+                "SuppressData": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "UniqueId": "5ff322e463ef4a1ca8db29cc35d777a0",
+        "Name": "BANK",
+        "Latitude": 33.825173,
+        "Longitude": -84.058902,
+        "ReferencePointPeriods": [
+          {
+            "IsMeasuredAgainstLocalAssumedDatum": true,
+            "ValidFrom": "0001-01-01T00:00:00.0000000+00:00",
+            "Unit": "ft",
+            "Elevation": 2.66,
+            "MeasurementDirection": "FromBottomToTop",
+            "AppliedTime": "2021-03-16T12:14:09.7897300-05:00",
+            "AppliedByUser": "efrantz"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "referencePoint": [
+      {
+        "Identifier": "Gage height.GH@02207055",
+        "UniqueId": "f1ff986137424afb9fde25dd01f9871d",
+        "LocationIdentifier": "02207055",
+        "Parameter": "Gage height",
+        "Unit": "ft",
+        "UtcOffset": -5,
+        "UtcOffsetIsoDuration": "-PT5H",
+        "LastModified": "2021-05-04T09:02:45.0133570-05:00",
+        "RawStartTime": "2021-03-12T15:15:00.0000000-05:00",
+        "RawEndTime": "2021-05-04T09:00:00.0000000-05:00",
+        "CorrectedStartTime": "2021-03-12T15:30:00.0000000-05:00",
+        "CorrectedEndTime": "2021-05-04T09:00:00.0000000-05:00",
+        "TimeSeriesType": "ProcessorDerived",
+        "Label": "GH",
+        "Publish": true,
+        "ComputationIdentifier": "Instantaneous",
+        "ComputationPeriodIdentifier": "Points",
+        "SubLocationIdentifier": "",
+        "ExtendedAttributes": [
+          { "Name": "ACCESS_LEVEL", "Type": "String", "Value": "0-Public" },
+          { "Name": "PLOT_MEAS", "Type": "String", "Value": "Y" },
+          { "Name": "DATA_GAP", "Type": "Decimal" },
+          { "Name": "ACTIVE_FLAG", "Type": "String", "Value": "Y" },
+          { "Name": "WEB_DESCRIPTION", "Type": "String" },
+          { "Name": "STAT_BEGIN_YEAR", "Type": "String" },
+          { "Name": "ADAPS_DD", "Type": "Decimal" },
+          { "Name": "PRIMARY_FLAG", "Type": "String", "Value": "Primary" },
+          { "Name": "TRANSPORT_CODE", "Type": "String" },
+          { "Name": "SPECIAL_DATA_TYPE", "Type": "String" }
+        ],
+        "Thresholds": [
+          {
+            "Name": "Bridge Deck",
+            "Description": "Display reference value",
+            "ReferenceCode": "NWISWeb ref level - Public",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#990600",
+            "Periods": [
+              {
+                "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2021-03-16T11:23:20.1435246Z",
+                "ReferenceValue": 3.37,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "Bankfull",
+            "Description": "Display reference value",
+            "ReferenceCode": "NWISWeb ref level - Public",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#990600",
+            "Periods": [
+              {
+                "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2021-03-16T11:22:54.5329019Z",
+                "ReferenceValue": 2.66,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "VERY LOW",
+            "Description": "Unspecified threshold value",
+            "ReferenceCode": "AQUARIUS only",
+            "Severity": 0,
+            "Type": "ThresholdBelow",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#990600",
+            "Periods": [
+              {
+                "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2021-03-15T13:38:31.5112404Z",
+                "ReferenceValue": 0.01,
+                "SuppressData": true
+              }
+            ]
+          },
+          {
+            "Name": "VERY HIGH",
+            "Description": "Unspecified threshold value",
+            "ReferenceCode": "AQUARIUS only",
+            "Severity": 0,
+            "Type": "ThresholdAbove",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#990600",
+            "Periods": [
+              {
+                "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2021-03-15T13:38:15.8319192Z",
+                "ReferenceValue": 25,
+                "SuppressData": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "UniqueId": "69a9d0da5ca24dbd9aeab4993beafb8a",
+        "Name": "DECK",
+        "Description": "Brannan Road SW",
+        "Latitude": 33.82524,
+        "Longitude": -84.058999,
+        "ReferencePointPeriods": [
+          {
+            "IsMeasuredAgainstLocalAssumedDatum": true,
+            "ValidFrom": "0001-01-01T00:00:00.0000000+00:00",
+            "Unit": "ft",
+            "Elevation": 3.37,
+            "MeasurementDirection": "FromBottomToTop",
+            "AppliedTime": "2021-03-16T12:13:31.4199650-05:00",
+            "AppliedByUser": "efrantz"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "referencePoint": [
+      {
+        "Identifier": "Gage height.ft.DCP@02335350",
+        "UniqueId": "04ab987b69b641e5a889b2da36788cb1",
+        "LocationIdentifier": "02335350",
+        "Parameter": "Gage height",
+        "Unit": "ft",
+        "UtcOffset": -5,
+        "UtcOffsetIsoDuration": "-PT5H",
+        "LastModified": "2021-05-19T11:36:00.8785840-05:00",
+        "RawStartTime": "1996-04-19T14:30:00.0000000-05:00",
+        "RawEndTime": "2021-05-19T09:00:00.0000000-05:00",
+        "CorrectedStartTime": "1997-10-01T00:00:00.0000000-05:00",
+        "CorrectedEndTime": "2021-05-19T09:00:00.0000000-05:00",
+        "TimeSeriesType": "ProcessorDerived",
+        "Label": "ft.DCP",
+        "Description": "DD001,DCP,00065,ft,DCP",
+        "Publish": true,
+        "ComputationIdentifier": "Instantaneous",
+        "ComputationPeriodIdentifier": "Points",
+        "SubLocationIdentifier": "",
+        "ExtendedAttributes": [
+          { "Name": "ACCESS_LEVEL", "Type": "String", "Value": "0-Public" },
+          { "Name": "PLOT_MEAS", "Type": "String", "Value": "Y" },
+          { "Name": "DATA_GAP", "Type": "Decimal", "Value": 72.0 },
+          { "Name": "ACTIVE_FLAG", "Type": "String", "Value": "Y" },
+          { "Name": "WEB_DESCRIPTION", "Type": "String" },
+          { "Name": "STAT_BEGIN_YEAR", "Type": "String" },
+          { "Name": "ADAPS_DD", "Type": "Decimal", "Value": 1.0 },
+          { "Name": "PRIMARY_FLAG", "Type": "String", "Value": "Primary" },
+          { "Name": "TRANSPORT_CODE", "Type": "String" },
+          { "Name": "SPECIAL_DATA_TYPE", "Type": "String" }
+        ],
+        "Thresholds": [
+          {
+            "Name": "Bridge Deck Elevation",
+            "Description": "Display reference value",
+            "ReferenceCode": "NWISWeb ref level - Public",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#990600",
+            "Periods": [
+              {
+                "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2021-03-15T11:38:40.4823438Z",
+                "ReferenceValue": 19.53,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "Bankfull",
+            "Description": "Display reference value",
+            "ReferenceCode": "NWISWeb ref level - Public",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#990600",
+            "Periods": [
+              {
+                "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2021-03-15T11:37:24.7518865Z",
+                "ReferenceValue": 11.37,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "MEASURE ABOVE",
+            "Description": "NWISWeb reference line displayed to WSC level users",
+            "ReferenceCode": "NWISWeb ref level - WSC",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#00CCFF",
+            "Periods": [
+              {
+                "StartTime": "2016-10-18T00:00:00.0000000-05:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2017-04-03T22:53:53.2457085Z",
+                "ReferenceValue": 6,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "Minor floodstage NWS",
+            "Description": "Display reference value",
+            "ReferenceCode": "NWISWeb ref level - Public",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#00CCFF",
+            "Periods": [
+              {
+                "StartTime": "2016-10-18T00:00:00.0000000-05:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2017-04-03T22:53:52.1147938Z",
+                "ReferenceValue": 11,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "Major floodstage NWS",
+            "Description": "Display reference value",
+            "ReferenceCode": "NWISWeb ref level - Public",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#00CCFF",
+            "Periods": [
+              {
+                "StartTime": "2016-10-18T00:00:00.0000000-05:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2017-04-03T22:53:52.6852531Z",
+                "ReferenceValue": 16,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "Operational limit (maximum)",
+            "Description": "Values above a specified threshold limit",
+            "ReferenceCode": "Operational limit - high-Public",
+            "Severity": 0,
+            "Type": "ThresholdAbove",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#CCCCCC",
+            "Periods": [
+              {
+                "StartTime": "2016-10-18T00:00:00.0000000-05:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2017-04-03T22:53:52.1152531Z",
+                "ReferenceValue": 20,
+                "SecondaryReferenceValue": 18,
+                "SuppressData": true
+              }
+            ]
+          },
+          {
+            "Name": "Operational limit (minimum)",
+            "Description": "Values below a specified threshold limit",
+            "ReferenceCode": "Operational limit - low-Public",
+            "Severity": 0,
+            "Type": "ThresholdBelow",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#666666",
+            "Periods": [
+              {
+                "StartTime": "2016-10-18T00:00:00.0000000-05:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2017-04-03T22:53:51.7751675Z",
+                "ReferenceValue": 2,
+                "SecondaryReferenceValue": 2.2,
+                "SuppressData": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "UniqueId": "7b283694581044a4a23eaa5e87042b2d",
+        "Name": "BANK",
+        "Latitude": 33.965156,
+        "Longitude": -84.265043,
+        "ReferencePointPeriods": [
+          {
+            "IsMeasuredAgainstLocalAssumedDatum": true,
+            "ValidFrom": "0001-01-01T00:00:00.0000000+00:00",
+            "Unit": "ft",
+            "Elevation": 11.37,
+            "MeasurementDirection": "FromBottomToTop",
+            "AppliedTime": "2021-03-16T12:11:19.8187700-05:00",
+            "AppliedByUser": "efrantz"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "referencePoint": [
+      {
+        "Identifier": "Gage height.ft.DCP@02335350",
+        "UniqueId": "04ab987b69b641e5a889b2da36788cb1",
+        "LocationIdentifier": "02335350",
+        "Parameter": "Gage height",
+        "Unit": "ft",
+        "UtcOffset": -5,
+        "UtcOffsetIsoDuration": "-PT5H",
+        "LastModified": "2021-05-19T11:36:00.8785840-05:00",
+        "RawStartTime": "1996-04-19T14:30:00.0000000-05:00",
+        "RawEndTime": "2021-05-19T09:00:00.0000000-05:00",
+        "CorrectedStartTime": "1997-10-01T00:00:00.0000000-05:00",
+        "CorrectedEndTime": "2021-05-19T09:00:00.0000000-05:00",
+        "TimeSeriesType": "ProcessorDerived",
+        "Label": "ft.DCP",
+        "Description": "DD001,DCP,00065,ft,DCP",
+        "Publish": true,
+        "ComputationIdentifier": "Instantaneous",
+        "ComputationPeriodIdentifier": "Points",
+        "SubLocationIdentifier": "",
+        "ExtendedAttributes": [
+          { "Name": "ACCESS_LEVEL", "Type": "String", "Value": "0-Public" },
+          { "Name": "PLOT_MEAS", "Type": "String", "Value": "Y" },
+          { "Name": "DATA_GAP", "Type": "Decimal", "Value": 72.0 },
+          { "Name": "ACTIVE_FLAG", "Type": "String", "Value": "Y" },
+          { "Name": "WEB_DESCRIPTION", "Type": "String" },
+          { "Name": "STAT_BEGIN_YEAR", "Type": "String" },
+          { "Name": "ADAPS_DD", "Type": "Decimal", "Value": 1.0 },
+          { "Name": "PRIMARY_FLAG", "Type": "String", "Value": "Primary" },
+          { "Name": "TRANSPORT_CODE", "Type": "String" },
+          { "Name": "SPECIAL_DATA_TYPE", "Type": "String" }
+        ],
+        "Thresholds": [
+          {
+            "Name": "Bridge Deck Elevation",
+            "Description": "Display reference value",
+            "ReferenceCode": "NWISWeb ref level - Public",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#990600",
+            "Periods": [
+              {
+                "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2021-03-15T11:38:40.4823438Z",
+                "ReferenceValue": 19.53,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "Bankfull",
+            "Description": "Display reference value",
+            "ReferenceCode": "NWISWeb ref level - Public",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#990600",
+            "Periods": [
+              {
+                "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2021-03-15T11:37:24.7518865Z",
+                "ReferenceValue": 11.37,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "MEASURE ABOVE",
+            "Description": "NWISWeb reference line displayed to WSC level users",
+            "ReferenceCode": "NWISWeb ref level - WSC",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#00CCFF",
+            "Periods": [
+              {
+                "StartTime": "2016-10-18T00:00:00.0000000-05:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2017-04-03T22:53:53.2457085Z",
+                "ReferenceValue": 6,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "Minor floodstage NWS",
+            "Description": "Display reference value",
+            "ReferenceCode": "NWISWeb ref level - Public",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#00CCFF",
+            "Periods": [
+              {
+                "StartTime": "2016-10-18T00:00:00.0000000-05:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2017-04-03T22:53:52.1147938Z",
+                "ReferenceValue": 11,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "Major floodstage NWS",
+            "Description": "Display reference value",
+            "ReferenceCode": "NWISWeb ref level - Public",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#00CCFF",
+            "Periods": [
+              {
+                "StartTime": "2016-10-18T00:00:00.0000000-05:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2017-04-03T22:53:52.6852531Z",
+                "ReferenceValue": 16,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "Operational limit (maximum)",
+            "Description": "Values above a specified threshold limit",
+            "ReferenceCode": "Operational limit - high-Public",
+            "Severity": 0,
+            "Type": "ThresholdAbove",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#CCCCCC",
+            "Periods": [
+              {
+                "StartTime": "2016-10-18T00:00:00.0000000-05:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2017-04-03T22:53:52.1152531Z",
+                "ReferenceValue": 20,
+                "SecondaryReferenceValue": 18,
+                "SuppressData": true
+              }
+            ]
+          },
+          {
+            "Name": "Operational limit (minimum)",
+            "Description": "Values below a specified threshold limit",
+            "ReferenceCode": "Operational limit - low-Public",
+            "Severity": 0,
+            "Type": "ThresholdBelow",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#666666",
+            "Periods": [
+              {
+                "StartTime": "2016-10-18T00:00:00.0000000-05:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2017-04-03T22:53:51.7751675Z",
+                "ReferenceValue": 2,
+                "SecondaryReferenceValue": 2.2,
+                "SuppressData": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "UniqueId": "f3fd74887d3b474e8b00a1769b6aa423",
+        "Name": "DECK",
+        "Description": "Spalding Drive",
+        "Latitude": 33.965174,
+        "Longitude": -84.264742,
+        "ReferencePointPeriods": [
+          {
+            "IsMeasuredAgainstLocalAssumedDatum": true,
+            "ValidFrom": "0001-01-01T00:00:00.0000000+00:00",
+            "Unit": "ft",
+            "Elevation": 19.53,
+            "MeasurementDirection": "FromBottomToTop",
+            "AppliedTime": "2021-03-16T12:10:57.0864620-05:00",
+            "AppliedByUser": "efrantz"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "referencePoint": [
+      {
+        "Identifier": "Gage height.ft@02334480",
+        "UniqueId": "e90f5c0d2ee044fab2cd9943150e0017",
+        "LocationIdentifier": "02334480",
+        "Parameter": "Gage height",
+        "Unit": "ft",
+        "UtcOffset": -5,
+        "UtcOffsetIsoDuration": "-PT5H",
+        "LastModified": "2021-05-19T12:56:54.5382480-05:00",
+        "RawStartTime": "1995-10-01T00:00:00.0000000-05:00",
+        "RawEndTime": "2021-05-19T08:30:00.0000000-05:00",
+        "CorrectedStartTime": "1995-10-01T00:00:00.0000000-05:00",
+        "CorrectedEndTime": "2021-05-19T08:30:00.0000000-05:00",
+        "TimeSeriesType": "ProcessorDerived",
+        "Label": "ft",
+        "Publish": true,
+        "ComputationIdentifier": "Instantaneous",
+        "ComputationPeriodIdentifier": "Points",
+        "SubLocationIdentifier": "",
+        "ExtendedAttributes": [
+          { "Name": "ACCESS_LEVEL", "Type": "String", "Value": "0-Public" },
+          { "Name": "PLOT_MEAS", "Type": "String", "Value": "Y" },
+          { "Name": "DATA_GAP", "Type": "Decimal" },
+          { "Name": "ACTIVE_FLAG", "Type": "String", "Value": "Y" },
+          { "Name": "WEB_DESCRIPTION", "Type": "String" },
+          { "Name": "STAT_BEGIN_YEAR", "Type": "String" },
+          { "Name": "ADAPS_DD", "Type": "Decimal" },
+          { "Name": "PRIMARY_FLAG", "Type": "String", "Value": "Primary" },
+          { "Name": "TRANSPORT_CODE", "Type": "String" },
+          { "Name": "SPECIAL_DATA_TYPE", "Type": "String" }
+        ],
+        "Thresholds": [
+          {
+            "Name": "Bankfull",
+            "Description": "Display reference value",
+            "ReferenceCode": "NWISWeb ref level - Public",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#990600",
+            "Periods": [
+              {
+                "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2021-03-08T21:23:08.1119315Z",
+                "ReferenceValue": 8.85,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "Street: Suwanee Dam Road",
+            "Description": "Display reference value",
+            "ReferenceCode": "NWISWeb ref level - Public",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#990600",
+            "Periods": [
+              {
+                "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2020-10-15T18:45:19.8482969Z",
+                "ReferenceValue": 17.73,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "MEASURE ABOVE",
+            "Description": "NWISWeb reference line displayed to WSC level users",
+            "ReferenceCode": "NWISWeb ref level - WSC",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#990600",
+            "Periods": [
+              {
+                "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2018-02-21T13:45:40.7695685Z",
+                "ReferenceValue": 4,
+                "SecondaryReferenceValue": 3.5,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "Operational limit (maximum)",
+            "Description": "Values above a specified threshold limit",
+            "ReferenceCode": "Operational limit - high-Public",
+            "Severity": 0,
+            "Type": "ThresholdAbove",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#990600",
+            "Periods": [
+              {
+                "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2018-02-21T13:44:37.3716031Z",
+                "ReferenceValue": 19.5,
+                "SecondaryReferenceValue": 17.55,
+                "SuppressData": true
+              }
+            ]
+          },
+          {
+            "Name": "Major floodstage NWS",
+            "Description": "Display reference value",
+            "ReferenceCode": "NWISWeb ref level - Public",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#990600",
+            "Periods": [
+              {
+                "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2018-02-21T13:45:18.9379517Z",
+                "ReferenceValue": 15,
+                "SecondaryReferenceValue": 14,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "Minor floodstage NWS",
+            "Description": "Display reference value",
+            "ReferenceCode": "NWISWeb ref level - Public",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#990600",
+            "Periods": [
+              {
+                "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2018-02-21T13:44:05.3932827Z",
+                "ReferenceValue": 10,
+                "SecondaryReferenceValue": 9,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "Operational limit (minimum)",
+            "Description": "Values below a specified threshold limit",
+            "ReferenceCode": "Operational limit - low-Public",
+            "Severity": 0,
+            "Type": "ThresholdBelow",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#990600",
+            "Periods": [
+              {
+                "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2018-02-21T13:43:32.8234291Z",
+                "ReferenceValue": -0.45,
+                "SecondaryReferenceValue": -0.25,
+                "SuppressData": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Identifier": "Gage height.ft.DCP@02334480",
+        "UniqueId": "3d346d97099f4e5aa4ded77e069bd33e",
+        "LocationIdentifier": "02334480",
+        "Parameter": "Gage height",
+        "Unit": "ft",
+        "UtcOffset": -5,
+        "UtcOffsetIsoDuration": "-PT5H",
+        "LastModified": "2021-05-19T11:32:16.3806290-05:00",
+        "RawStartTime": "1995-09-29T10:00:00.0000000-05:00",
+        "RawEndTime": "2021-05-19T08:30:00.0000000-05:00",
+        "CorrectedStartTime": "1995-10-01T00:00:00.0000000-05:00",
+        "CorrectedEndTime": "2021-05-19T08:30:00.0000000-05:00",
+        "TimeSeriesType": "ProcessorDerived",
+        "Label": "ft.DCP",
+        "Description": "DD001,DCP,00065,ft,DCP",
+        "Publish": false,
+        "ComputationIdentifier": "Instantaneous",
+        "ComputationPeriodIdentifier": "Points",
+        "SubLocationIdentifier": "",
+        "ExtendedAttributes": [
+          { "Name": "ACCESS_LEVEL", "Type": "String" },
+          { "Name": "PLOT_MEAS", "Type": "String", "Value": "Y" },
+          { "Name": "DATA_GAP", "Type": "Decimal", "Value": 72.0 },
+          { "Name": "ACTIVE_FLAG", "Type": "String", "Value": "Y" },
+          { "Name": "WEB_DESCRIPTION", "Type": "String" },
+          { "Name": "STAT_BEGIN_YEAR", "Type": "String" },
+          { "Name": "ADAPS_DD", "Type": "Decimal", "Value": 1.0 },
+          { "Name": "PRIMARY_FLAG", "Type": "String" },
+          { "Name": "TRANSPORT_CODE", "Type": "String" },
+          { "Name": "SPECIAL_DATA_TYPE", "Type": "String" }
+        ],
+        "Thresholds": [
+          {
+            "Name": "MEASURE ABOVE",
+            "Description": "NWISWeb reference line displayed to WSC level users",
+            "ReferenceCode": "NWISWeb ref level - WSC",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#00CCFF",
+            "Periods": [
+              {
+                "StartTime": "2016-10-18T00:00:00.0000000-05:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2017-04-03T22:47:03.3437085Z",
+                "ReferenceValue": 4,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "Major floodstage NWS",
+            "Description": "Display reference value",
+            "ReferenceCode": "NWISWeb ref level - Public",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#00CCFF",
+            "Periods": [
+              {
+                "StartTime": "2016-10-18T00:00:00.0000000-05:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2017-04-03T22:47:01.9000743Z",
+                "ReferenceValue": 15,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "Operational limit (maximum)",
+            "Description": "Values above a specified threshold limit",
+            "ReferenceCode": "Operational limit - high-Public",
+            "Severity": 0,
+            "Type": "ThresholdAbove",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#CCCCCC",
+            "Periods": [
+              {
+                "StartTime": "2016-10-18T00:00:00.0000000-05:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2017-04-03T22:47:01.7686574Z",
+                "ReferenceValue": 19.5,
+                "SecondaryReferenceValue": 17.55,
+                "SuppressData": true
+              }
+            ]
+          },
+          {
+            "Name": "Minor floodstage NWS",
+            "Description": "Display reference value",
+            "ReferenceCode": "NWISWeb ref level - Public",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#00CCFF",
+            "Periods": [
+              {
+                "StartTime": "2016-10-18T00:00:00.0000000-05:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2017-04-03T22:47:02.1546574Z",
+                "ReferenceValue": 10,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "Operational limit (minimum)",
+            "Description": "Values below a specified threshold limit",
+            "ReferenceCode": "Operational limit - low-Public",
+            "Severity": 0,
+            "Type": "ThresholdBelow",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#666666",
+            "Periods": [
+              {
+                "StartTime": "2016-10-18T00:00:00.0000000-05:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2017-04-03T22:47:01.945089Z",
+                "ReferenceValue": -0.45,
+                "SecondaryReferenceValue": -0.25,
+                "SuppressData": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "UniqueId": "4a88e4e1e3f94b5ea6a1c027fc978c55",
+        "Name": "ROAD",
+        "Description": "Suwanee Dam Road centerline",
+        "Latitude": 34.132595,
+        "Longitude": -84.070117,
+        "ReferencePointPeriods": [
+          {
+            "IsMeasuredAgainstLocalAssumedDatum": true,
+            "ValidFrom": "0001-01-01T00:00:00.0000000+00:00",
+            "Unit": "ft",
+            "Elevation": 17.73,
+            "MeasurementDirection": "FromBottomToTop",
+            "AppliedTime": "2021-03-16T12:03:58.9950982-05:00",
+            "AppliedByUser": "efrantz"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "referencePoint": [
+      {
+        "Identifier": "Gage height.ft@02334480",
+        "UniqueId": "e90f5c0d2ee044fab2cd9943150e0017",
+        "LocationIdentifier": "02334480",
+        "Parameter": "Gage height",
+        "Unit": "ft",
+        "UtcOffset": -5,
+        "UtcOffsetIsoDuration": "-PT5H",
+        "LastModified": "2021-05-19T12:56:54.5382480-05:00",
+        "RawStartTime": "1995-10-01T00:00:00.0000000-05:00",
+        "RawEndTime": "2021-05-19T08:30:00.0000000-05:00",
+        "CorrectedStartTime": "1995-10-01T00:00:00.0000000-05:00",
+        "CorrectedEndTime": "2021-05-19T08:30:00.0000000-05:00",
+        "TimeSeriesType": "ProcessorDerived",
+        "Label": "ft",
+        "Publish": true,
+        "ComputationIdentifier": "Instantaneous",
+        "ComputationPeriodIdentifier": "Points",
+        "SubLocationIdentifier": "",
+        "ExtendedAttributes": [
+          { "Name": "ACCESS_LEVEL", "Type": "String", "Value": "0-Public" },
+          { "Name": "PLOT_MEAS", "Type": "String", "Value": "Y" },
+          { "Name": "DATA_GAP", "Type": "Decimal" },
+          { "Name": "ACTIVE_FLAG", "Type": "String", "Value": "Y" },
+          { "Name": "WEB_DESCRIPTION", "Type": "String" },
+          { "Name": "STAT_BEGIN_YEAR", "Type": "String" },
+          { "Name": "ADAPS_DD", "Type": "Decimal" },
+          { "Name": "PRIMARY_FLAG", "Type": "String", "Value": "Primary" },
+          { "Name": "TRANSPORT_CODE", "Type": "String" },
+          { "Name": "SPECIAL_DATA_TYPE", "Type": "String" }
+        ],
+        "Thresholds": [
+          {
+            "Name": "Bankfull",
+            "Description": "Display reference value",
+            "ReferenceCode": "NWISWeb ref level - Public",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#990600",
+            "Periods": [
+              {
+                "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2021-03-08T21:23:08.1119315Z",
+                "ReferenceValue": 8.85,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "Street: Suwanee Dam Road",
+            "Description": "Display reference value",
+            "ReferenceCode": "NWISWeb ref level - Public",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#990600",
+            "Periods": [
+              {
+                "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2020-10-15T18:45:19.8482969Z",
+                "ReferenceValue": 17.73,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "MEASURE ABOVE",
+            "Description": "NWISWeb reference line displayed to WSC level users",
+            "ReferenceCode": "NWISWeb ref level - WSC",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#990600",
+            "Periods": [
+              {
+                "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2018-02-21T13:45:40.7695685Z",
+                "ReferenceValue": 4,
+                "SecondaryReferenceValue": 3.5,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "Operational limit (maximum)",
+            "Description": "Values above a specified threshold limit",
+            "ReferenceCode": "Operational limit - high-Public",
+            "Severity": 0,
+            "Type": "ThresholdAbove",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#990600",
+            "Periods": [
+              {
+                "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2018-02-21T13:44:37.3716031Z",
+                "ReferenceValue": 19.5,
+                "SecondaryReferenceValue": 17.55,
+                "SuppressData": true
+              }
+            ]
+          },
+          {
+            "Name": "Major floodstage NWS",
+            "Description": "Display reference value",
+            "ReferenceCode": "NWISWeb ref level - Public",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#990600",
+            "Periods": [
+              {
+                "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2018-02-21T13:45:18.9379517Z",
+                "ReferenceValue": 15,
+                "SecondaryReferenceValue": 14,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "Minor floodstage NWS",
+            "Description": "Display reference value",
+            "ReferenceCode": "NWISWeb ref level - Public",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#990600",
+            "Periods": [
+              {
+                "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2018-02-21T13:44:05.3932827Z",
+                "ReferenceValue": 10,
+                "SecondaryReferenceValue": 9,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "Operational limit (minimum)",
+            "Description": "Values below a specified threshold limit",
+            "ReferenceCode": "Operational limit - low-Public",
+            "Severity": 0,
+            "Type": "ThresholdBelow",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#990600",
+            "Periods": [
+              {
+                "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2018-02-21T13:43:32.8234291Z",
+                "ReferenceValue": -0.45,
+                "SecondaryReferenceValue": -0.25,
+                "SuppressData": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Identifier": "Gage height.ft.DCP@02334480",
+        "UniqueId": "3d346d97099f4e5aa4ded77e069bd33e",
+        "LocationIdentifier": "02334480",
+        "Parameter": "Gage height",
+        "Unit": "ft",
+        "UtcOffset": -5,
+        "UtcOffsetIsoDuration": "-PT5H",
+        "LastModified": "2021-05-19T11:32:16.3806290-05:00",
+        "RawStartTime": "1995-09-29T10:00:00.0000000-05:00",
+        "RawEndTime": "2021-05-19T08:30:00.0000000-05:00",
+        "CorrectedStartTime": "1995-10-01T00:00:00.0000000-05:00",
+        "CorrectedEndTime": "2021-05-19T08:30:00.0000000-05:00",
+        "TimeSeriesType": "ProcessorDerived",
+        "Label": "ft.DCP",
+        "Description": "DD001,DCP,00065,ft,DCP",
+        "Publish": false,
+        "ComputationIdentifier": "Instantaneous",
+        "ComputationPeriodIdentifier": "Points",
+        "SubLocationIdentifier": "",
+        "ExtendedAttributes": [
+          { "Name": "ACCESS_LEVEL", "Type": "String" },
+          { "Name": "PLOT_MEAS", "Type": "String", "Value": "Y" },
+          { "Name": "DATA_GAP", "Type": "Decimal", "Value": 72.0 },
+          { "Name": "ACTIVE_FLAG", "Type": "String", "Value": "Y" },
+          { "Name": "WEB_DESCRIPTION", "Type": "String" },
+          { "Name": "STAT_BEGIN_YEAR", "Type": "String" },
+          { "Name": "ADAPS_DD", "Type": "Decimal", "Value": 1.0 },
+          { "Name": "PRIMARY_FLAG", "Type": "String" },
+          { "Name": "TRANSPORT_CODE", "Type": "String" },
+          { "Name": "SPECIAL_DATA_TYPE", "Type": "String" }
+        ],
+        "Thresholds": [
+          {
+            "Name": "MEASURE ABOVE",
+            "Description": "NWISWeb reference line displayed to WSC level users",
+            "ReferenceCode": "NWISWeb ref level - WSC",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#00CCFF",
+            "Periods": [
+              {
+                "StartTime": "2016-10-18T00:00:00.0000000-05:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2017-04-03T22:47:03.3437085Z",
+                "ReferenceValue": 4,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "Major floodstage NWS",
+            "Description": "Display reference value",
+            "ReferenceCode": "NWISWeb ref level - Public",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#00CCFF",
+            "Periods": [
+              {
+                "StartTime": "2016-10-18T00:00:00.0000000-05:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2017-04-03T22:47:01.9000743Z",
+                "ReferenceValue": 15,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "Operational limit (maximum)",
+            "Description": "Values above a specified threshold limit",
+            "ReferenceCode": "Operational limit - high-Public",
+            "Severity": 0,
+            "Type": "ThresholdAbove",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#CCCCCC",
+            "Periods": [
+              {
+                "StartTime": "2016-10-18T00:00:00.0000000-05:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2017-04-03T22:47:01.7686574Z",
+                "ReferenceValue": 19.5,
+                "SecondaryReferenceValue": 17.55,
+                "SuppressData": true
+              }
+            ]
+          },
+          {
+            "Name": "Minor floodstage NWS",
+            "Description": "Display reference value",
+            "ReferenceCode": "NWISWeb ref level - Public",
+            "Severity": 0,
+            "Type": "None",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#00CCFF",
+            "Periods": [
+              {
+                "StartTime": "2016-10-18T00:00:00.0000000-05:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2017-04-03T22:47:02.1546574Z",
+                "ReferenceValue": 10,
+                "SuppressData": false
+              }
+            ]
+          },
+          {
+            "Name": "Operational limit (minimum)",
+            "Description": "Values below a specified threshold limit",
+            "ReferenceCode": "Operational limit - low-Public",
+            "Severity": 0,
+            "Type": "ThresholdBelow",
+            "ProcessingOrder": "Suppression",
+            "DisplayColor": "#666666",
+            "Periods": [
+              {
+                "StartTime": "2016-10-18T00:00:00.0000000-05:00",
+                "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+                "AppliedTime": "2017-04-03T22:47:01.945089Z",
+                "ReferenceValue": -0.45,
+                "SecondaryReferenceValue": -0.25,
+                "SuppressData": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "UniqueId": "76126bd361294f74916c63799deb660b",
+        "Name": "BANK",
+        "Latitude": 34.132561,
+        "Longitude": -84.069978,
+        "ReferencePointPeriods": [
+          {
+            "IsMeasuredAgainstLocalAssumedDatum": true,
+            "ValidFrom": "0001-01-01T00:00:00.0000000+00:00",
+            "Unit": "ft",
+            "Elevation": 8.85,
+            "MeasurementDirection": "FromBottomToTop",
+            "AppliedTime": "2021-03-16T12:06:11.0837450-05:00",
+            "AppliedByUser": "efrantz"
+          }
+        ]
+      }
+    ]
+  }
+]

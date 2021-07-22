@@ -46,13 +46,6 @@
                 <label for="stream">Real-time Stream Gage</label>
               </div>
               <br/>
-            <input type="checkbox" id="rain" value="false" v-model="picked" />
-              <label for="rain">Real-time Rain Gage</label>
-              <br/>
-            <input type="checkbox" id="tidal" value="false" v-model="picked" />
-              <label for="tidal">Tidal Gage</label>
-              <br/>
-              <span>Checked Gages: {{ picked }}</span>
         </v-container>
       </v-expansion-panel-content>
     </v-expansion-panel>
