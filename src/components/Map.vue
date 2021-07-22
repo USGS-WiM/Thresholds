@@ -321,13 +321,8 @@ export default {
       this.streamgageMarkers = streamgageMarkers;
       if (this.$store.state.streamgageState == true && currentZoom >= 9) {
         this.getData();
-      }
-      for (let i = 0; i < streamgageMarkers.length; i++) {
-        if (this.$store.state.streamgageState == true && currentZoom >= 9) {
-          streamgageMarkers[i].visible = true;
-        } else {
-          streamgageMarkers[i].visible = false;
-        }
+      }else{
+        this.streamgageMarkers.clearLayers();
       }
     },
     openStreamGagePopup(e) {
