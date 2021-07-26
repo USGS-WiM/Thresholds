@@ -31,13 +31,13 @@
               <div class="legendIconToggle" v-if="streamgageVisible">
                 <div
                   class="
-                wmm-circle
-                wmm-mutedblue
-                wmm-icon-triangle
-                wmm-icon-black
-                wmm-size-20
-                wmm-borderless
-              "
+                    wmm-circle
+                    wmm-mutedblue
+                    wmm-icon-triangle
+                    wmm-icon-black
+                    wmm-size-20
+                    wmm-borderless
+                  "
                 ></div>
                 <label>Real-time Stream Gage</label>
               </div>
@@ -121,7 +121,7 @@ delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
   iconUrl: require("leaflet/dist/images/marker-icon.png"),
-  shadowUrl: require("leaflet/dist/images/marker-shadow.png")
+  shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
 });
 
 //define basemaps
@@ -129,40 +129,34 @@ var tileProviders = [
   {
     name: "Streets",
     attribution: "Esri",
-    url:
-      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
   },
   {
     name: "Satellite",
     attribution:
       "Esri, DigitalGlobe, GeoEye, i-cubed, USDA, USGS, AEX, Getmapping, Aerogrid, IGN, IGP, swisstopo, and the GIS User Community",
-    url:
-      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
   },
   {
     name: "Topo",
     attribution: "Esri",
-    url:
-      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
   },
   {
     name: "Terrain",
     attribution: "Esri, NAVTEQ, DeLorme",
-    url:
-      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}"
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}",
   },
   {
     name: "Gray",
-    url:
-      "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
-    attribution: "Esri, NAVTEQ, DeLorme"
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+    attribution: "Esri, NAVTEQ, DeLorme",
   },
   {
     name: "NatGeo",
     attribution: "Esri",
-    url:
-      "https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}"
-  }
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}",
+  },
 ];
 
 // Variables for NWIS sites query
@@ -194,38 +188,37 @@ export default {
       currentBounds: {
         _southWest: {
           lat: {},
-          lng: {}
+          lng: {},
         },
         _northEast: {
           lat: {},
-          lng: {}
-        }
+          lng: {},
+        },
       },
       nwisIcon: L.divIcon({
         className:
-          "wmm-circle wmm-mutedblue wmm-icon-triangle wmm-icon-black wmm-size-20 wmm-borderless"
+          "wmm-circle wmm-mutedblue wmm-icon-triangle wmm-icon-black wmm-size-20 wmm-borderless",
       }), //custom WIM icons
       deckIcon: L.icon({
         iconUrl: require("../assets/aq-icons/flooded_path.png"),
-        iconSize: [50, 50]
+        iconSize: [50, 50],
       }),
       bankIcon: L.icon({
         iconUrl: require("../assets/aq-icons/flooded_bank.png"),
         iconSize: [50, 50],
-        iconAnchor: [10, 10]
+        iconAnchor: [10, 10],
       }),
       roadIcon: L.icon({
         iconUrl: require("../assets/aq-icons/flooded_road.png"),
         iconSize: [50, 50],
-        iconAnchor: [30, 30]
+        iconAnchor: [30, 30],
       }),
       rpIcon: L.icon({
         iconUrl: require("../assets/aq-icons/blue_tri.png"),
-        iconSize: [50, 50]
+        iconSize: [50, 50],
       }),
       showParagraph: false,
       fillColor: "#ffffff",
-      streamgageVisible: false
     };
   },
   methods: {
@@ -236,24 +229,24 @@ export default {
       self.map = L.map("map", {
         center: self.center,
         zoom: self.zoom,
-        zoomSnap: 0.5
+        zoomSnap: 0.5,
       });
 
       //Add Topo tilelayer to map initially
       L.tileLayer(tileProviders[2].url, {
         attribution: tileProviders[2].attribution,
-        name: tileProviders[2].name
+        name: tileProviders[2].name,
       }).addTo(self.map);
 
       self.streamgageMarkers = L.featureGroup();
 
       // markers from Aquarius TEST environment
       self.aqMarkers = L.featureGroup();
-      self.aqMarkers.on("click", function(e) {
+      self.aqMarkers.on("click", function (e) {
         self.openAQPopup(e);
       });
 
-      self.streamgageMarkers.on("click", function(e) {
+      self.streamgageMarkers.on("click", function (e) {
         self.openStreamGagePopup(e);
       });
 
@@ -262,7 +255,7 @@ export default {
       //Create lat lon leaflet control
       L.Control.LatLngControl = L.Control.extend({
         options: { position: "bottomleft" },
-        onAdd: function() {
+        onAdd: function () {
           latlngDiv = L.DomUtil.create("div", "latlngcontrol");
           latlngDiv.innerHTML =
             "<button>Latitude: " +
@@ -273,17 +266,17 @@ export default {
             self.currentZoom +
             "</span></button>";
           return latlngDiv;
-        }
+        },
       });
 
-      L.control.LatLngControl = function(options) {
+      L.control.LatLngControl = function (options) {
         return new L.Control.LatLngControl(options);
       };
 
       L.control.LatLngControl({ position: "bottomleft" }).addTo(self.map);
 
       //Update lat lng control on mousemove
-      self.map.on("mousemove", function(e) {
+      self.map.on("mousemove", function (e) {
         if (e.latlng !== null) {
           let mouselat = e.latlng.lat.toFixed(4);
           let mouselon = e.latlng.lng.toFixed(4);
@@ -300,7 +293,7 @@ export default {
       });
 
       //Update lat lng control on zoomend
-      self.map.on("zoomend", function() {
+      self.map.on("zoomend", function () {
         self.currentZoom = self.map.getZoom();
         //Zoom value to update state
         self.zoomValue = self.currentZoom;
@@ -314,7 +307,7 @@ export default {
         .addTo(self.map);
 
       //Update current bounds
-      self.map.on("zoomend dragend", function() {
+      self.map.on("zoomend dragend", function () {
         self.currentBounds = self.map.getBounds();
       });
 
@@ -333,7 +326,7 @@ export default {
       let self = this;
       self.tileProviders = tileProviders;
       //Clear all basemaps before adding
-      self.map.eachLayer(function(layer) {
+      self.map.eachLayer(function (layer) {
         if (layer instanceof L.TileLayer) {
           layer.remove();
         }
@@ -342,7 +335,7 @@ export default {
         if (self.$store.state.basemapState == tileProviders[i].name) {
           let attribution = tileProviders[i].attribution;
           L.tileLayer(tileProviders[i].url, {
-            attribution: attribution
+            attribution: attribution,
           }).addTo(self.map);
         }
       }
@@ -375,7 +368,7 @@ export default {
         siteStatus;
       axios
         .get(url)
-        .then(data => {
+        .then((data) => {
           let domParser = new DOMParser();
           let xmlElement = domParser.parseFromString(data.data, "text/xml");
           let streamGageList = xmlElement.getElementsByTagName("site");
@@ -391,7 +384,7 @@ export default {
             }
             if (this.$store.state.streamgageState == true) {
               let marker = L.marker([lat, lng], {
-                icon: this.nwisIcon
+                icon: this.nwisIcon,
               }).addTo(this.streamgageMarkers);
               marker.data = { siteName: siteName, siteCode: siteID };
             }
@@ -400,7 +393,7 @@ export default {
           // Fade out loading alert
           this.fadeOutAlert();
         })
-        .catch(error => {
+        .catch((error) => {
           if (error.message == "Request failed with status code 404") {
             console.log("No streamgages found");
           }
@@ -455,7 +448,7 @@ export default {
         "&parameterCd=" +
         graphParameterCodeList +
         timeQueryRange;
-      axios.get(url).then(data => {
+      axios.get(url).then((data) => {
         if (
           data.data == undefined ||
           data.data.response_code == 404 ||
@@ -484,28 +477,28 @@ export default {
                 color: "rgba(0,0,0,0.6)",
                 fontSize: "small",
                 fontWeight: "bold",
-                fontFamily: "Open Sans, sans-serif"
-              }
+                fontFamily: "Open Sans, sans-serif",
+              },
             },
             exporting: {
               enabled: true,
-              filename: "FEV_NWIS_Site" + e.layer.data.siteCode
+              filename: "FEV_NWIS_Site" + e.layer.data.siteCode,
             },
             credits: {
-              enabled: false
+              enabled: false,
             },
             xAxis: {
               type: "datetime",
               labels: {
-                formatter: function() {
+                formatter: function () {
                   let num = Number(this.value);
                   return Highcharts.dateFormat("%d %b %y", num);
                 },
-                align: "center"
-              }
+                align: "center",
+              },
             },
             yAxis: {
-              title: { text: "Gage Height, feet" }
+              title: { text: "Gage Height, feet" },
             },
             series: [
               {
@@ -513,10 +506,10 @@ export default {
                 type: "line",
                 data: data.data.data[0].time_series_data,
                 tooltip: {
-                  pointFormat: "Gage height: {point.y} feet"
-                }
-              }
-            ]
+                  pointFormat: "Gage height: {point.y} feet",
+                },
+              },
+            ],
           });
           //Render chart
           new Highcharts.Chart("graphContainer", chartOptions);
@@ -582,6 +575,7 @@ export default {
         data.ReferencePointPeriods[0].Unit +
         "</br>" +
         '</label></br><p id="graphLoadMessageAQ"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainerAQ" style="width:100%; height:200px;display:none;"></div> <div>Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
+        sc +
         '"><b>Site ' +
         ' on NWISWeb <i class="v-icon notranslate mdi mdi-open-in-new" style="font-size:16px"></i></b></a><div id="noDataMessageAQ" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>';
       let url =
@@ -590,7 +584,7 @@ export default {
         "&parameterCd=" +
         graphParameterCodeList +
         dateString;
-      axios.get(url).then(data => {
+      axios.get(url).then((data) => {
         if (
           data.data == undefined ||
           data.data.response_code == 404 ||
@@ -617,28 +611,28 @@ export default {
                 color: "rgba(0,0,0,0.6)",
                 fontSize: "small",
                 fontWeight: "bold",
-                fontFamily: "Open Sans, sans-serif"
-              }
+                fontFamily: "Open Sans, sans-serif",
+              },
             },
             exporting: {
               enabled: true,
-              filename: "FEV_NWIS_Site" + e.layer.data.siteCode
+              filename: "FEV_NWIS_Site" + e.layer.data.siteCode,
             },
             credits: {
-              enabled: false
+              enabled: false,
             },
             xAxis: {
               type: "datetime",
               labels: {
-                formatter: function() {
+                formatter: function () {
                   let num = Number(this.value);
                   return Highcharts.dateFormat("%d %b %y", num);
                 },
-                align: "center"
-              }
+                align: "center",
+              },
             },
             yAxis: {
-              title: { text: "Gage Height, feet" }
+              title: { text: "Gage Height, feet" },
             },
             series: [
               {
@@ -646,10 +640,10 @@ export default {
                 type: "line",
                 data: data.data.data[0].time_series_data,
                 tooltip: {
-                  pointFormat: "Gage height: {point.y} feet"
-                }
-              }
-            ]
+                  pointFormat: "Gage height: {point.y} feet",
+                },
+              },
+            ],
           });
           //Render chart
           new Highcharts.Chart("graphContainerAQ", chartOptions);
@@ -666,7 +660,7 @@ export default {
     fadeOutAlert() {
       let opacity = 0.75;
       let self = this;
-      let fadeOut = setInterval(function() {
+      let fadeOut = setInterval(function () {
         if (opacity > 0) {
           opacity -= 0.05;
           let opacityValue = String(opacity);
@@ -696,11 +690,11 @@ export default {
             lng = this.mvpData[entry].referencePoint[i].Longitude;
 
             Name = this.mvpData[entry].referencePoint[i].Name;
-            rpData = this.mvpData[entry].referencePoint[i]
-              .ReferencePointPeriods;
+            rpData =
+              this.mvpData[entry].referencePoint[i].ReferencePointPeriods;
           } else {
-            LocationIdentifier = this.mvpData[entry].referencePoint[i]
-              .LocationIdentifier;
+            LocationIdentifier =
+              this.mvpData[entry].referencePoint[i].LocationIdentifier;
             thresh.push(this.mvpData[entry].referencePoint[i]);
           }
         }
@@ -717,7 +711,7 @@ export default {
         }
 
         let marker = L.marker([lat, lng], {
-          icon: aqIcon
+          icon: aqIcon,
         }).addTo(this.aqMarkers);
 
         marker.data = {
@@ -726,30 +720,30 @@ export default {
           Name: Name,
           ReferencePointPeriods: rpData,
           lat: lat,
-          lng: lng
+          lng: lng,
         };
       }
       console.log(this.aqMarkers);
       this.aqMarkers.addTo(this.map);
       this.map.fitBounds(this.aqMarkers.getBounds());
-    }
+    },
   },
   mounted() {
     this.createMap();
   },
   // Get streamgage data when current bounds change or streamgage checkbox is checked
   watch: {
-    currentBounds: function() {
+    currentBounds: function () {
       this.streamgageMarkers.clearLayers();
       this.toggleStreamgage(this.streamgageMarkers, this.currentZoom);
     },
-    "$store.state.streamgageState": function() {
+    "$store.state.streamgageState": function () {
       this.toggleStreamgage(this.streamgageMarkers, this.currentZoom);
     },
     // Watch basemap state and update visibility when state changes
-    "$store.state.basemapState": function() {
+    "$store.state.basemapState": function () {
       this.selectBasemap(this.tileProviders);
-    }
+    },
   },
   // Store current zoom value in state to access from other components
   computed: {
@@ -759,9 +753,9 @@ export default {
       },
       set(value) {
         return this.$store.commit("getCurrentZoomState", value);
-      }
-    }
-  }
+      },
+    },
+  },
 };
 </script>
 
