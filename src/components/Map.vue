@@ -16,7 +16,92 @@
       </div>
 
       <!-- a leaflet map -->
-      <div id="map"></div>
+      <div id="map">
+        <!-- Legend -->
+        <div id="legendContainer">
+          <!-- Legend title -->
+          <div id="titleContainer">
+            <div id="legendExplanation">
+              <v-icon color="black">mdi-shape</v-icon> Explanation
+            </div>
+          </div>
+          <div id="legendBody">
+            <!-- Toggleable layers -->
+            <div id="toggleableLayers">
+              <div class="legendIconToggle" v-if="streamgageVisible">
+                <div
+                  class="
+                    wmm-circle
+                    wmm-mutedblue
+                    wmm-icon-triangle
+                    wmm-icon-black
+                    wmm-size-20
+                    wmm-borderless
+                  "
+                ></div>
+                <label>Real-time Stream Gage</label>
+              </div>
+            </div>
+            <!-- Threshold icons -->
+            <div id="thresholdLayers">
+              <div id="thresholdLayersTitle">Streamgage Status</div>
+              <div class="legendIcon">
+                <img
+                  src="../assets/aq-icons/flooded_bank.png"
+                  height="25px"
+                  width="25px"
+                />
+                <label>Embankment Flooded</label>
+              </div>
+              <div class="legendIcon">
+                <img
+                  src="../assets/aq-icons/flooded_path.png"
+                  alt=""
+                  height="25px"
+                  width="25px"
+                />
+                <label>Path Flooded</label>
+              </div>
+              <div class="legendIcon">
+                <img
+                  src="../assets/aq-icons/flooded_road.png"
+                  alt=""
+                  height="25px"
+                  width="25px"
+                />
+                <label>Road Flooded</label>
+              </div>
+              <div class="legendIcon">
+                <img
+                  src="../assets/aq-icons/bridge_half_flooded.png"
+                  alt=""
+                  height="25px"
+                  width="25px"
+                />
+                <label>Bridge Flood at Risk</label>
+              </div>
+              <div class="legendIcon">
+                <img
+                  src="../assets/aq-icons/bridge_flooded.png"
+                  alt=""
+                  height="25px"
+                  width="25px"
+                />
+                <label>Bridge Flooded</label>
+              </div>
+              <div class="legendIcon">
+                <img
+                  src="../assets/aq-icons/flooded_structure.png"
+                  alt=""
+                  height="25px"
+                  width="25px"
+                />
+                <label>Structures Flooded</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </v-main>
 </template>
@@ -139,7 +224,8 @@ export default {
         iconSize: [50, 50]
       }),
       showParagraph: false,
-      fillColor: "#ffffff"
+      fillColor: "#ffffff",
+      streamgageVisible: false
     };
   },
   methods: {
@@ -327,8 +413,13 @@ export default {
       this.streamgageMarkers = streamgageMarkers;
       if (this.$store.state.streamgageState == true && currentZoom >= 9) {
         this.getData();
+        this.streamgageVisible = true;
+      } else if (this.$store.state.streamgageState == true && currentZoom < 9) {
+        this.streamgageMarkers.clearLayers();
+        this.streamgageVisible = true;
       } else {
         this.streamgageMarkers.clearLayers();
+        this.streamgageVisible = false;
       }
     },
     openStreamGagePopup(e) {
@@ -681,6 +772,94 @@ export default {
 #map {
   height: 100%;
   width: 100%;
+}
+
+#legendContainer {
+  border-radius: 5px 5px 5px 5px;
+  box-shadow: 0 3px 6px rgba(30, 39, 50, 0.2), 0 3px 6px rgba(30, 39, 50, 0.2);
+  margin-top: 5px;
+  right: 10px;
+  top: 56px;
+  height: auto;
+  width: 250px;
+  position: absolute;
+  z-index: 999;
+  font-size: 14px;
+}
+
+#titleContainer {
+  border-radius: 5px 5px 0px 0px;
+  background-color: #ffffff;
+  opacity: 0.9;
+  width: 100%;
+}
+
+#legendBody {
+  border-radius: 0px 0px 5px 5px;
+  background-color: #ffffff;
+  opacity: 0.75;
+  width: 100%;
+  padding: 5px;
+}
+
+#legendExplanation {
+  box-sizing: border-box;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 10px;
+}
+
+#toggleableLayers {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 5px;
+}
+
+#thresholdLayers {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 5px;
+}
+
+#thresholdLayersTitle {
+  font-size: 16px;
+}
+
+.legendIcon {
+  display: inline-block;
+  position: relative;
+  margin: 10px;
+  line-height: 24px;
+  height: 24px;
+}
+
+.legendIcon img {
+  vertical-align: middle;
+}
+
+.legendIcon label {
+  display: inline-block;
+  -webkit-justify-content: center;
+  justify-content: center;
+  padding-left: 10px;
+}
+
+.legendIconToggle {
+  display: inline-block;
+  position: relative;
+  margin: 10px;
+  padding-left: 10px;
+  line-height: 24px;
+  height: 24px;
+}
+
+.legendIconToggle label {
+  display: inline-block;
+  -webkit-justify-content: center;
+  justify-content: center;
+  padding-left: 20px;
 }
 
 .latlngcontrol button {
