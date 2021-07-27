@@ -170,7 +170,7 @@ export default {
 
 <style>
 .v-expansion-panel-header {
-  text-transform: uppercase;
+  text-transform: capitalize;
   font-weight: 700;
   text-align: right;
 }
@@ -194,6 +194,8 @@ export default {
 .v-btn {
   justify-content: left !important;
   font-weight: 400 !important;
+  text-transform: capitalize !important;
+  letter-spacing: 0 !important;
 }
 
 .v-btn-toggle > .v-btn.v-btn {
