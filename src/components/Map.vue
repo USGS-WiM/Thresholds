@@ -26,10 +26,7 @@ import L from "leaflet"; //this is where you import leaflet components
 import "leaflet/dist/leaflet.css";
 import mvpAqData from "../mvp_data/output.json";
 import axios from "axios";
-import Highcharts from "highcharts";
-import exportingInit from "highcharts/modules/exporting";
-
-exportingInit(Highcharts);
+import Plotly from "plotly.js";
 
 // this code is necessary for the default leaflet marker to work
 delete L.Icon.Default.prototype._getIconUrl;
@@ -365,7 +362,14 @@ export default {
           data.data.data[0].time_series_data.length == 0
         ) {
           console.log("No NWIS data available for this time period");
-          e.layer.bindPopup(this.popupContent, { minWidth: 350 }).openPopup();
+          if (e.layer.getPopup() != undefined) {
+            e.layer
+              .getPopup()
+              .setContent(this.popupContent, { minWidth: 400 })
+              .openPopup();
+          } else {
+            e.layer.bindPopup(this.popupContent, { minWidth: 400 }).openPopup();
+          }
           document
             .getElementById("graphLoadMessage")
             .setAttribute("style", "display: none");
@@ -373,56 +377,88 @@ export default {
             .getElementById("noDataMessage")
             .setAttribute("style", "display: block");
         } else {
-          e.layer.bindPopup(this.popupContent, { minWidth: 350 }).openPopup();
-          let chartOptions = Highcharts.setOptions({
-            global: { useUTC: false },
-            title: {
-              text:
-                "NWIS Site " +
-                e.layer.data.siteCode +
-                "<br> " +
-                e.layer.data.siteName,
-              align: "left",
-              style: {
-                color: "rgba(0,0,0,0.6)",
-                fontSize: "small",
-                fontWeight: "bold",
-                fontFamily: "Open Sans, sans-serif",
-              },
-            },
-            exporting: {
-              enabled: true,
-              filename: "FEV_NWIS_Site" + e.layer.data.siteCode,
-            },
-            credits: {
-              enabled: false,
-            },
-            xAxis: {
-              type: "datetime",
-              labels: {
-                formatter: function () {
-                  let num = Number(this.value);
-                  return Highcharts.dateFormat("%d %b %y", num);
-                },
-                align: "center",
-              },
-            },
-            yAxis: {
-              title: { text: "Gage Height, feet" },
-            },
-            series: [
-              {
-                showInLegend: false,
-                type: "line",
-                data: data.data.data[0].time_series_data,
-                tooltip: {
-                  pointFormat: "Gage height: {point.y} feet",
-                },
-              },
-            ],
+          if (e.layer.getPopup() != undefined) {
+            e.layer
+              .getPopup()
+              .setContent(this.popupContent, { minWidth: 400 })
+              .openPopup();
+          } else {
+            e.layer.bindPopup(this.popupContent, { minWidth: 400 }).openPopup();
+          }
+
+          let dates = [];
+          let values = [];
+          let plotlyAnnotations = [];
+
+          // Create x and y arrays for NWIS trace
+          data.data.data[0].time_series_data.forEach(function (time) {
+            dates.push(new Date(time[0]));
+            values.push(time[1]);
           });
-          //Render chart
-          new Highcharts.Chart("graphContainer", chartOptions);
+
+          // NWIS trace
+          let traces = [
+            {
+              x: dates,
+              y: values,
+              type: "scatter",
+              showlegend: false,
+              name: "NWIS Gage Data",
+              hovertemplate: "%{x}<br>Gage height: %{y} feet<extra></extra>",
+            },
+          ];
+
+          // Overall layout of chart
+          let graphtitle =
+            "<b>NWIS Site " +
+            e.layer.data.siteCode +
+            "<br>" +
+            e.layer.data.siteName +
+            "</b>";
+
+          let layout = {
+            autosize: false,
+            width: 400,
+            height: 400,
+            yaxis: {
+              title: "Gage Height, feet",
+              titlefont: { size: 14 },
+              automargin: true,
+            },
+            xaxis: {
+              range: [dates[0], dates[dates.length - 1]],
+              tickformat: "%d %b %y",
+            },
+            title: {
+              text: graphtitle,
+              font: {
+                size: 12,
+                color: "rgba(0,0,0,0.6)",
+                family: "Open Sans, sans-serif",
+              },
+              x: 0.05,
+            },
+            margin: {
+              l: 50,
+              r: 50,
+              t: 100,
+              pad: 4,
+            },
+            legend: false,
+            annotations: plotlyAnnotations,
+          };
+
+          // Make chart responsive and modebar always visible
+          let config = { responsive: true, displayModeBar: true };
+
+          let chartData = [];
+
+          traces.forEach(function (trace) {
+            chartData.push(trace);
+          });
+
+          // Render plot
+          Plotly.newPlot("graphContainer", chartData, layout, config);
           document
             .getElementById("graphContainer")
             .setAttribute("style", "display: block");
@@ -453,9 +489,22 @@ export default {
       }
 
       // storing layer data and setting site id
-      let data = e.layer.data;
-      console.log(data);
+      let layerData = e.layer.data;
       let sc = e.layer.data.LocationIdentifier;
+
+      let thresholds = [];
+      // Create array of objects for each threshold with name, value, and series info
+      layerData.thresholds[0].Thresholds.forEach(function (threshold) {
+        thresholds.push({
+          name: threshold.Name,
+          value: threshold.Periods[0].ReferenceValue,
+          series: [],
+        });
+      });
+
+      thresholds.sort(function (a, b) {
+        return a.value - b.value;
+      });
 
       // setting start date for now
       let startDate;
@@ -474,17 +523,17 @@ export default {
 
       this.aqPopupContent =
         '<label id="popup-titleAQ"><b>Reference Point Name: </b>' +
-        data.Name +
+        layerData.Name +
         "</br>" +
         '<label id="popup-titleAQ"><b>Location ID: </b>' +
-        data.LocationIdentifier +
+        layerData.LocationIdentifier +
         "</br>" +
         '<label id="popup-titleAQ"><b>Elevation: </b>' +
-        data.ReferencePointPeriods[0].Elevation +
+        layerData.ReferencePointPeriods[0].Elevation +
         " " +
-        data.ReferencePointPeriods[0].Unit +
+        layerData.ReferencePointPeriods[0].Unit +
         "</br>" +
-        '</label></br><p id="graphLoadMessageAQ"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainerAQ" style="width:100%; height:200px;display:none;"></div> <div>Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
+        '</label></br><p id="graphLoadMessageAQ"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainerAQ" style="width:100%; height:350px; display:none;"></div> <div>Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
         '"><b>Site ' +
         ' on NWISWeb <i class="v-icon notranslate mdi mdi-open-in-new" style="font-size:16px"></i></b></a><div id="noDataMessageAQ" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>';
       let url =
@@ -494,13 +543,112 @@ export default {
         graphParameterCodeList +
         dateString;
       axios.get(url).then((data) => {
+        // Associate time info with threshold values
+        thresholds.forEach(function (threshold) {
+          data.data.data[0].time_series_data.forEach(function (value) {
+            threshold.series.push([value[0], threshold.value]);
+          });
+        });
+
+        let dates = [];
+        let values = [];
+        let plotlyAnnotations = [];
+
+        // Create x and y arrays for NWIS trace
+        data.data.data[0].time_series_data.forEach(function (time) {
+          dates.push(new Date(time[0]));
+          values.push(time[1]);
+        });
+
+        // NWIS trace
+        let traces = [
+          {
+            x: dates,
+            y: values,
+            type: "scatter",
+            showlegend: true,
+            name: "<b>NWIS Gage Data</b>",
+            hovertemplate: "%{x}<br>Gage height: %{y} feet<extra></extra>",
+          },
+        ];
+
+        // Create trace and annotation for each threshold
+        for (let i = 0; i < thresholds.length; i++) {
+          let xdata = [];
+          let ydata = [];
+          let x;
+          let ax = -10;
+          let ay = -25;
+
+          // Switch label position if thresholds are too close together
+          if (i < thresholds.length - 1) {
+            if (
+              Math.abs(thresholds[i].value - thresholds[i + 1].value) <= 0.75
+            ) {
+              x = thresholds[i].series[0][0];
+              ax = 50;
+              ay = -30;
+            } else {
+              x = thresholds[i].series[thresholds[i].series.length - 1][0];
+            }
+          } else {
+            x = thresholds[i].series[thresholds[i].series.length - 1][0];
+          }
+
+          // Create x and y arrays for threshold traces
+          thresholds[i].series.forEach(function (datapoint) {
+            let xdatapoint = new Date(datapoint[0]);
+            xdata.push(xdatapoint);
+            ydata.push(datapoint[1]);
+          });
+
+          // Create traces
+          traces.push({
+            x: xdata,
+            y: ydata,
+            type: "scatter",
+            line: {
+              color: "#8b0000",
+            },
+            showlegend: false,
+            name: thresholds[i].name,
+            // Tooltip
+            hovertemplate: "%{fullData.name}: %{y} feet<extra></extra>",
+          });
+
+          // Create labels
+          plotlyAnnotations.push({
+            x: x,
+            y: ydata[0],
+            xref: "x",
+            yref: "y",
+            text: thresholds[i].name,
+            showarrow: true,
+            arrowhead: 0,
+            font: {
+              size: 10,
+            },
+            ax: ax,
+            ay: ay,
+          });
+        }
+
         if (
           data.data == undefined ||
           data.data.response_code == 404 ||
           data.data.data[0].time_series_data.length == 0
         ) {
           console.log("No NWIS data available for this time period");
-          e.layer.bindPopup(this.aqPopupContent).openPopup();
+          if (e.layer.getPopup() != undefined) {
+            e.layer
+              .getPopup()
+              .setContent(this.aqPopupContent, { minWidth: 600 })
+              .openPopup();
+          } else {
+            e.layer
+              .bindPopup(this.aqPopupContent, { minWidth: 600 })
+              .openPopup();
+          }
           document
             .getElementById("graphLoadMessageAQ")
             .setAttribute("style", "display: none");
@@ -508,54 +656,69 @@ export default {
             .getElementById("noDataMessageAQ")
             .setAttribute("style", "display: block");
         } else {
-          e.layer.bindPopup(this.aqPopupContent).openPopup();
-          let chartOptions = Highcharts.setOptions({
-            global: { useUTC: false },
+          if (e.layer.getPopup() != undefined) {
+            e.layer
+              .getPopup()
+              .setContent(this.aqPopupContent, { minWidth: 600 })
+              .openPopup();
+          } else {
+            e.layer
+              .bindPopup(this.aqPopupContent, { minWidth: 600 })
+              .openPopup();
+          }
+
+          // Overall layout of chart
+          let graphtitle = "<b>NWIS Site " + sc + "<br></b>";
+          // "<br>" +
+          //   e.layer.data.siteName +
+          //   "</b>";
+
+          let layout = {
+            autosize: false,
+            width: 600,
+            yaxis: {
+              title: "Gage Height, feet",
+              titlefont: { size: 12 },
+              automargin: true,
+            },
+            xaxis: {
+              range: [dates[0], dates[dates.length - 1]],
+              tickformat: "%d %b %y %-I:%M %p",
+            },
             title: {
-              text: "NWIS Site " + sc + "<br> ",
-              // TODO include sitename in script
-              // e.layer.data.siteName,
-              align: "left",
-              style: {
+              text: graphtitle,
+              font: {
+                size: 14,
                 color: "rgba(0,0,0,0.6)",
-                fontSize: "small",
-                fontWeight: "bold",
-                fontFamily: "Open Sans, sans-serif",
+                family: "Open Sans, sans-serif",
               },
+              x: 0.05,
             },
-            exporting: {
-              enabled: true,
-              filename: "FEV_NWIS_Site" + e.layer.data.siteCode,
+            legend: {
+              x: 0.3,
+              y: -0.5,
             },
-            credits: {
-              enabled: false,
+            margin: {
+              l: 70,
+              r: 70,
+              b: 100,
+              t: 100,
+              pad: 4,
             },
-            xAxis: {
-              type: "datetime",
-              labels: {
-                formatter: function () {
-                  let num = Number(this.value);
-                  return Highcharts.dateFormat("%d %b %y", num);
-                },
-                align: "center",
-              },
-            },
-            yAxis: {
-              title: { text: "Gage Height, feet" },
-            },
-            series: [
-              {
-                showInLegend: false,
-                type: "line",
-                data: data.data.data[0].time_series_data,
-                tooltip: {
-                  pointFormat: "Gage height: {point.y} feet",
-                },
-              },
-            ],
+            annotations: plotlyAnnotations,
+          };
+
+          // Make chart responsive and modebar always visible
+          let config = { responsive: true, displayModeBar: true };
+
+          let chartData = [];
+
+          traces.forEach(function (trace) {
+            chartData.push(trace);
           });
-          //Render chart
-          new Highcharts.Chart("graphContainerAQ", chartOptions);
+
+          // Render plot
+          Plotly.newPlot("graphContainerAQ", chartData, layout, config);
           document
             .getElementById("graphContainerAQ")
             .setAttribute("style", "display: block");
@@ -708,5 +871,12 @@ export default {
 
 .nwis-link {
   text-decoration: none !important;
+}
+
+#popup-title {
+  font-size: 12;
+  color: rgba(0, 0, 0, 0.6);
+  font-family: "Open Sans", sans-serif;
+  font-weight: bold;
 }
 </style>
