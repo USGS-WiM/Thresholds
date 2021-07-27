@@ -189,10 +189,10 @@ export default {
 
 .basemapBtn {
   width: 100%;
+  justify-content: left !important;
 }
 
 .v-btn {
-  justify-content: left !important;
   font-weight: 400 !important;
   text-transform: capitalize !important;
   letter-spacing: 0 !important;
