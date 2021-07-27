@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added zoom to AQUARIUS layer on map load
 - Added popup to AQUARIUS layer
 - Added map legend
+- Added thresholds to reference point popups
 
 ### Changed
 
@@ -32,3 +33,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Removed vertical scrollbar from page
 - Removed console errors due to undefined token in Map.vue
+- Fixed popup bug

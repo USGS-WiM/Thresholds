@@ -513,12 +513,15 @@ export default {
             height: 400,
             yaxis: {
               title: "Gage Height, feet",
-              titlefont: { size: 14 },
+              titlefont: { size: 12 },
               automargin: true,
             },
             xaxis: {
               range: [dates[0], dates[dates.length - 1]],
               tickformat: "%d %b %y",
+              tickfont: {
+                size: 11,
+              },
             },
             title: {
               text: graphtitle,
@@ -668,9 +671,17 @@ export default {
         for (let i = 0; i < thresholds.length; i++) {
           let xdata = [];
           let ydata = [];
+          // Label position variables
           let x;
           let ax = -10;
           let ay = -25;
+
+          // Add one line representing all thresholds to legend
+          let showLegend = false;
+
+          if (i == 0) {
+            showLegend = true;
+          }
 
           // Switch label position if thresholds are too close together
           if (i < thresholds.length - 1) {
@@ -702,8 +713,9 @@ export default {
             line: {
               color: "#8b0000",
             },
-            showlegend: false,
-            name: thresholds[i].name,
+            showlegend: showLegend,
+            legendgroup: "thresholds",
+            name: "<b>Threshold</b>",
             // Tooltip
             hovertemplate: "%{fullData.name}: %{y} feet<extra></extra>",
           });
@@ -718,7 +730,7 @@ export default {
             showarrow: true,
             arrowhead: 0,
             font: {
-              size: 10,
+              size: 11,
             },
             ax: ax,
             ay: ay,
@@ -776,19 +788,27 @@ export default {
             xaxis: {
               range: [dates[0], dates[dates.length - 1]],
               tickformat: "%d %b %y %-I:%M %p",
+              tickfont: {
+                size: 11,
+              },
             },
             title: {
               text: graphtitle,
               font: {
-                size: 14,
+                size: 12,
                 color: "rgba(0,0,0,0.6)",
                 family: "Open Sans, sans-serif",
               },
               x: 0.05,
             },
             legend: {
-              x: 0.3,
-              y: -0.5,
+              x: 0.25,
+              y: -0.4,
+              font: {
+                family: "sans-serif",
+                size: 12,
+              },
+              orientation: "h",
             },
             margin: {
               l: 70,
