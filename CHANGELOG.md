@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added Reference Point Icons for AQUARIUS layer
 - Added zoom to AQUARIUS layer on map load
 - Added popup to AQUARIUS layer
+- Added map legend
 
 ### Changed
 
