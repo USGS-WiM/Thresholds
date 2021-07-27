@@ -674,6 +674,7 @@ export default {
 #map {
   height: 100%;
   width: 100%;
+  font-family: 'Public Sans', sans-serif;
 }
 
 .latlngcontrol button {

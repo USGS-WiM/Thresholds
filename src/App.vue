@@ -52,7 +52,17 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Public+Sans:100,300,400,500,700,900');
+
 html {
   overflow-y: hidden;
+}
+
+html, body {
+  font-family: 'Public Sans', sans-serif;
+}
+
+#app {
+  font-family: 'Public Sans', sans-serif !important;
 }
 </style>

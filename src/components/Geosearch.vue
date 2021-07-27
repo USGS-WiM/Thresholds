@@ -207,4 +207,8 @@ export default {
 #geosearchBar {
   margin-left: auto;
 }
+
+.search-api-container input {
+  font-family: 'Public Sans', sans-serif !important;
+}
 </style>
