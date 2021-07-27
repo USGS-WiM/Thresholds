@@ -87,7 +87,7 @@
       </v-expansion-panel-content>
     </v-expansion-panel>
     <v-expansion-panel>
-      <v-expansion-panel-header> Streamgages </v-expansion-panel-header>
+      <v-expansion-panel-header> Layers </v-expansion-panel-header>
       <v-expansion-panel-content>
         <v-container class="px-0" fluid>
           <div class="zoom-alert" :style="{ display: isDisplayed }">
@@ -129,7 +129,7 @@ export default {
     return {
       picked: [],
       streamCheckDisabled: true,
-      isDisplayed: "block",
+      isDisplayed: "block"
     };
   },
   props: ["currentZoom"],
@@ -141,7 +141,7 @@ export default {
       },
       set(value) {
         return this.$store.commit("getBasemapState", value);
-      },
+      }
     },
     // use v-model to set streamgage layer state
     streamgagePicked: {
@@ -150,12 +150,12 @@ export default {
       },
       set(value) {
         return this.$store.commit("getStreamgageState", value);
-      },
-    },
+      }
+    }
   },
   // Watch the current zoom value to disable checkbox
   watch: {
-    "$store.state.currentZoomState": function () {
+    "$store.state.currentZoomState": function() {
       if (this.$store.state.currentZoomState >= 9) {
         this.streamCheckDisabled = false;
         this.isDisplayed = "none";
@@ -163,8 +163,8 @@ export default {
         this.streamCheckDisabled = true;
         this.isDisplayed = "block";
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
