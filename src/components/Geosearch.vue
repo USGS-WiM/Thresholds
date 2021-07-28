@@ -108,7 +108,7 @@ export default {
               font: {
                 size: 12,
                 color: "rgba(0,0,0,0.6)",
-                family: "Open Sans, sans-serif",
+                family: "Public Sans, sans-serif",
               },
               x: 0.05,
             },
