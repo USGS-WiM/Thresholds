@@ -4,10 +4,7 @@
 
 <script>
 import axios from "axios";
-import Highcharts from "highcharts";
-import exportingInit from "highcharts/modules/exporting";
-
-exportingInit(Highcharts);
+import Plotly from "plotly.js";
 
 let graphParameterCodeList = "00065,63160,72279";
 let timeQueryRange = "&period=P7D";
@@ -51,14 +48,14 @@ export default {
         "&parameterCd=" +
         graphParameterCodeList +
         timeQueryRange;
-      axios.get(url).then(data => {
+      axios.get(url).then((data) => {
         if (
           data.data == undefined ||
           data.data.response_code == 404 ||
           data.data.data[0].time_series_data.length == 0
         ) {
           console.log("No NWIS data available for this time period");
-          map.openPopup(popupContent, latlon);
+          map.openPopup(popupContent, latlon, { minWidth: 400 });
           document
             .getElementById("graphLoadMessage")
             .setAttribute("style", "display: none");
@@ -66,52 +63,76 @@ export default {
             .getElementById("noDataMessage")
             .setAttribute("style", "display: block");
         } else {
-          map.openPopup(popupContent, latlon);
-          let chartOptions = Highcharts.setOptions({
-            global: { useUTC: false },
-            title: {
-              text: "NWIS Site " + siteCode + "<br> " + siteName,
-              align: "left",
-              style: {
-                color: "rgba(0,0,0,0.6)",
-                fontSize: "small",
-                fontWeight: "bold",
-                fontFamily: "Open Sans, sans-serif"
-              }
-            },
-            exporting: {
-              enabled: true,
-              filename: "FEV_NWIS_Site" + siteCode
-            },
-            credits: {
-              enabled: false
-            },
-            xAxis: {
-              type: "datetime",
-              labels: {
-                formatter: function() {
-                  let num = Number(this.value);
-                  return Highcharts.dateFormat("%d %b %y", num);
-                },
-                align: "center"
-              }
-            },
-            yAxis: {
-              title: { text: "Gage Height, feet" }
-            },
-            series: [
-              {
-                showInLegend: false,
-                type: "line",
-                data: data.data.data[0].time_series_data,
-                tooltip: {
-                  pointFormat: "Gage height: {point.y} feet"
-                }
-              }
-            ]
+          map.openPopup(popupContent, latlon, { minWidth: 400 });
+          let dates = [];
+          let values = [];
+          let plotlyAnnotations = [];
+
+          // Create x and y arrays for NWIS trace
+          data.data.data[0].time_series_data.forEach(function (time) {
+            dates.push(new Date(time[0]));
+            values.push(time[1]);
           });
-          //Render chart
-          new Highcharts.Chart("graphContainer", chartOptions);
+
+          // NWIS trace
+          let traces = [
+            {
+              x: dates,
+              y: values,
+              type: "scatter",
+              showlegend: false,
+              name: "NWIS Gage Data",
+              hovertemplate: "%{x}<br>Gage height: %{y} feet<extra></extra>",
+            },
+          ];
+
+          // Overall layout of chart
+          let graphtitle =
+            "<b>NWIS Site " + siteCode + "<br>" + siteName + "</b>";
+
+          let layout = {
+            autosize: false,
+            width: 400,
+            height: 400,
+            yaxis: {
+              title: "Gage Height, feet",
+              titlefont: { size: 14 },
+              automargin: true,
+            },
+            xaxis: {
+              range: [dates[0], dates[dates.length - 1]],
+              tickformat: "%d %b %y",
+            },
+            title: {
+              text: graphtitle,
+              font: {
+                size: 12,
+                color: "rgba(0,0,0,0.6)",
+                family: "Open Sans, sans-serif",
+              },
+              x: 0.05,
+            },
+            margin: {
+              l: 50,
+              r: 50,
+              t: 100,
+              pad: 4,
+            },
+            legend: false,
+            annotations: plotlyAnnotations,
+          };
+
+          // Make chart responsive and modebar always visible
+          let config = { responsive: true, displayModeBar: true };
+
+          let chartData = [];
+
+          traces.forEach(function (trace) {
+            chartData.push(trace);
+          });
+
+          // Render plot
+          Plotly.newPlot("graphContainer", chartData, layout, config);
           document
             .getElementById("graphContainer")
             .setAttribute("style", "display: block");
@@ -123,9 +144,9 @@ export default {
             .setAttribute("style", "display: none");
         }
       });
-    }
+    },
   },
-  mounted: function() {
+  mounted: function () {
     let self = this;
     let jqueryScript = document.createElement("script");
     jqueryScript.setAttribute(
@@ -162,11 +183,11 @@ export default {
             include_usgs_sp: true,
             include_usgs_at: true,
             include_usgs_ot: true,
-            on_result: function(o) {
+            on_result: function (o) {
               map.fitBounds([
                 // zoom to location
                 [o.result.properties.LatMin, o.result.properties.LonMin],
-                [o.result.properties.LatMax, o.result.properties.LonMax]
+                [o.result.properties.LatMax, o.result.properties.LonMax],
               ]);
               // Open streamgage popup with chart if USGS ground or surface water site was searched
               if (
@@ -194,12 +215,12 @@ export default {
                   [o.result.properties.Lat, o.result.properties.Lon]
                 );
               }
-            }
+            },
           });
         };
       };
     };
-  }
+  },
 };
 </script>
 
