@@ -76,7 +76,7 @@ export default {
                 color: "rgba(0,0,0,0.6)",
                 fontSize: "small",
                 fontWeight: "bold",
-                fontFamily: "Open Sans, sans-serif"
+                fontFamily: "Public Sans, sans-serif"
               }
             },
             exporting: {
@@ -208,7 +208,36 @@ export default {
   margin-left: auto;
 }
 
+.search-api-container {
+  height: 44px !important;
+  border: 2px solid #424242 !important;
+}
+
 .search-api-container input {
   font-family: 'Public Sans', sans-serif !important;
+  font-size: 18px !important;
+}
+
+.search-api-menu {
+  font-family: 'Public Sans', sans-serif !important;
+}
+
+.search-api-button {
+  display: none !important;
+}
+
+.search-api-menu-title {
+  color: #fff !important;
+  background-color: #999 !important;
+}
+
+.search-api-menu-separator {
+  background-color: #333 !important;
+  color: #eee !important;
+}
+
+.search-api-menu-item {
+  background-color: #0a0a57 !important;
+  color: white !important;
 }
 </style>
