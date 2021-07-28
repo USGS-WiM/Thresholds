@@ -528,7 +528,7 @@ export default {
               font: {
                 size: 12,
                 color: "rgba(0,0,0,0.6)",
-                family: "Open Sans, sans-serif",
+                family: "Public Sans, sans-serif",
               },
               x: 0.05,
             },
@@ -797,7 +797,7 @@ export default {
               font: {
                 size: 12,
                 color: "rgba(0,0,0,0.6)",
-                family: "Open Sans, sans-serif",
+                family: "Public Sans, sans-serif",
               },
               x: 0.05,
             },
@@ -949,6 +949,7 @@ export default {
 #map {
   height: 100%;
   width: 100%;
+  font-family: 'Public Sans', sans-serif;
 }
 
 #legendContainer {
@@ -1076,7 +1077,7 @@ export default {
 #popup-title {
   font-size: 12;
   color: rgba(0, 0, 0, 0.6);
-  font-family: "Open Sans", sans-serif;
+  font-family: "Public Sans", sans-serif;
   font-weight: bold;
 }
 </style>
