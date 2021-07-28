@@ -111,17 +111,14 @@ import L from "leaflet"; //this is where you import leaflet components
 import "leaflet/dist/leaflet.css";
 import mvpAqData from "../mvp_data/output.json";
 import axios from "axios";
-import Highcharts from "highcharts";
-import exportingInit from "highcharts/modules/exporting";
-
-exportingInit(Highcharts);
+import Plotly from "plotly.js";
 
 // this code is necessary for the default leaflet marker to work
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
   iconUrl: require("leaflet/dist/images/marker-icon.png"),
-  shadowUrl: require("leaflet/dist/images/marker-shadow.png")
+  shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
 });
 
 //define basemaps
@@ -129,40 +126,34 @@ var tileProviders = [
   {
     name: "Streets",
     attribution: "Esri",
-    url:
-      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
   },
   {
     name: "Satellite",
     attribution:
       "Esri, DigitalGlobe, GeoEye, i-cubed, USDA, USGS, AEX, Getmapping, Aerogrid, IGN, IGP, swisstopo, and the GIS User Community",
-    url:
-      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
   },
   {
     name: "Topo",
     attribution: "Esri",
-    url:
-      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
   },
   {
     name: "Terrain",
     attribution: "Esri, NAVTEQ, DeLorme",
-    url:
-      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}"
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}",
   },
   {
     name: "Gray",
-    url:
-      "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
-    attribution: "Esri, NAVTEQ, DeLorme"
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+    attribution: "Esri, NAVTEQ, DeLorme",
   },
   {
     name: "NatGeo",
     attribution: "Esri",
-    url:
-      "https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}"
-  }
+    url: "https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}",
+  },
 ];
 
 // Variables for NWIS sites query
@@ -194,38 +185,38 @@ export default {
       currentBounds: {
         _southWest: {
           lat: {},
-          lng: {}
+          lng: {},
         },
         _northEast: {
           lat: {},
-          lng: {}
-        }
+          lng: {},
+        },
       },
       nwisIcon: L.divIcon({
         className:
-          "wmm-circle wmm-mutedblue wmm-icon-triangle wmm-icon-black wmm-size-20 wmm-borderless"
+          "wmm-circle wmm-mutedblue wmm-icon-triangle wmm-icon-black wmm-size-20 wmm-borderless",
       }), //custom WIM icons
       deckIcon: L.icon({
         iconUrl: require("../assets/aq-icons/flooded_path.png"),
-        iconSize: [50, 50]
+        iconSize: [50, 50],
       }),
       bankIcon: L.icon({
         iconUrl: require("../assets/aq-icons/flooded_bank.png"),
         iconSize: [50, 50],
-        iconAnchor: [10, 10]
+        iconAnchor: [10, 10],
       }),
       roadIcon: L.icon({
         iconUrl: require("../assets/aq-icons/flooded_road.png"),
         iconSize: [50, 50],
-        iconAnchor: [30, 30]
+        iconAnchor: [30, 30],
       }),
       rpIcon: L.icon({
         iconUrl: require("../assets/aq-icons/blue_tri.png"),
-        iconSize: [50, 50]
+        iconSize: [50, 50],
       }),
       showParagraph: false,
       fillColor: "#ffffff",
-      streamgageVisible: false
+      streamgageVisible: false,
     };
   },
   methods: {
@@ -236,24 +227,24 @@ export default {
       self.map = L.map("map", {
         center: self.center,
         zoom: self.zoom,
-        zoomSnap: 0.5
+        zoomSnap: 0.5,
       });
 
       //Add Topo tilelayer to map initially
       L.tileLayer(tileProviders[2].url, {
         attribution: tileProviders[2].attribution,
-        name: tileProviders[2].name
+        name: tileProviders[2].name,
       }).addTo(self.map);
 
       self.streamgageMarkers = L.featureGroup();
 
       // markers from Aquarius TEST environment
       self.aqMarkers = L.featureGroup();
-      self.aqMarkers.on("click", function(e) {
+      self.aqMarkers.on("click", function (e) {
         self.openAQPopup(e);
       });
 
-      self.streamgageMarkers.on("click", function(e) {
+      self.streamgageMarkers.on("click", function (e) {
         self.openStreamGagePopup(e);
       });
 
@@ -262,7 +253,7 @@ export default {
       //Create lat lon leaflet control
       L.Control.LatLngControl = L.Control.extend({
         options: { position: "bottomleft" },
-        onAdd: function() {
+        onAdd: function () {
           latlngDiv = L.DomUtil.create("div", "latlngcontrol");
           latlngDiv.innerHTML =
             "<button>Latitude: " +
@@ -273,17 +264,17 @@ export default {
             self.currentZoom +
             "</span></button>";
           return latlngDiv;
-        }
+        },
       });
 
-      L.control.LatLngControl = function(options) {
+      L.control.LatLngControl = function (options) {
         return new L.Control.LatLngControl(options);
       };
 
       L.control.LatLngControl({ position: "bottomleft" }).addTo(self.map);
 
       //Update lat lng control on mousemove
-      self.map.on("mousemove", function(e) {
+      self.map.on("mousemove", function (e) {
         if (e.latlng !== null) {
           let mouselat = e.latlng.lat.toFixed(4);
           let mouselon = e.latlng.lng.toFixed(4);
@@ -300,7 +291,7 @@ export default {
       });
 
       //Update lat lng control on zoomend
-      self.map.on("zoomend", function() {
+      self.map.on("zoomend", function () {
         self.currentZoom = self.map.getZoom();
         //Zoom value to update state
         self.zoomValue = self.currentZoom;
@@ -314,7 +305,7 @@ export default {
         .addTo(self.map);
 
       //Update current bounds
-      self.map.on("zoomend dragend", function() {
+      self.map.on("zoomend dragend", function () {
         self.currentBounds = self.map.getBounds();
       });
 
@@ -333,7 +324,7 @@ export default {
       let self = this;
       self.tileProviders = tileProviders;
       //Clear all basemaps before adding
-      self.map.eachLayer(function(layer) {
+      self.map.eachLayer(function (layer) {
         if (layer instanceof L.TileLayer) {
           layer.remove();
         }
@@ -342,7 +333,7 @@ export default {
         if (self.$store.state.basemapState == tileProviders[i].name) {
           let attribution = tileProviders[i].attribution;
           L.tileLayer(tileProviders[i].url, {
-            attribution: attribution
+            attribution: attribution,
           }).addTo(self.map);
         }
       }
@@ -375,7 +366,7 @@ export default {
         siteStatus;
       axios
         .get(url)
-        .then(data => {
+        .then((data) => {
           let domParser = new DOMParser();
           let xmlElement = domParser.parseFromString(data.data, "text/xml");
           let streamGageList = xmlElement.getElementsByTagName("site");
@@ -391,7 +382,7 @@ export default {
             }
             if (this.$store.state.streamgageState == true) {
               let marker = L.marker([lat, lng], {
-                icon: this.nwisIcon
+                icon: this.nwisIcon,
               }).addTo(this.streamgageMarkers);
               marker.data = { siteName: siteName, siteCode: siteID };
             }
@@ -400,7 +391,7 @@ export default {
           // Fade out loading alert
           this.fadeOutAlert();
         })
-        .catch(error => {
+        .catch((error) => {
           if (error.message == "Request failed with status code 404") {
             console.log("No streamgages found");
           }
@@ -455,14 +446,21 @@ export default {
         "&parameterCd=" +
         graphParameterCodeList +
         timeQueryRange;
-      axios.get(url).then(data => {
+      axios.get(url).then((data) => {
         if (
           data.data == undefined ||
           data.data.response_code == 404 ||
           data.data.data[0].time_series_data.length == 0
         ) {
           console.log("No NWIS data available for this time period");
-          e.layer.bindPopup(this.popupContent, { minWidth: 350 }).openPopup();
+          if (e.layer.getPopup() != undefined) {
+            e.layer
+              .getPopup()
+              .setContent(this.popupContent, { minWidth: 400 })
+              .openPopup();
+          } else {
+            e.layer.bindPopup(this.popupContent, { minWidth: 400 }).openPopup();
+          }
           document
             .getElementById("graphLoadMessage")
             .setAttribute("style", "display: none");
@@ -470,56 +468,91 @@ export default {
             .getElementById("noDataMessage")
             .setAttribute("style", "display: block");
         } else {
-          e.layer.bindPopup(this.popupContent, { minWidth: 350 }).openPopup();
-          let chartOptions = Highcharts.setOptions({
-            global: { useUTC: false },
-            title: {
-              text:
-                "NWIS Site " +
-                e.layer.data.siteCode +
-                "<br> " +
-                e.layer.data.siteName,
-              align: "left",
-              style: {
-                color: "rgba(0,0,0,0.6)",
-                fontSize: "small",
-                fontWeight: "bold",
-                fontFamily: "Open Sans, sans-serif"
-              }
-            },
-            exporting: {
-              enabled: true,
-              filename: "FEV_NWIS_Site" + e.layer.data.siteCode
-            },
-            credits: {
-              enabled: false
-            },
-            xAxis: {
-              type: "datetime",
-              labels: {
-                formatter: function() {
-                  let num = Number(this.value);
-                  return Highcharts.dateFormat("%d %b %y", num);
-                },
-                align: "center"
-              }
-            },
-            yAxis: {
-              title: { text: "Gage Height, feet" }
-            },
-            series: [
-              {
-                showInLegend: false,
-                type: "line",
-                data: data.data.data[0].time_series_data,
-                tooltip: {
-                  pointFormat: "Gage height: {point.y} feet"
-                }
-              }
-            ]
+          if (e.layer.getPopup() != undefined) {
+            e.layer
+              .getPopup()
+              .setContent(this.popupContent, { minWidth: 400 })
+              .openPopup();
+          } else {
+            e.layer.bindPopup(this.popupContent, { minWidth: 400 }).openPopup();
+          }
+
+          let dates = [];
+          let values = [];
+          let plotlyAnnotations = [];
+
+          // Create x and y arrays for NWIS trace
+          data.data.data[0].time_series_data.forEach(function (time) {
+            dates.push(new Date(time[0]));
+            values.push(time[1]);
           });
-          //Render chart
-          new Highcharts.Chart("graphContainer", chartOptions);
+
+          // NWIS trace
+          let traces = [
+            {
+              x: dates,
+              y: values,
+              type: "scatter",
+              showlegend: false,
+              name: "NWIS Gage Data",
+              hovertemplate: "%{x}<br>Gage height: %{y} feet<extra></extra>",
+            },
+          ];
+
+          // Overall layout of chart
+          let graphtitle =
+            "<b>NWIS Site " +
+            e.layer.data.siteCode +
+            "<br>" +
+            e.layer.data.siteName +
+            "</b>";
+
+          let layout = {
+            autosize: false,
+            width: 400,
+            height: 400,
+            yaxis: {
+              title: "Gage Height, feet",
+              titlefont: { size: 12 },
+              automargin: true,
+            },
+            xaxis: {
+              range: [dates[0], dates[dates.length - 1]],
+              tickformat: "%d %b %y",
+              tickfont: {
+                size: 11,
+              },
+            },
+            title: {
+              text: graphtitle,
+              font: {
+                size: 12,
+                color: "rgba(0,0,0,0.6)",
+                family: "Open Sans, sans-serif",
+              },
+              x: 0.05,
+            },
+            margin: {
+              l: 50,
+              r: 50,
+              t: 100,
+              pad: 4,
+            },
+            legend: false,
+            annotations: plotlyAnnotations,
+          };
+
+          // Make chart responsive and modebar always visible
+          let config = { responsive: true, displayModeBar: true };
+
+          let chartData = [];
+
+          traces.forEach(function (trace) {
+            chartData.push(trace);
+          });
+
+          // Render plot
+          Plotly.newPlot("graphContainer", chartData, layout, config);
           document
             .getElementById("graphContainer")
             .setAttribute("style", "display: block");
@@ -550,9 +583,22 @@ export default {
       }
 
       // storing layer data and setting site id
-      let data = e.layer.data;
-      console.log(data);
+      let layerData = e.layer.data;
       let sc = e.layer.data.LocationIdentifier;
+
+      let thresholds = [];
+      // Create array of objects for each threshold with name, value, and series info
+      layerData.thresholds[0].Thresholds.forEach(function (threshold) {
+        thresholds.push({
+          name: threshold.Name,
+          value: threshold.Periods[0].ReferenceValue,
+          series: [],
+        });
+      });
+
+      thresholds.sort(function (a, b) {
+        return a.value - b.value;
+      });
 
       // setting start date for now
       let startDate;
@@ -571,15 +617,15 @@ export default {
 
       this.aqPopupContent =
         '<label id="popup-titleAQ"><b>Reference Point Name: </b>' +
-        data.Name +
+        layerData.Name +
         "</br>" +
         '<label id="popup-titleAQ"><b>Location ID: </b>' +
-        data.LocationIdentifier +
+        layerData.LocationIdentifier +
         "</br>" +
         '<label id="popup-titleAQ"><b>Elevation: </b>' +
-        data.ReferencePointPeriods[0].Elevation +
+        layerData.ReferencePointPeriods[0].Elevation +
         " " +
-        data.ReferencePointPeriods[0].Unit +
+        layerData.ReferencePointPeriods[0].Unit +
         "</br>" +
         '</label></br><p id="graphLoadMessageAQ"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainerAQ" style="width:100%; height:200px;display:none;"></div> <div>Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
         sc +
@@ -591,14 +637,122 @@ export default {
         "&parameterCd=" +
         graphParameterCodeList +
         dateString;
-      axios.get(url).then(data => {
+      axios.get(url).then((data) => {
+        // Associate time info with threshold values
+        thresholds.forEach(function (threshold) {
+          data.data.data[0].time_series_data.forEach(function (value) {
+            threshold.series.push([value[0], threshold.value]);
+          });
+        });
+
+        let dates = [];
+        let values = [];
+        let plotlyAnnotations = [];
+
+        // Create x and y arrays for NWIS trace
+        data.data.data[0].time_series_data.forEach(function (time) {
+          dates.push(new Date(time[0]));
+          values.push(time[1]);
+        });
+
+        // NWIS trace
+        let traces = [
+          {
+            x: dates,
+            y: values,
+            type: "scatter",
+            showlegend: true,
+            name: "<b>NWIS Gage Data</b>",
+            hovertemplate: "%{x}<br>Gage height: %{y} feet<extra></extra>",
+          },
+        ];
+
+        // Create trace and annotation for each threshold
+        for (let i = 0; i < thresholds.length; i++) {
+          let xdata = [];
+          let ydata = [];
+          // Label position variables
+          let x;
+          let ax = -10;
+          let ay = -25;
+
+          // Add one line representing all thresholds to legend
+          let showLegend = false;
+
+          if (i == 0) {
+            showLegend = true;
+          }
+
+          // Switch label position if thresholds are too close together
+          if (i < thresholds.length - 1) {
+            if (
+              Math.abs(thresholds[i].value - thresholds[i + 1].value) <= 0.75
+            ) {
+              x = thresholds[i].series[0][0];
+              ax = 50;
+              ay = -30;
+            } else {
+              x = thresholds[i].series[thresholds[i].series.length - 1][0];
+            }
+          } else {
+            x = thresholds[i].series[thresholds[i].series.length - 1][0];
+          }
+
+          // Create x and y arrays for threshold traces
+          thresholds[i].series.forEach(function (datapoint) {
+            let xdatapoint = new Date(datapoint[0]);
+            xdata.push(xdatapoint);
+            ydata.push(datapoint[1]);
+          });
+
+          // Create traces
+          traces.push({
+            x: xdata,
+            y: ydata,
+            type: "scatter",
+            line: {
+              color: "#8b0000",
+            },
+            showlegend: showLegend,
+            legendgroup: "thresholds",
+            name: "<b>Threshold</b>",
+            // Tooltip
+            hovertemplate: "%{fullData.name}: %{y} feet<extra></extra>",
+          });
+
+          // Create labels
+          plotlyAnnotations.push({
+            x: x,
+            y: ydata[0],
+            xref: "x",
+            yref: "y",
+            text: thresholds[i].name,
+            showarrow: true,
+            arrowhead: 0,
+            font: {
+              size: 11,
+            },
+            ax: ax,
+            ay: ay,
+          });
+        }
+
         if (
           data.data == undefined ||
           data.data.response_code == 404 ||
           data.data.data[0].time_series_data.length == 0
         ) {
           console.log("No NWIS data available for this time period");
-          e.layer.bindPopup(this.aqPopupContent).openPopup();
+          if (e.layer.getPopup() != undefined) {
+            e.layer
+              .getPopup()
+              .setContent(this.aqPopupContent, { minWidth: 600 })
+              .openPopup();
+          } else {
+            e.layer
+              .bindPopup(this.aqPopupContent, { minWidth: 600 })
+              .openPopup();
+          }
           document
             .getElementById("graphLoadMessageAQ")
             .setAttribute("style", "display: none");
@@ -606,54 +760,77 @@ export default {
             .getElementById("noDataMessageAQ")
             .setAttribute("style", "display: block");
         } else {
-          e.layer.bindPopup(this.aqPopupContent).openPopup();
-          let chartOptions = Highcharts.setOptions({
-            global: { useUTC: false },
+          if (e.layer.getPopup() != undefined) {
+            e.layer
+              .getPopup()
+              .setContent(this.aqPopupContent, { minWidth: 600 })
+              .openPopup();
+          } else {
+            e.layer
+              .bindPopup(this.aqPopupContent, { minWidth: 600 })
+              .openPopup();
+          }
+
+          // Overall layout of chart
+          let graphtitle = "<b>NWIS Site " + sc + "<br></b>";
+          // "<br>" +
+          //   e.layer.data.siteName +
+          //   "</b>";
+
+          let layout = {
+            autosize: false,
+            width: 600,
+            yaxis: {
+              title: "Gage Height, feet",
+              titlefont: { size: 12 },
+              automargin: true,
+            },
+            xaxis: {
+              range: [dates[0], dates[dates.length - 1]],
+              tickformat: "%d %b %y %-I:%M %p",
+              tickfont: {
+                size: 11,
+              },
+            },
             title: {
-              text: "NWIS Site " + sc + "<br> ",
-              // TODO include sitename in script
-              // e.layer.data.siteName,
-              align: "left",
-              style: {
+              text: graphtitle,
+              font: {
+                size: 12,
                 color: "rgba(0,0,0,0.6)",
-                fontSize: "small",
-                fontWeight: "bold",
-                fontFamily: "Open Sans, sans-serif"
-              }
+                family: "Open Sans, sans-serif",
+              },
+              x: 0.05,
             },
-            exporting: {
-              enabled: true,
-              filename: "FEV_NWIS_Site" + e.layer.data.siteCode
+            legend: {
+              x: 0.25,
+              y: -0.4,
+              font: {
+                family: "sans-serif",
+                size: 12,
+              },
+              orientation: "h",
             },
-            credits: {
-              enabled: false
+            margin: {
+              l: 70,
+              r: 70,
+              b: 100,
+              t: 100,
+              pad: 4,
             },
-            xAxis: {
-              type: "datetime",
-              labels: {
-                formatter: function() {
-                  let num = Number(this.value);
-                  return Highcharts.dateFormat("%d %b %y", num);
-                },
-                align: "center"
-              }
-            },
-            yAxis: {
-              title: { text: "Gage Height, feet" }
-            },
-            series: [
-              {
-                showInLegend: false,
-                type: "line",
-                data: data.data.data[0].time_series_data,
-                tooltip: {
-                  pointFormat: "Gage height: {point.y} feet"
-                }
-              }
-            ]
+            annotations: plotlyAnnotations,
+          };
+
+          // Make chart responsive and modebar always visible
+          let config = { responsive: true, displayModeBar: true };
+
+          let chartData = [];
+
+          traces.forEach(function (trace) {
+            chartData.push(trace);
           });
-          //Render chart
-          new Highcharts.Chart("graphContainerAQ", chartOptions);
+
+          // Render plot
+          Plotly.newPlot("graphContainerAQ", chartData, layout, config);
           document
             .getElementById("graphContainerAQ")
             .setAttribute("style", "display: block");
@@ -667,7 +844,7 @@ export default {
     fadeOutAlert() {
       let opacity = 0.75;
       let self = this;
-      let fadeOut = setInterval(function() {
+      let fadeOut = setInterval(function () {
         if (opacity > 0) {
           opacity -= 0.05;
           let opacityValue = String(opacity);
@@ -697,11 +874,11 @@ export default {
             lng = this.mvpData[entry].referencePoint[i].Longitude;
 
             Name = this.mvpData[entry].referencePoint[i].Name;
-            rpData = this.mvpData[entry].referencePoint[i]
-              .ReferencePointPeriods;
+            rpData =
+              this.mvpData[entry].referencePoint[i].ReferencePointPeriods;
           } else {
-            LocationIdentifier = this.mvpData[entry].referencePoint[i]
-              .LocationIdentifier;
+            LocationIdentifier =
+              this.mvpData[entry].referencePoint[i].LocationIdentifier;
             thresh.push(this.mvpData[entry].referencePoint[i]);
           }
         }
@@ -718,7 +895,7 @@ export default {
         }
 
         let marker = L.marker([lat, lng], {
-          icon: aqIcon
+          icon: aqIcon,
         }).addTo(this.aqMarkers);
 
         marker.data = {
@@ -727,30 +904,30 @@ export default {
           Name: Name,
           ReferencePointPeriods: rpData,
           lat: lat,
-          lng: lng
+          lng: lng,
         };
       }
       console.log(this.aqMarkers);
       this.aqMarkers.addTo(this.map);
       this.map.fitBounds(this.aqMarkers.getBounds());
-    }
+    },
   },
   mounted() {
     this.createMap();
   },
   // Get streamgage data when current bounds change or streamgage checkbox is checked
   watch: {
-    currentBounds: function() {
+    currentBounds: function () {
       this.streamgageMarkers.clearLayers();
       this.toggleStreamgage(this.streamgageMarkers, this.currentZoom);
     },
-    "$store.state.streamgageState": function() {
+    "$store.state.streamgageState": function () {
       this.toggleStreamgage(this.streamgageMarkers, this.currentZoom);
     },
     // Watch basemap state and update visibility when state changes
-    "$store.state.basemapState": function() {
+    "$store.state.basemapState": function () {
       this.selectBasemap(this.tileProviders);
-    }
+    },
   },
   // Store current zoom value in state to access from other components
   computed: {
@@ -760,9 +937,9 @@ export default {
       },
       set(value) {
         return this.$store.commit("getCurrentZoomState", value);
-      }
-    }
-  }
+      },
+    },
+  },
 };
 </script>
 
@@ -895,5 +1072,12 @@ export default {
 
 .nwis-link {
   text-decoration: none !important;
+}
+
+#popup-title {
+  font-size: 12;
+  color: rgba(0, 0, 0, 0.6);
+  font-family: "Open Sans", sans-serif;
+  font-weight: bold;
 }
 </style>
