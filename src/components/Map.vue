@@ -1045,7 +1045,7 @@ export default {
   border-radius: 0;
   border: none;
   box-shadow: 0 3px 6px rgba(30, 39, 50, 0.2), 0 3px 6px rgba(30, 39, 50, 0.2);
-  color: #6f758e;
+  color: #333;
   font-size: 9pt;
   letter-spacing: 1px;
   padding: 5px;
