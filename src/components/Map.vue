@@ -496,6 +496,9 @@ export default {
               showlegend: false,
               name: "NWIS Gage Data",
               hovertemplate: "%{x}<br>Gage height: %{y} feet<extra></extra>",
+              font: {
+                family: "Public Sans, sans-serif",
+              },
             },
           ];
 
@@ -511,6 +514,9 @@ export default {
             autosize: false,
             width: 400,
             height: 400,
+            font: {
+              family: "Public Sans, sans-serif",
+            },
             yaxis: {
               title: "Gage Height, feet",
               titlefont: { size: 12 },
@@ -528,7 +534,6 @@ export default {
               font: {
                 size: 12,
                 color: "rgba(0,0,0,0.6)",
-                family: "Public Sans, sans-serif",
               },
               x: 0.05,
             },
@@ -540,6 +545,11 @@ export default {
             },
             legend: false,
             annotations: plotlyAnnotations,
+            hoverlabel: {
+              font: {
+                family: "Public Sans, sans-serif",
+              },
+            },
           };
 
           // Make chart responsive and modebar always visible
@@ -664,6 +674,9 @@ export default {
             showlegend: true,
             name: "<b>NWIS Gage Data</b>",
             hovertemplate: "%{x}<br>Gage height: %{y} feet<extra></extra>",
+            font: {
+              family: "Public Sans, sans-serif",
+            },
           },
         ];
 
@@ -718,6 +731,9 @@ export default {
             name: "<b>Threshold</b>",
             // Tooltip
             hovertemplate: "%{fullData.name}: %{y} feet<extra></extra>",
+            font: {
+              family: "Public Sans, sans-serif",
+            },
           });
 
           // Create labels
@@ -730,6 +746,7 @@ export default {
             showarrow: true,
             arrowhead: 0,
             font: {
+              family: "Public Sans, sans-serif",
               size: 11,
             },
             ax: ax,
@@ -780,6 +797,9 @@ export default {
           let layout = {
             autosize: false,
             width: 600,
+            font: {
+              family: "Public Sans, sans-serif",
+            },
             yaxis: {
               title: "Gage Height, feet",
               titlefont: { size: 12 },
@@ -797,7 +817,6 @@ export default {
               font: {
                 size: 12,
                 color: "rgba(0,0,0,0.6)",
-                family: "Public Sans, sans-serif",
               },
               x: 0.05,
             },
@@ -805,7 +824,6 @@ export default {
               x: 0.25,
               y: -0.4,
               font: {
-                family: "sans-serif",
                 size: 12,
               },
               orientation: "h",
@@ -818,6 +836,11 @@ export default {
               pad: 4,
             },
             annotations: plotlyAnnotations,
+            hoverlabel: {
+              font: {
+                family: "Public Sans, sans-serif",
+              },
+            },
           };
 
           // Make chart responsive and modebar always visible
@@ -949,7 +972,7 @@ export default {
 #map {
   height: 100%;
   width: 100%;
-  font-family: 'Public Sans', sans-serif;
+  font-family: "Public Sans", sans-serif;
 }
 
 #legendContainer {

@@ -83,6 +83,9 @@ export default {
               showlegend: false,
               name: "NWIS Gage Data",
               hovertemplate: "%{x}<br>Gage height: %{y} feet<extra></extra>",
+              font: {
+                family: "Public Sans, sans-serif",
+              },
             },
           ];
 
@@ -94,6 +97,9 @@ export default {
             autosize: false,
             width: 400,
             height: 400,
+            font: {
+              family: "Public Sans, sans-serif",
+            },
             yaxis: {
               title: "Gage Height, feet",
               titlefont: { size: 14 },
@@ -108,7 +114,6 @@ export default {
               font: {
                 size: 12,
                 color: "rgba(0,0,0,0.6)",
-                family: "Public Sans, sans-serif",
               },
               x: 0.05,
             },
@@ -120,6 +125,11 @@ export default {
             },
             legend: false,
             annotations: plotlyAnnotations,
+            hoverlabel: {
+              font: {
+                family: "Public Sans, sans-serif",
+              },
+            },
           };
 
           // Make chart responsive and modebar always visible
@@ -235,12 +245,12 @@ export default {
 }
 
 .search-api-container input {
-  font-family: 'Public Sans', sans-serif !important;
+  font-family: "Public Sans", sans-serif !important;
   font-size: 18px !important;
 }
 
 .search-api-menu {
-  font-family: 'Public Sans', sans-serif !important;
+  font-family: "Public Sans", sans-serif !important;
 }
 
 .search-api-button {
