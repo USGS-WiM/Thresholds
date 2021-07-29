@@ -1,27 +1,34 @@
 <template>
-  <v-app>
-    <Sidebar></Sidebar>
-    <v-app-bar app style="background-color: #0a0a57">
-      <v-app-bar-nav-icon
-        @click="drawerState = !drawerState"
-        style="color: white"
-      ></v-app-bar-nav-icon>
-      <v-toolbar-title style="color: white"
-        >Real-Time Flood Impact Map</v-toolbar-title
-      >
-      <Geosearch :map="map"></Geosearch>
-    </v-app-bar>
-    <Map @getMap="getChildMap"></Map>
-  </v-app>
+  <div id="outerDiv">
+    <USABanner></USABanner>
+    <div style="position: relative">
+      <v-app>
+        <Sidebar style="position: absolute"></Sidebar>
+        <v-app-bar app style="background-color: #0a0a57" absolute>
+          <v-app-bar-nav-icon
+            @click="drawerState = !drawerState"
+            style="color: white"
+          ></v-app-bar-nav-icon>
+          <v-toolbar-title style="color: white"
+            >Real-Time Flood Impact Map</v-toolbar-title
+          >
+          <Geosearch :map="map"></Geosearch>
+        </v-app-bar>
+        <Map @getMap="getChildMap"></Map>
+      </v-app>
+    </div>
+  </div>
 </template>
 
 <script>
 // imports
+import USABanner from "@/components/USABanner";
 import Map from "./components/Map";
 import Sidebar from "./components/Sidebar";
 import Geosearch from "@/components/Geosearch";
 export default {
   components: {
+    USABanner,
     Sidebar,
     Map,
     Geosearch,
@@ -53,6 +60,12 @@ export default {
 
 <style>
 html {
-  overflow-y: hidden;
+  overflow-y: auto;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
 }
 </style>
