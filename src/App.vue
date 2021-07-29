@@ -65,6 +65,7 @@ html, body {
 
 #app {
   font-family: 'Public Sans', sans-serif !important;
+  color: #333 !important;
 }
 
 .toolbar-image {

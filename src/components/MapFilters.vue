@@ -169,10 +169,12 @@ export default {
 </script>
 
 <style>
+
 .v-expansion-panel-header {
   text-transform: capitalize;
   font-weight: 700;
   text-align: right;
+  color: #333 !important;
 }
 
 .v-btn-toggle {
@@ -203,7 +205,7 @@ export default {
 }
 
 .v-btn__content {
-  color: #6f758e !important;
+  color: #333 !important;
 }
 
 .legend-icon {
@@ -219,6 +221,7 @@ export default {
   -webkit-justify-content: center;
   justify-content: center;
   padding-left: 22px;
+  color: #333 !important;
 }
 
 .legend-icon .wmm-circle {
@@ -227,6 +230,6 @@ export default {
 
 .zoom-alert {
   font-size: small;
-  color: #6f758e;
+  color: #333 !important;
 }
 </style>
