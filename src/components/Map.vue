@@ -47,7 +47,7 @@
               <div id="thresholdLayersTitle">Streamgage Status</div>
               <div class="legendIcon">
                 <img
-                  src="../assets/aq-icons/flooded_bank.png"
+                  src="../assets/aq-icons/embankment_flooded_circle.png"
                   height="25px"
                   width="25px"
                 />
@@ -55,7 +55,7 @@
               </div>
               <div class="legendIcon">
                 <img
-                  src="../assets/aq-icons/flooded_path.png"
+                  src="../assets/aq-icons/path_flooded_circle.png"
                   alt=""
                   height="25px"
                   width="25px"
@@ -64,7 +64,7 @@
               </div>
               <div class="legendIcon">
                 <img
-                  src="../assets/aq-icons/flooded_road.png"
+                  src="../assets/aq-icons/car_flooded_circle.png"
                   alt=""
                   height="25px"
                   width="25px"
@@ -73,7 +73,7 @@
               </div>
               <div class="legendIcon">
                 <img
-                  src="../assets/aq-icons/bridge_half_flooded.png"
+                  src="../assets/aq-icons/bridge_risk_circle.png"
                   alt=""
                   height="25px"
                   width="25px"
@@ -82,7 +82,7 @@
               </div>
               <div class="legendIcon">
                 <img
-                  src="../assets/aq-icons/bridge_flooded.png"
+                  src="../assets/aq-icons/bridge_flooded_circle.png"
                   alt=""
                   height="25px"
                   width="25px"
@@ -91,7 +91,7 @@
               </div>
               <div class="legendIcon">
                 <img
-                  src="../assets/aq-icons/flooded_structure.png"
+                  src="../assets/aq-icons/building_flooded_circle.png"
                   alt=""
                   height="25px"
                   width="25px"
@@ -197,16 +197,16 @@ export default {
           "wmm-circle wmm-mutedblue wmm-icon-triangle wmm-icon-black wmm-size-20 wmm-borderless",
       }), //custom WIM icons
       deckIcon: L.icon({
-        iconUrl: require("../assets/aq-icons/flooded_path.png"),
+        iconUrl: require("../assets/aq-icons/path_flooded_circle.png"),
         iconSize: [50, 50],
       }),
       bankIcon: L.icon({
-        iconUrl: require("../assets/aq-icons/flooded_bank.png"),
+        iconUrl: require("../assets/aq-icons/embankment_flooded_circle.png"),
         iconSize: [50, 50],
         iconAnchor: [10, 10],
       }),
       roadIcon: L.icon({
-        iconUrl: require("../assets/aq-icons/flooded_road.png"),
+        iconUrl: require("../assets/aq-icons/car_flooded_circle.png"),
         iconSize: [50, 50],
         iconAnchor: [30, 30],
       }),
