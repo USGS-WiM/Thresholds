@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 -
 ### Changed
+- Changed icons from boxes to circles
 -
 ### Fixed
 -
@@ -36,7 +37,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Moved location search to right side of navbar
 - Changed basemap selector from radio input to buttons
 - Streamgage popup opens instead of default when USGS ground or surface sites are searched
-- Changed icons from boxes to circles
 
 ### Fixed
 
