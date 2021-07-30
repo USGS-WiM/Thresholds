@@ -535,7 +535,7 @@ export default {
               text: graphtitle,
               font: {
                 size: 12,
-                color: "rgba(0,0,0,0.6)",
+                color: "rgba(51,51,51,0.6)",
               },
               x: 0.05,
             },
@@ -818,7 +818,7 @@ export default {
               text: graphtitle,
               font: {
                 size: 12,
-                color: "rgba(0,0,0,0.6)",
+                color: "rgba(51,51,51,0.6)",
               },
               x: 0.05,
             },
@@ -1002,6 +1002,7 @@ export default {
 
 #thresholdLayersTitle {
   font-size: 16px;
+  color: #333;
 }
 
 .legendIcon {
@@ -1075,7 +1076,7 @@ export default {
 
 #popup-title {
   font-size: 12;
-  color: rgba(0, 0, 0, 0.6);
+  color: rgba(51, 51, 51, 0.6);
   font-family: "Public Sans", sans-serif;
   font-weight: bold;
 }

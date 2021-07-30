@@ -113,7 +113,7 @@ export default {
               text: graphtitle,
               font: {
                 size: 12,
-                color: "rgba(0,0,0,0.6)",
+                color: "#333",
               },
               x: 0.05,
             },
@@ -247,6 +247,7 @@ export default {
 .search-api-container input {
   font-family: "Public Sans", sans-serif !important;
   font-size: 18px !important;
+  color: #333;
 }
 
 .search-api-menu {
