@@ -1005,6 +1005,8 @@ export default {
   height: 100%;
   width: 100%;
   font-family: "Public Sans", sans-serif;
+  /* Set z-index so sidebar appears above map on mobile */
+  z-index: 1;
 }
 
 #legendContainer {

@@ -124,4 +124,16 @@ body {
   padding-left: 20px;
   font-size: 25px;
 }
+
+@media screen and (max-width: 768px) {
+  .toolbar-text {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 414px) {
+  .toolbar-image {
+    display: none;
+  }
+}
 </style>
