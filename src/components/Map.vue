@@ -99,6 +99,14 @@
                   />
                   <label>Structures Flooded</label>
                 </div>
+                <div class="legendIcon">
+                  <img
+                    src="../assets/aq-icons/BFE.png"
+                    height="25px"
+                    width="25px"
+                  />
+                  <label>Base Flood Elevation</label>
+                </div>
               </div>
             </v-expansion-panel-content>
           </v-expansion-panel>
@@ -209,6 +217,26 @@ export default {
       }),
       roadIcon: L.icon({
         iconUrl: require("../assets/aq-icons/car_flooded_circle.png"),
+        iconSize: [50, 50],
+        iconAnchor: [30, 30],
+      }),
+      bfeIcon: L.icon({
+        iconUrl: require("../assets/aq-icons/BFE.png"),
+        iconSize: [50, 50],
+        iconAnchor: [30, 30],
+      }),
+      bridgeFloodedIcon: L.icon({
+        iconUrl: require("../assets/aq-icons/bridge_flooded_circle.png"),
+        iconSize: [50, 50],
+        iconAnchor: [30, 30],
+      }),
+      bridgeRiskIcon: L.icon({
+        iconUrl: require("../assets/aq-icons/bridge_risk_circle.png"),
+        iconSize: [50, 50],
+        iconAnchor: [30, 30],
+      }),
+      buildingIcon: L.icon({
+        iconUrl: require("../assets/aq-icons/building_flooded_circle.png"),
         iconSize: [50, 50],
         iconAnchor: [30, 30],
       }),
