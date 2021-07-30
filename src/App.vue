@@ -19,7 +19,7 @@
           >
           <Geosearch :map="map"></Geosearch>
         </v-app-bar>
-        <Map @getMap="getChildMap"></Map>
+        <Map v-if="mounted" @getMap="getChildMap"></Map>
       </v-app>
     </div>
   </div>
@@ -42,6 +42,7 @@ export default {
     return {
       map: "",
       tileProviders: [],
+      mounted: false,
     };
   },
   computed: {
@@ -59,6 +60,23 @@ export default {
     getChildMap(mapObject) {
       this.map = mapObject;
     },
+    // Set height variable for use in css using usa-banner height
+    getBannerHeight() {
+      let bannerHeight =
+        document.getElementsByClassName("usa-banner__header")[0].clientHeight;
+      console.log(bannerHeight);
+      document.documentElement.style.setProperty(
+        "--height",
+        `calc(100vh - ${bannerHeight}px)`
+      );
+    },
+  },
+  mounted() {
+    // When page loads or resizes, calculate height of v-app
+    this.getBannerHeight();
+    window.addEventListener("resize", this.getBannerHeight);
+    // Need to mount parent before rendering Map component, otherwise height change will break intial map zoom
+    this.mounted = true;
   },
 };
 </script>
@@ -68,17 +86,19 @@ export default {
 
 html {
   overflow-y: auto;
-}
-
-html,
-body {
   height: 100%;
-  margin: 0;
 }
 
-html,
+div > .v-application--wrap {
+  min-height: 100vh;
+  min-height: var(--height);
+}
+
 body {
   font-family: "Public Sans", sans-serif;
+  margin: 0;
+  min-height: 100%;
+  overflow: hidden;
 }
 
 #app {

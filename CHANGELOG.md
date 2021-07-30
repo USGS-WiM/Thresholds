@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
--
+- Added USA banner to top of page
 
 ### Changed
 
@@ -37,7 +37,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added popup to AQUARIUS layer
 - Added map legend
 - Added thresholds to reference point popups
-- Added USA banner to top of page
 
 ### Changed
 

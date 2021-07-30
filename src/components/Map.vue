@@ -230,6 +230,8 @@ export default {
         zoomSnap: 0.5,
       });
 
+      console.log(self.map);
+
       //Add Topo tilelayer to map initially
       L.tileLayer(tileProviders[2].url, {
         attribution: tileProviders[2].attribution,
