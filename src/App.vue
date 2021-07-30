@@ -1,28 +1,39 @@
 <template>
-  <v-app>
-    <Sidebar></Sidebar>
-    <v-app-bar app style="background-color: #0a0a57">
-      <v-app-bar-nav-icon
-        @click="drawerState = !drawerState"
-        style="color: white"
-      ></v-app-bar-nav-icon>
-      <v-toolbar-title style="color: white">
-        <div class="toolbar-image"><img alt="USGS logo" height="60px" src="../public/usgs.png"></div>
-        <div class="toolbar-text"><span>Real-Time Flood Impact Map</span></div>
-      </v-toolbar-title>
-      <Geosearch :map="map"></Geosearch>
-    </v-app-bar>
-    <Map @getMap="getChildMap"></Map>
-  </v-app>
+  <div id="outerDiv">
+    <USABanner></USABanner>
+    <div style="position: relative">
+      <v-app>
+        <Sidebar style="position: absolute"></Sidebar>
+        <v-app-bar app style="background-color: #0a0a57" absolute>
+          <v-app-bar-nav-icon
+            @click="drawerState = !drawerState"
+            style="color: white"
+          ></v-app-bar-nav-icon>
+          <v-toolbar-title style="color: white">
+            <div class="toolbar-image">
+              <img alt="USGS logo" height="60px" src="../public/usgs.png" />
+            </div>
+            <div class="toolbar-text">
+              <span>Real-Time Flood Impact Map</span>
+            </div></v-toolbar-title
+          >
+          <Geosearch :map="map"></Geosearch>
+        </v-app-bar>
+        <Map v-if="mounted" @getMap="getChildMap"></Map>
+      </v-app>
+    </div>
+  </div>
 </template>
 
 <script>
 // imports
+import USABanner from "@/components/USABanner";
 import Map from "./components/Map";
 import Sidebar from "./components/Sidebar";
 import Geosearch from "@/components/Geosearch";
 export default {
   components: {
+    USABanner,
     Sidebar,
     Map,
     Geosearch,
@@ -31,6 +42,7 @@ export default {
     return {
       map: "",
       tileProviders: [],
+      mounted: false,
     };
   },
   computed: {
@@ -48,24 +60,53 @@ export default {
     getChildMap(mapObject) {
       this.map = mapObject;
     },
+    // Set height variable for use in css using usa-banner height
+    getBannerHeight() {
+      let bannerHeight =
+        document.getElementsByClassName("usa-banner__header")[0].clientHeight;
+      document.documentElement.style.setProperty(
+        "--height",
+        `calc(100vh - ${bannerHeight}px)`
+      );
+    },
+  },
+  mounted() {
+    // When page loads or resizes, calculate height of v-app
+    this.getBannerHeight();
+    window.addEventListener("resize", this.getBannerHeight);
+    // Need to mount parent before rendering Map component, otherwise height change will break intial map zoom
+    this.mounted = true;
   },
 };
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Public+Sans:100,300,400,500,700,900');
+@import url("https://fonts.googleapis.com/css?family=Public+Sans:100,300,400,500,700,900");
 
 html {
-  overflow-y: hidden;
+  overflow-y: auto;
+  height: 100%;
 }
 
-html, body {
-  font-family: 'Public Sans', sans-serif;
+div > .v-application--wrap {
+  min-height: 100vh;
+  min-height: var(--height);
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+  overflow: hidden;
+}
+
+html,
+body {
+  font-family: "Public Sans", sans-serif;
   color: #333;
 }
 
 #app {
-  font-family: 'Public Sans', sans-serif !important;
+  font-family: "Public Sans", sans-serif !important;
   color: #333;
 }
 
