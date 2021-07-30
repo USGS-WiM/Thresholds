@@ -18,89 +18,91 @@
       <!-- a leaflet map -->
       <div id="map">
         <!-- Legend -->
-        <div id="legendContainer">
-          <!-- Legend title -->
-          <div id="titleContainer">
-            <div id="legendExplanation">
-              <v-icon color="black">mdi-shape</v-icon> Explanation
-            </div>
-          </div>
-          <div id="legendBody">
-            <!-- Toggleable layers -->
-            <div id="toggleableLayers">
-              <div class="legendIconToggle" v-if="streamgageVisible">
-                <div
-                  class="
-                    wmm-circle
-                    wmm-mutedblue
-                    wmm-icon-triangle
-                    wmm-icon-black
-                    wmm-size-20
-                    wmm-borderless
-                  "
-                ></div>
-                <label>Real-time Stream Gage</label>
+        <v-expansion-panels id="legendContainer">
+          <v-expansion-panel>
+            <!-- Legend title -->
+            <v-expansion-panel-header id="titleContainer">
+              <div id="legendExplanation">
+                <v-icon color="black">mdi-shape</v-icon> Legend
               </div>
-            </div>
-            <!-- Threshold icons -->
-            <div id="thresholdLayers">
-              <div id="thresholdLayersTitle">Streamgage Status</div>
-              <div class="legendIcon">
-                <img
-                  src="../assets/aq-icons/embankment_flooded_circle.png"
-                  height="25px"
-                  width="25px"
-                />
-                <label>Embankment Flooded</label>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <!-- Toggleable layers -->
+              <div id="toggleableLayers">
+                <div class="legendIconToggle" v-if="streamgageVisible">
+                  <div
+                    class="
+                      wmm-circle
+                      wmm-mutedblue
+                      wmm-icon-triangle
+                      wmm-icon-black
+                      wmm-size-20
+                      wmm-borderless
+                    "
+                  ></div>
+                  <label>Real-time Stream Gage</label>
+                </div>
               </div>
-              <div class="legendIcon">
-                <img
-                  src="../assets/aq-icons/path_flooded_circle.png"
-                  alt=""
-                  height="25px"
-                  width="25px"
-                />
-                <label>Path Flooded</label>
+              <!-- Threshold icons -->
+              <div id="thresholdLayers">
+                <div id="thresholdLayersTitle">Streamgage Status</div>
+                <div class="legendIcon">
+                  <img
+                    src="../assets/aq-icons/embankment_flooded_circle.png"
+                    height="25px"
+                    width="25px"
+                  />
+                  <label>Embankment Flooded</label>
+                </div>
+                <div class="legendIcon">
+                  <img
+                    src="../assets/aq-icons/path_flooded_circle.png"
+                    alt=""
+                    height="25px"
+                    width="25px"
+                  />
+                  <label>Path Flooded</label>
+                </div>
+                <div class="legendIcon">
+                  <img
+                    src="../assets/aq-icons/car_flooded_circle.png"
+                    alt=""
+                    height="25px"
+                    width="25px"
+                  />
+                  <label>Road Flooded</label>
+                </div>
+                <div class="legendIcon">
+                  <img
+                    src="../assets/aq-icons/bridge_risk_circle.png"
+                    alt=""
+                    height="25px"
+                    width="25px"
+                  />
+                  <label>Bridge Flood at Risk</label>
+                </div>
+                <div class="legendIcon">
+                  <img
+                    src="../assets/aq-icons/bridge_flooded_circle.png"
+                    alt=""
+                    height="25px"
+                    width="25px"
+                  />
+                  <label>Bridge Flooded</label>
+                </div>
+                <div class="legendIcon">
+                  <img
+                    src="../assets/aq-icons/building_flooded_circle.png"
+                    alt=""
+                    height="25px"
+                    width="25px"
+                  />
+                  <label>Structures Flooded</label>
+                </div>
               </div>
-              <div class="legendIcon">
-                <img
-                  src="../assets/aq-icons/car_flooded_circle.png"
-                  alt=""
-                  height="25px"
-                  width="25px"
-                />
-                <label>Road Flooded</label>
-              </div>
-              <div class="legendIcon">
-                <img
-                  src="../assets/aq-icons/bridge_risk_circle.png"
-                  alt=""
-                  height="25px"
-                  width="25px"
-                />
-                <label>Bridge Flood at Risk</label>
-              </div>
-              <div class="legendIcon">
-                <img
-                  src="../assets/aq-icons/bridge_flooded_circle.png"
-                  alt=""
-                  height="25px"
-                  width="25px"
-                />
-                <label>Bridge Flooded</label>
-              </div>
-              <div class="legendIcon">
-                <img
-                  src="../assets/aq-icons/building_flooded_circle.png"
-                  alt=""
-                  height="25px"
-                  width="25px"
-                />
-                <label>Structures Flooded</label>
-              </div>
-            </div>
-          </div>
-        </div>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
       </div>
     </div>
   </v-main>
@@ -986,21 +988,7 @@ export default {
   position: absolute;
   z-index: 999;
   font-size: 14px;
-}
-
-#titleContainer {
-  border-radius: 5px 5px 0px 0px;
-  background-color: #ffffff;
-  opacity: 0.9;
-  width: 100%;
-}
-
-#legendBody {
-  border-radius: 0px 0px 5px 5px;
-  background-color: #ffffff;
   opacity: 0.75;
-  width: 100%;
-  padding: 5px;
 }
 
 #legendExplanation {
@@ -1010,18 +998,6 @@ export default {
   font-weight: bold;
   font-size: 16px;
   padding: 10px;
-}
-
-#toggleableLayers {
-  box-sizing: border-box;
-  width: 100%;
-  padding: 5px;
-}
-
-#thresholdLayers {
-  box-sizing: border-box;
-  width: 100%;
-  padding: 5px;
 }
 
 #thresholdLayersTitle {

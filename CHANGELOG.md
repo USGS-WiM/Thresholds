@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Changed icons from boxes to circles
 - Changed graphs font to Public Sans
--
+- Made legend collapsible
 
 ### Fixed
 
