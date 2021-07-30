@@ -64,7 +64,6 @@ export default {
     getBannerHeight() {
       let bannerHeight =
         document.getElementsByClassName("usa-banner__header")[0].clientHeight;
-      console.log(bannerHeight);
       document.documentElement.style.setProperty(
         "--height",
         `calc(100vh - ${bannerHeight}px)`
