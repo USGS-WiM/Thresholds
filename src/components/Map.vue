@@ -1002,6 +1002,7 @@ export default {
 
 #thresholdLayersTitle {
   font-size: 16px;
+  color: #333;
 }
 
 .legendIcon {
