@@ -11,6 +11,11 @@ let timeQueryRange = "&period=P7D";
 
 export default {
   props: ["map"],
+  data: function () {
+    return {
+      isMobile: false,
+    };
+  },
   methods: {
     getMapFromParent() {
       return this.map;
@@ -157,6 +162,14 @@ export default {
     },
   },
   mounted: function () {
+    let searchBarSize;
+    this.isMobile = window.matchMedia("(max-width: 768px)").matches;
+    if (this.isMobile) {
+      searchBarSize = "xs";
+    } else {
+      searchBarSize = "md";
+    }
+
     let self = this;
     let jqueryScript = document.createElement("script");
     jqueryScript.setAttribute(
@@ -185,7 +198,7 @@ export default {
         geosearchScript.onload = () => {
           let map = self.getMapFromParent();
           window.search_api.create("geosearchBar", {
-            size: "md",
+            size: searchBarSize,
             placeholder: "Search for a location",
             menu_min_char: 2, // minimum number of characters required before attempting to find menu suggestions
             include_usgs_sw: true,
@@ -271,5 +284,16 @@ export default {
 .search-api-menu-item {
   background-color: #0a0a57 !important;
   color: white !important;
+}
+
+/* Remove blue outline from search input container when focused */
+input:not([disabled]):focus {
+  outline: none;
+}
+
+@media screen and (max-width: 768px) {
+  .search-api-container input {
+    font-size: 16px !important;
+  }
 }
 </style>
