@@ -169,10 +169,12 @@ export default {
 </script>
 
 <style>
+
 .v-expansion-panel-header {
   text-transform: capitalize;
   font-weight: 700;
   text-align: right;
+  color: #333;
 }
 
 .v-btn-toggle {
@@ -198,12 +200,12 @@ export default {
   letter-spacing: 0 !important;
 }
 
-.v-btn-toggle > .v-btn.v-btn {
-  opacity: 1 !important;
+.v-btn__content label {
+  color: #333;
 }
 
-.v-btn__content {
-  color: #6f758e !important;
+.v-btn-toggle > .v-btn.v-btn {
+  opacity: 1 !important;
 }
 
 .legend-icon {
@@ -219,14 +221,20 @@ export default {
   -webkit-justify-content: center;
   justify-content: center;
   padding-left: 22px;
+  color: #333;
+  font-size: 14px;
+}
+
+.legendIcon label {
+  color: #333;
 }
 
 .legend-icon .wmm-circle {
-  left: 6px !important;
+  left: 6px;
 }
 
 .zoom-alert {
   font-size: small;
-  color: #6f758e;
 }
+
 </style>

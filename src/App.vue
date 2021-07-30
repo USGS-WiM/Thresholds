@@ -94,14 +94,20 @@ div > .v-application--wrap {
 }
 
 body {
-  font-family: "Public Sans", sans-serif;
   margin: 0;
   min-height: 100%;
   overflow: hidden;
 }
 
+html,
+body {
+  font-family: "Public Sans", sans-serif;
+  color: #333;
+}
+
 #app {
   font-family: "Public Sans", sans-serif !important;
+  color: #333;
 }
 
 .toolbar-image {
