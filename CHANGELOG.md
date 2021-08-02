@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Fixed mobile responsiveness of header
 - Fixed sidebar overlay issue on small screen sizes
+- Fixed popup autopanning into view when clicked
 
 ## [v0.2.0](https://github.com/USGS-WiM/Thresholds/releases/tag/v0.2.0) - 7/28/2021
 

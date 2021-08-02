@@ -260,8 +260,6 @@ export default {
         zoomSnap: 0.5,
       });
 
-      console.log(self.map);
-
       //Add Topo tilelayer to map initially
       L.tileLayer(tileProviders[2].url, {
         attribution: tileProviders[2].attribution,
@@ -467,7 +465,7 @@ export default {
         e.layer.data.siteCode +
         "</br>" +
         e.layer.data.siteName +
-        '</label></br><p id="graphLoadMessage"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainer" style="width:100%; height:200px;display:none;"></div> <div>Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
+        '</label></br><p id="graphLoadMessage"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainer" style="width:100%; min-height: 350px;display:block;"></div> <div>Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
         e.layer.data.siteCode +
         '"><b>Site ' +
         e.layer.data.siteCode +
@@ -499,6 +497,9 @@ export default {
           document
             .getElementById("noDataMessage")
             .setAttribute("style", "display: block");
+          document
+            .getElementById("graphContainer")
+            .setAttribute("style", "display: none");
         } else {
           if (e.layer.getPopup() != undefined) {
             e.layer
@@ -669,7 +670,7 @@ export default {
         " " +
         layerData.ReferencePointPeriods[0].Unit +
         "</br>" +
-        '</label></br><p id="graphLoadMessageAQ"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainerAQ" style="width:100%; height:200px;display:none;"></div> <div>Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
+        '</label></br><p id="graphLoadMessageAQ"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainerAQ" style="width:100%; min-height: 400px; display:block;"></div> <div>Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
         sc +
         '"><b>Site ' +
         ' on NWISWeb <i class="v-icon notranslate mdi mdi-open-in-new" style="font-size:16px"></i></b></a><div id="noDataMessageAQ" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>';
@@ -680,112 +681,6 @@ export default {
         graphParameterCodeList +
         dateString;
       axios.get(url).then((data) => {
-        // Associate time info with threshold values
-        thresholds.forEach(function (threshold) {
-          data.data.data[0].time_series_data.forEach(function (value) {
-            threshold.series.push([value[0], threshold.value]);
-          });
-        });
-
-        let dates = [];
-        let values = [];
-        let plotlyAnnotations = [];
-
-        // Create x and y arrays for NWIS trace
-        data.data.data[0].time_series_data.forEach(function (time) {
-          dates.push(new Date(time[0]));
-          values.push(time[1]);
-        });
-
-        // NWIS trace
-        let traces = [
-          {
-            x: dates,
-            y: values,
-            type: "scatter",
-            showlegend: true,
-            name: "<b>NWIS Gage Data</b>",
-            hovertemplate: "%{x}<br>Gage height: %{y} feet<extra></extra>",
-            font: {
-              family: "Public Sans, sans-serif",
-            },
-          },
-        ];
-
-        // Create trace and annotation for each threshold
-        for (let i = 0; i < thresholds.length; i++) {
-          let xdata = [];
-          let ydata = [];
-          // Label position variables
-          let x;
-          let ax = -10;
-          let ay = -25;
-
-          // Add one line representing all thresholds to legend
-          let showLegend = false;
-
-          if (i == 0) {
-            showLegend = true;
-          }
-
-          // Switch label position if thresholds are too close together
-          if (i < thresholds.length - 1) {
-            if (
-              Math.abs(thresholds[i].value - thresholds[i + 1].value) <= 0.75
-            ) {
-              x = thresholds[i].series[0][0];
-              ax = 50;
-              ay = -30;
-            } else {
-              x = thresholds[i].series[thresholds[i].series.length - 1][0];
-            }
-          } else {
-            x = thresholds[i].series[thresholds[i].series.length - 1][0];
-          }
-
-          // Create x and y arrays for threshold traces
-          thresholds[i].series.forEach(function (datapoint) {
-            let xdatapoint = new Date(datapoint[0]);
-            xdata.push(xdatapoint);
-            ydata.push(datapoint[1]);
-          });
-
-          // Create traces
-          traces.push({
-            x: xdata,
-            y: ydata,
-            type: "scatter",
-            line: {
-              color: "#8b0000",
-            },
-            showlegend: showLegend,
-            legendgroup: "thresholds",
-            name: "<b>Threshold</b>",
-            // Tooltip
-            hovertemplate: "%{fullData.name}: %{y} feet<extra></extra>",
-            font: {
-              family: "Public Sans, sans-serif",
-            },
-          });
-
-          // Create labels
-          plotlyAnnotations.push({
-            x: x,
-            y: ydata[0],
-            xref: "x",
-            yref: "y",
-            text: thresholds[i].name,
-            showarrow: true,
-            arrowhead: 0,
-            font: {
-              family: "Public Sans, sans-serif",
-              size: 11,
-            },
-            ax: ax,
-            ay: ay,
-          });
-        }
-
         if (
           data.data == undefined ||
           data.data.response_code == 404 ||
@@ -795,7 +690,9 @@ export default {
           if (e.layer.getPopup() != undefined) {
             e.layer
               .getPopup()
-              .setContent(this.aqPopupContent, { minWidth: 600 })
+              .setContent(this.aqPopupContent, {
+                minWidth: 600,
+              })
               .openPopup();
           } else {
             e.layer
@@ -808,16 +705,126 @@ export default {
           document
             .getElementById("noDataMessageAQ")
             .setAttribute("style", "display: block");
+          document
+            .getElementById("graphContainerAQ")
+            .setAttribute("style", "display: none");
         } else {
           if (e.layer.getPopup() != undefined) {
-            e.layer
-              .getPopup()
-              .setContent(this.aqPopupContent, { minWidth: 600 })
-              .openPopup();
+            e.layer.getPopup().setContent(this.aqPopupContent, {
+              minWidth: 600,
+            });
+            e.layer.openPopup();
           } else {
-            e.layer
-              .bindPopup(this.aqPopupContent, { minWidth: 600 })
-              .openPopup();
+            e.layer.bindPopup(this.aqPopupContent, {
+              minWidth: 600,
+            });
+            e.layer.openPopup();
+          }
+
+          // Associate time info with threshold values
+          thresholds.forEach(function (threshold) {
+            data.data.data[0].time_series_data.forEach(function (value) {
+              threshold.series.push([value[0], threshold.value]);
+            });
+          });
+
+          let dates = [];
+          let values = [];
+          let plotlyAnnotations = [];
+
+          // Create x and y arrays for NWIS trace
+          data.data.data[0].time_series_data.forEach(function (time) {
+            dates.push(new Date(time[0]));
+            values.push(time[1]);
+          });
+
+          // NWIS trace
+          let traces = [
+            {
+              x: dates,
+              y: values,
+              type: "scatter",
+              showlegend: true,
+              name: "<b>NWIS Gage Data</b>",
+              hovertemplate: "%{x}<br>Gage height: %{y} feet<extra></extra>",
+              font: {
+                family: "Public Sans, sans-serif",
+              },
+            },
+          ];
+
+          // Create trace and annotation for each threshold
+          for (let i = 0; i < thresholds.length; i++) {
+            let xdata = [];
+            let ydata = [];
+            // Label position variables
+            let x;
+            let ax = -10;
+            let ay = -25;
+
+            // Add one line representing all thresholds to legend
+            let showLegend = false;
+
+            if (i == 0) {
+              showLegend = true;
+            }
+
+            // Switch label position if thresholds are too close together
+            if (i < thresholds.length - 1) {
+              if (
+                Math.abs(thresholds[i].value - thresholds[i + 1].value) <= 0.75
+              ) {
+                x = thresholds[i].series[0][0];
+                ax = 50;
+                ay = -30;
+              } else {
+                x = thresholds[i].series[thresholds[i].series.length - 1][0];
+              }
+            } else {
+              x = thresholds[i].series[thresholds[i].series.length - 1][0];
+            }
+
+            // Create x and y arrays for threshold traces
+            thresholds[i].series.forEach(function (datapoint) {
+              let xdatapoint = new Date(datapoint[0]);
+              xdata.push(xdatapoint);
+              ydata.push(datapoint[1]);
+            });
+
+            // Create traces
+            traces.push({
+              x: xdata,
+              y: ydata,
+              type: "scatter",
+              line: {
+                color: "#8b0000",
+              },
+              showlegend: showLegend,
+              legendgroup: "thresholds",
+              name: "<b>Threshold</b>",
+              // Tooltip
+              hovertemplate: "%{fullData.name}: %{y} feet<extra></extra>",
+              font: {
+                family: "Public Sans, sans-serif",
+              },
+            });
+
+            // Create labels
+            plotlyAnnotations.push({
+              x: x,
+              y: ydata[0],
+              xref: "x",
+              yref: "y",
+              text: thresholds[i].name,
+              showarrow: true,
+              arrowhead: 0,
+              font: {
+                family: "Public Sans, sans-serif",
+                size: 11,
+              },
+              ax: ax,
+              ay: ay,
+            });
           }
 
           // Overall layout of chart
