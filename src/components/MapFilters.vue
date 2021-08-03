@@ -91,7 +91,7 @@
       <v-expansion-panel-content>
         <v-container class="px-0" fluid>
           <div class="zoom-alert" :style="{ display: isDisplayed }">
-            Real-time Stream Gages available at zoom level 9 and above. Please
+            Real-time Streamgages available at zoom level 9 and above. Please
             zoom in to view.
           </div>
           <!-- these are not actually linked to anything right now, just an example of what is possible! -->
@@ -114,7 +114,7 @@
                 wmm-borderless
               "
             ></div>
-            <label for="stream">Real-time Stream Gage</label>
+            <label for="stream">Real-time Streamgage</label>
           </div>
           <br />
         </v-container>
