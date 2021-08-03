@@ -691,12 +691,12 @@ export default {
             e.layer
               .getPopup()
               .setContent(this.aqPopupContent, {
-                minWidth: 600,
+                minWidth: 400,
               })
               .openPopup();
           } else {
             e.layer
-              .bindPopup(this.aqPopupContent, { minWidth: 600 })
+              .bindPopup(this.aqPopupContent, { minWidth: 400 })
               .openPopup();
           }
           document
