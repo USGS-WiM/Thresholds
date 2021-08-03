@@ -527,7 +527,7 @@ export default {
               y: values,
               type: "scatter",
               showlegend: false,
-              name: "NWIS Gage Data",
+              name: "Gage Height",
               hovertemplate: "%{x}<br>Gage height: %{y} feet<extra></extra>",
               font: {
                 family: "Public Sans, sans-serif",
@@ -644,19 +644,37 @@ export default {
       });
 
       // setting start date for now
-      let startDate;
+      // let startDate;
       let day;
       let month;
       let year;
-      startDate = new Date();
+      // startDate = new Date();
 
       // getting date elements
-      day = startDate.getDate();
-      month = startDate.getMonth() + 1; // to get the correct month you must add 1
-      year = startDate.getFullYear();
+      // day = startDate.getDate();
+      // month = startDate.getMonth() + 1; // to get the correct month you must add 1
+      // year = startDate.getFullYear();
+
+      // Test date to show flooding past some thresholds
+      day = 1;
+      let endDay = 8;
+      month = 8;
+      year = 2020;
 
       // creating string for request
-      let dateString = "&startDT=" + year + "-" + month + "-" + day;
+      let dateString =
+        "&startDT=" +
+        year +
+        "-" +
+        month +
+        "-" +
+        day +
+        "&endDT=" +
+        year +
+        "-" +
+        month +
+        "-" +
+        endDay;
 
       this.aqPopupContent =
         '<label id="popup-titleAQ"><b>Reference Point Name: </b>' +
@@ -745,7 +763,7 @@ export default {
               y: values,
               type: "scatter",
               showlegend: true,
-              name: "<b>NWIS Gage Data</b>",
+              name: "<b>Gage Height</b>",
               hovertemplate: "%{x}<br>Gage height: %{y} feet<extra></extra>",
               font: {
                 family: "Public Sans, sans-serif",
@@ -846,7 +864,7 @@ export default {
             },
             xaxis: {
               range: [dates[0], dates[dates.length - 1]],
-              tickformat: "%d %b %y %-I:%M %p",
+              tickformat: "%d %b %y",
               tickfont: {
                 size: 11,
               },
