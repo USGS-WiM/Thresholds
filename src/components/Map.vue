@@ -206,7 +206,7 @@ export default {
         className:
           "wmm-circle wmm-mutedblue wmm-icon-triangle wmm-icon-black wmm-size-20 wmm-borderless",
       }), //custom WIM icons
-      deckIcon: L.icon({
+      pathIcon: L.icon({
         iconUrl: require("../assets/aq-icons/path_flooded_circle.png"),
         iconSize: [50, 50],
       }),
@@ -691,12 +691,12 @@ export default {
             e.layer
               .getPopup()
               .setContent(this.aqPopupContent, {
-                minWidth: 600,
+                minWidth: 400,
               })
               .openPopup();
           } else {
             e.layer
-              .bindPopup(this.aqPopupContent, { minWidth: 600 })
+              .bindPopup(this.aqPopupContent, { minWidth: 400 })
               .openPopup();
           }
           document
@@ -945,13 +945,24 @@ export default {
           }
         }
 
+        // Remove any digits from Name string
+        Name = Name.replace(/[0-9]/, "");
+
         // Determine Icon for Reference Point
-        if (Name === "DECK") {
-          aqIcon = this.deckIcon;
+        if (Name === "PATH") {
+          aqIcon = this.pathIcon;
         } else if (Name === "BANK") {
           aqIcon = this.bankIcon;
         } else if (Name === "ROAD") {
           aqIcon = this.roadIcon;
+        } else if (Name === "CHORD") {
+          aqIcon = this.bridgeFloodedIcon;
+        } else if (Name === "FACILITY") {
+          aqIcon = this.buildingIcon;
+        } else if (Name === "DECK") {
+          aqIcon = this.bridgeRiskIcon;
+        } else if (Name === "BFE") {
+          aqIcon = this.bfeIcon;
         } else {
           aqIcon = this.rpIcon;
         }
