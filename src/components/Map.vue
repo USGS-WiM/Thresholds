@@ -40,7 +40,7 @@
                       wmm-borderless
                     "
                   ></div>
-                  <label>Real-time Stream Gage</label>
+                  <label>Real-time Streamgage</label>
                 </div>
               </div>
               <!-- Threshold icons -->
