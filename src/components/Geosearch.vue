@@ -81,7 +81,7 @@ export default {
               y: values,
               type: "scatter",
               showlegend: false,
-              name: "NWIS Gage Data",
+              name: "Gage Height",
               hovertemplate: "%{x}<br>Gage height: %{y} feet<extra></extra>",
               font: {
                 family: "Public Sans, sans-serif",
