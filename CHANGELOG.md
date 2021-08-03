@@ -18,6 +18,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Changed fonts to dark grey
 - Changed graphs font to Public Sans
 - Made legend collapsible
+- Changed hydrograph date range in AQ popups to test range (8/1/2020-8/8/2020)
+- Removed times from x axis labels in AQ popups
 
 ### Fixed
 
