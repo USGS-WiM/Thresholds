@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Changed fonts to dark grey
 - Changed graphs font to Public Sans
 - Made legend collapsible
+- Switched chord and deck icons
 
 ### Fixed
 

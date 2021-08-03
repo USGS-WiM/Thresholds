@@ -956,11 +956,11 @@ export default {
         } else if (Name === "ROAD") {
           aqIcon = this.roadIcon;
         } else if (Name === "CHORD") {
-          aqIcon = this.bridgeFloodedIcon;
+          aqIcon = this.bridgeRiskIcon;
         } else if (Name === "FACILITY") {
           aqIcon = this.buildingIcon;
         } else if (Name === "DECK") {
-          aqIcon = this.bridgeRiskIcon;
+          aqIcon = this.bridgeFloodedIcon;
         } else if (Name === "BFE") {
           aqIcon = this.bfeIcon;
         } else {
