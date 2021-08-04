@@ -114,7 +114,7 @@
                 wmm-borderless
               "
             ></div>
-            <label for="stream">Real-time Stream Gage</label>
+            <label for="stream">Real-time Streamgage</label>
           </div>
           <br />
         </v-container>
