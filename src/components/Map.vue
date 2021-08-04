@@ -938,6 +938,27 @@ export default {
     },
     loadAQdata() {
       this.aqMarkers.clearLayers();
+      let hasMarkers = false;
+      // Test date to show flooding past some thresholds
+      let day = 4;
+      let endDay = 4;
+      let month = 8;
+      let year = 2020;
+
+      // creating string for request
+      let dateString =
+        "&startDT=" +
+        year +
+        "-" +
+        month +
+        "-" +
+        day +
+        "&endDT=" +
+        year +
+        "-" +
+        month +
+        "-" +
+        endDay;
       // adding rp/threshold data from Aquarius
       for (let entry in this.mvpData) {
         let thresh = [];
@@ -985,22 +1006,49 @@ export default {
           aqIcon = this.rpIcon;
         }
 
-        let marker = L.marker([lat, lng], {
-          icon: aqIcon,
-        }).addTo(this.aqMarkers);
+        let url =
+          "https://nwis.waterservices.usgs.gov/nwis/iv/?format=nwjson&sites=" +
+          LocationIdentifier +
+          "&parameterCd=" +
+          graphParameterCodeList +
+          dateString;
+        axios.get(url).then((data) => {
+          if (
+            data.data != undefined &&
+            data.data.response_code != 404 &&
+            data.data.data[0].time_series_data.length != 0 &&
+            rpData != undefined
+          ) {
+            if (
+              data.data.data[0].time_series_data[
+                data.data.data[0].time_series_data.length - 1
+              ][1] >= rpData[0].Elevation
+            ) {
+              let marker = L.marker([lat, lng], {
+                icon: aqIcon,
+              }).addTo(this.aqMarkers);
 
-        marker.data = {
-          thresholds: thresh,
-          LocationIdentifier: LocationIdentifier,
-          Name: Name,
-          ReferencePointPeriods: rpData,
-          lat: lat,
-          lng: lng,
-        };
+              marker.data = {
+                thresholds: thresh,
+                LocationIdentifier: LocationIdentifier,
+                Name: Name,
+                ReferencePointPeriods: rpData,
+                lat: lat,
+                lng: lng,
+              };
+              hasMarkers = true;
+            }
+          }
+          // Wait for last entry to add markers to map and fit bounds, otherwise bounds will be invalid
+          if (hasMarkers && entry == this.mvpData.length - 1) {
+            this.aqMarkers.addTo(this.map);
+            this.map.fitBounds(this.aqMarkers.getBounds());
+          } else if (!hasMarkers && entry == this.mvpData.length - 1) {
+            console.log("No active flooding");
+            // Display a "no active flooding" message on sidebar or map
+          }
+        });
       }
-      console.log(this.aqMarkers);
-      this.aqMarkers.addTo(this.map);
-      this.map.fitBounds(this.aqMarkers.getBounds());
     },
   },
   mounted() {
