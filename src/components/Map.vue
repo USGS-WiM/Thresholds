@@ -630,13 +630,20 @@ export default {
       let sc = e.layer.data.LocationIdentifier;
 
       let thresholds = [];
+
       // Create array of objects for each threshold with name, value, and series info
       layerData.thresholds[0].Thresholds.forEach(function (threshold) {
-        thresholds.push({
-          name: threshold.Name,
-          value: threshold.Periods[0].ReferenceValue,
-          series: [],
-        });
+        // Only push threshold with reference value matching elevation
+        if (
+          Math.round(threshold.Periods[0].ReferenceValue * 10) / 10 ==
+          Math.round(layerData.ReferencePointPeriods[0].Elevation * 10) / 10
+        ) {
+          thresholds.push({
+            name: threshold.Name,
+            value: layerData.ReferencePointPeriods[0].Elevation,
+            series: [],
+          });
+        }
       });
 
       thresholds.sort(function (a, b) {
@@ -775,31 +782,12 @@ export default {
           for (let i = 0; i < thresholds.length; i++) {
             let xdata = [];
             let ydata = [];
-            // Label position variables
-            let x;
-            let ax = -10;
-            let ay = -25;
 
             // Add one line representing all thresholds to legend
             let showLegend = false;
 
             if (i == 0) {
               showLegend = true;
-            }
-
-            // Switch label position if thresholds are too close together
-            if (i < thresholds.length - 1) {
-              if (
-                Math.abs(thresholds[i].value - thresholds[i + 1].value) <= 0.75
-              ) {
-                x = thresholds[i].series[0][0];
-                ax = 50;
-                ay = -30;
-              } else {
-                x = thresholds[i].series[thresholds[i].series.length - 1][0];
-              }
-            } else {
-              x = thresholds[i].series[thresholds[i].series.length - 1][0];
             }
 
             // Create x and y arrays for threshold traces
@@ -829,19 +817,21 @@ export default {
 
             // Create labels
             plotlyAnnotations.push({
-              x: x,
-              y: ydata[0],
+              x: thresholds[i].series[thresholds[i].series.length - 1][0], // Place label after last x value
+              y: ydata[0], // Place label at same y value as threshold
               xref: "x",
               yref: "y",
-              text: thresholds[i].name,
-              showarrow: true,
+              text:
+                layerData.ReferencePointPeriods[0].Elevation +
+                " " +
+                layerData.ReferencePointPeriods[0].Unit,
+              showarrow: false,
               arrowhead: 0,
               font: {
                 family: "Public Sans, sans-serif",
                 size: 11,
               },
-              ax: ax,
-              ay: ay,
+              xanchor: "left",
             });
           }
 
