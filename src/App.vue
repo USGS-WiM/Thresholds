@@ -10,7 +10,7 @@
             style="color: white"
           ></v-app-bar-nav-icon>
           <v-toolbar-title style="color: white">
-          <a href="https://www.usgs.gov/">
+          <a href="https://www.usgs.gov/" target="_blank">
             <div class="toolbar-image">
               <img alt="USGS logo" height="60px" src="../public/usgs.png" />
             </div>
