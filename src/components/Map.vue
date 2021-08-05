@@ -631,23 +631,11 @@ export default {
 
       let thresholds = [];
 
-      // Create array of objects for each threshold with name, value, and series info
-      layerData.thresholds[0].Thresholds.forEach(function (threshold) {
-        // Only push threshold with reference value matching elevation
-        if (
-          Math.round(threshold.Periods[0].ReferenceValue * 10) / 10 ==
-          Math.round(layerData.ReferencePointPeriods[0].Elevation * 10) / 10
-        ) {
-          thresholds.push({
-            name: threshold.Name,
-            value: layerData.ReferencePointPeriods[0].Elevation,
-            series: [],
-          });
-        }
-      });
-
-      thresholds.sort(function (a, b) {
-        return a.value - b.value;
+      // using rp elevation as threshold
+      thresholds.push({
+        name: layerData.FullName,
+        value: layerData.Elevation,
+        series: [],
       });
 
       // setting start date for now
@@ -684,16 +672,19 @@ export default {
         endDay;
 
       this.aqPopupContent =
+        '<label id="popup-titleAQ"><b>Site Name: </b>' +
+        layerData.SiteName +
+        "</br>" +
         '<label id="popup-titleAQ"><b>Reference Point Name: </b>' +
-        layerData.Name +
+        layerData.FullName +
         "</br>" +
         '<label id="popup-titleAQ"><b>Location ID: </b>' +
         layerData.LocationIdentifier +
         "</br>" +
         '<label id="popup-titleAQ"><b>Elevation: </b>' +
-        layerData.ReferencePointPeriods[0].Elevation +
+        layerData.Elevation +
         " " +
-        layerData.ReferencePointPeriods[0].Unit +
+        layerData.Unit +
         "</br>" +
         '</label></br><p id="graphLoadMessageAQ"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainerAQ" style="width:100%; min-height: 400px; display:block;"></div> <div>Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
         sc +
@@ -807,7 +798,7 @@ export default {
               },
               showlegend: showLegend,
               legendgroup: "thresholds",
-              name: "<b>Threshold</b>",
+              name: layerData.FullName,
               // Tooltip
               hovertemplate: "%{fullData.name}: %{y} feet<extra></extra>",
               font: {
@@ -821,10 +812,7 @@ export default {
               y: ydata[0], // Place label at same y value as threshold
               xref: "x",
               yref: "y",
-              text:
-                layerData.ReferencePointPeriods[0].Elevation +
-                " " +
-                layerData.ReferencePointPeriods[0].Unit,
+              text: layerData.Elevation + " " + layerData.Unit,
               showarrow: false,
               arrowhead: 0,
               font: {
@@ -954,23 +942,28 @@ export default {
         let thresh = [];
         let LocationIdentifier;
         let Name;
+        let fullname;
         let rpData;
+        let elevation;
+        let unit;
         let lat;
         let lng;
         let aqIcon;
+        let siteName;
 
-        for (let i = 0; i < this.mvpData[entry].referencePoint.length; i++) {
-          if (this.mvpData[entry].referencePoint[i].Latitude !== undefined) {
-            lat = this.mvpData[entry].referencePoint[i].Latitude;
-            lng = this.mvpData[entry].referencePoint[i].Longitude;
+        for (let i = 0; i < this.mvpData[entry].rp.length; i++) {
+          if (this.mvpData[entry].rp[i].Latitude !== undefined) {
+            lat = this.mvpData[entry].rp[i].Latitude;
+            lng = this.mvpData[entry].rp[i].Longitude;
 
-            Name = this.mvpData[entry].referencePoint[i].Name;
-            rpData =
-              this.mvpData[entry].referencePoint[i].ReferencePointPeriods;
+            fullname = this.mvpData[entry].rp[i].Name;
+            Name = this.mvpData[entry].rp[i].Name;
+            elevation = this.mvpData[entry].rp[i].Elevation;
+            unit = this.mvpData[entry].rp[i].Unit;
+            siteName = this.mvpData[entry].rp[i].SiteName;
           } else {
-            LocationIdentifier =
-              this.mvpData[entry].referencePoint[i].LocationIdentifier;
-            thresh.push(this.mvpData[entry].referencePoint[i]);
+            LocationIdentifier = this.mvpData[entry].rp[i].LocationIdentifier;
+            thresh.push(this.mvpData[entry].rp[i]);
           }
         }
 
@@ -1007,12 +1000,12 @@ export default {
             data.data != undefined &&
             data.data.response_code != 404 &&
             data.data.data[0].time_series_data.length != 0 &&
-            rpData != undefined
+            elevation != undefined
           ) {
             if (
               data.data.data[0].time_series_data[
                 data.data.data[0].time_series_data.length - 1
-              ][1] >= rpData[0].Elevation
+              ][1] >= elevation
             ) {
               let marker = L.marker([lat, lng], {
                 icon: aqIcon,
@@ -1023,6 +1016,10 @@ export default {
                 LocationIdentifier: LocationIdentifier,
                 Name: Name,
                 ReferencePointPeriods: rpData,
+                Elevation: elevation,
+                Unit: unit,
+                FullName: fullname,
+                SiteName: siteName,
                 lat: lat,
                 lng: lng,
               };
