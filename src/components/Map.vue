@@ -97,7 +97,7 @@
                     height="25px"
                     width="25px"
                   />
-                  <label>Structures Flooded</label>
+                  <label>Structure Flooded</label>
                 </div>
                 <div class="legendIcon">
                   <img
@@ -106,6 +106,14 @@
                     width="25px"
                   />
                   <label>Base Flood Elevation</label>
+                </div>
+                <div class="legendIcon">
+                  <img
+                    src="../assets/aq-icons/other.png"
+                    height="25px"
+                    width="25px"
+                  />
+                  <label>Uncategorized</label>
                 </div>
               </div>
             </v-expansion-panel-content>
@@ -240,8 +248,8 @@ export default {
         iconSize: [50, 50],
         iconAnchor: [30, 30],
       }),
-      rpIcon: L.icon({
-        iconUrl: require("../assets/aq-icons/blue_tri.png"),
+      otherIcon: L.icon({
+        iconUrl: require("../assets/aq-icons/other.png"),
         iconSize: [50, 50],
       }),
       showParagraph: false,
@@ -986,7 +994,7 @@ export default {
         } else if (Name === "BFE") {
           aqIcon = this.bfeIcon;
         } else {
-          aqIcon = this.rpIcon;
+          aqIcon = this.otherIcon;
         }
 
         let url =
