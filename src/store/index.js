@@ -8,6 +8,7 @@ export default new Vuex.Store({
     drawerState: true,
     basemapState: "Topo",
     streamgageState: false,
+    radarState: false,
     currentZoomState: 4,
   },
   mutations: {
@@ -20,6 +21,9 @@ export default new Vuex.Store({
     getStreamgageState(state, streamgagePicked) {
       state.streamgageState = streamgagePicked;
     },
+    getRadarState(state, radarPicked) {
+      state.radarState = radarPicked;
+    },
     getCurrentZoomState(state, currentZoom) {
       state.currentZoomState = currentZoom;
     },
@@ -28,6 +32,7 @@ export default new Vuex.Store({
     drawerState: (state) => state.drawerState,
     basemapState: (state) => state.basemapState,
     streamgageState: (state) => state.streamgageState,
+    radarState: (state) => state.radarState,
     currentZoomState: (state) => state.currentZoomState,
   },
   actions: {},

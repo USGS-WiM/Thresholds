@@ -42,6 +42,9 @@
                   ></div>
                   <label>Real-time Streamgage</label>
                 </div>
+                <div class="legendIconToggle" v-if="radarVisible">
+                  <label>National Weather Service Radar</label>
+                </div>
               </div>
               <!-- Threshold icons -->
               <div id="thresholdLayers">
@@ -130,6 +133,7 @@ import "leaflet/dist/leaflet.css";
 import mvpAqData from "../mvp_data/output.json";
 import axios from "axios";
 import Plotly from "plotly.js";
+import { dynamicMapLayer } from "esri-leaflet";
 
 // this code is necessary for the default leaflet marker to work
 delete L.Icon.Default.prototype._getIconUrl;
@@ -193,6 +197,7 @@ export default {
       center: L.latLng(37.0902, -82.7129),
       tileProviders: tileProviders,
       streamgageMarkers: [],
+      radarLayer: [],
       aqMarkers: [],
       popupContent: "",
       aqPopupContent: "",
@@ -255,6 +260,7 @@ export default {
       showParagraph: false,
       fillColor: "#ffffff",
       streamgageVisible: false,
+      radarVisible: false,
     };
   },
   methods: {
@@ -274,13 +280,19 @@ export default {
         name: tileProviders[2].name,
       }).addTo(self.map);
 
+      self.radarLayer = dynamicMapLayer({
+        url: 'https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/radar_base_reflectivity/MapServer', 
+        opacity: 0.75,
+        visibleLayers: [3],
+      }).addTo(self.map);
+
       self.streamgageMarkers = L.featureGroup();
 
       // markers from Aquarius TEST environment
       self.aqMarkers = L.featureGroup();
       self.aqMarkers.on("click", function (e) {
         self.openAQPopup(e);
-      });
+      }).addTo(self.map);
 
       self.streamgageMarkers.on("click", function (e) {
         self.openStreamGagePopup(e);
@@ -449,6 +461,16 @@ export default {
       } else {
         this.streamgageMarkers.clearLayers();
         this.streamgageVisible = false;
+      }
+    },
+    toggleRadar(radarLayer) {
+      this.radarLayer = radarLayer;
+      if (this.$store.state.radarState == true) {
+        this.radarLayer.add();
+        this.radarVisible = true;
+      } else {
+        this.radarLayer.remove();
+        this.radarVisible = false;
       }
     },
     openStreamGagePopup(e) {
@@ -1061,6 +1083,9 @@ export default {
     // Watch basemap state and update visibility when state changes
     "$store.state.basemapState": function () {
       this.selectBasemap(this.tileProviders);
+    },
+    "$store.state.radarState": function () {
+      this.toggleRadar(this.radarLayer);
     },
   },
   // Store current zoom value in state to access from other components

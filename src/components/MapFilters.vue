@@ -116,6 +116,14 @@
             ></div>
             <label for="stream">Real-time Streamgage</label>
           </div>
+          <input
+            type="checkbox"
+            ref="radar"
+            id="radar"
+            value="false"
+            v-model="radarPicked"
+            />
+            <label for="radar">National</label>
           <br />
         </v-container>
       </v-expansion-panel-content>
@@ -150,6 +158,14 @@ export default {
       },
       set(value) {
         return this.$store.commit("getStreamgageState", value);
+      }
+    },
+    radarPicked: {
+      get() {
+        return this.$store.state.radarState;
+      },
+      set(value) {
+        return this.$store.commit("getRadarState", value);
       }
     }
   },
