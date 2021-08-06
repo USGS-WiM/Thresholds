@@ -97,7 +97,7 @@
                     height="25px"
                     width="25px"
                   />
-                  <label>Structure Flooded</label>
+                  <label>Facility Flooded</label>
                 </div>
                 <div class="legendIcon">
                   <img
