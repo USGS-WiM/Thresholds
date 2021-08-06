@@ -97,7 +97,7 @@
                     height="25px"
                     width="25px"
                   />
-                  <label>Structures Flooded</label>
+                  <label>Structure Flooded</label>
                 </div>
                 <div class="legendIcon">
                   <img
@@ -106,6 +106,14 @@
                     width="25px"
                   />
                   <label>Base Flood Elevation</label>
+                </div>
+                <div class="legendIcon">
+                  <img
+                    src="../assets/aq-icons/other.png"
+                    height="25px"
+                    width="25px"
+                  />
+                  <label>Uncategorized</label>
                 </div>
               </div>
             </v-expansion-panel-content>
@@ -240,8 +248,8 @@ export default {
         iconSize: [50, 50],
         iconAnchor: [30, 30],
       }),
-      rpIcon: L.icon({
-        iconUrl: require("../assets/aq-icons/blue_tri.png"),
+      otherIcon: L.icon({
+        iconUrl: require("../assets/aq-icons/other.png"),
         iconSize: [50, 50],
       }),
       showParagraph: false,
@@ -630,17 +638,12 @@ export default {
       let sc = e.layer.data.LocationIdentifier;
 
       let thresholds = [];
-      // Create array of objects for each threshold with name, value, and series info
-      layerData.thresholds[0].Thresholds.forEach(function (threshold) {
-        thresholds.push({
-          name: threshold.Name,
-          value: threshold.Periods[0].ReferenceValue,
-          series: [],
-        });
-      });
 
-      thresholds.sort(function (a, b) {
-        return a.value - b.value;
+      // using rp elevation as threshold
+      thresholds.push({
+        name: layerData.FullName,
+        value: layerData.Elevation,
+        series: [],
       });
 
       // setting start date for now
@@ -677,16 +680,19 @@ export default {
         endDay;
 
       this.aqPopupContent =
+        '<label id="popup-titleAQ"><b>Site Name: </b>' +
+        layerData.SiteName +
+        "</br>" +
         '<label id="popup-titleAQ"><b>Reference Point Name: </b>' +
-        layerData.Name +
+        layerData.FullName +
         "</br>" +
         '<label id="popup-titleAQ"><b>Location ID: </b>' +
         layerData.LocationIdentifier +
         "</br>" +
         '<label id="popup-titleAQ"><b>Elevation: </b>' +
-        layerData.ReferencePointPeriods[0].Elevation +
+        layerData.Elevation +
         " " +
-        layerData.ReferencePointPeriods[0].Unit +
+        layerData.Unit +
         "</br>" +
         '</label></br><p id="graphLoadMessageAQ"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainerAQ" style="width:100%; min-height: 400px; display:block;"></div> <div>Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
         sc +
@@ -775,31 +781,12 @@ export default {
           for (let i = 0; i < thresholds.length; i++) {
             let xdata = [];
             let ydata = [];
-            // Label position variables
-            let x;
-            let ax = -10;
-            let ay = -25;
 
             // Add one line representing all thresholds to legend
             let showLegend = false;
 
             if (i == 0) {
               showLegend = true;
-            }
-
-            // Switch label position if thresholds are too close together
-            if (i < thresholds.length - 1) {
-              if (
-                Math.abs(thresholds[i].value - thresholds[i + 1].value) <= 0.75
-              ) {
-                x = thresholds[i].series[0][0];
-                ax = 50;
-                ay = -30;
-              } else {
-                x = thresholds[i].series[thresholds[i].series.length - 1][0];
-              }
-            } else {
-              x = thresholds[i].series[thresholds[i].series.length - 1][0];
             }
 
             // Create x and y arrays for threshold traces
@@ -819,7 +806,7 @@ export default {
               },
               showlegend: showLegend,
               legendgroup: "thresholds",
-              name: "<b>Threshold</b>",
+              name: layerData.FullName,
               // Tooltip
               hovertemplate: "%{fullData.name}: %{y} feet<extra></extra>",
               font: {
@@ -829,19 +816,18 @@ export default {
 
             // Create labels
             plotlyAnnotations.push({
-              x: x,
-              y: ydata[0],
+              x: thresholds[i].series[thresholds[i].series.length - 1][0], // Place label after last x value
+              y: ydata[0], // Place label at same y value as threshold
               xref: "x",
               yref: "y",
-              text: thresholds[i].name,
-              showarrow: true,
+              text: layerData.Elevation + " " + layerData.Unit,
+              showarrow: false,
               arrowhead: 0,
               font: {
                 family: "Public Sans, sans-serif",
                 size: 11,
               },
-              ax: ax,
-              ay: ay,
+              xanchor: "left",
             });
           }
 
@@ -964,23 +950,28 @@ export default {
         let thresh = [];
         let LocationIdentifier;
         let Name;
+        let fullname;
         let rpData;
+        let elevation;
+        let unit;
         let lat;
         let lng;
         let aqIcon;
+        let siteName;
 
-        for (let i = 0; i < this.mvpData[entry].referencePoint.length; i++) {
-          if (this.mvpData[entry].referencePoint[i].Latitude !== undefined) {
-            lat = this.mvpData[entry].referencePoint[i].Latitude;
-            lng = this.mvpData[entry].referencePoint[i].Longitude;
+        for (let i = 0; i < this.mvpData[entry].rp.length; i++) {
+          if (this.mvpData[entry].rp[i].Latitude !== undefined) {
+            lat = this.mvpData[entry].rp[i].Latitude;
+            lng = this.mvpData[entry].rp[i].Longitude;
 
-            Name = this.mvpData[entry].referencePoint[i].Name;
-            rpData =
-              this.mvpData[entry].referencePoint[i].ReferencePointPeriods;
+            fullname = this.mvpData[entry].rp[i].Name;
+            Name = this.mvpData[entry].rp[i].Name;
+            elevation = this.mvpData[entry].rp[i].Elevation;
+            unit = this.mvpData[entry].rp[i].Unit;
+            siteName = this.mvpData[entry].rp[i].SiteName;
           } else {
-            LocationIdentifier =
-              this.mvpData[entry].referencePoint[i].LocationIdentifier;
-            thresh.push(this.mvpData[entry].referencePoint[i]);
+            LocationIdentifier = this.mvpData[entry].rp[i].LocationIdentifier;
+            thresh.push(this.mvpData[entry].rp[i]);
           }
         }
 
@@ -1003,7 +994,7 @@ export default {
         } else if (Name === "BFE") {
           aqIcon = this.bfeIcon;
         } else {
-          aqIcon = this.rpIcon;
+          aqIcon = this.otherIcon;
         }
 
         let url =
@@ -1017,12 +1008,12 @@ export default {
             data.data != undefined &&
             data.data.response_code != 404 &&
             data.data.data[0].time_series_data.length != 0 &&
-            rpData != undefined
+            elevation != undefined
           ) {
             if (
               data.data.data[0].time_series_data[
                 data.data.data[0].time_series_data.length - 1
-              ][1] >= rpData[0].Elevation
+              ][1] >= elevation
             ) {
               let marker = L.marker([lat, lng], {
                 icon: aqIcon,
@@ -1033,6 +1024,10 @@ export default {
                 LocationIdentifier: LocationIdentifier,
                 Name: Name,
                 ReferencePointPeriods: rpData,
+                Elevation: elevation,
+                Unit: unit,
+                FullName: fullname,
+                SiteName: siteName,
                 lat: lat,
                 lng: lng,
               };

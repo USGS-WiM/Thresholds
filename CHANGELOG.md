@@ -9,8 +9,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+- Added Uncategorized icon to map and legend
+
+### Changed
+
+-
+
+### Fixed
+
+-
+
+## [v0.3.0](https://github.com/USGS-WiM/Thresholds/releases/tag/v0.3.0) - 8/5/2021
+
+### Added
+
 - Added USA banner to top of page
 - Added BFE icon to legend
+- Added Site Name to popup
 
 ### Changed
 
@@ -22,6 +37,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Changed hydrograph date range in AQ popups to test range (8/1/2020-8/8/2020)
 - Removed times from x axis labels in AQ popups
 - Display only RPs with active flooding on map (using test value 8/4/21 right now)
+- Only display threshold in hyrdograph that corresponds to RP type (bank, chord, etc.)
 
 ### Fixed
 
