@@ -1191,4 +1191,8 @@ export default {
   font-family: "Public Sans", sans-serif;
   font-weight: bold;
 }
+
+.legendtext {
+  font-weight: bold;
+}
 </style>
