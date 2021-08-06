@@ -545,8 +545,8 @@ export default {
 
           let layout = {
             autosize: false,
-            width: 400,
-            height: 400,
+            width: "50%",
+            height: "50%",
             font: {
               family: "Public Sans, sans-serif",
             },
@@ -729,12 +729,12 @@ export default {
         } else {
           if (e.layer.getPopup() != undefined) {
             e.layer.getPopup().setContent(this.aqPopupContent, {
-              minWidth: 600,
+              maxWidth: "80vw",
             });
             e.layer.openPopup();
           } else {
             e.layer.bindPopup(this.aqPopupContent, {
-              minWidth: 600,
+              maxWidth: "80vw",
             });
             e.layer.openPopup();
           }
@@ -853,7 +853,7 @@ export default {
 
           let layout = {
             autosize: false,
-            width: 600,
+            width: "50vw",
             font: {
               family: "Public Sans, sans-serif",
             },
@@ -1196,4 +1196,13 @@ export default {
   font-family: "Public Sans", sans-serif;
   font-weight: bold;
 }
+
+.leaflet-popup-content-wrapper {
+  max-width: 90vw;
+}
+
+.user-select-none .svg-container {
+  max-width: 90vw;
+}
+
 </style>
