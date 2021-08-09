@@ -94,7 +94,6 @@
             Real-time Streamgages available at zoom level 9 and above. Please
             zoom in to view.
           </div>
-          <!-- these are not actually linked to anything right now, just an example of what is possible! -->
           <input
             type="checkbox"
             ref="stream"
@@ -116,6 +115,7 @@
             ></div>
             <label for="stream">Real-time Streamgage</label>
           </div>
+          <br>
           <input
             type="checkbox"
             ref="radar"
@@ -123,8 +123,21 @@
             value="false"
             v-model="radarPicked"
             />
-            <label for="radar">National</label>
-          <br />
+            <div class="legend-no-icon">
+            <label for="radar">National Weather Service Radar</label>
+          </div>
+          <br>
+          <input
+            type="checkbox"
+            ref="nfhl"
+            id="nfhl"
+            value="false"
+            v-model="nfhlPicked"
+          />
+          <div class="legend-no-icon">
+            <label for="nfhl">National Flood Hazard Layer</label>
+          </div>
+
         </v-container>
       </v-expansion-panel-content>
     </v-expansion-panel>
@@ -137,7 +150,7 @@ export default {
     return {
       picked: [],
       streamCheckDisabled: true,
-      isDisplayed: "block"
+      isDisplayed: "block",
     };
   },
   props: ["currentZoom"],
@@ -149,7 +162,7 @@ export default {
       },
       set(value) {
         return this.$store.commit("getBasemapState", value);
-      }
+      },
     },
     // use v-model to set streamgage layer state
     streamgagePicked: {
@@ -167,11 +180,20 @@ export default {
       set(value) {
         return this.$store.commit("getRadarState", value);
       }
-    }
+    },
+    // use v-model to set nfhl layer state
+    nfhlPicked: {
+      get() {
+        return this.$store.state.nfhlState;
+      },
+      set(value) {
+        return this.$store.commit("getNfhlState", value);
+      },
+    },
   },
   // Watch the current zoom value to disable checkbox
   watch: {
-    "$store.state.currentZoomState": function() {
+    "$store.state.currentZoomState": function () {
       if (this.$store.state.currentZoomState >= 9) {
         this.streamCheckDisabled = false;
         this.isDisplayed = "none";
@@ -179,13 +201,12 @@ export default {
         this.streamCheckDisabled = true;
         this.isDisplayed = "block";
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style>
-
 .v-expansion-panel-header {
   text-transform: capitalize;
   font-weight: 700;
@@ -241,6 +262,22 @@ export default {
   font-size: 14px;
 }
 
+.legend-no-icon {
+  display: inline-block;
+  position: relative;
+  margin: 10px;
+  line-height: 24px;
+  height: 24px;
+}
+
+.legend-no-icon label {
+  display: inline-block;
+  -webkit-justify-content: center;
+  justify-content: center;
+  color: #333;
+  font-size: 14px;
+}
+
 .legendIcon label {
   color: #333;
 }
@@ -252,5 +289,4 @@ export default {
 .zoom-alert {
   font-size: small;
 }
-
 </style>

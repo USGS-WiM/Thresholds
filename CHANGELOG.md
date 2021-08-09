@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - Added Uncategorized icon to map and legend
+- Added NFHL layer and legend for NFHL sublayer
+- Added NWS Radar layer
 
 ### Changed
 

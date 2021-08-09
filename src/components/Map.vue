@@ -43,8 +43,13 @@
                   <label>Real-time Streamgage</label>
                 </div>
                 <div class="legendIconToggle" v-if="radarVisible">
-                  <label>National Weather Service Radar</label>
+                  <label id="radarLabel">National Weather Service Radar</label>
+                  <div id="radarLegend"></div>
                 </div>
+                <div class="legendIconToggle" v-if="nfhlVisible">
+                  <label id="nfhlLabel">National Flood Hazard Layer</label>
+                </div>
+                <div id="nfhlLegend"></div>
               </div>
               <!-- Threshold icons -->
               <div id="thresholdLayers">
@@ -100,7 +105,7 @@
                     height="25px"
                     width="25px"
                   />
-                  <label>Structure Flooded</label>
+                  <label>Facility Flooded</label>
                 </div>
                 <div class="legendIcon">
                   <img
@@ -130,10 +135,10 @@
 <script>
 import L from "leaflet"; //this is where you import leaflet components
 import "leaflet/dist/leaflet.css";
+import * as esri from "esri-leaflet";
 import mvpAqData from "../mvp_data/output.json";
 import axios from "axios";
 import Plotly from "plotly.js";
-import { dynamicMapLayer } from "esri-leaflet";
 
 // this code is necessary for the default leaflet marker to work
 delete L.Icon.Default.prototype._getIconUrl;
@@ -197,8 +202,11 @@ export default {
       center: L.latLng(37.0902, -82.7129),
       tileProviders: tileProviders,
       streamgageMarkers: [],
-      radarLayer: [],
+      radarLayer: {},
+      radarVisible: false,
       aqMarkers: [],
+      nfhlLayer: {},
+      nfhlVisible: false,
       popupContent: "",
       aqPopupContent: "",
       alertOpacity: "0.75",
@@ -260,7 +268,6 @@ export default {
       showParagraph: false,
       fillColor: "#ffffff",
       streamgageVisible: false,
-      radarVisible: false,
     };
   },
   methods: {
@@ -278,12 +285,6 @@ export default {
       L.tileLayer(tileProviders[2].url, {
         attribution: tileProviders[2].attribution,
         name: tileProviders[2].name,
-      }).addTo(self.map);
-
-      self.radarLayer = dynamicMapLayer({
-        url: 'https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/radar_base_reflectivity/MapServer', 
-        opacity: 0.75,
-        visibleLayers: [3],
       }).addTo(self.map);
 
       self.streamgageMarkers = L.featureGroup();
@@ -461,16 +462,6 @@ export default {
       } else {
         this.streamgageMarkers.clearLayers();
         this.streamgageVisible = false;
-      }
-    },
-    toggleRadar(radarLayer) {
-      this.radarLayer = radarLayer;
-      if (this.$store.state.radarState == true) {
-        this.radarLayer.add();
-        this.radarVisible = true;
-      } else {
-        this.radarLayer.remove();
-        this.radarVisible = false;
       }
     },
     openStreamGagePopup(e) {
@@ -1067,6 +1058,127 @@ export default {
         });
       }
     },
+    toggleNfhl(nfhlLayer) {
+      let container = document.getElementById("nfhlLegend");
+      this.nfhlLayer = nfhlLayer;
+      if (this.$store.state.nfhlState == true) {
+        this.nfhlVisible = true;
+        this.getNfhlLayer();
+      } else {
+        this.nfhlLayer.remove();
+        this.nfhlVisible = false;
+        if (container != null) {
+          container.style.display = "none";
+        }
+      }
+    },
+    getNfhlLayer() {
+      this.nfhlLayer = esri.dynamicMapLayer({
+        url: "https://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer",
+        // 0: NFHL Availability, 3: FIRM Panels, 14: Cross Sections, 27: Flood Hazard Boundaries, 28: Flood Hazard Zones
+        layers: [0, 3, 14, 27, 28],
+        format: "image/png",
+      });
+      let layers = this.nfhlLayer.getLayers();
+      this.nfhlLayer.addTo(this.map);
+      this.getNfhlLegend(layers);
+    },
+    getNfhlLegend(layers) {
+      let self = this;
+      let container = document.getElementById("nfhlLegend");
+      while (document.getElementsByClassName("nfhlLegendComponent")[0]) {
+        document.getElementsByClassName("nfhlLegendComponent")[0].remove();
+      }
+      axios
+        .get(
+          "https://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer/legend?f=pjson"
+        )
+        .then((data) => {
+          let layerList = data.data.layers;
+          for (let i = 0; i < layerList.length; i++) {
+            layers.forEach((layer) => {
+              if (layerList[i].layerId == layer) {
+                // Create sublayer legend div
+                let legendEl = document.createElement("div", container);
+                legendEl.className = "nfhlLegendComponent";
+                let layerName;
+                // Use the legend label if existing, otherwise use the layer name
+                if (layerList[i].legend[0].label != "") {
+                  layerName = layerList[i].legend[0].label;
+                } else {
+                  layerName = layerList[i].layerName;
+                }
+                // Set innerHTML to image and layer name
+                legendEl.innerHTML =
+                  "<img src=data:" +
+                  layerList[i].legend[0].contentType +
+                  ";base64," +
+                  layerList[i].legend[0].imageData +
+                  " alt=''/><label>" +
+                  layerName +
+                  "</label>";
+                // Add to legend at correct zoom level
+                if (container != null) {
+                  if (
+                    this.currentZoom <= 11 &&
+                    layerName == "NFHL Data Available"
+                  ) {
+                    container.appendChild(legendEl);
+                  } else if (
+                    this.currentZoom >= 14 &&
+                    (layerName == "FIRM Panels" ||
+                      layerName == "Limit Lines" ||
+                      layerName == "1% Annual Chance Flood Hazard")
+                  ) {
+                    container.appendChild(legendEl);
+                  } else if (
+                    this.currentZoom >= 15 &&
+                    layerName == "Cross-Sections"
+                  ) {
+                    container.appendChild(legendEl);
+                  }
+                  container.style.display = "inline-block";
+                } else {
+                  // If layer is toggled before legend is expanded, the container element will be null
+                  // Need to call the function again when the legend is expanded
+                  document.getElementById("titleContainer").onclick =
+                    function () {
+                      let currentLayers = self.nfhlLayer.getLayers();
+                      self.getNfhlLegend(currentLayers);
+                      // Remove the callback function
+                      document.getElementById("titleContainer").onclick = "";
+                    };
+                }
+              }
+            });
+          }
+        });
+    },
+    toggleRadar(radarLayer) {
+      let container = document.getElementById("radarLegend");
+      this.radarLayer = radarLayer;
+      if (this.$store.state.radarState == true) {
+        this.radarVisible = true;
+        this.getRadarLayer();
+      } else {
+        this.radarLayer.remove();
+        this.radarVisible = false;
+        if (container != null) {
+          container.style.display = "none";
+        }
+      }
+    },
+    getRadarLayer() {
+      this.radarLayer = esri.dynamicMapLayer({
+        url: "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/radar_base_reflectivity/MapServer",
+        // 0: NFHL Availability, 3: FIRM Panels, 14: Cross Sections, 27: Flood Hazard Boundaries, 28: Flood Hazard Zones
+        layers: [3],
+        format: "image/png",
+      });
+      let layers = this.radarLayer.getLayers();
+      this.radarLayer.addTo(this.map);
+      this.getRadarLegend(layers);
+    },
   },
   mounted() {
     this.createMap();
@@ -1077,8 +1189,18 @@ export default {
       this.streamgageMarkers.clearLayers();
       this.toggleStreamgage(this.streamgageMarkers, this.currentZoom);
     },
+    currentZoom: function () {
+      // Update legend on zoom
+      if (this.map.hasLayer(this.nfhlLayer) && this.nfhlVisible) {
+        let layers = this.nfhlLayer.getLayers();
+        this.getNfhlLegend(layers);
+      }
+    },
     "$store.state.streamgageState": function () {
       this.toggleStreamgage(this.streamgageMarkers, this.currentZoom);
+    },
+    "$store.state.nfhlState": function () {
+      this.toggleNfhl(this.nfhlLayer);
     },
     // Watch basemap state and update visibility when state changes
     "$store.state.basemapState": function () {
@@ -1120,7 +1242,7 @@ export default {
   right: 10px;
   top: 56px;
   height: auto;
-  width: 250px;
+  width: 280px;
   position: absolute;
   z-index: 999;
   font-size: 14px;
@@ -1217,12 +1339,30 @@ export default {
   font-weight: bold;
 }
 
-.leaflet-popup-content-wrapper {
-  max-width: 90vw;
+#nfhlLabel, #radarLabel {
+  margin: 0px;
+  padding: 0px;
 }
 
-.user-select-none .svg-container {
-  max-width: 90vw;
+#nfhlLegend, #radarLegend {
+  display: none;
+  margin: 0px;
 }
 
+.nfhlLegendComponent, .radarLegendComponent {
+  margin-left: 20px;
+  padding: 5px;
+}
+
+.nfhlLegendComponent label, .radarLegendComponent label {
+  padding: 5px;
+}
+
+.nfhlLegendComponent img {
+  vertical-align: middle;
+}
+
+.legendtext {
+  font-weight: bold;
+}
 </style>
