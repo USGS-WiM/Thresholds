@@ -8,6 +8,7 @@ export default new Vuex.Store({
     drawerState: true,
     basemapState: "Topo",
     streamgageState: false,
+    nfhlState: false,
     currentZoomState: 4,
   },
   mutations: {
@@ -20,6 +21,9 @@ export default new Vuex.Store({
     getStreamgageState(state, streamgagePicked) {
       state.streamgageState = streamgagePicked;
     },
+    getNfhlState(state, nfhlPicked) {
+      state.nfhlState = nfhlPicked;
+    },
     getCurrentZoomState(state, currentZoom) {
       state.currentZoomState = currentZoom;
     },
@@ -28,6 +32,7 @@ export default new Vuex.Store({
     drawerState: (state) => state.drawerState,
     basemapState: (state) => state.basemapState,
     streamgageState: (state) => state.streamgageState,
+    nfhlState: (state) => state.nfhlState,
     currentZoomState: (state) => state.currentZoomState,
   },
   actions: {},

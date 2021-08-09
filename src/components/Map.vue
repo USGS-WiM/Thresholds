@@ -42,6 +42,10 @@
                   ></div>
                   <label>Real-time Streamgage</label>
                 </div>
+                <div class="legendIconToggle" v-if="nfhlVisible">
+                  <label id="nfhlLabel">National Flood Hazard Layer</label>
+                </div>
+                <div id="nfhlLegend"></div>
               </div>
               <!-- Threshold icons -->
               <div id="thresholdLayers">
@@ -127,6 +131,7 @@
 <script>
 import L from "leaflet"; //this is where you import leaflet components
 import "leaflet/dist/leaflet.css";
+import * as esri from "esri-leaflet";
 import mvpAqData from "../mvp_data/output.json";
 import axios from "axios";
 import Plotly from "plotly.js";
@@ -194,6 +199,8 @@ export default {
       tileProviders: tileProviders,
       streamgageMarkers: [],
       aqMarkers: [],
+      nfhlLayer: {},
+      nfhlVisible: false,
       popupContent: "",
       aqPopupContent: "",
       alertOpacity: "0.75",
@@ -1045,6 +1052,102 @@ export default {
         });
       }
     },
+    toggleNfhl(nfhlLayer) {
+      let container = document.getElementById("nfhlLegend");
+      this.nfhlLayer = nfhlLayer;
+      if (this.$store.state.nfhlState == true) {
+        this.nfhlVisible = true;
+        this.getNfhlLayer();
+      } else {
+        this.nfhlLayer.remove();
+        this.nfhlVisible = false;
+        if (container != null) {
+          container.style.display = "none";
+        }
+      }
+    },
+    getNfhlLayer() {
+      this.nfhlLayer = esri.dynamicMapLayer({
+        url: "https://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer",
+        // 0: NFHL Availability, 3: FIRM Panels, 14: Cross Sections, 27: Flood Hazard Boundaries, 28: Flood Hazard Zones
+        layers: [0, 3, 14, 27, 28],
+        format: "image/png",
+      });
+      let layers = this.nfhlLayer.getLayers();
+      this.nfhlLayer.addTo(this.map);
+      this.getNfhlLegend(layers);
+    },
+    getNfhlLegend(layers) {
+      let self = this;
+      let container = document.getElementById("nfhlLegend");
+      while (document.getElementsByClassName("nfhlLegendComponent")[0]) {
+        document.getElementsByClassName("nfhlLegendComponent")[0].remove();
+      }
+      axios
+        .get(
+          "https://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer/legend?f=pjson"
+        )
+        .then((data) => {
+          let layerList = data.data.layers;
+          for (let i = 0; i < layerList.length; i++) {
+            layers.forEach((layer) => {
+              if (layerList[i].layerId == layer) {
+                // Create sublayer legend div
+                let legendEl = document.createElement("div", container);
+                legendEl.className = "nfhlLegendComponent";
+                let layerName;
+                // Use the legend label if existing, otherwise use the layer name
+                if (layerList[i].legend[0].label != "") {
+                  layerName = layerList[i].legend[0].label;
+                } else {
+                  layerName = layerList[i].layerName;
+                }
+                // Set innerHTML to image and layer name
+                legendEl.innerHTML =
+                  "<img src=data:" +
+                  layerList[i].legend[0].contentType +
+                  ";base64," +
+                  layerList[i].legend[0].imageData +
+                  " alt=''/><label>" +
+                  layerName +
+                  "</label>";
+                // Add to legend at correct zoom level
+                if (container != null) {
+                  if (
+                    this.currentZoom <= 11 &&
+                    layerName == "NFHL Data Available"
+                  ) {
+                    container.appendChild(legendEl);
+                  } else if (
+                    this.currentZoom >= 14 &&
+                    (layerName == "FIRM Panels" ||
+                      layerName == "Limit Lines" ||
+                      layerName == "1% Annual Chance Flood Hazard")
+                  ) {
+                    container.appendChild(legendEl);
+                  } else if (
+                    this.currentZoom >= 15 &&
+                    layerName == "Cross-Sections"
+                  ) {
+                    container.appendChild(legendEl);
+                  }
+                  container.style.display = "inline-block";
+                } else {
+                  // If layer is toggled before legend is expanded, the container element will be null
+                  // Need to call the function again when the legend is expanded
+                  document.getElementById("titleContainer").onclick =
+                    function () {
+                      let currentLayers = self.nfhlLayer.getLayers();
+                      self.getNfhlLegend(currentLayers);
+                      // Remove the callback function
+                      document.getElementById("titleContainer").onclick = "";
+                    };
+                }
+              }
+            });
+          }
+        });
+    },
   },
   mounted() {
     this.createMap();
@@ -1055,8 +1158,18 @@ export default {
       this.streamgageMarkers.clearLayers();
       this.toggleStreamgage(this.streamgageMarkers, this.currentZoom);
     },
+    currentZoom: function () {
+      // Update legend on zoom
+      if (this.map.hasLayer(this.nfhlLayer) && this.nfhlVisible) {
+        let layers = this.nfhlLayer.getLayers();
+        this.getNfhlLegend(layers);
+      }
+    },
     "$store.state.streamgageState": function () {
       this.toggleStreamgage(this.streamgageMarkers, this.currentZoom);
+    },
+    "$store.state.nfhlState": function () {
+      this.toggleNfhl(this.nfhlLayer);
     },
     // Watch basemap state and update visibility when state changes
     "$store.state.basemapState": function () {
@@ -1095,7 +1208,7 @@ export default {
   right: 10px;
   top: 56px;
   height: auto;
-  width: 250px;
+  width: 280px;
   position: absolute;
   z-index: 999;
   font-size: 14px;
@@ -1190,5 +1303,28 @@ export default {
   color: rgba(51, 51, 51, 0.6);
   font-family: "Public Sans", sans-serif;
   font-weight: bold;
+}
+
+#nfhlLabel {
+  margin: 0px;
+  padding: 0px;
+}
+
+#nfhlLegend {
+  display: none;
+  margin: 0px;
+}
+
+.nfhlLegendComponent {
+  margin-left: 20px;
+  padding: 5px;
+}
+
+.nfhlLegendComponent label {
+  padding: 5px;
+}
+
+.nfhlLegendComponent img {
+  vertical-align: middle;
 }
 </style>
