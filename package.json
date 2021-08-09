@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "core-js": "~3.12.1",
+    "esri-leaflet": "^3.0.2",
     "leaflet": "^1.7.1",
     "leaflet-mouse-position": "^1.2.0",
     "plotly.js": "^2.3.0",
