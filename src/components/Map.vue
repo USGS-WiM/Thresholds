@@ -42,6 +42,10 @@
                   ></div>
                   <label>Real-time Streamgage</label>
                 </div>
+                <div class="legendIconToggle" v-if="fwwVisible">
+                  <label id="fwwLabel">Flood Watches and Warnings</label>
+                </div>
+                <div id="fwwLegend"></div>
                 <div class="legendIconToggle" v-if="nfhlVisible">
                   <label id="nfhlLabel">National Flood Hazard Layer</label>
                 </div>
@@ -201,6 +205,8 @@ export default {
       aqMarkers: [],
       nfhlLayer: {},
       nfhlVisible: false,
+      fwwLayer: {},
+      fwwVisible: false,
       popupContent: "",
       aqPopupContent: "",
       alertOpacity: "0.75",
@@ -1148,6 +1154,30 @@ export default {
           }
         });
     },
+        toggleFww(fwwLayer) {
+      let container = document.getElementById("fwwLegend");
+      this.fwwLayer = fwwLayer;
+      if (this.$store.state.fwwState == true) {
+        this.fwwVisible = true;
+        this.getFwwLayer();
+      } else {
+        this.fwwLayer.remove();
+        this.fwwVisible = false;
+        if (container != null) {
+          container.style.display = "none";
+        }
+      }
+    },
+    getFwwLayer() {
+      this.fwwLayer = esri.dynamicMapLayer({
+        url: "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Forecasts_Guidance_Warnings/watch_warn_adv/MapServer",
+        layers: [0, 1],
+        format: "image/png",
+      });
+      let layers = this.fwwLayer.getLayers();
+      this.fwwLayer.addTo(this.map);
+      this.getFwwLegend(layers);
+    },
   },
   mounted() {
     this.createMap();
@@ -1167,6 +1197,9 @@ export default {
     },
     "$store.state.streamgageState": function () {
       this.toggleStreamgage(this.streamgageMarkers, this.currentZoom);
+    },
+    "$store.state.fwwState": function () {
+      this.toggleFww(this.fwwLayer);
     },
     "$store.state.nfhlState": function () {
       this.toggleNfhl(this.nfhlLayer);
@@ -1305,22 +1338,22 @@ export default {
   font-weight: bold;
 }
 
-#nfhlLabel {
+#nfhlLabel, #fwwLabel {
   margin: 0px;
   padding: 0px;
 }
 
-#nfhlLegend {
+#nfhlLegend, #fwwLegend {
   display: none;
   margin: 0px;
 }
 
-.nfhlLegendComponent {
+.nfhlLegendComponent, .fwwLegendComponent {
   margin-left: 20px;
   padding: 5px;
 }
 
-.nfhlLegendComponent label {
+.nfhlLegendComponent label, .fwwLegendComponent {
   padding: 5px;
 }
 

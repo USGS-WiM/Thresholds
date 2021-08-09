@@ -127,6 +127,16 @@
             <label for="nfhl">National Flood Hazard Layer</label>
           </div>
           <br />
+          <input
+            type="checkbox"
+            ref="fww"
+            id="fww"
+            value="false"
+            v-model="fwwPicked"
+          />
+          <div class="legend-no-icon">
+            <label for="fww">Flood Watches and Warnings</label>
+          </div>
         </v-container>
       </v-expansion-panel-content>
     </v-expansion-panel>
@@ -169,6 +179,14 @@ export default {
       },
       set(value) {
         return this.$store.commit("getNfhlState", value);
+      },
+    },
+    fwwPicked: {
+      get() {
+        return this.$store.state.fwwState;
+      },
+      set(value) {
+        return this.$store.commit("getFwwState", value);
       },
     },
   },
