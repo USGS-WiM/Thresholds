@@ -566,8 +566,8 @@ export default {
 
           let layout = {
             autosize: false,
-            width: "50%",
-            height: "50%",
+            width: 400,
+            height: 400,
             font: {
               family: "Public Sans, sans-serif",
             },
@@ -748,12 +748,12 @@ export default {
         } else {
           if (e.layer.getPopup() != undefined) {
             e.layer.getPopup().setContent(this.aqPopupContent, {
-              maxWidth: "80vw",
+              maxWidth: 600,
             });
             e.layer.openPopup();
           } else {
             e.layer.bindPopup(this.aqPopupContent, {
-              maxWidth: "80vw",
+              maxWidth: 600,
             });
             e.layer.openPopup();
           }
@@ -852,7 +852,7 @@ export default {
 
           let layout = {
             autosize: false,
-            width: "50vw",
+            width: 600,
             font: {
               family: "Public Sans, sans-serif",
             },
