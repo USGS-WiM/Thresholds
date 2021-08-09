@@ -50,7 +50,7 @@
               <!-- Threshold icons -->
               <div id="thresholdLayers">
                 <div id="thresholdLayersTitle">Streamgage Status</div>
-                <div class="legendIcon">
+                <div class="legendIcon" v-if="bankVisible">
                   <img
                     src="../assets/aq-icons/embankment_flooded_circle.png"
                     height="25px"
@@ -58,7 +58,7 @@
                   />
                   <label>Embankment Flooded</label>
                 </div>
-                <div class="legendIcon">
+                <div class="legendIcon" v-if="pathVisible">
                   <img
                     src="../assets/aq-icons/path_flooded_circle.png"
                     alt=""
@@ -67,7 +67,7 @@
                   />
                   <label>Path Flooded</label>
                 </div>
-                <div class="legendIcon">
+                <div class="legendIcon" v-if="roadVisible">
                   <img
                     src="../assets/aq-icons/car_flooded_circle.png"
                     alt=""
@@ -76,7 +76,7 @@
                   />
                   <label>Road Flooded</label>
                 </div>
-                <div class="legendIcon">
+                <div class="legendIcon" v-if="bridgeRiskVisible">
                   <img
                     src="../assets/aq-icons/bridge_risk_circle.png"
                     alt=""
@@ -85,7 +85,7 @@
                   />
                   <label>Bridge Flood at Risk</label>
                 </div>
-                <div class="legendIcon">
+                <div class="legendIcon" v-if="bridgeFloodedVisible">
                   <img
                     src="../assets/aq-icons/bridge_flooded_circle.png"
                     alt=""
@@ -94,7 +94,7 @@
                   />
                   <label>Bridge Flooded</label>
                 </div>
-                <div class="legendIcon">
+                <div class="legendIcon" v-if="facilityVisible">
                   <img
                     src="../assets/aq-icons/building_flooded_circle.png"
                     alt=""
@@ -103,7 +103,7 @@
                   />
                   <label>Facility Flooded</label>
                 </div>
-                <div class="legendIcon">
+                <div class="legendIcon" v-if="bfeVisible">
                   <img
                     src="../assets/aq-icons/BFE.png"
                     height="25px"
@@ -111,7 +111,7 @@
                   />
                   <label>Base Flood Elevation</label>
                 </div>
-                <div class="legendIcon">
+                <div class="legendIcon" v-if="otherVisible">
                   <img
                     src="../assets/aq-icons/other.png"
                     height="25px"
@@ -259,6 +259,14 @@ export default {
         iconUrl: require("../assets/aq-icons/other.png"),
         iconSize: [50, 50],
       }),
+      bankVisible: false,
+      pathVisible: false,
+      roadVisible: false,
+      bridgeRiskVisible: false,
+      bridgeFloodedVisible: false,
+      facilityVisible: false,
+      otherVisible: false,
+      bfeVisible: false,
       showParagraph: false,
       fillColor: "#ffffff",
       streamgageVisible: false,
@@ -1022,6 +1030,25 @@ export default {
                 data.data.data[0].time_series_data.length - 1
               ][1] >= elevation
             ) {
+              // Icon visible in legend
+              if (Name === "PATH") {
+                this.pathVisible = true;
+              } else if (Name === "BANK") {
+                this.bankVisible = true;
+              } else if (Name === "ROAD") {
+                this.roadVisible = true;
+              } else if (Name === "CHORD") {
+                this.bridgeRiskVisible = true;
+              } else if (Name === "FACILITY") {
+                this.facilityVisible = true;
+              } else if (Name === "DECK") {
+                this.bridgeFloodedVisible = true;
+              } else if (Name === "BFE") {
+                this.bfeVisible = true;
+              } else {
+                this.otherVisible = true;
+              }
+
               let marker = L.marker([lat, lng], {
                 icon: aqIcon,
               }).addTo(this.aqMarkers);
