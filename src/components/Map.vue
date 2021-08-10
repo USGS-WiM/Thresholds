@@ -436,6 +436,7 @@ export default {
             if (this.$store.state.streamgageState == true) {
               let marker = L.marker([lat, lng], {
                 icon: this.nwisIcon,
+                zIndexOffset: 100, // add marker on top of other map layers
               }).addTo(this.streamgageMarkers);
               marker.data = { siteName: siteName, siteCode: siteID };
             }
