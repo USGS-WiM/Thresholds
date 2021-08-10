@@ -46,6 +46,10 @@
                   <label id="fwwLabel">Flood Watches and Warnings</label>
                 </div>
                 <div id="fwwLegend"></div>
+                <div class="legendIconToggle" v-if="radarVisible">
+                  <label id="radarLabel">National Weather Service Radar</label>
+                  <div id="radarLegend"></div>
+                </div>
                 <div class="legendIconToggle" v-if="nfhlVisible">
                   <label id="nfhlLabel">National Flood Hazard Layer</label>
                 </div>
@@ -54,7 +58,7 @@
               <!-- Threshold icons -->
               <div id="thresholdLayers">
                 <div id="thresholdLayersTitle">Streamgage Status</div>
-                <div class="legendIcon">
+                <div class="legendIcon" v-if="bankVisible">
                   <img
                     src="../assets/aq-icons/embankment_flooded_circle.png"
                     height="25px"
@@ -62,7 +66,7 @@
                   />
                   <label>Embankment Flooded</label>
                 </div>
-                <div class="legendIcon">
+                <div class="legendIcon" v-if="pathVisible">
                   <img
                     src="../assets/aq-icons/path_flooded_circle.png"
                     alt=""
@@ -71,7 +75,7 @@
                   />
                   <label>Path Flooded</label>
                 </div>
-                <div class="legendIcon">
+                <div class="legendIcon" v-if="roadVisible">
                   <img
                     src="../assets/aq-icons/car_flooded_circle.png"
                     alt=""
@@ -80,7 +84,7 @@
                   />
                   <label>Road Flooded</label>
                 </div>
-                <div class="legendIcon">
+                <div class="legendIcon" v-if="bridgeRiskVisible">
                   <img
                     src="../assets/aq-icons/bridge_risk_circle.png"
                     alt=""
@@ -89,7 +93,7 @@
                   />
                   <label>Bridge Flood at Risk</label>
                 </div>
-                <div class="legendIcon">
+                <div class="legendIcon" v-if="bridgeFloodedVisible">
                   <img
                     src="../assets/aq-icons/bridge_flooded_circle.png"
                     alt=""
@@ -98,7 +102,7 @@
                   />
                   <label>Bridge Flooded</label>
                 </div>
-                <div class="legendIcon">
+                <div class="legendIcon" v-if="facilityVisible">
                   <img
                     src="../assets/aq-icons/building_flooded_circle.png"
                     alt=""
@@ -107,7 +111,7 @@
                   />
                   <label>Facility Flooded</label>
                 </div>
-                <div class="legendIcon">
+                <div class="legendIcon" v-if="bfeVisible">
                   <img
                     src="../assets/aq-icons/BFE.png"
                     height="25px"
@@ -115,7 +119,7 @@
                   />
                   <label>Base Flood Elevation</label>
                 </div>
-                <div class="legendIcon">
+                <div class="legendIcon" v-if="otherVisible">
                   <img
                     src="../assets/aq-icons/other.png"
                     height="25px"
@@ -202,6 +206,8 @@ export default {
       center: L.latLng(37.0902, -82.7129),
       tileProviders: tileProviders,
       streamgageMarkers: [],
+      radarLayer: {},
+      radarVisible: false,
       aqMarkers: [],
       nfhlLayer: {},
       nfhlVisible: false,
@@ -265,6 +271,14 @@ export default {
         iconUrl: require("../assets/aq-icons/other.png"),
         iconSize: [50, 50],
       }),
+      bankVisible: false,
+      pathVisible: false,
+      roadVisible: false,
+      bridgeRiskVisible: false,
+      bridgeFloodedVisible: false,
+      facilityVisible: false,
+      otherVisible: false,
+      bfeVisible: false,
       showParagraph: false,
       fillColor: "#ffffff",
       streamgageVisible: false,
@@ -293,7 +307,7 @@ export default {
       self.aqMarkers = L.featureGroup();
       self.aqMarkers.on("click", function (e) {
         self.openAQPopup(e);
-      });
+      }).addTo(self.map);
 
       self.streamgageMarkers.on("click", function (e) {
         self.openStreamGagePopup(e);
@@ -748,7 +762,7 @@ export default {
         } else {
           if (e.layer.getPopup() != undefined) {
             e.layer.getPopup().setContent(this.aqPopupContent, {
-              minWidth: 600,
+              mixWidth: 600,
             });
             e.layer.openPopup();
           } else {
@@ -1028,6 +1042,25 @@ export default {
                 data.data.data[0].time_series_data.length - 1
               ][1] >= elevation
             ) {
+              // Icon visible in legend
+              if (Name === "PATH") {
+                this.pathVisible = true;
+              } else if (Name === "BANK") {
+                this.bankVisible = true;
+              } else if (Name === "ROAD") {
+                this.roadVisible = true;
+              } else if (Name === "CHORD") {
+                this.bridgeRiskVisible = true;
+              } else if (Name === "FACILITY") {
+                this.facilityVisible = true;
+              } else if (Name === "DECK") {
+                this.bridgeFloodedVisible = true;
+              } else if (Name === "BFE") {
+                this.bfeVisible = true;
+              } else {
+                this.otherVisible = true;
+              }
+
               let marker = L.marker([lat, lng], {
                 icon: aqIcon,
               }).addTo(this.aqMarkers);
@@ -1168,15 +1201,36 @@ export default {
         }
       }
     },
+    toggleRadar(radarLayer) {
+      let container = document.getElementById("radarLegend");
+      this.radarLayer = radarLayer;
+      if (this.$store.state.radarState == true) {
+        this.radarVisible = true;
+        this.getRadarLayer();
+      } else {
+        this.radarLayer.remove();
+        this.radarVisible = false;
+        if (container != null) {
+          container.style.display = "none";
+        }
+      }
+    },
     getFwwLayer() {
       this.fwwLayer = esri.dynamicMapLayer({
         url: "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Forecasts_Guidance_Warnings/watch_warn_adv/MapServer",
         layers: [0, 1],
         format: "image/png",
       });
-      let layers = this.fwwLayer.getLayers();
       this.fwwLayer.addTo(this.map);
-      this.getFwwLegend(layers);
+    },
+    getRadarLayer() {
+      this.radarLayer = esri.dynamicMapLayer({
+        url: "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/radar_base_reflectivity/MapServer",
+        // 0: NFHL Availability, 3: FIRM Panels, 14: Cross Sections, 27: Flood Hazard Boundaries, 28: Flood Hazard Zones
+        layers: [3],
+        format: "image/png",
+      });
+      this.radarLayer.addTo(this.map);
     },
   },
   mounted() {
@@ -1207,6 +1261,9 @@ export default {
     // Watch basemap state and update visibility when state changes
     "$store.state.basemapState": function () {
       this.selectBasemap(this.tileProviders);
+    },
+    "$store.state.radarState": function () {
+      this.toggleRadar(this.radarLayer);
     },
   },
   // Store current zoom value in state to access from other components
@@ -1338,22 +1395,22 @@ export default {
   font-weight: bold;
 }
 
-#nfhlLabel, #fwwLabel {
+#nfhlLabel, #fwwLabel, #radarLabel {
   margin: 0px;
   padding: 0px;
 }
 
-#nfhlLegend, #fwwLegend {
+#nfhlLegend, #fwwLegend, #radarLegend {
   display: none;
   margin: 0px;
 }
 
-.nfhlLegendComponent, .fwwLegendComponent {
+.nfhlLegendComponent, .fwwLegendComponent, .radarLegendComponent {
   margin-left: 20px;
   padding: 5px;
 }
 
-.nfhlLegendComponent label, .fwwLegendComponent {
+.nfhlLegendComponent label, .fwwLegendComponent label, .radarLegendComponent label {
   padding: 5px;
 }
 

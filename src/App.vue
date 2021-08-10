@@ -17,6 +17,7 @@
             </a>
             <div class="toolbar-text">
               <span>Real-Time Flood Impact Map</span>
+              <span class="pre-alpha">Pre-Alpha: Under Active Development</span>
             </div></v-toolbar-title
           >
           <Geosearch :map="map"></Geosearch>
@@ -137,5 +138,12 @@ body {
   .toolbar-image {
     display: none;
   }
+}
+
+.pre-alpha {
+  font-size: 15px;
+  color: red;
+  padding-left: 10px;
+  font-style: italic;
 }
 </style>
