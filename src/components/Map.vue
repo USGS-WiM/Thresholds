@@ -1091,9 +1091,7 @@ export default {
             this.aqMarkers.addTo(this.map);
             this.map.fitBounds(this.aqMarkers.getBounds());
           } else if (!hasMarkers && entry == this.mvpData.length - 1) {
-            console.log("No active flooding");
             this.dialog = true;
-            // Display a "no active flooding" message on sidebar or map
           }
         });
       }
