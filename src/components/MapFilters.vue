@@ -115,7 +115,18 @@
             ></div>
             <label for="stream">Real-time Streamgage</label>
           </div>
-          <br />
+          <br>
+          <input
+            type="checkbox"
+            ref="radar"
+            id="radar"
+            value="false"
+            v-model="radarPicked"
+            />
+            <div class="legend-no-icon">
+            <label for="radar">National Weather Service Radar</label>
+          </div>
+          <br>
           <input
             type="checkbox"
             ref="nfhl"
@@ -126,7 +137,7 @@
           <div class="legend-no-icon">
             <label for="nfhl">National Flood Hazard Layer</label>
           </div>
-          <br />
+
         </v-container>
       </v-expansion-panel-content>
     </v-expansion-panel>
@@ -160,7 +171,15 @@ export default {
       },
       set(value) {
         return this.$store.commit("getStreamgageState", value);
+      }
+    },
+    radarPicked: {
+      get() {
+        return this.$store.state.radarState;
       },
+      set(value) {
+        return this.$store.commit("getRadarState", value);
+      }
     },
     // use v-model to set nfhl layer state
     nfhlPicked: {

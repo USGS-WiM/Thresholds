@@ -42,6 +42,10 @@
                   ></div>
                   <label>Real-time Streamgage</label>
                 </div>
+                <div class="legendIconToggle" v-if="radarVisible">
+                  <label id="radarLabel">National Weather Service Radar</label>
+                  <div id="radarLegend"></div>
+                </div>
                 <div class="legendIconToggle" v-if="nfhlVisible">
                   <label id="nfhlLabel">National Flood Hazard Layer</label>
                 </div>
@@ -198,6 +202,8 @@ export default {
       center: L.latLng(37.0902, -82.7129),
       tileProviders: tileProviders,
       streamgageMarkers: [],
+      radarLayer: {},
+      radarVisible: false,
       aqMarkers: [],
       nfhlLayer: {},
       nfhlVisible: false,
@@ -295,7 +301,7 @@ export default {
       self.aqMarkers = L.featureGroup();
       self.aqMarkers.on("click", function (e) {
         self.openAQPopup(e);
-      });
+      }).addTo(self.map);
 
       self.streamgageMarkers.on("click", function (e) {
         self.openStreamGagePopup(e);
@@ -750,12 +756,12 @@ export default {
         } else {
           if (e.layer.getPopup() != undefined) {
             e.layer.getPopup().setContent(this.aqPopupContent, {
-              minWidth: 600,
+              maxWidth: 600,
             });
             e.layer.openPopup();
           } else {
             e.layer.bindPopup(this.aqPopupContent, {
-              minWidth: 600,
+              maxWidth: 600,
             });
             e.layer.openPopup();
           }
@@ -1175,6 +1181,31 @@ export default {
           }
         });
     },
+    toggleRadar(radarLayer) {
+      let container = document.getElementById("radarLegend");
+      this.radarLayer = radarLayer;
+      if (this.$store.state.radarState == true) {
+        this.radarVisible = true;
+        this.getRadarLayer();
+      } else {
+        this.radarLayer.remove();
+        this.radarVisible = false;
+        if (container != null) {
+          container.style.display = "none";
+        }
+      }
+    },
+    getRadarLayer() {
+      this.radarLayer = esri.dynamicMapLayer({
+        url: "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/radar_base_reflectivity/MapServer",
+        // 0: NFHL Availability, 3: FIRM Panels, 14: Cross Sections, 27: Flood Hazard Boundaries, 28: Flood Hazard Zones
+        layers: [3],
+        format: "image/png",
+      });
+      let layers = this.radarLayer.getLayers();
+      this.radarLayer.addTo(this.map);
+      this.getRadarLegend(layers);
+    },
   },
   mounted() {
     this.createMap();
@@ -1201,6 +1232,9 @@ export default {
     // Watch basemap state and update visibility when state changes
     "$store.state.basemapState": function () {
       this.selectBasemap(this.tileProviders);
+    },
+    "$store.state.radarState": function () {
+      this.toggleRadar(this.radarLayer);
     },
   },
   // Store current zoom value in state to access from other components
@@ -1332,22 +1366,22 @@ export default {
   font-weight: bold;
 }
 
-#nfhlLabel {
+#nfhlLabel, #radarLabel {
   margin: 0px;
   padding: 0px;
 }
 
-#nfhlLegend {
+#nfhlLegend, #radarLegend {
   display: none;
   margin: 0px;
 }
 
-.nfhlLegendComponent {
+.nfhlLegendComponent, .radarLegendComponent {
   margin-left: 20px;
   padding: 5px;
 }
 
-.nfhlLegendComponent label {
+.nfhlLegendComponent label, .radarLegendComponent label {
   padding: 5px;
 }
 

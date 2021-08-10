@@ -95,8 +95,8 @@ export default {
 
           let layout = {
             autosize: false,
-            width: 400,
-            height: 400,
+            width: "50%",
+            height: "50%",
             font: {
               family: "Public Sans, sans-serif",
             },
