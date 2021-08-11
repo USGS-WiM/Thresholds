@@ -29,6 +29,19 @@
             <v-expansion-panel-content>
               <!-- Toggleable layers -->
               <div id="toggleableLayers">
+                <div class="legendIconToggle" v-if="allRPVisible">
+                  <div
+                    class="
+                      wmm-pin
+                      wmm-altblue
+                      wmm-icon-noicon
+                      wmm-icon-orange
+                      wmm-size-25
+                    "
+                  ></div>
+                  <label id="allRPLabel">All Reference Point Locations</label>
+                  <div id="allRPLegend"></div>
+                </div>
                 <div class="legendIconToggle" v-if="streamgageVisible">
                   <div
                     class="
@@ -205,6 +218,7 @@ export default {
       radarLayer: {},
       radarVisible: false,
       aqMarkers: [],
+      allRPMarkers: [],
       nfhlLayer: {},
       nfhlVisible: false,
       popupContent: "",
@@ -276,6 +290,7 @@ export default {
       showParagraph: false,
       fillColor: "#ffffff",
       streamgageVisible: false,
+      allRPVisible: false,
     };
   },
   methods: {
@@ -297,17 +312,25 @@ export default {
 
       self.streamgageMarkers = L.featureGroup();
 
-      // markers from Aquarius TEST environment
+      // Live markers from Aquarius TEST environment
       self.aqMarkers = L.featureGroup();
-      self.aqMarkers.on("click", function (e) {
-        self.openAQPopup(e);
-      }).addTo(self.map);
+      self.aqMarkers
+        .on("click", function (e) {
+          self.openAQPopup(e);
+        })
+        .addTo(self.map);
 
       self.streamgageMarkers.on("click", function (e) {
         self.openStreamGagePopup(e);
       });
 
       let latlngDiv;
+
+      // All markers from Aquarius TEST environment
+      self.allRPMarkers = L.featureGroup();
+      self.allRPMarkers.on("click", function (e) {
+        self.openAQPopup(e);
+      });
 
       //Create lat lon leaflet control
       L.Control.LatLngControl = L.Control.extend({
@@ -946,6 +969,7 @@ export default {
     },
     loadAQdata() {
       this.aqMarkers.clearLayers();
+      this.allRPMarkers.clearLayers();
       let hasMarkers = false;
       // Test date to show flooding past some thresholds
       let day = 4;
@@ -1019,6 +1043,30 @@ export default {
           aqIcon = this.otherIcon;
         }
 
+        var wimIcon = L.divIcon({
+          className:
+            "wmm-pin wmm-altblue wmm-icon-noicon wmm-icon-orange wmm-size-25",
+        });
+
+        // all RP layer
+        let allMarkers = L.marker([lat, lng], {
+          icon: wimIcon,
+        }).addTo(this.allRPMarkers);
+
+        allMarkers.data = {
+          thresholds: thresh,
+          LocationIdentifier: LocationIdentifier,
+          Name: Name,
+          ReferencePointPeriods: rpData,
+          Elevation: elevation,
+          Unit: unit,
+          FullName: fullname,
+          SiteName: siteName,
+          lat: lat,
+          lng: lng,
+        };
+        // end all RP Layer
+
         let url =
           "https://nwis.waterservices.usgs.gov/nwis/iv/?format=nwjson&sites=" +
           LocationIdentifier +
@@ -1056,6 +1104,7 @@ export default {
                 this.otherVisible = true;
               }
 
+              // live layer
               let marker = L.marker([lat, lng], {
                 icon: aqIcon,
               }).addTo(this.aqMarkers);
@@ -1100,6 +1149,19 @@ export default {
         }
       }
     },
+    toggleAllRP() {
+      let container = document.getElementById("allRPLegend");
+      if (this.$store.state.allRPState == true) {
+        this.allRPVisible = true;
+        this.getallRPLayer();
+      } else {
+        this.allRPMarkers.remove();
+        this.allRPVisible = false;
+        if (container != null) {
+          container.style.display = "none";
+        }
+      }
+    },
     getNfhlLayer() {
       this.nfhlLayer = esri.dynamicMapLayer({
         url: "https://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer",
@@ -1110,6 +1172,9 @@ export default {
       let layers = this.nfhlLayer.getLayers();
       this.nfhlLayer.addTo(this.map);
       this.getNfhlLegend(layers);
+    },
+    getallRPLayer() {
+      this.allRPMarkers.addTo(this.map);
     },
     getNfhlLegend(layers) {
       let self = this;
@@ -1236,6 +1301,9 @@ export default {
     },
     "$store.state.radarState": function () {
       this.toggleRadar(this.radarLayer);
+    },
+    "$store.state.allRPState": function () {
+      this.toggleAllRP(this.allRPMarkers);
     },
   },
   // Store current zoom value in state to access from other components
@@ -1367,22 +1435,26 @@ export default {
   font-weight: bold;
 }
 
-#nfhlLabel, #radarLabel {
+#nfhlLabel,
+#radarLabel {
   margin: 0px;
   padding: 0px;
 }
 
-#nfhlLegend, #radarLegend {
+#nfhlLegend,
+#radarLegend {
   display: none;
   margin: 0px;
 }
 
-.nfhlLegendComponent, .radarLegendComponent {
+.nfhlLegendComponent,
+.radarLegendComponent {
   margin-left: 20px;
   padding: 5px;
 }
 
-.nfhlLegendComponent label, .radarLegendComponent label {
+.nfhlLegendComponent label,
+.radarLegendComponent label {
   padding: 5px;
 }
 

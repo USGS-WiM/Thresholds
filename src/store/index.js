@@ -10,6 +10,7 @@ export default new Vuex.Store({
     streamgageState: false,
     radarState: false,
     nfhlState: false,
+    allRPState: false,
     currentZoomState: 4,
   },
   mutations: {
@@ -28,6 +29,9 @@ export default new Vuex.Store({
     getNfhlState(state, nfhlPicked) {
       state.nfhlState = nfhlPicked;
     },
+    getallRPState(state, allRPPicked) {
+      state.allRPState = allRPPicked;
+    },
     getCurrentZoomState(state, currentZoom) {
       state.currentZoomState = currentZoom;
     },
@@ -38,6 +42,7 @@ export default new Vuex.Store({
     streamgageState: (state) => state.streamgageState,
     radarState: (state) => state.radarState,
     nfhlState: (state) => state.nfhlState,
+    allRPState: (state) => state.allRPState,
     currentZoomState: (state) => state.currentZoomState,
   },
   actions: {},

@@ -90,6 +90,23 @@
       <v-expansion-panel-header> Layers </v-expansion-panel-header>
       <v-expansion-panel-content>
         <v-container class="px-0" fluid>
+          <input
+            type="checkbox"
+            ref="allRP"
+            id="allRP"
+            value="false"
+            v-model="allRPPicked"
+          />
+          <div class="legend-icon">
+            <div
+              id="allRPIcon"
+              class="
+                wmm-pin wmm-altblue wmm-icon-noicon wmm-icon-orange wmm-size-20
+              "
+            ></div>
+            <label for="allRP">All Reference Point Locations</label>
+          </div>
+          <br />
           <div class="zoom-alert" :style="{ display: isDisplayed }">
             Real-time Streamgages available at zoom level 9 and above. Please
             zoom in to view.
@@ -115,18 +132,18 @@
             ></div>
             <label for="stream">Real-time Streamgage</label>
           </div>
-          <br>
+          <br />
           <input
             type="checkbox"
             ref="radar"
             id="radar"
             value="false"
             v-model="radarPicked"
-            />
-            <div class="legend-no-icon">
+          />
+          <div class="legend-no-icon">
             <label for="radar">National Weather Service Radar</label>
           </div>
-          <br>
+          <br />
           <input
             type="checkbox"
             ref="nfhl"
@@ -137,7 +154,6 @@
           <div class="legend-no-icon">
             <label for="nfhl">National Flood Hazard Layer</label>
           </div>
-
         </v-container>
       </v-expansion-panel-content>
     </v-expansion-panel>
@@ -171,7 +187,7 @@ export default {
       },
       set(value) {
         return this.$store.commit("getStreamgageState", value);
-      }
+      },
     },
     radarPicked: {
       get() {
@@ -179,7 +195,7 @@ export default {
       },
       set(value) {
         return this.$store.commit("getRadarState", value);
-      }
+      },
     },
     // use v-model to set nfhl layer state
     nfhlPicked: {
@@ -188,6 +204,15 @@ export default {
       },
       set(value) {
         return this.$store.commit("getNfhlState", value);
+      },
+    },
+    // use v-model to set nfhl layer state
+    allRPPicked: {
+      get() {
+        return this.$store.state.allRPState;
+      },
+      set(value) {
+        return this.$store.commit("getallRPState", value);
       },
     },
   },
