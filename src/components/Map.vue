@@ -133,6 +133,23 @@
         </v-expansion-panels>
       </div>
     </div>
+    <v-dialog v-model="dialog" max-width="250">
+      <v-card>
+        <v-card-title class="text-h6 red lighten-2">
+          No active flooding
+        </v-card-title>
+
+        <v-card-text>
+          Use the map filters to view all reference points and supporting map
+          layers.</v-card-text
+        >
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn text @click="dialog = false"> Close </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-main>
 </template>
 
@@ -282,6 +299,7 @@ export default {
       showParagraph: false,
       fillColor: "#ffffff",
       streamgageVisible: false,
+      dialog: false,
     };
   },
   methods: {
@@ -1086,8 +1104,7 @@ export default {
             this.aqMarkers.addTo(this.map);
             this.map.fitBounds(this.aqMarkers.getBounds());
           } else if (!hasMarkers && entry == this.mvpData.length - 1) {
-            console.log("No active flooding");
-            // Display a "no active flooding" message on sidebar or map
+            this.dialog = true;
           }
         });
       }
@@ -1420,5 +1437,9 @@ export default {
 
 .legendtext {
   font-weight: bold;
+}
+
+.v-dialog > .v-card > .v-card__text {
+  padding: 20px !important;
 }
 </style>
