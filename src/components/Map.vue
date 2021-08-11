@@ -1111,7 +1111,7 @@ export default {
         url: "https://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer",
         // 0: NFHL Availability, 3: FIRM Panels, 14: Cross Sections, 27: Flood Hazard Boundaries, 28: Flood Hazard Zones
         layers: [0, 3, 14, 27, 28],
-        format: "image/png",
+        f: "image/png",
       });
       let layers = this.nfhlLayer.getLayers();
       this.nfhlLayer.addTo(this.map);
@@ -1220,16 +1220,15 @@ export default {
       this.fwwLayer = esri.dynamicMapLayer({
         url: "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Forecasts_Guidance_Warnings/watch_warn_adv/MapServer",
         layers: [0, 1],
-        format: "image/png",
+        f: "image/png",
       });
       this.fwwLayer.addTo(this.map);
     },
     getRadarLayer() {
       this.radarLayer = esri.dynamicMapLayer({
         url: "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/radar_base_reflectivity/MapServer",
-        // 0: NFHL Availability, 3: FIRM Panels, 14: Cross Sections, 27: Flood Hazard Boundaries, 28: Flood Hazard Zones
         layers: [3],
-        format: "image/png",
+        f: "image/png",
       });
       this.radarLayer.addTo(this.map);
     },
