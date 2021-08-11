@@ -14,6 +14,20 @@
         ></v-progress-circular>
         <span class="loadingLabel">Loading Layers...</span>
       </div>
+      <div
+        id="nfhlLoadingAlert"
+        class="alert nfhlAlertClass fade"
+        role="alert"
+        :style="{ display: nfhlIsDisplayed, opacity: alertOpacity }"
+        load: 
+      >
+        <v-progress-circular
+          indeterminate
+          :width="3"
+          :size="20"
+        ></v-progress-circular>
+        <span class="loadingLabel">Loading Layer...</span>
+      </div>
 
       <!-- a leaflet map -->
       <div id="map">
@@ -235,6 +249,7 @@ export default {
       alertOpacity: "0.75",
       mvpData: mvpAqData,
       isDisplayed: "none",
+      nfhlIsDisplayed: "none",
       currentZoom: 4,
       currentBounds: {
         _southWest: {
@@ -968,6 +983,21 @@ export default {
         }
       }, 50);
     },
+    nfhlFadeOutAlert() {
+      let opacity = 0.75;
+      let self = this;
+      let fadeOut = setInterval(function () {
+        if (opacity > 0) {
+          opacity -= 0.05;
+          let opacityValue = String(opacity);
+          self.alertOpacity = opacityValue;
+        } else {
+          self.alertOpacity = "0.75";
+          self.nfhlIsDisplayed = "none";
+          clearInterval(fadeOut);
+        }
+      }, 100);
+    },
     loadAQdata() {
       this.aqMarkers.clearLayers();
       let hasMarkers = false;
@@ -1110,6 +1140,7 @@ export default {
       }
     },
     toggleNfhl(nfhlLayer) {
+      
       let container = document.getElementById("nfhlLegend");
       this.nfhlLayer = nfhlLayer;
       if (this.$store.state.nfhlState == true) {
@@ -1124,6 +1155,7 @@ export default {
       }
     },
     getNfhlLayer() {
+      this.nfhlIsDisplayed = "block";
       this.nfhlLayer = esri.dynamicMapLayer({
         url: "https://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer",
         // 0: NFHL Availability, 3: FIRM Panels, 14: Cross Sections, 27: Flood Hazard Boundaries, 28: Flood Hazard Zones
@@ -1132,6 +1164,7 @@ export default {
       });
       let layers = this.nfhlLayer.getLayers();
       this.nfhlLayer.addTo(this.map);
+      this.nfhlFadeOutAlert();
       this.getNfhlLegend(layers);
     },
     getNfhlLegend(layers) {
@@ -1382,7 +1415,7 @@ export default {
   padding: 5px;
 }
 
-.nwisAlertClass {
+.nwisAlertClass, .nfhlAlertClass {
   position: absolute;
   top: 10px;
   left: 50px;
