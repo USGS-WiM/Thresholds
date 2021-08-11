@@ -42,6 +42,14 @@
                   ></div>
                   <label>Real-time Streamgage</label>
                 </div>
+                <div class="legendIconToggle" v-if="fwwVisible">
+                  <label id="fwwLabel">Flood Watches and Warnings</label>
+                </div>
+                <div id="fwwLegend"></div>
+                <div class="legendIconToggle" v-if="radarVisible">
+                  <label id="radarLabel">National Weather Service Radar</label>
+                  <div id="radarLegend"></div>
+                </div>
                 <div class="legendIconToggle" v-if="nfhlVisible">
                   <label id="nfhlLabel">National Flood Hazard Layer</label>
                 </div>
@@ -215,9 +223,13 @@ export default {
       center: L.latLng(37.0902, -82.7129),
       tileProviders: tileProviders,
       streamgageMarkers: [],
+      radarLayer: {},
+      radarVisible: false,
       aqMarkers: [],
       nfhlLayer: {},
       nfhlVisible: false,
+      fwwLayer: {},
+      fwwVisible: false,
       popupContent: "",
       aqPopupContent: "",
       alertOpacity: "0.75",
@@ -313,7 +325,7 @@ export default {
       self.aqMarkers = L.featureGroup();
       self.aqMarkers.on("click", function (e) {
         self.openAQPopup(e);
-      });
+      }).addTo(self.map);
 
       self.streamgageMarkers.on("click", function (e) {
         self.openStreamGagePopup(e);
@@ -454,6 +466,7 @@ export default {
             if (this.$store.state.streamgageState == true) {
               let marker = L.marker([lat, lng], {
                 icon: this.nwisIcon,
+                zIndexOffset: 100, // add marker on top of other map layers
               }).addTo(this.streamgageMarkers);
               marker.data = { siteName: siteName, siteCode: siteID };
             }
@@ -1115,7 +1128,7 @@ export default {
         url: "https://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer",
         // 0: NFHL Availability, 3: FIRM Panels, 14: Cross Sections, 27: Flood Hazard Boundaries, 28: Flood Hazard Zones
         layers: [0, 3, 14, 27, 28],
-        format: "image/png",
+        f: "image/png",
       });
       let layers = this.nfhlLayer.getLayers();
       this.nfhlLayer.addTo(this.map);
@@ -1192,6 +1205,50 @@ export default {
           }
         });
     },
+        toggleFww(fwwLayer) {
+      let container = document.getElementById("fwwLegend");
+      this.fwwLayer = fwwLayer;
+      if (this.$store.state.fwwState == true) {
+        this.fwwVisible = true;
+        this.getFwwLayer();
+      } else {
+        this.fwwLayer.remove();
+        this.fwwVisible = false;
+        if (container != null) {
+          container.style.display = "none";
+        }
+      }
+    },
+    toggleRadar(radarLayer) {
+      let container = document.getElementById("radarLegend");
+      this.radarLayer = radarLayer;
+      if (this.$store.state.radarState == true) {
+        this.radarVisible = true;
+        this.getRadarLayer();
+      } else {
+        this.radarLayer.remove();
+        this.radarVisible = false;
+        if (container != null) {
+          container.style.display = "none";
+        }
+      }
+    },
+    getFwwLayer() {
+      this.fwwLayer = esri.dynamicMapLayer({
+        url: "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Forecasts_Guidance_Warnings/watch_warn_adv/MapServer",
+        layers: [0, 1],
+        f: "image/png",
+      });
+      this.fwwLayer.addTo(this.map);
+    },
+    getRadarLayer() {
+      this.radarLayer = esri.dynamicMapLayer({
+        url: "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/radar_base_reflectivity/MapServer",
+        layers: [3],
+        f: "image/png",
+      });
+      this.radarLayer.addTo(this.map);
+    },
   },
   mounted() {
     this.createMap();
@@ -1212,12 +1269,18 @@ export default {
     "$store.state.streamgageState": function () {
       this.toggleStreamgage(this.streamgageMarkers, this.currentZoom);
     },
+    "$store.state.fwwState": function () {
+      this.toggleFww(this.fwwLayer);
+    },
     "$store.state.nfhlState": function () {
       this.toggleNfhl(this.nfhlLayer);
     },
     // Watch basemap state and update visibility when state changes
     "$store.state.basemapState": function () {
       this.selectBasemap(this.tileProviders);
+    },
+    "$store.state.radarState": function () {
+      this.toggleRadar(this.radarLayer);
     },
   },
   // Store current zoom value in state to access from other components
@@ -1349,22 +1412,22 @@ export default {
   font-weight: bold;
 }
 
-#nfhlLabel {
+#nfhlLabel, #fwwLabel, #radarLabel {
   margin: 0px;
   padding: 0px;
 }
 
-#nfhlLegend {
+#nfhlLegend, #fwwLegend, #radarLegend {
   display: none;
   margin: 0px;
 }
 
-.nfhlLegendComponent {
+.nfhlLegendComponent, .fwwLegendComponent, .radarLegendComponent {
   margin-left: 20px;
   padding: 5px;
 }
 
-.nfhlLegendComponent label {
+.nfhlLegendComponent label, .fwwLegendComponent label, .radarLegendComponent label {
   padding: 5px;
 }
 
