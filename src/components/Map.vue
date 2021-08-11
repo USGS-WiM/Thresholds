@@ -762,7 +762,7 @@ export default {
         } else {
           if (e.layer.getPopup() != undefined) {
             e.layer.getPopup().setContent(this.aqPopupContent, {
-              mixWidth: 600,
+              minWidth: 600,
             });
             e.layer.openPopup();
           } else {
