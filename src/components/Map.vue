@@ -599,8 +599,8 @@ export default {
 
           let layout = {
             autosize: false,
-            width: 400,
-            height: 400,
+            width: 300,
+            height: 300,
             font: {
               family: "Public Sans, sans-serif",
             },
@@ -625,9 +625,9 @@ export default {
               x: 0.05,
             },
             margin: {
-              l: 50,
-              r: 50,
-              t: 100,
+              l: 25,
+              r: 25,
+              t: 25,
               pad: 4,
             },
             legend: false,
@@ -740,7 +740,7 @@ export default {
         " " +
         layerData.Unit +
         "</br>" +
-        '</label></br><p id="graphLoadMessageAQ"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainerAQ" style="width:100%; min-height: 400px; display:block;"></div> <div>Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
+        '</label></br><p id="graphLoadMessageAQ"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainerAQ" style="width:100%; min-height: 50px; display:block;"></div> <div>Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
         sc +
         '"><b>Site ' +
         ' on NWISWeb <i class="v-icon notranslate mdi mdi-open-in-new" style="font-size:16px"></i></b></a><div id="noDataMessageAQ" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>';
@@ -781,12 +781,12 @@ export default {
         } else {
           if (e.layer.getPopup() != undefined) {
             e.layer.getPopup().setContent(this.aqPopupContent, {
-              minWidth: 600,
+              minWidth: 390,
             });
             e.layer.openPopup();
           } else {
             e.layer.bindPopup(this.aqPopupContent, {
-              minWidth: 600,
+              minWidth: 390,
             });
             e.layer.openPopup();
           }
@@ -885,7 +885,8 @@ export default {
 
           let layout = {
             autosize: false,
-            width: 600,
+            width: 400,
+            height: 250,
             font: {
               family: "Public Sans, sans-serif",
             },
@@ -911,17 +912,17 @@ export default {
             },
             legend: {
               x: 0.25,
-              y: -0.4,
+              y: -0.1,
               font: {
                 size: 12,
               },
               orientation: "h",
             },
             margin: {
-              l: 70,
-              r: 70,
-              b: 100,
-              t: 100,
+              l: 25,
+              r: 25,
+              b: 25,
+              t: 25,
               pad: 4,
             },
             annotations: plotlyAnnotations,
