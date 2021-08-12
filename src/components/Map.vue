@@ -996,7 +996,7 @@ export default {
           self.nfhlIsDisplayed = "none";
           clearInterval(fadeOut);
         }
-      }, 100);
+      }, 150);
     },
     loadAQdata() {
       this.aqMarkers.clearLayers();
