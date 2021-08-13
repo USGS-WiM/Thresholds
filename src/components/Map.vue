@@ -1155,16 +1155,39 @@ export default {
       }
     },
     getNfhlLayer() {
-      this.nfhlIsDisplayed = "block";
+      var self = this;
+      self.nfhlIsDisplayed = "block";
+      let nfhlURL = "https://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer"
+      let extent = this.map.getBounds();
+      let bbox =
+        extent._southWest.lng.toFixed(7) +
+        "%2C" +
+        extent._southWest.lat.toFixed(7) +
+        "%2C" +
+        extent._northEast.lng.toFixed(7) +
+        "%2C" +
+        extent._northEast.lat.toFixed(7);
+
+
       this.nfhlLayer = esri.dynamicMapLayer({
-        url: "https://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer",
+        url: nfhlURL,
         // 0: NFHL Availability, 3: FIRM Panels, 14: Cross Sections, 27: Flood Hazard Boundaries, 28: Flood Hazard Zones
         layers: [0, 3, 14, 27, 28],
         f: "image/png",
       });
+      axios.get(nfhlURL + "/export?bbox=" + bbox + "&size=1421%2C375&dpi=96&format=png32&transparent=true&bboxSR=3857&imageSR=3857&layers=show%3A0%2C3%2C14%2C27%2C28&f=image")
+        .then(function () {
+          // handle success
+          console.log("success")
+          self.nfhlFadeOutAlert()
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+      })
+
       let layers = this.nfhlLayer.getLayers();
       this.nfhlLayer.addTo(this.map);
-      this.nfhlFadeOutAlert();
       this.getNfhlLegend(layers);
     },
     getNfhlLegend(layers) {
