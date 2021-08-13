@@ -55,6 +55,10 @@
                   ></div>
                   <label>Real-time Streamgage</label>
                 </div>
+                <div class="legendIconToggle" v-if="fwwVisible">
+                  <label id="fwwLabel">Flood Watches and Warnings</label>
+                </div>
+                <div id="fwwLegend"></div>
                 <div class="legendIconToggle" v-if="radarVisible">
                   <label id="radarLabel">National Weather Service Radar</label>
                   <div id="radarLegend"></div>
@@ -142,6 +146,23 @@
         </v-expansion-panels>
       </div>
     </div>
+    <v-dialog v-model="dialog" max-width="250">
+      <v-card>
+        <v-card-title class="text-h6 red lighten-2">
+          No active flooding
+        </v-card-title>
+
+        <v-card-text>
+          Use the map filters to view all reference points and supporting map
+          layers.</v-card-text
+        >
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn text @click="dialog = false"> Close </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-main>
 </template>
 
@@ -221,6 +242,8 @@ export default {
       allRPMarkers: [],
       nfhlLayer: {},
       nfhlVisible: false,
+      fwwLayer: {},
+      fwwVisible: false,
       popupContent: "",
       aqPopupContent: "",
       alertOpacity: "0.75",
@@ -291,6 +314,7 @@ export default {
       fillColor: "#ffffff",
       streamgageVisible: false,
       allRPVisible: false,
+      dialog: false,
     };
   },
   methods: {
@@ -518,7 +542,7 @@ export default {
         e.layer.data.siteCode +
         "</br>" +
         e.layer.data.siteName +
-        '</label></br><p id="graphLoadMessage"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainer" style="width:100%; min-height: 350px;display:block;"></div> <div>Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
+        '</label></br><p id="graphLoadMessage"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainer" style="width:100%; min-height: 350px;display:block;"></div> <div id="dataCredit">Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
         e.layer.data.siteCode +
         '"><b>Site ' +
         e.layer.data.siteCode +
@@ -605,20 +629,20 @@ export default {
             },
             yaxis: {
               title: "Gage Height, feet",
-              titlefont: { size: 12 },
+              titlefont: { size: 14 },
               automargin: true,
             },
             xaxis: {
               range: [dates[0], dates[dates.length - 1]],
               tickformat: "%d %b %y",
               tickfont: {
-                size: 11,
+                size: 14,
               },
             },
             title: {
               text: graphtitle,
               font: {
-                size: 12,
+                size: 14,
                 color: "rgba(51,51,51,0.6)",
               },
               x: 0.05,
@@ -636,10 +660,19 @@ export default {
                 family: "Public Sans, sans-serif",
               },
             },
+            modebar: {
+              orientation: "v", // Vertical modebar
+              remove: "autoscale",
+            },
+            dragmode: "pan", // Make pan the default active modebar button
           };
 
           // Make chart responsive and modebar always visible
-          let config = { responsive: true, displayModeBar: true };
+          let config = {
+            responsive: true,
+            displayModeBar: true,
+            displaylogo: false,
+          };
 
           let chartData = [];
 
@@ -724,25 +757,32 @@ export default {
         "-" +
         endDay;
 
+      let icon =
+        e.layer._icon.outerHTML.split("class")[0] +
+        'style="width:25px; height: 25px; vertical-align: middle;" alt=""';
+
       this.aqPopupContent =
-        '<label id="popup-titleAQ"><b>Site Name: </b>' +
+        '<div id="aqGraphHeader"><span><label id="popup-titleAQ">' +
         layerData.SiteName +
-        "</br>" +
-        '<label id="popup-titleAQ"><b>Reference Point Name: </b>' +
+        " </label></span><div class='popupIcon'>" +
+        icon +
+        "><span class='tooltiptext'>" +
+        layerData.ThresholdName +
+        "</span></div></br>" +
+        '<a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
+        sc +
+        '"> <b>NWIS Site ' +
+        layerData.LocationIdentifier +
+        ' <i class="v-icon notranslate mdi mdi-open-in-new" style="font-size:16px"></i></b></a></br>' +
+        "<b>Reference Point: </b>" +
         layerData.FullName +
         "</br>" +
-        '<label id="popup-titleAQ"><b>Location ID: </b>' +
-        layerData.LocationIdentifier +
-        "</br>" +
-        '<label id="popup-titleAQ"><b>Elevation: </b>' +
+        "<b>Elevation Data: </b>" +
         layerData.Elevation +
         " " +
         layerData.Unit +
         "</br>" +
-        '</label></br><p id="graphLoadMessageAQ"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainerAQ" style="width:100%; min-height: 400px; display:block;"></div> <div>Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
-        sc +
-        '"><b>Site ' +
-        ' on NWISWeb <i class="v-icon notranslate mdi mdi-open-in-new" style="font-size:16px"></i></b></a><div id="noDataMessageAQ" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>';
+        '</div></br><p id="graphLoadMessageAQ"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainerAQ" style="width:100%; min-height: 400px; display:block;"></div> <div id="aqDataCredit">Gage Height data courtesy of the U.S. Geological Survey.</div><div id="noDataMessageAQ" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>';
       let url =
         "https://nwis.waterservices.usgs.gov/nwis/iv/?format=nwjson&sites=" +
         sc +
@@ -780,12 +820,12 @@ export default {
         } else {
           if (e.layer.getPopup() != undefined) {
             e.layer.getPopup().setContent(this.aqPopupContent, {
-              maxWidth: 600,
+              minWidth: 600,
             });
             e.layer.openPopup();
           } else {
             e.layer.bindPopup(this.aqPopupContent, {
-              maxWidth: 600,
+              minWidth: 600,
             });
             e.layer.openPopup();
           }
@@ -814,7 +854,7 @@ export default {
               y: values,
               type: "scatter",
               showlegend: true,
-              name: "<b>Gage Height</b>",
+              name: "<b>NWIS Observed Gage Data</b>",
               hovertemplate: "%{x}<br>Gage height: %{y} feet<extra></extra>",
               font: {
                 family: "Public Sans, sans-serif",
@@ -851,7 +891,7 @@ export default {
               },
               showlegend: showLegend,
               legendgroup: "thresholds",
-              name: layerData.FullName,
+              name: layerData.ThresholdName + " Threshold",
               // Tooltip
               hovertemplate: "%{fullData.name}: %{y} feet<extra></extra>",
               font: {
@@ -870,18 +910,13 @@ export default {
               arrowhead: 0,
               font: {
                 family: "Public Sans, sans-serif",
-                size: 11,
+                size: 12,
               },
               xanchor: "left",
             });
           }
 
           // Overall layout of chart
-          let graphtitle = "<b>NWIS Site " + sc + "<br></b>";
-          // "<br>" +
-          //   e.layer.data.siteName +
-          //   "</b>";
-
           let layout = {
             autosize: false,
             width: 600,
@@ -890,37 +925,27 @@ export default {
             },
             yaxis: {
               title: "Gage Height, feet",
-              titlefont: { size: 12 },
+              titlefont: { size: 14 },
               automargin: true,
             },
             xaxis: {
               range: [dates[0], dates[dates.length - 1]],
               tickformat: "%d %b %y",
               tickfont: {
-                size: 11,
+                size: 14,
               },
-            },
-            title: {
-              text: graphtitle,
-              font: {
-                size: 12,
-                color: "rgba(51,51,51,0.6)",
-              },
-              x: 0.05,
             },
             legend: {
-              x: 0.25,
-              y: -0.4,
               font: {
-                size: 12,
+                size: 14,
               },
               orientation: "h",
             },
             margin: {
               l: 70,
               r: 70,
-              b: 100,
-              t: 100,
+              b: 50,
+              t: 20,
               pad: 4,
             },
             annotations: plotlyAnnotations,
@@ -929,10 +954,18 @@ export default {
                 family: "Public Sans, sans-serif",
               },
             },
+            modebar: {
+              orientation: "v", // Vertical modebar
+              remove: "autoscale",
+            },
+            dragmode: "pan", // Make pan the default active modebar button
           };
 
-          // Make chart responsive and modebar always visible
-          let config = { responsive: true, displayModeBar: true };
+          let config = {
+            responsive: true, // Make chart responsive
+            displayModeBar: true, // Modebar always visible, not just on plot hover
+            displaylogo: false, // Remove plotly.js icon from modebar
+          };
 
           let chartData = [];
 
@@ -1004,6 +1037,7 @@ export default {
         let lng;
         let aqIcon;
         let siteName;
+        let thresholdName;
 
         for (let i = 0; i < this.mvpData[entry].rp.length; i++) {
           if (this.mvpData[entry].rp[i].Latitude !== undefined) {
@@ -1027,20 +1061,28 @@ export default {
         // Determine Icon for Reference Point
         if (Name === "PATH") {
           aqIcon = this.pathIcon;
+          thresholdName = "Path Flooded";
         } else if (Name === "BANK") {
           aqIcon = this.bankIcon;
+          thresholdName = "Bank Flooded";
         } else if (Name === "ROAD") {
           aqIcon = this.roadIcon;
+          thresholdName = "Road Flooded";
         } else if (Name === "CHORD") {
           aqIcon = this.bridgeRiskIcon;
+          thresholdName = "Bridge Flood Risk";
         } else if (Name === "FACILITY") {
           aqIcon = this.buildingIcon;
+          thresholdName = "Facility Flooded";
         } else if (Name === "DECK") {
           aqIcon = this.bridgeFloodedIcon;
+          thresholdName = "Bridge Flooded";
         } else if (Name === "BFE") {
           aqIcon = this.bfeIcon;
+          thresholdName = "BFE";
         } else {
           aqIcon = this.otherIcon;
+          thresholdName = "Uncategorized Flooding";
         }
 
         var wimIcon = L.divIcon({
@@ -1118,6 +1160,7 @@ export default {
                 Unit: unit,
                 FullName: fullname,
                 SiteName: siteName,
+                ThresholdName: thresholdName,
                 lat: lat,
                 lng: lng,
               };
@@ -1129,8 +1172,7 @@ export default {
             this.aqMarkers.addTo(this.map);
             this.map.fitBounds(this.aqMarkers.getBounds());
           } else if (!hasMarkers && entry == this.mvpData.length - 1) {
-            console.log("No active flooding");
-            // Display a "no active flooding" message on sidebar or map
+            this.dialog = true;
           }
         });
       }
@@ -1167,7 +1209,7 @@ export default {
         url: "https://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer",
         // 0: NFHL Availability, 3: FIRM Panels, 14: Cross Sections, 27: Flood Hazard Boundaries, 28: Flood Hazard Zones
         layers: [0, 3, 14, 27, 28],
-        format: "image/png",
+        f: "image/png",
       });
       let layers = this.nfhlLayer.getLayers();
       this.nfhlLayer.addTo(this.map);
@@ -1247,6 +1289,20 @@ export default {
           }
         });
     },
+    toggleFww(fwwLayer) {
+      let container = document.getElementById("fwwLegend");
+      this.fwwLayer = fwwLayer;
+      if (this.$store.state.fwwState == true) {
+        this.fwwVisible = true;
+        this.getFwwLayer();
+      } else {
+        this.fwwLayer.remove();
+        this.fwwVisible = false;
+        if (container != null) {
+          container.style.display = "none";
+        }
+      }
+    },
     toggleRadar(radarLayer) {
       let container = document.getElementById("radarLegend");
       this.radarLayer = radarLayer;
@@ -1261,16 +1317,21 @@ export default {
         }
       }
     },
+    getFwwLayer() {
+      this.fwwLayer = esri.dynamicMapLayer({
+        url: "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Forecasts_Guidance_Warnings/watch_warn_adv/MapServer",
+        layers: [0, 1],
+        f: "image/png",
+      });
+      this.fwwLayer.addTo(this.map);
+    },
     getRadarLayer() {
       this.radarLayer = esri.dynamicMapLayer({
         url: "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/radar_base_reflectivity/MapServer",
-        // 0: NFHL Availability, 3: FIRM Panels, 14: Cross Sections, 27: Flood Hazard Boundaries, 28: Flood Hazard Zones
         layers: [3],
-        format: "image/png",
+        f: "image/png",
       });
-      let layers = this.radarLayer.getLayers();
       this.radarLayer.addTo(this.map);
-      this.getRadarLegend(layers);
     },
   },
   mounted() {
@@ -1291,6 +1352,9 @@ export default {
     },
     "$store.state.streamgageState": function () {
       this.toggleStreamgage(this.streamgageMarkers, this.currentZoom);
+    },
+    "$store.state.fwwState": function () {
+      this.toggleFww(this.fwwLayer);
     },
     "$store.state.nfhlState": function () {
       this.toggleNfhl(this.nfhlLayer);
@@ -1429,31 +1493,52 @@ export default {
 }
 
 #popup-title {
-  font-size: 12;
+  font-size: 14px;
   color: rgba(51, 51, 51, 0.6);
   font-family: "Public Sans", sans-serif;
   font-weight: bold;
 }
 
+#dataCredit {
+  font-size: 14px;
+}
+
+#aqGraphHeader {
+  font-size: 14px;
+  font-family: "Public Sans", sans-serif;
+}
+
+#aqDataCredit {
+  font-size: 14px;
+}
+
+#popup-titleAQ {
+  font-size: 16px;
+}
+
 #nfhlLabel,
+#fwwLabel,
 #radarLabel {
   margin: 0px;
   padding: 0px;
 }
 
 #nfhlLegend,
+#fwwLegend,
 #radarLegend {
   display: none;
   margin: 0px;
 }
 
 .nfhlLegendComponent,
+.fwwLegendComponent,
 .radarLegendComponent {
   margin-left: 20px;
   padding: 5px;
 }
 
 .nfhlLegendComponent label,
+.fwwLegendComponent label,
 .radarLegendComponent label {
   padding: 5px;
 }
@@ -1464,5 +1549,47 @@ export default {
 
 .legendtext {
   font-weight: bold;
+}
+
+/* popup icon container for tooltip */
+.popupIcon {
+  position: relative;
+  display: inline-block;
+}
+
+/* popup icon tooltip text */
+.popupIcon .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: rgb(31, 119, 180);
+  color: #fff;
+  text-align: center;
+  padding: 2px 0;
+  position: absolute;
+  z-index: 1;
+  left: 120%;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* popup icon tooltip arrow */
+.popupIcon .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 25%;
+  right: 100%;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent rgb(31, 119, 180) transparent transparent;
+}
+
+/* show popup icon tooltip on hover */
+.popupIcon:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.v-dialog > .v-card > .v-card__text {
+  padding: 20px !important;
 }
 </style>

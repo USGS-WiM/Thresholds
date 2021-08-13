@@ -11,6 +11,7 @@ export default new Vuex.Store({
     radarState: false,
     nfhlState: false,
     allRPState: false,
+    fwwState: false,
     currentZoomState: 4,
   },
   mutations: {
@@ -32,6 +33,9 @@ export default new Vuex.Store({
     getallRPState(state, allRPPicked) {
       state.allRPState = allRPPicked;
     },
+    getFwwState(state, fwwPicked) {
+      state.fwwState = fwwPicked;
+    },
     getCurrentZoomState(state, currentZoom) {
       state.currentZoomState = currentZoom;
     },
@@ -43,6 +47,7 @@ export default new Vuex.Store({
     radarState: (state) => state.radarState,
     nfhlState: (state) => state.nfhlState,
     allRPState: (state) => state.allRPState,
+    fwwState: (state) => state.fwwState,
     currentZoomState: (state) => state.currentZoomState,
   },
   actions: {},
