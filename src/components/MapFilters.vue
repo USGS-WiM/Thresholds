@@ -333,4 +333,16 @@ export default {
 .zoom-alert {
   font-size: small;
 }
+
+#allRPIcon {
+  margin-top: 0 !important;
+  width: 30px !important;
+  padding-left: 3x !important;
+}
+
+#allRPLegend {
+  margin-top: 0 !important;
+  width: 30px !important;
+  padding-right: 3x !important;
+}
 </style>

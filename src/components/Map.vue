@@ -29,18 +29,20 @@
             <v-expansion-panel-content>
               <!-- Toggleable layers -->
               <div id="toggleableLayers">
-                <div class="legendIconToggle" v-if="allRPVisible">
+                <div class="legendIcon" v-if="allRPVisible">
                   <div
+                    id="allRPLegend"
                     class="
                       wmm-pin
                       wmm-altblue
                       wmm-icon-noicon
                       wmm-icon-orange
-                      wmm-size-25
+                      wmm-size-20
                     "
                   ></div>
-                  <label id="allRPLabel">All Reference Point Locations</label>
-                  <div id="allRPLegend"></div>
+                  <label style="margin-left: 10px"
+                    >All Reference Point Locations</label
+                  >
                 </div>
                 <div class="legendIconToggle" v-if="streamgageVisible">
                   <div
@@ -1433,6 +1435,16 @@ export default {
 
 .legendIcon img {
   vertical-align: middle;
+}
+
+.legendIcon div {
+  vertical-align: middle;
+  label {
+    display: inline-block;
+    -webkit-justify-content: center;
+    justify-content: center;
+    padding-left: 10px;
+  }
 }
 
 .legendIcon label {
