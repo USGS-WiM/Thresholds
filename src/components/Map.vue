@@ -759,17 +759,26 @@ export default {
         "-" +
         endDay;
 
-      let icon =
-        e.layer._icon.outerHTML.split("class")[0] +
-        'style="width:25px; height: 25px; vertical-align: middle;" alt=""';
+      let icon;
+      let tooltip;
+      if (e.layer._icon.outerHTML.split("class")[0] === "<div ") {
+        icon =
+          '<div id="allRPIcon" style="padding-left:10px !important; margin-top: -18px !important; vertical-align: middle" class="wmm-pin wmm-altblue wmm-icon-noicon wmm-icon-orange wmm-size-20"></div>';
+        tooltip = "<span class='tooltiptext'>" + e.layer.data.Name;
+      } else {
+        icon =
+          e.layer._icon.outerHTML.split("class")[0] +
+          'style="width:25px; height: 25px; vertical-align: middle;" alt="" >';
+
+        tooltip = "<span class='tooltiptext'>" + layerData.ThresholdName;
+      }
 
       this.aqPopupContent =
         '<div id="aqGraphHeader"><span><label id="popup-titleAQ">' +
         layerData.SiteName +
         " </label></span><div class='popupIcon'>" +
         icon +
-        "><span class='tooltiptext'>" +
-        layerData.ThresholdName +
+        tooltip +
         "</span></div></br>" +
         '<a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
         sc +
@@ -1106,6 +1115,7 @@ export default {
           Unit: unit,
           FullName: fullname,
           SiteName: siteName,
+          ThresholdName: thresholdName,
           lat: lat,
           lng: lng,
         };
