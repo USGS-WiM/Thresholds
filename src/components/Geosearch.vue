@@ -55,7 +55,7 @@ export default {
           data.data.data[0].time_series_data.length == 0
         ) {
           console.log("No NWIS data available for this time period");
-          map.openPopup(popupContent, latlon, { minWidth: 400 });
+          map.openPopup(popupContent, latlon, { minWidth: 300 });
           document
             .getElementById("graphLoadMessage")
             .setAttribute("style", "display: none");
@@ -63,7 +63,7 @@ export default {
             .getElementById("noDataMessage")
             .setAttribute("style", "display: block");
         } else {
-          map.openPopup(popupContent, latlon, { minWidth: 400 });
+          map.openPopup(popupContent, latlon, { minWidth: 300 });
           let dates = [];
           let values = [];
           let plotlyAnnotations = [];
@@ -102,7 +102,7 @@ export default {
             },
             yaxis: {
               title: "Gage Height, feet",
-              titlefont: { size: 14 },
+              titlefont: { size: 11 },
               automargin: true,
             },
             xaxis: {
@@ -121,7 +121,6 @@ export default {
               l: 50,
               r: 50,
               t: 100,
-              pad: 4,
             },
             legend: false,
             annotations: plotlyAnnotations,

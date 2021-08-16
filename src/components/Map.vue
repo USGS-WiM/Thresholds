@@ -37,7 +37,7 @@
             <!-- Legend title -->
             <v-expansion-panel-header id="titleContainer">
               <div id="legendExplanation">
-                <v-icon color="black">mdi-shape</v-icon> Legend
+                Legend
               </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
@@ -580,10 +580,10 @@ export default {
           if (e.layer.getPopup() != undefined) {
             e.layer
               .getPopup()
-              .setContent(this.popupContent, { minWidth: 400 })
+              .setContent(this.popupContent, { minWidth: 300 })
               .openPopup();
           } else {
-            e.layer.bindPopup(this.popupContent, { minWidth: 400 }).openPopup();
+            e.layer.bindPopup(this.popupContent, { minWidth: 300 }).openPopup();
           }
           document
             .getElementById("graphLoadMessage")
@@ -598,10 +598,10 @@ export default {
           if (e.layer.getPopup() != undefined) {
             e.layer
               .getPopup()
-              .setContent(this.popupContent, { minWidth: 400 })
+              .setContent(this.popupContent, { minWidth: 300 })
               .openPopup();
           } else {
-            e.layer.bindPopup(this.popupContent, { minWidth: 400 }).openPopup();
+            e.layer.bindPopup(this.popupContent, { minWidth: 300 }).openPopup();
           }
 
           let dates = [];
@@ -639,36 +639,36 @@ export default {
 
           let layout = {
             autosize: false,
-            width: 400,
-            height: 400,
+            width: 310,
+            height: 235,
             font: {
               family: "Public Sans, sans-serif",
             },
             yaxis: {
               title: "Gage Height, feet",
-              titlefont: { size: 14 },
+              titlefont: { size: 11 },
               automargin: true,
             },
             xaxis: {
               range: [dates[0], dates[dates.length - 1]],
               tickformat: "%d %b %y",
               tickfont: {
-                size: 14,
+                size: 11,
               },
             },
             title: {
               text: graphtitle,
               font: {
-                size: 14,
+                size: 12,
                 color: "rgba(51,51,51,0.6)",
               },
               x: 0.05,
             },
             margin: {
-              l: 50,
-              r: 50,
-              t: 100,
-              pad: 4,
+              l: 25,
+              r: 25,
+              t: 15,
+
             },
             legend: false,
             annotations: plotlyAnnotations,
@@ -678,7 +678,7 @@ export default {
               },
             },
             modebar: {
-              orientation: "v", // Vertical modebar
+              orientation: "h", // Vertical modebar
               remove: "autoscale",
             },
             dragmode: "pan", // Make pan the default active modebar button
@@ -809,7 +809,7 @@ export default {
         " " +
         layerData.Unit +
         "</br>" +
-        '</div></br><p id="graphLoadMessageAQ"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainerAQ" style="width:100%; min-height: 400px; display:block;"></div> <div id="aqDataCredit">Gage Height data courtesy of the U.S. Geological Survey.</div><div id="noDataMessageAQ" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>';
+        '</div><p id="graphLoadMessageAQ"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainerAQ" style="width:100%; min-height: 400px; display:block;"></div> <div id="aqDataCredit">Gage Height data courtesy of the U.S. Geological Survey.</div><div id="noDataMessageAQ" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>';
       let url =
         "https://nwis.waterservices.usgs.gov/nwis/iv/?format=nwjson&sites=" +
         sc +
@@ -827,12 +827,12 @@ export default {
             e.layer
               .getPopup()
               .setContent(this.aqPopupContent, {
-                minWidth: 400,
+                minWidth: 300,
               })
               .openPopup();
           } else {
             e.layer
-              .bindPopup(this.aqPopupContent, { minWidth: 400 })
+              .bindPopup(this.aqPopupContent, { minWidth: 300 })
               .openPopup();
           }
           document
@@ -847,12 +847,12 @@ export default {
         } else {
           if (e.layer.getPopup() != undefined) {
             e.layer.getPopup().setContent(this.aqPopupContent, {
-              minWidth: 600,
+              minWidth: 290,
             });
             e.layer.openPopup();
           } else {
             e.layer.bindPopup(this.aqPopupContent, {
-              minWidth: 600,
+              minWidth: 290,
             });
             e.layer.openPopup();
           }
@@ -937,7 +937,7 @@ export default {
               arrowhead: 0,
               font: {
                 family: "Public Sans, sans-serif",
-                size: 12,
+                size: 9,
               },
               xanchor: "left",
             });
@@ -946,32 +946,33 @@ export default {
           // Overall layout of chart
           let layout = {
             autosize: false,
-            width: 600,
+            width: 300,
+            height: 235,
             font: {
               family: "Public Sans, sans-serif",
             },
             yaxis: {
               title: "Gage Height, feet",
-              titlefont: { size: 14 },
+              titlefont: { size: 11 },
               automargin: true,
             },
             xaxis: {
               range: [dates[0], dates[dates.length - 1]],
               tickformat: "%d %b %y",
               tickfont: {
-                size: 14,
+                size: 11,
               },
             },
             legend: {
               font: {
-                size: 14,
+                size: 11,
               },
               orientation: "h",
+              y: -.15,
             },
             margin: {
-              l: 70,
-              r: 70,
-              b: 50,
+              l: 25,
+              r: 25,
               t: 20,
               pad: 4,
             },
@@ -982,7 +983,7 @@ export default {
               },
             },
             modebar: {
-              orientation: "v", // Vertical modebar
+              orientation: "h", // Vertical modebar
               remove: "autoscale",
             },
             dragmode: "pan", // Make pan the default active modebar button
@@ -1473,11 +1474,10 @@ export default {
 #legendContainer {
   border-radius: 5px 5px 5px 5px;
   box-shadow: 0 3px 6px rgba(30, 39, 50, 0.2), 0 3px 6px rgba(30, 39, 50, 0.2);
-  margin-top: 5px;
   right: 10px;
-  top: 56px;
+  top: 45px;
   height: auto;
-  width: 280px;
+  width: 210px;
   position: absolute;
   z-index: 999;
   font-size: 14px;
@@ -1490,12 +1490,12 @@ export default {
   text-align: center;
   font-weight: bold;
   font-size: 16px;
-  padding: 10px;
 }
 
 #thresholdLayersTitle {
   font-size: 16px;
   color: #333;
+  padding-left: 8px;
 }
 
 .legendIcon {
@@ -1578,27 +1578,27 @@ export default {
 }
 
 #popup-title {
-  font-size: 14px;
+  font-size: 12px;
   color: rgba(51, 51, 51, 0.6);
   font-family: "Public Sans", sans-serif;
   font-weight: bold;
 }
 
 #dataCredit {
-  font-size: 14px;
+  font-size: 10px;
 }
 
 #aqGraphHeader {
-  font-size: 14px;
+  font-size: 11px;
   font-family: "Public Sans", sans-serif;
 }
 
 #aqDataCredit {
-  font-size: 14px;
+  font-size: 10px;
 }
 
 #popup-titleAQ {
-  font-size: 16px;
+  font-size: 12px;
 }
 
 #nfhlLabel,
@@ -1705,4 +1705,17 @@ export default {
 .v-dialog > .v-card > .v-card__text {
   padding: 20px !important;
 }
+
+#main-svg {
+  height: 200px !important;
+}
+
+#legend {
+  padding-top: 5px;
+}
+
+.v-expansion-panel-content__wrap {
+  padding: 0 5px 2px !important;
+}
+
 </style>
