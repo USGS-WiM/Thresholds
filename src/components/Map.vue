@@ -764,8 +764,9 @@ export default {
       if (e.layer._icon.outerHTML.split("class")[0] === "<div ") {
         icon =
           '<div id="allRPIcon" style="padding-left:10px !important; margin-top: -18px !important; vertical-align: middle" class="wmm-pin wmm-altblue wmm-icon-noicon wmm-icon-orange wmm-size-20"></div>';
-        tooltip = "<span class='tooltiptext'>" + e.layer.data.Name;
+        tooltip = "<span class='tooltiptextWIMIcon'>" + e.layer.data.Name;
       } else {
+        console.log(e.layer._icon.outerHTML.split("class")[0]);
         icon =
           e.layer._icon.outerHTML.split("class")[0] +
           'style="width:25px; height: 25px; vertical-align: middle;" alt="" >';
@@ -1593,6 +1594,21 @@ export default {
   opacity: 0;
   transition: opacity 0.3s;
 }
+.popupIcon .tooltiptextWIMIcon {
+  visibility: hidden;
+  width: 120px;
+  background-color: rgb(31, 119, 180);
+  color: #fff;
+  text-align: center;
+  padding: 2px 0;
+  position: absolute;
+  z-index: 1;
+  margin-top: -20px;
+  left: 100%;
+  margin-left: 30px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
 
 /* popup icon tooltip arrow */
 .popupIcon .tooltiptext::after {
@@ -1604,9 +1620,22 @@ export default {
   border-style: solid;
   border-color: transparent rgb(31, 119, 180) transparent transparent;
 }
+.popupIcon .tooltiptextWIMIcon::after {
+  content: "";
+  position: absolute;
+  top: 30%;
+  right: 100%;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent rgb(31, 119, 180) transparent transparent;
+}
 
 /* show popup icon tooltip on hover */
 .popupIcon:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+.popupIcon:hover .tooltiptextWIMIcon {
   visibility: visible;
   opacity: 1;
 }
