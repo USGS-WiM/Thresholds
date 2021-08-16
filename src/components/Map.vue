@@ -1178,6 +1178,7 @@ export default {
     getNfhlLayer() {
       var self = this;
       self.nfhlIsDisplayed = "block";
+      let zoomlevel = self.currentZoom;
       let nfhlURL = "https://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer"
       let extent = this.map.getBounds();
       let bbox =
@@ -1200,15 +1201,20 @@ export default {
         .then(function () {
           // handle success
           console.log("success")
-          self.nfhlFadeOutAlert()
+          self.nfhlFadeOutAlert();
+          if (zoomlevel !== self.currentZoom) {
+              this.fadeOutAlert();
+              return;
+            }
         })
         .catch(function (error) {
           // handle error
           console.log(error);
       })
-
+      
       let layers = this.nfhlLayer.getLayers();
       this.nfhlLayer.addTo(this.map);
+      
       this.getNfhlLegend(layers);
     },
     getNfhlLegend(layers) {
