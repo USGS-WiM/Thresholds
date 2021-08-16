@@ -10,6 +10,7 @@ export default new Vuex.Store({
     streamgageState: false,
     radarState: false,
     nfhlState: false,
+    allRPState: false,
     fwwState: false,
     currentZoomState: 4,
   },
@@ -29,6 +30,9 @@ export default new Vuex.Store({
     getNfhlState(state, nfhlPicked) {
       state.nfhlState = nfhlPicked;
     },
+    getallRPState(state, allRPPicked) {
+      state.allRPState = allRPPicked;
+    },
     getFwwState(state, fwwPicked) {
       state.fwwState = fwwPicked;
     },
@@ -42,6 +46,7 @@ export default new Vuex.Store({
     streamgageState: (state) => state.streamgageState,
     radarState: (state) => state.radarState,
     nfhlState: (state) => state.nfhlState,
+    allRPState: (state) => state.allRPState,
     fwwState: (state) => state.fwwState,
     currentZoomState: (state) => state.currentZoomState,
   },

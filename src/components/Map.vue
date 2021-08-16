@@ -29,6 +29,21 @@
             <v-expansion-panel-content>
               <!-- Toggleable layers -->
               <div id="toggleableLayers">
+                <div class="legendIcon" v-if="allRPVisible">
+                  <div
+                    id="allRPLegend"
+                    class="
+                      wmm-pin
+                      wmm-altblue
+                      wmm-icon-noicon
+                      wmm-icon-orange
+                      wmm-size-20
+                    "
+                  ></div>
+                  <label style="margin-left: 10px"
+                    >All Reference Point Locations</label
+                  >
+                </div>
                 <div class="legendIconToggle" v-if="streamgageVisible">
                   <div
                     class="
@@ -226,6 +241,7 @@ export default {
       radarLayer: {},
       radarVisible: false,
       aqMarkers: [],
+      allRPMarkers: [],
       nfhlLayer: {},
       nfhlVisible: false,
       fwwLayer: {},
@@ -299,6 +315,7 @@ export default {
       showParagraph: false,
       fillColor: "#ffffff",
       streamgageVisible: false,
+      allRPVisible: false,
       dialog: false,
     };
   },
@@ -321,7 +338,7 @@ export default {
 
       self.streamgageMarkers = L.featureGroup();
 
-      // markers from Aquarius TEST environment
+      // Live markers from Aquarius TEST environment
       self.aqMarkers = L.featureGroup();
       self.aqMarkers
         .on("click", function (e) {
@@ -334,6 +351,12 @@ export default {
       });
 
       let latlngDiv;
+
+      // All markers from Aquarius TEST environment
+      self.allRPMarkers = L.featureGroup();
+      self.allRPMarkers.on("click", function (e) {
+        self.openAQPopup(e);
+      });
 
       //Create lat lon leaflet control
       L.Control.LatLngControl = L.Control.extend({
@@ -736,17 +759,27 @@ export default {
         "-" +
         endDay;
 
-      let icon =
-        e.layer._icon.outerHTML.split("class")[0] +
-        'style="width:25px; height: 25px; vertical-align: middle;" alt=""';
+      let icon;
+      let tooltip;
+      if (e.layer._icon.outerHTML.split("class")[0] === "<div ") {
+        icon =
+          '<div id="allRPIcon" style="padding-left:10px !important; margin-top: -18px !important; vertical-align: middle" class="wmm-pin wmm-altblue wmm-icon-noicon wmm-icon-orange wmm-size-20"></div>';
+        tooltip = "<span class='tooltiptextWIMIcon'>" + e.layer.data.Name;
+      } else {
+        console.log(e.layer._icon.outerHTML.split("class")[0]);
+        icon =
+          e.layer._icon.outerHTML.split("class")[0] +
+          'style="width:25px; height: 25px; vertical-align: middle;" alt="" >';
+
+        tooltip = "<span class='tooltiptext'>" + layerData.ThresholdName;
+      }
 
       this.aqPopupContent =
         '<div id="aqGraphHeader"><span><label id="popup-titleAQ">' +
         layerData.SiteName +
         " </label></span><div class='popupIcon'>" +
         icon +
-        "><span class='tooltiptext'>" +
-        layerData.ThresholdName +
+        tooltip +
         "</span></div></br>" +
         '<a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
         sc +
@@ -981,6 +1014,7 @@ export default {
     },
     loadAQdata() {
       this.aqMarkers.clearLayers();
+      this.allRPMarkers.clearLayers();
       let hasMarkers = false;
       // Test date to show flooding past some thresholds
       let day = 4;
@@ -1063,6 +1097,31 @@ export default {
           thresholdName = "Uncategorized Flooding";
         }
 
+        var wimIcon = L.divIcon({
+          className:
+            "wmm-pin wmm-altblue wmm-icon-noicon wmm-icon-orange wmm-size-25",
+        });
+
+        // all RP layer
+        let allMarkers = L.marker([lat, lng], {
+          icon: wimIcon,
+        }).addTo(this.allRPMarkers);
+
+        allMarkers.data = {
+          thresholds: thresh,
+          LocationIdentifier: LocationIdentifier,
+          Name: Name,
+          ReferencePointPeriods: rpData,
+          Elevation: elevation,
+          Unit: unit,
+          FullName: fullname,
+          SiteName: siteName,
+          ThresholdName: thresholdName,
+          lat: lat,
+          lng: lng,
+        };
+        // end all RP Layer
+
         let url =
           "https://nwis.waterservices.usgs.gov/nwis/iv/?format=nwjson&sites=" +
           LocationIdentifier +
@@ -1100,6 +1159,7 @@ export default {
                 this.otherVisible = true;
               }
 
+              // live layer
               let marker = L.marker([lat, lng], {
                 icon: aqIcon,
               }).addTo(this.aqMarkers);
@@ -1144,6 +1204,19 @@ export default {
         }
       }
     },
+    toggleAllRP() {
+      let container = document.getElementById("allRPLegend");
+      if (this.$store.state.allRPState == true) {
+        this.allRPVisible = true;
+        this.getallRPLayer();
+      } else {
+        this.allRPMarkers.remove();
+        this.allRPVisible = false;
+        if (container != null) {
+          container.style.display = "none";
+        }
+      }
+    },
     getNfhlLayer() {
       this.nfhlLayer = esri.dynamicMapLayer({
         url: "https://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer",
@@ -1154,6 +1227,9 @@ export default {
       let layers = this.nfhlLayer.getLayers();
       this.nfhlLayer.addTo(this.map);
       this.getNfhlLegend(layers);
+    },
+    getallRPLayer() {
+      this.allRPMarkers.addTo(this.map);
     },
     getNfhlLegend(layers) {
       let self = this;
@@ -1303,6 +1379,9 @@ export default {
     "$store.state.radarState": function () {
       this.toggleRadar(this.radarLayer);
     },
+    "$store.state.allRPState": function () {
+      this.toggleAllRP(this.allRPMarkers);
+    },
   },
   // Store current zoom value in state to access from other components
   computed: {
@@ -1367,6 +1446,16 @@ export default {
 
 .legendIcon img {
   vertical-align: middle;
+}
+
+.legendIcon div {
+  vertical-align: middle;
+  label {
+    display: inline-block;
+    -webkit-justify-content: center;
+    justify-content: center;
+    padding-left: 10px;
+  }
 }
 
 .legendIcon label {
@@ -1505,6 +1594,21 @@ export default {
   opacity: 0;
   transition: opacity 0.3s;
 }
+.popupIcon .tooltiptextWIMIcon {
+  visibility: hidden;
+  width: 120px;
+  background-color: rgb(31, 119, 180);
+  color: #fff;
+  text-align: center;
+  padding: 2px 0;
+  position: absolute;
+  z-index: 1;
+  margin-top: -20px;
+  left: 100%;
+  margin-left: 30px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
 
 /* popup icon tooltip arrow */
 .popupIcon .tooltiptext::after {
@@ -1516,9 +1620,22 @@ export default {
   border-style: solid;
   border-color: transparent rgb(31, 119, 180) transparent transparent;
 }
+.popupIcon .tooltiptextWIMIcon::after {
+  content: "";
+  position: absolute;
+  top: 30%;
+  right: 100%;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent rgb(31, 119, 180) transparent transparent;
+}
 
 /* show popup icon tooltip on hover */
 .popupIcon:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+.popupIcon:hover .tooltiptextWIMIcon {
   visibility: visible;
   opacity: 1;
 }
