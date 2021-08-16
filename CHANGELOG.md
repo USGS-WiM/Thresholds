@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added NFHL layer and legend for NFHL sublayer
 - Added No active flooding dialog
 - Added NWS Radar layer
+- Added layer showing all Reference Points
 
 ### Changed
 
