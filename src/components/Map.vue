@@ -763,19 +763,19 @@ export default {
       let tooltip;
       if (e.layer._icon.outerHTML.split("class")[0] === "<div ") {
         icon =
-          '<div id="allRPIcon" style="padding-left:10px !important; margin-top: -18px !important; vertical-align: middle" class="wmm-pin wmm-altblue wmm-icon-noicon wmm-icon-orange wmm-size-20"></div>';
+          '<div id="allRPIcon" style="padding-left:2px !important; margin-top: -15px !important; vertical-align: middle" class="wmm-pin wmm-altblue wmm-icon-noicon wmm-icon-orange wmm-size-15"></div>';
         tooltip = "<span class='tooltiptextWIMIcon'>" + e.layer.data.Name;
       } else {
         console.log(e.layer._icon.outerHTML.split("class")[0]);
         icon =
           e.layer._icon.outerHTML.split("class")[0] +
-          'style="width:25px; height: 25px; vertical-align: middle;" alt="" >';
+          'style="margin-left: 2px; width:16px; height: 16px; vertical-align: middle;" alt="" >';
 
         tooltip = "<span class='tooltiptext'>" + layerData.ThresholdName;
       }
 
       this.aqPopupContent =
-        '<div id="aqGraphHeader"><span><label id="popup-titleAQ">' +
+        '<div id="aqGraphHeader"><span><label id="popup-titleAQ"></br></label>' +
         layerData.SiteName +
         " </label></span><div class='popupIcon'>" +
         icon +
@@ -1654,6 +1654,10 @@ export default {
 
 .v-expansion-panel-content__wrap {
   padding: 0 5px 2px !important;
+}
+
+.v-application .px-0 {
+  padding: 0 18px 10px !important;
 }
 
 </style>
