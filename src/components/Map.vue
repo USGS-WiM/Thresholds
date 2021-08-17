@@ -1045,7 +1045,7 @@ export default {
           self.nfhlIsDisplayed = "none";
           clearInterval(fadeOut);
         }
-      }, 150);
+      }, 100);
     },
     loadAQdata() {
       this.aqMarkers.clearLayers();
@@ -1422,6 +1422,8 @@ export default {
     currentBounds: function () {
       this.streamgageMarkers.clearLayers();
       this.toggleStreamgage(this.streamgageMarkers, this.currentZoom);
+      this.nfhlLayer.remove();
+      this.getNfhlLayer();
     },
     currentZoom: function () {
       // Update legend on zoom
@@ -1429,6 +1431,8 @@ export default {
         this.getNfhlLayer();
         let layers = this.nfhlLayer.getLayers();
         this.getNfhlLegend(layers);
+        //this.nfhlLayer.remove();
+        //this.getNfhlLayer();
       }
     },
     "$store.state.streamgageState": function () {
