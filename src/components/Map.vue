@@ -12,7 +12,7 @@
           :width="3"
           :size="20"
         ></v-progress-circular>
-        <span class="loadingLabel">Loading Layers...</span>
+        <span class="loadingLabel">Loading Layer...</span>
       </div>
       <div
         id="nfhlLoadingAlert"
