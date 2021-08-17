@@ -554,12 +554,13 @@ export default {
         document.getElementById("noDataMessage").remove();
       }
 
+      //popup for Streamgage Status
       this.popupContent =
         '<label id="popup-title">NWIS Site ' +
         e.layer.data.siteCode +
         "</br>" +
         e.layer.data.siteName +
-        '</label></br><p id="graphLoadMessage"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainer" style="width:100%; min-height: 350px;display:block;"></div> <div id="dataCredit">Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
+        '</label><p id="graphLoadMessage"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainer" style="width:100%; min-height: 350px;display:block;"></div> <div id="dataCredit">Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
         e.layer.data.siteCode +
         '"><b>Site ' +
         e.layer.data.siteCode +
@@ -614,7 +615,7 @@ export default {
             values.push(time[1]);
           });
 
-          // NWIS trace
+          // Real-time streamgage chart line
           let traces = [
             {
               x: dates,
@@ -629,7 +630,7 @@ export default {
             },
           ];
 
-          // Overall layout of chart
+          // Overall layout of Real-time streamgage chart
           let graphtitle =
             "<b>NWIS Site " +
             e.layer.data.siteCode +
@@ -663,11 +664,13 @@ export default {
                 color: "rgba(51,51,51,0.6)",
               },
               x: 0.05,
+              y: -1.0,
             },
             margin: {
-              l: 25,
-              r: 25,
-              t: 15,
+              l: 30,
+              r: 15,
+              t: 35,
+              b: 15,
 
             },
             legend: false,
@@ -789,6 +792,7 @@ export default {
         tooltip = "<span class='tooltiptext'>" + layerData.ThresholdName;
       }
 
+      //Streamgage status popup and all RP popup
       this.aqPopupContent =
         '<div id="aqGraphHeader"><span><label id="popup-titleAQ">' +
         layerData.SiteName +
@@ -874,7 +878,7 @@ export default {
             values.push(time[1]);
           });
 
-          // NWIS trace
+          // Plot for streamgage status, label for all RP and Status
           let traces = [
             {
               x: dates,
@@ -908,7 +912,7 @@ export default {
               ydata.push(datapoint[1]);
             });
 
-            // Create traces
+            // threshold level for Streamgage Status
             traces.push({
               x: xdata,
               y: ydata,
@@ -926,7 +930,7 @@ export default {
               },
             });
 
-            // Create labels
+            // Create labels for Streamgage Status
             plotlyAnnotations.push({
               x: thresholds[i].series[thresholds[i].series.length - 1][0], // Place label after last x value
               y: ydata[0], // Place label at same y value as threshold
@@ -943,7 +947,7 @@ export default {
             });
           }
 
-          // Overall layout of chart
+          // Streamgage Status chart layout
           let layout = {
             autosize: false,
             width: 300,
@@ -1422,6 +1426,7 @@ export default {
     currentZoom: function () {
       // Update legend on zoom
       if (this.map.hasLayer(this.nfhlLayer) && this.nfhlVisible) {
+        this.getNfhlLayer();
         let layers = this.nfhlLayer.getLayers();
         this.getNfhlLegend(layers);
       }
