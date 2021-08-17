@@ -763,7 +763,7 @@ export default {
       let tooltip;
       if (e.layer._icon.outerHTML.split("class")[0] === "<div ") {
         icon =
-          '<div id="allRPIcon" style="padding-left:10px !important; margin-top: -18px !important; vertical-align: middle" class="wmm-pin wmm-altblue wmm-icon-noicon wmm-icon-orange wmm-size-20"></div>';
+          '<div id="allRPIcon" style="padding-left:2px !important; margin-top: -15px !important; vertical-align: middle" class="wmm-pin wmm-altblue wmm-icon-noicon wmm-icon-orange wmm-size-15"></div>';
         tooltip = "<span class='tooltiptextWIMIcon'>" + e.layer.data.Name;
       } else {
         console.log(e.layer._icon.outerHTML.split("class")[0]);
@@ -775,7 +775,7 @@ export default {
       }
 
       this.aqPopupContent =
-        '<div id="aqGraphHeader"><span><label id="popup-titleAQ">' +
+        '<div id="aqGraphHeader"><span><label id="popup-titleAQ"></br></label>' +
         layerData.SiteName +
         " </label></span><div class='popupIcon'>" +
         icon +
