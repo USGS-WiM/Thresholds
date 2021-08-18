@@ -198,12 +198,19 @@ body {
     color: red;
     font-size: 10px;
     font-weight: normal;
+    font-style: italic
   }
 }
 
 @media screen and (max-width: 416px) {
   .toolbar-text {
-    display: none;
+    margin-left: -38px;
+  }
+  .mini-title h1 {
+    font-size: 11px;
+  }
+  .mini-title h2 {
+    font-size: 8px;
   }
 }
 </style>
