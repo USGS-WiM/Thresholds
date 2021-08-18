@@ -124,18 +124,24 @@ body {
   line-height: 64px;
   float: left;
   margin-top: 8px;
-  padding-left: 20px;
-  font-size: 25px;
+  padding-left: 10px;
+  font-size: 21px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 600px) {
   .toolbar-text {
     display: none;
   }
 }
 
-@media screen and (max-width: 414px) {
+@media screen and (max-width: 900px) {
   .toolbar-image {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1425px) {
+  .pre-alpha {
     display: none;
   }
 }
