@@ -1370,7 +1370,7 @@ export default {
       this.streamgageMarkers.clearLayers();
       this.toggleStreamgage(this.streamgageMarkers, this.currentZoom);
       this.nfhlLayer.remove();
-      this.getNfhlLayer();
+      this.toggleNfhl(this.nfhlLayer, this.currentZoom);
     },
     currentZoom: function () {
       // Update legend on zoom
