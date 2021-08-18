@@ -36,9 +36,7 @@
           <v-expansion-panel>
             <!-- Legend title -->
             <v-expansion-panel-header id="titleContainer">
-              <div id="legendExplanation">
-                Legend
-              </div>
+              <div id="legendExplanation">Legend</div>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
               <!-- Toggleable layers -->
@@ -162,20 +160,17 @@
         </v-expansion-panels>
       </div>
     </div>
-    <v-dialog v-model="dialog" max-width="250">
+    <v-dialog v-model="noFloodingdialog" max-width="250">
       <v-card>
-        <v-card-title class="text-h6 red lighten-2">
+        <v-card-title class="text-h6 green lighten-2">
           No active flooding
         </v-card-title>
 
-        <v-card-text>
-          Use the map filters to view all reference points and supporting map
-          layers.</v-card-text
-        >
+        <v-card-text> View all reference point locations </v-card-text>
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text @click="dialog = false"> Close </v-btn>
+          <v-btn text @click="noFloodingdialog = false"> Close </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -331,7 +326,7 @@ export default {
       fillColor: "#ffffff",
       streamgageVisible: false,
       allRPVisible: false,
-      dialog: false,
+      noFloodingdialog: false,
     };
   },
   methods: {
@@ -571,6 +566,7 @@ export default {
         "&parameterCd=" +
         graphParameterCodeList +
         timeQueryRange;
+
       axios.get(url).then((data) => {
         if (
           data.data == undefined ||
@@ -744,38 +740,8 @@ export default {
         series: [],
       });
 
-      // setting start date for now
-      // let startDate;
-      let day;
-      let month;
-      let year;
-      // startDate = new Date();
-
-      // getting date elements
-      // day = startDate.getDate();
-      // month = startDate.getMonth() + 1; // to get the correct month you must add 1
-      // year = startDate.getFullYear();
-
-      // Test date to show flooding past some thresholds
-      day = 1;
-      let endDay = 8;
-      month = 8;
-      year = 2020;
-
       // creating string for request
-      let dateString =
-        "&startDT=" +
-        year +
-        "-" +
-        month +
-        "-" +
-        day +
-        "&endDT=" +
-        year +
-        "-" +
-        month +
-        "-" +
-        endDay;
+      let timeRange = "&period=P7D";
 
       let icon;
       let tooltip;
@@ -784,7 +750,6 @@ export default {
           '<div id="allRPIcon" style="padding-left:2px !important; margin-top: -15px !important; vertical-align: middle" class="wmm-pin wmm-altblue wmm-icon-noicon wmm-icon-orange wmm-size-15"></div>';
         tooltip = "<span class='tooltiptextWIMIcon'>" + e.layer.data.Name;
       } else {
-        console.log(e.layer._icon.outerHTML.split("class")[0]);
         icon =
           e.layer._icon.outerHTML.split("class")[0] +
           'style="margin-left: 2px; width:16px; height: 16px; vertical-align: middle;" alt="" >';
@@ -819,7 +784,8 @@ export default {
         sc +
         "&parameterCd=" +
         graphParameterCodeList +
-        dateString;
+        timeRange;
+      console.log(url);
       axios.get(url).then((data) => {
         if (
           data.data == undefined ||
@@ -972,7 +938,7 @@ export default {
                 size: 11,
               },
               orientation: "h",
-              y: -.15,
+              y: -0.15,
             },
             margin: {
               l: 25,
@@ -1048,29 +1014,14 @@ export default {
       }, 100);
     },
     loadAQdata() {
+      if (this.drawerState === true) {
+        this.drawerState === false
+      }
       this.aqMarkers.clearLayers();
       this.allRPMarkers.clearLayers();
       let hasMarkers = false;
-      // Test date to show flooding past some thresholds
-      let day = 4;
-      let endDay = 4;
-      let month = 8;
-      let year = 2020;
+      let timeQueryRange = "&period=P10W";
 
-      // creating string for request
-      let dateString =
-        "&startDT=" +
-        year +
-        "-" +
-        month +
-        "-" +
-        day +
-        "&endDT=" +
-        year +
-        "-" +
-        month +
-        "-" +
-        endDay;
       // adding rp/threshold data from Aquarius
       for (let entry in this.mvpData) {
         let thresh = [];
@@ -1162,7 +1113,7 @@ export default {
           LocationIdentifier +
           "&parameterCd=" +
           graphParameterCodeList +
-          dateString;
+          timeQueryRange;
         axios.get(url).then((data) => {
           if (
             data.data != undefined &&
@@ -1220,7 +1171,7 @@ export default {
             this.aqMarkers.addTo(this.map);
             this.map.fitBounds(this.aqMarkers.getBounds());
           } else if (!hasMarkers && entry == this.mvpData.length - 1) {
-            this.dialog = true;
+            this.noFloodingdialog = true;
           }
         });
       }
