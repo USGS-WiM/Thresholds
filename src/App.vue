@@ -124,8 +124,8 @@ body {
   line-height: 64px;
   float: left;
   margin-top: 8px;
-  padding-left: 20px;
-  font-size: 25px;
+  padding-left: 10px;
+  font-size: 21px;
 }
 
 @media screen and (max-width: 768px) {
@@ -134,11 +134,15 @@ body {
   }
 }
 
-@media screen and (max-width: 414px) {
+
+
+@media screen and (max-width: 1100px) {
   .toolbar-image {
     display: none;
   }
 }
+
+
 
 .pre-alpha {
   font-size: 15px;
