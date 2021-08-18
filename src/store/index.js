@@ -5,7 +5,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    drawerState: true,
+    drawerState: false,
     basemapState: "Topo",
     streamgageState: false,
     radarState: false,

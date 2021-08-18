@@ -3,7 +3,7 @@
     v-model="drawerState"
     disable-resize-watcher
     app
-    :width="325"
+    :width="300"
   >
     <div>
       <h2 id="sidebarTitle">Map Filters</h2>
