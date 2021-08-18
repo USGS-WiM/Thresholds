@@ -10,10 +10,10 @@
             style="color: white"
           ></v-app-bar-nav-icon>
           <v-toolbar-title style="color: white">
-          <a href="https://www.usgs.gov/" target="_blank">
-            <div class="toolbar-image">
-              <img alt="USGS logo" height="60px" src="../public/usgs.png" />
-            </div>
+            <a href="https://www.usgs.gov/" target="_blank">
+              <div class="toolbar-image">
+                <img alt="USGS logo" height="60px" src="../public/usgs.png" />
+              </div>
             </a>
             <div class="toolbar-text">
               <span class="main-title">Real-Time Flood Impact Map</span>
@@ -198,12 +198,19 @@ body {
     color: red;
     font-size: 10px;
     font-weight: normal;
+    font-style: italic
   }
 }
 
 @media screen and (max-width: 416px) {
   .toolbar-text {
-    display: none;
+    margin-left: -38px;
+  }
+  .mini-title h1 {
+    font-size: 11px;
+  }
+  .mini-title h2 {
+    font-size: 8px;
   }
 }
 </style>

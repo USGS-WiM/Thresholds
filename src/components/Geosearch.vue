@@ -278,6 +278,9 @@ input:not([disabled]):focus {
 }
 
 @media screen and (max-width: 828px) {
+  .search-api-container {
+    height: 32px !important;
+  }
   .search-api-container input {
     font-size: 12px !important;
   }
@@ -293,6 +296,18 @@ input:not([disabled]):focus {
 
   .search-api-container.search-api-md {
     width: 200px;
+  }
+}
+
+@media screen and (max-width: 416px) {
+  .search-api-container input {
+    font-size: 8px !important;
+  }
+  .search-api-container.search-api-md {
+    width: 110px;
+  }
+  .v-toolbar__content, .v-toolbar__extension {
+    padding: 4px 8px 4px 8px !important;
   }
 }
 </style>
