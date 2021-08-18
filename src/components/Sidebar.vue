@@ -1,5 +1,10 @@
 <template>
-  <v-navigation-drawer v-model="drawerState" app :width="325">
+  <v-navigation-drawer
+    v-model="drawerState"
+    disable-resize-watcher
+    app
+    :width="325"
+  >
     <div>
       <h2 id="sidebarTitle">Map Filters</h2>
       <MapFilters></MapFilters>
