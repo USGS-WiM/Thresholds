@@ -1424,10 +1424,9 @@ export default {
     currentZoom: function () {
       // Update legend on zoom
       if (this.map.hasLayer(this.nfhlLayer) && this.nfhlVisible) {
+                this.nfhlLegendComponent.remove();
         let layers = this.nfhlLayer.getLayers();
         this.getNfhlLegend(layers);
-        //this.nfhlLayer.remove();
-        //this.getNfhlLayer();
       }
     },
     "$store.state.streamgageState": function () {
