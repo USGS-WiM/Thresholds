@@ -785,7 +785,6 @@ export default {
         "&parameterCd=" +
         graphParameterCodeList +
         timeRange;
-      console.log(url);
       axios.get(url).then((data) => {
         if (
           data.data == undefined ||
@@ -1014,13 +1013,10 @@ export default {
       }, 100);
     },
     loadAQdata() {
-      if (this.drawerState === true) {
-        this.drawerState === false
-      }
       this.aqMarkers.clearLayers();
       this.allRPMarkers.clearLayers();
       let hasMarkers = false;
-      let timeQueryRange = "&period=P10W";
+      let timeQueryRange = "&period=P7D";
 
       // adding rp/threshold data from Aquarius
       for (let entry in this.mvpData) {
