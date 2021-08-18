@@ -134,15 +134,17 @@ body {
   }
 }
 
-
-
-@media screen and (max-width: 1100px) {
+@media screen and (max-width: 900px) {
   .toolbar-image {
     display: none;
   }
 }
 
-
+@media screen and (max-width: 1425px) {
+  .pre-alpha {
+    display: none;
+  }
+}
 
 .pre-alpha {
   font-size: 15px;
