@@ -12,7 +12,21 @@
           :width="3"
           :size="20"
         ></v-progress-circular>
-        <span class="loadingLabel">Loading Layers...</span>
+        <span class="loadingLabel">Loading Layer...</span>
+      </div>
+      <div
+        id="nfhlLoadingAlert"
+        class="alert nfhlAlertClass fade"
+        role="alert"
+        :style="{ display: nfhlIsDisplayed, opacity: alertOpacity }"
+        load: 
+      >
+        <v-progress-circular
+          indeterminate
+          :width="3"
+          :size="20"
+        ></v-progress-circular>
+        <span class="loadingLabel">Loading Layer...</span>
       </div>
 
       <!-- a leaflet map -->
@@ -251,6 +265,7 @@ export default {
       alertOpacity: "0.75",
       mvpData: mvpAqData,
       isDisplayed: "none",
+      nfhlIsDisplayed: "none",
       currentZoom: 4,
       currentBounds: {
         _southWest: {
@@ -1013,6 +1028,21 @@ export default {
         }
       }, 50);
     },
+    nfhlFadeOutAlert() {
+      let opacity = 0.75;
+      let self = this;
+      let fadeOut = setInterval(function () {
+        if (opacity > 0) {
+          opacity -= 0.05;
+          let opacityValue = String(opacity);
+          self.alertOpacity = opacityValue;
+        } else {
+          self.alertOpacity = "0.75";
+          self.nfhlIsDisplayed = "none";
+          clearInterval(fadeOut);
+        }
+      }, 100);
+    },
     loadAQdata() {
       this.aqMarkers.clearLayers();
       this.allRPMarkers.clearLayers();
@@ -1192,6 +1222,7 @@ export default {
       }
     },
     toggleNfhl(nfhlLayer) {
+      
       let container = document.getElementById("nfhlLegend");
       this.nfhlLayer = nfhlLayer;
       if (this.$store.state.nfhlState == true) {
@@ -1219,14 +1250,45 @@ export default {
       }
     },
     getNfhlLayer() {
+      var self = this;
+      self.nfhlIsDisplayed = "block";
+      let zoomlevel = self.currentZoom;
+      let nfhlURL = "https://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer"
+      let extent = this.map.getBounds();
+      let bbox =
+        extent._southWest.lng.toFixed(7) +
+        "%2C" +
+        extent._southWest.lat.toFixed(7) +
+        "%2C" +
+        extent._northEast.lng.toFixed(7) +
+        "%2C" +
+        extent._northEast.lat.toFixed(7);
+
+
       this.nfhlLayer = esri.dynamicMapLayer({
-        url: "https://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer",
+        url: nfhlURL,
         // 0: NFHL Availability, 3: FIRM Panels, 14: Cross Sections, 27: Flood Hazard Boundaries, 28: Flood Hazard Zones
         layers: [0, 3, 14, 27, 28],
         f: "image/png",
       });
+      axios.get(nfhlURL + "/export?bbox=" + bbox + "&size=1421%2C375&dpi=96&format=png32&transparent=true&bboxSR=3857&imageSR=3857&layers=show%3A0%2C3%2C14%2C27%2C28&f=image")
+        .then(function () {
+          // handle success
+          console.log("success")
+          self.nfhlFadeOutAlert();
+          if (zoomlevel !== self.currentZoom) {
+              this.fadeOutAlert();
+              return;
+            }
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+      })
+      
       let layers = this.nfhlLayer.getLayers();
       this.nfhlLayer.addTo(this.map);
+      
       this.getNfhlLegend(layers);
     },
     getallRPLayer() {
@@ -1356,10 +1418,13 @@ export default {
     currentBounds: function () {
       this.streamgageMarkers.clearLayers();
       this.toggleStreamgage(this.streamgageMarkers, this.currentZoom);
+      this.nfhlLayer.remove();
+      this.getNfhlLayer();
     },
     currentZoom: function () {
       // Update legend on zoom
       if (this.map.hasLayer(this.nfhlLayer) && this.nfhlVisible) {
+                this.nfhlLegendComponent.remove();
         let layers = this.nfhlLayer.getLayers();
         this.getNfhlLegend(layers);
       }
@@ -1492,7 +1557,7 @@ export default {
   padding: 5px;
 }
 
-.nwisAlertClass {
+.nwisAlertClass, .nfhlAlertClass {
   position: absolute;
   top: 10px;
   left: 50px;
