@@ -16,10 +16,10 @@
               </div>
             </a>
             <div class="toolbar-text">
-              <span>Real-Time Flood Impact Map</span>
+              <span class="main-title">Real-Time Flood Impact Map</span>
               <span class="pre-alpha">Pre-Alpha: Under Active Development</span>
-            </div></v-toolbar-title
-          >
+              <span class="mini-title"><h1>Real-Time Flood Impact Map</h1><br><h2>Pre-Alpha: Under Active Development</h2></span>
+            </div></v-toolbar-title>
           <Geosearch :map="map"></Geosearch>
         </v-app-bar>
         <Map v-if="mounted" @getMap="getChildMap"></Map>
@@ -117,6 +117,7 @@ body {
   display: inline-block;
   float: left;
   margin-top: 10px;
+  margin-left: -20px;
 }
 
 .toolbar-text {
@@ -124,20 +125,8 @@ body {
   line-height: 64px;
   float: left;
   margin-top: 8px;
-  padding-left: 20px;
-  font-size: 25px;
-}
-
-@media screen and (max-width: 768px) {
-  .toolbar-text {
-    display: none;
-  }
-}
-
-@media screen and (max-width: 414px) {
-  .toolbar-image {
-    display: none;
-  }
+  padding-left: 10px;
+  font-size: 21px;
 }
 
 .pre-alpha {
@@ -145,5 +134,83 @@ body {
   color: red;
   padding-left: 10px;
   font-style: italic;
+}
+
+@media screen and (max-width: 1300px) {
+  .toolbar-text {
+    font-size: 18px;
+  }
+  .pre-alpha {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .toolbar-text {
+    margin-left: -28px;
+    margin-bottom: 10px;
+  }
+  .toolbar-image {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 828px) {
+  .pre-alpha {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 690px) {
+  .toolbar-text {
+    font-size: 14px;
+  }
+  .pre-alpha {
+    font-size: 10px;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .mini-title {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .main-title, .pre-alpha {
+    display: none;
+  }
+  .toolbar-text {
+    margin-bottom: -5px;
+  }
+  .mini-title {
+    display: inline-block;
+    margin-left: 8px;
+    line-height: 8px;
+  }
+  .mini-title h1 {
+    color: white;
+    font-size: 14px;
+    margin: 0;
+    font-weight: normal;
+  }
+  .mini-title h2 {
+    color: red;
+    font-size: 10px;
+    font-weight: normal;
+    font-style: italic
+  }
+}
+
+@media screen and (max-width: 416px) {
+  .toolbar-text {
+    margin-left: -38px;
+  }
+  .mini-title h1 {
+    font-size: 11px;
+  }
+  .mini-title h2 {
+    font-size: 8px;
+  }
 }
 </style>

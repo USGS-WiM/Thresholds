@@ -277,22 +277,37 @@ input:not([disabled]):focus {
   outline: none;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 828px) {
+  .search-api-container {
+    height: 32px !important;
+  }
+  .search-api-container input {
+    font-size: 12px !important;
+  }
+  .search-api-container.search-api-md {
+    width: 150px;
+  }
+}
+
+@media screen and (min-width: 828px) {
   .search-api-container input {
     font-size: 16px !important;
   }
+
   .search-api-container.search-api-md {
     width: 200px;
   }
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (max-width: 416px) {
   .search-api-container input {
-    font-size: 18px !important;
+    font-size: 8px !important;
   }
-
   .search-api-container.search-api-md {
-    width: 300px;
+    width: 110px;
+  }
+  .v-toolbar__content, .v-toolbar__extension {
+    padding: 4px 8px 4px 8px !important;
   }
 }
 </style>
