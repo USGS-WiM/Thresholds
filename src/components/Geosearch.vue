@@ -55,7 +55,7 @@ export default {
           data.data.data[0].time_series_data.length == 0
         ) {
           console.log("No NWIS data available for this time period");
-          map.openPopup(popupContent, latlon, { minWidth: 400 });
+          map.openPopup(popupContent, latlon, { minWidth: 300 });
           document
             .getElementById("graphLoadMessage")
             .setAttribute("style", "display: none");
@@ -63,7 +63,7 @@ export default {
             .getElementById("noDataMessage")
             .setAttribute("style", "display: block");
         } else {
-          map.openPopup(popupContent, latlon, { minWidth: 400 });
+          map.openPopup(popupContent, latlon, { minWidth: 300 });
           let dates = [];
           let values = [];
           let plotlyAnnotations = [];
@@ -102,7 +102,7 @@ export default {
             },
             yaxis: {
               title: "Gage Height, feet",
-              titlefont: { size: 14 },
+              titlefont: { size: 11 },
               automargin: true,
             },
             xaxis: {
@@ -121,7 +121,6 @@ export default {
               l: 50,
               r: 50,
               t: 100,
-              pad: 4,
             },
             legend: false,
             annotations: plotlyAnnotations,
@@ -278,22 +277,37 @@ input:not([disabled]):focus {
   outline: none;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 828px) {
+  .search-api-container {
+    height: 32px !important;
+  }
+  .search-api-container input {
+    font-size: 12px !important;
+  }
+  .search-api-container.search-api-md {
+    width: 150px;
+  }
+}
+
+@media screen and (min-width: 828px) {
   .search-api-container input {
     font-size: 16px !important;
   }
+
   .search-api-container.search-api-md {
     width: 200px;
   }
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (max-width: 416px) {
   .search-api-container input {
-    font-size: 18px !important;
+    font-size: 8px !important;
   }
-
   .search-api-container.search-api-md {
-    width: 300px;
+    width: 110px;
+  }
+  .v-toolbar__content, .v-toolbar__extension {
+    padding: 4px 8px 4px 8px !important;
   }
 }
 </style>

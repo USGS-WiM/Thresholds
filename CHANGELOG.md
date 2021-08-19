@@ -13,10 +13,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added NFHL layer and legend for NFHL sublayer
 - Added No active flooding dialog
 - Added NWS Radar layer
+- Added layer showing all Reference Points
 
 ### Changed
 
 - RP icons visible in legend only if on the map
+- Change hydrograph styling
+- Increase font size in RP and streamgage popups
 - NWIS streamgages shown above RPs when layer is on
 
 ### Fixed
