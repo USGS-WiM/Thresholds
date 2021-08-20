@@ -1380,17 +1380,21 @@ export default {
           "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Forecasts_Guidance_Warnings/watch_warn_adv/MapServer/legend?f=pjson"
         )
         .then((data) => {
-          let layerList = data.data.layers[1].legend;
-          console.log(data.data.layers[1].legend);
+          let layerList = data.data.layers;
+          console.log(data.data.layers);
           for (let i = 0; i < layerList.length; i++) {
-            layers[1].legend.forEach((layer) => {
+            layers.forEach((layer) => {
               if (layerList[i].label == layer) {
                 // Create sublayer legend div
                 let legendEl = document.createElement("div", container);
                 legendEl.className = "fwwLegendComponent";
-                let layerName = layerList[i].label;
-                
-                // Set innerHTML to image and layer name
+                let layerName;
+                // Use the legend label if existing, otherwise use the layer name
+                if (layerList[i].legend[0].label != "") {
+                  layerName = layerList[i].legend[0].label;
+                } else {
+                  layerName = layerList[i].layerName;
+                }
                 legendEl.innerHTML =
                   "<img src=data:" +
                   layerList[i].legend[0].contentType +
@@ -1400,8 +1404,11 @@ export default {
                   layerName +
                   "</label>";
                 if (container != null) {
-                  layerName == "Flood Data Available"
-                  container.appendChild(legendEl);
+                  if (
+                    layerName == "Air Quality Alert"
+                  ) {
+                    container.appendChild(legendEl);
+                    }
                   container.style.display = "inline-block";
                 } else {
                   // If layer is toggled before legend is expanded, the container element will be null
@@ -1439,6 +1446,8 @@ export default {
         let layers = this.nfhlLayer.getLayers();
         this.getNfhlLegend(layers);
       }
+      let layers = this.fwwLayer.getLayers();
+      this.getFwwLegend(layers);
     },
     "$store.state.streamgageState": function () {
       this.toggleStreamgage(this.streamgageMarkers, this.currentZoom);
