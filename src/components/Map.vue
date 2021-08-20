@@ -534,8 +534,8 @@ export default {
     },
     openStreamGagePopup(e) {
       //Clear out previous popup contents if existing
-      if (document.getElementById("graphContainer") != null) {
-        document.getElementById("graphContainer").remove();
+      if (document.getElementById("mainGraphContainer") != null) {
+        document.getElementById("mainGraphContainer").remove();
       }
       if (document.getElementById("graphLoadMessage") != null) {
         document.getElementById("graphLoadMessage").remove();
@@ -555,7 +555,7 @@ export default {
         e.layer.data.siteCode +
         "</br>" +
         e.layer.data.siteName +
-        '</label><p id="graphLoadMessage"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainer" style="width:100%; min-height: 350px;display:block;"></div> <div id="dataCredit">Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
+        '</label><p id="graphLoadMessage"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="mainGraphContainer" style="width:100%; min-height: 350px;display:block;"></div> <div id="dataCredit">Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
         e.layer.data.siteCode +
         '"><b>Site ' +
         e.layer.data.siteCode +
@@ -589,7 +589,7 @@ export default {
             .getElementById("noDataMessage")
             .setAttribute("style", "display: block");
           document
-            .getElementById("graphContainer")
+            .getElementById("mainGraphContainer")
             .setAttribute("style", "display: none");
         } else {
           if (e.layer.getPopup() != undefined) {
@@ -657,7 +657,7 @@ export default {
               text: graphtitle,
               font: {
                 size: 12,
-                color: "rgba(51,51,51,0.6)",
+                color: "#333",
               },
               x: 0.05,
               y: -1.0,
@@ -697,9 +697,9 @@ export default {
           });
 
           // Render plot
-          Plotly.newPlot("graphContainer", chartData, layout, config);
+          Plotly.newPlot("mainGraphContainer", chartData, layout, config);
           document
-            .getElementById("graphContainer")
+            .getElementById("mainGraphContainer")
             .setAttribute("style", "display: block");
           document
             .getElementById("graphLoadMessage")
@@ -1660,20 +1660,8 @@ export default {
   padding: 20px !important;
 }
 
-#main-svg {
-  height: 200px !important;
-}
-
-#legend {
-  padding-top: 5px;
-}
-
-.v-expansion-panel-content__wrap {
-  padding: 0 5px 2px !important;
-}
-
-.v-application .px-0 {
-  padding: 0 18px 10px !important;
+#mainGraphContainer {
+  padding-top: 18px;
 }
 
 </style>
