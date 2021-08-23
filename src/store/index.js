@@ -6,7 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     drawerState: false,
-    basemapState: "Topo",
+    basemapState: "Streets",
     streamgageState: false,
     radarState: false,
     nfhlState: false,

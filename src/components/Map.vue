@@ -340,10 +340,10 @@ export default {
         zoomSnap: 0.5,
       });
 
-      //Add Topo tilelayer to map initially
-      L.tileLayer(tileProviders[2].url, {
-        attribution: tileProviders[2].attribution,
-        name: tileProviders[2].name,
+      //Add streets tilelayer to map initially
+      L.tileLayer(tileProviders[0].url, {
+        attribution: tileProviders[0].attribution,
+        name: tileProviders[0].name,
       }).addTo(self.map);
 
       self.streamgageMarkers = L.featureGroup();
