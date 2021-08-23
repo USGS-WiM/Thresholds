@@ -87,9 +87,10 @@
       </v-expansion-panel-content>
     </v-expansion-panel>
     <v-expansion-panel>
-      <v-expansion-panel-header> Site Layers </v-expansion-panel-header>
+      <v-expansion-panel-header> Layers </v-expansion-panel-header>
       <v-expansion-panel-content>
         <v-container class="px-0" fluid>
+        <div class="subsection-title" id="site-layer-title">Site Layers</div>
           <input
             type="checkbox"
             ref="allRP"
@@ -133,13 +134,7 @@
             <label for="stream">Real-time Streamgage</label>
           </div>
           <br />
-        </v-container>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
-  <v-expansion-panel>
-    <v-expansion-panel-header> Supporting Layers </v-expansion-panel-header>
-      <v-expansion-panel-content>
-        <v-container class="px-0" fluid>
+          <div class="subsection-title" id="supporting-layer-title">Supporting Layers</div>
                   <input
             type="checkbox"
             ref="radar"
@@ -353,4 +348,14 @@ export default {
   width: 30px !important;
   padding-right: 3x !important;
 }
+
+.subsection-title {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+#supporting-layer-title {
+  padding-top: 14px;
+}
+
 </style>
