@@ -37,6 +37,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - NWIS streamgages shown above RPs when layer is on
 - Change default basemap to streets
 - Switch RP layer to on by default
+- rename "streamgage status" to "active flooding" in legend
 - Moved NWSR, NFHL, and FWW layers to a "Supporting Layers" section
 
 ### Fixed

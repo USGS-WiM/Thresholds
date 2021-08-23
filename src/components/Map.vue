@@ -84,7 +84,7 @@
               </div>
               <!-- Threshold icons -->
               <div id="thresholdLayers">
-                <div id="thresholdLayersTitle">Streamgage Status</div>
+                <div id="thresholdLayersTitle">Active Flooding</div>
                 <div class="legendIcon" v-if="bankVisible">
                   <img
                     src="../assets/aq-icons/embankment_flooded_circle.png"
@@ -550,7 +550,7 @@ export default {
         document.getElementById("noDataMessage").remove();
       }
 
-      //popup for Streamgage Status
+      //popup for Active Flooding
       this.popupContent =
         '<label id="popup-title">NWIS Site ' +
         e.layer.data.siteCode +
@@ -758,7 +758,7 @@ export default {
         tooltip = "<span class='tooltiptext'>" + layerData.ThresholdName;
       }
 
-      //Streamgage status popup and all RP popup
+      //Active Flooding popup and all RP popup
       this.aqPopupContent =
         '<div id="aqGraphHeader"><span><label id="popup-titleAQ"></br></label>' +
         layerData.SiteName +
@@ -844,7 +844,7 @@ export default {
             values.push(time[1]);
           });
 
-          // Plot for streamgage status, label for all RP and Status
+          // Plot for Active Flooding, label for all RP and Status
           let traces = [
             {
               x: dates,
@@ -878,7 +878,7 @@ export default {
               ydata.push(datapoint[1]);
             });
 
-            // threshold level for Streamgage Status
+            // threshold level for Active Flooding
             traces.push({
               x: xdata,
               y: ydata,
@@ -896,7 +896,7 @@ export default {
               },
             });
 
-            // Create labels for Streamgage Status
+            // Create labels for Active Flooding
             plotlyAnnotations.push({
               x: thresholds[i].series[thresholds[i].series.length - 1][0], // Place label after last x value
               y: ydata[0], // Place label at same y value as threshold
@@ -913,7 +913,7 @@ export default {
             });
           }
 
-          // Streamgage Status chart layout
+          // Active Flooding chart layout
           let layout = {
             autosize: false,
             width: 300,
