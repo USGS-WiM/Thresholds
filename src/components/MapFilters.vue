@@ -87,7 +87,7 @@
       </v-expansion-panel-content>
     </v-expansion-panel>
     <v-expansion-panel>
-      <v-expansion-panel-header> Layers </v-expansion-panel-header>
+      <v-expansion-panel-header> Primary Layers </v-expansion-panel-header>
       <v-expansion-panel-content>
         <v-container class="px-0" fluid>
           <input
@@ -133,7 +133,14 @@
             <label for="stream">Real-time Streamgage</label>
           </div>
           <br />
-          <input
+        </v-container>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+  <v-expansion-panel>
+    <v-expansion-panel-header> Supporting Layers </v-expansion-panel-header>
+      <v-expansion-panel-content>
+        <v-container class="px-0" fluid>
+                  <input
             type="checkbox"
             ref="radar"
             id="radar"
@@ -168,6 +175,7 @@
         </v-container>
       </v-expansion-panel-content>
     </v-expansion-panel>
+
   </v-expansion-panels>
 </template>
 
