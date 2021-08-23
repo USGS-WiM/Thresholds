@@ -325,7 +325,7 @@ export default {
       showParagraph: false,
       fillColor: "#ffffff",
       streamgageVisible: false,
-      allRPVisible: false,
+      allRPVisible: true,
       noFloodingdialog: false,
     };
   },
@@ -366,7 +366,8 @@ export default {
       self.allRPMarkers = L.featureGroup();
       self.allRPMarkers.on("click", function (e) {
         self.openAQPopup(e);
-      });
+      })
+      .addTo(self.map);
 
       //Create lat lon leaflet control
       L.Control.LatLngControl = L.Control.extend({

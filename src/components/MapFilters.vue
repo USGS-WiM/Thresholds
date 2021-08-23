@@ -94,7 +94,7 @@
             type="checkbox"
             ref="allRP"
             id="allRP"
-            value="false"
+            value="true"
             v-model="allRPPicked"
           />
           <div class="legend-icon">

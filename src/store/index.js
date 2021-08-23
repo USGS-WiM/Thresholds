@@ -10,7 +10,7 @@ export default new Vuex.Store({
     streamgageState: false,
     radarState: false,
     nfhlState: false,
-    allRPState: false,
+    allRPState: true,
     fwwState: false,
     currentZoomState: 4,
   },
