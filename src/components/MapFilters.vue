@@ -87,7 +87,7 @@
       </v-expansion-panel-content>
     </v-expansion-panel>
     <v-expansion-panel>
-      <v-expansion-panel-header> Primary Layers </v-expansion-panel-header>
+      <v-expansion-panel-header> Site Layers </v-expansion-panel-header>
       <v-expansion-panel-content>
         <v-container class="px-0" fluid>
           <input
