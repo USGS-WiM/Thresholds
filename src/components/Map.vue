@@ -325,7 +325,7 @@ export default {
       showParagraph: false,
       fillColor: "#ffffff",
       streamgageVisible: false,
-      allRPVisible: false,
+      allRPVisible: true,
       noFloodingdialog: false,
     };
   },
@@ -340,10 +340,10 @@ export default {
         zoomSnap: 0.5,
       });
 
-      //Add Topo tilelayer to map initially
-      L.tileLayer(tileProviders[2].url, {
-        attribution: tileProviders[2].attribution,
-        name: tileProviders[2].name,
+      //Add streets tilelayer to map initially
+      L.tileLayer(tileProviders[0].url, {
+        attribution: tileProviders[0].attribution,
+        name: tileProviders[0].name,
       }).addTo(self.map);
 
       self.streamgageMarkers = L.featureGroup();
@@ -366,7 +366,8 @@ export default {
       self.allRPMarkers = L.featureGroup();
       self.allRPMarkers.on("click", function (e) {
         self.openAQPopup(e);
-      });
+      })
+      .addTo(self.map);
 
       //Create lat lon leaflet control
       L.Control.LatLngControl = L.Control.extend({

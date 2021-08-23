@@ -35,6 +35,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Change hydrograph styling
 - Increase font size in RP and streamgage popups
 - NWIS streamgages shown above RPs when layer is on
+- Change default basemap to streets
+- Switch RP layer to on by default
 
 ### Fixed
 
