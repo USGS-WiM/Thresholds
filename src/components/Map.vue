@@ -38,10 +38,10 @@
             <v-expansion-panel-header id="titleContainer">
               <div id="legendExplanation">Legend</div>
             </v-expansion-panel-header>
-            <v-expansion-panel-content>
+            <v-expansion-panel-content id="legendContent">
               <!-- Toggleable layers -->
               <div id="toggleableLayers">
-                <div class="legendIcon" v-if="allRPVisible">
+                <div class="legendIcon" style="margin-left: 16px" v-if="allRPVisible">
                   <div
                     id="allRPLegend"
                     class="
@@ -51,7 +51,7 @@
                       wmm-size-20
                     "
                   ></div>
-                  <label style="margin-left: 10px"
+                  <label style="margin-left: 18px"
                     >All Reference Point Locations</label
                   >
                 </div>
@@ -1664,6 +1664,10 @@ export default {
 
 #mainGraphContainer {
   padding-top: 18px;
+}
+
+#legendContent {
+  margin: -8px -20px -8px -20px;
 }
 
 </style>
