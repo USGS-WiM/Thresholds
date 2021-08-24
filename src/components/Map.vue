@@ -586,6 +586,9 @@ export default {
           document
             .getElementById("graphLoadMessage")
             .setAttribute("style", "display: none");
+            document
+            .getElementById("dataCredit")
+            .setAttribute("style", "display: none");
           document
             .getElementById("noDataMessage")
             .setAttribute("style", "display: block");
@@ -811,6 +814,9 @@ export default {
           document
             .getElementById("noDataMessageAQ")
             .setAttribute("style", "display: block");
+          document
+            .getElementById("aqDataCredit")
+            .setAttribute("style", "display: none");
           document
             .getElementById("graphContainerAQ")
             .setAttribute("style", "display: none");
