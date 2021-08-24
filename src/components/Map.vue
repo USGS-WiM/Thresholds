@@ -41,18 +41,18 @@
             <v-expansion-panel-content id="legendContent">
               <!-- Toggleable layers -->
               <div id="toggleableLayers">
-                <div class="legendIcon" style="margin-left: 16px" v-if="allRPVisible">
+                <div class="legendIconToggle" v-if="allRPVisible">
                   <div
+                    style="padding-right: 10px;"
                     id="allRPLegend"
                     class="
-                      wmm-pin
-                      wmm-altblue
+                      wmm-circle
+                      wmm-white
                       wmm-icon-noicon
-                      wmm-icon-orange
                       wmm-size-20
                     "
                   ></div>
-                  <label style="margin-left: 18px"
+                  <label
                     >All Reference Point Locations</label
                   >
                 </div>
@@ -751,7 +751,7 @@ export default {
       let tooltip;
       if (e.layer._icon.outerHTML.split("class")[0] === "<div ") {
         icon =
-          '<div id="allRPIcon" style="padding-left:2px !important; margin-top: -15px !important; vertical-align: middle" class="wmm-pin wmm-altblue wmm-icon-noicon wmm-icon-orange wmm-size-15"></div>';
+          '<div id="allRPIcon" style="padding-left:2px !important; margin-top: -15px !important; vertical-align: middle" class="wmm-circle wmm-white wmm-icon-noicon wmm-size-15"></div>';
         tooltip = "<span class='tooltiptextWIMIcon'>" + e.layer.data.Name;
       } else {
         icon =
@@ -1088,7 +1088,7 @@ export default {
 
         var wimIcon = L.divIcon({
           className:
-            "wmm-pin wmm-altblue wmm-icon-noicon wmm-icon-orange wmm-size-25",
+            "wmm-circle wmm-white wmm-icon-noicon wmm-size-30",
         });
 
         let url =
@@ -1459,6 +1459,7 @@ export default {
   font-size: 16px;
   color: #333;
   padding-left: 8px;
+  padding-top: 8px;
 }
 
 .legendIcon {

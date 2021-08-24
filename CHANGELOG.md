@@ -42,6 +42,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Moved NWSR, NFHL, and FWW layers to a "Supporting Layers" section
 - fix styling of legend
 - remove credit when no graph
+- restyle RP icon
 
 ### Fixed
 
