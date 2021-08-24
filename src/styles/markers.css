@@ -186,8 +186,8 @@
   color: #06070e;
 }
 .wmm-white:after {
-  background-color: #ffffff;
-  border-color: #06070e;
+  background-color: rgba(255,255,255,.33);
+  border: 3px solid rgba(0, 0, 0, 0.5);
   color: #ffffff;
 }
 .wmm-red:after {
@@ -697,3 +697,4 @@
 .wmm-triangle.wmm-mutedpink:after {
   color: #ffb3ff;
 }
+

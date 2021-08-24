@@ -88,7 +88,7 @@
     </v-expansion-panel>
     <v-expansion-panel>
       <v-expansion-panel-header> Layers </v-expansion-panel-header>
-      <v-expansion-panel-content>
+      <v-expansion-panel-content id="siteLayersContent">
         <v-container class="px-0" fluid>
         <div class="subsection-title" id="site-layer-title">Site Layers</div>
           <input
@@ -100,12 +100,11 @@
           />
           <div class="legend-icon">
             <div
-              id="allRPIcon"
               class="
-                wmm-pin wmm-altblue wmm-icon-noicon wmm-icon-orange wmm-size-20
+                wmm-circle wmm-white wmm-icon-noicon wmm-size-20
               "
             ></div>
-            <label for="allRP">All Reference Point Locations</label>
+            <label for="allRP" class="legend-label">All Reference Point Locations</label>
           </div>
           <br />
           <div class="zoom-alert" :style="{ display: isDisplayed }">
@@ -131,7 +130,7 @@
                 wmm-borderless
               "
             ></div>
-            <label for="stream">Real-time Streamgage</label>
+            <label for="stream" class="legend-label">Real-time Streamgage</label>
           </div>
           <br />
           <div class="subsection-title" id="supporting-layer-title">Supporting Layers</div>
@@ -340,7 +339,7 @@ export default {
 #allRPIcon {
   margin-top: 0 !important;
   width: 30px !important;
-  padding-left: 3x !important;
+  padding-left: 3px !important;
 }
 
 #allRPLegend {
@@ -356,6 +355,14 @@ export default {
 
 #supporting-layer-title {
   padding-top: 14px;
+}
+
+#siteLayersContent {
+  margin: -10px -8px -10px -2px;
+}
+
+.legend-label {
+  margin-left: -2px;
 }
 
 </style>

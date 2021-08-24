@@ -38,21 +38,21 @@
             <v-expansion-panel-header id="titleContainer">
               <div id="legendExplanation">Legend</div>
             </v-expansion-panel-header>
-            <v-expansion-panel-content>
+            <v-expansion-panel-content id="legendContent">
               <!-- Toggleable layers -->
               <div id="toggleableLayers">
-                <div class="legendIcon" v-if="allRPVisible">
+                <div class="legendIconToggle" v-if="allRPVisible">
                   <div
+                    style="padding-right: 10px;"
                     id="allRPLegend"
                     class="
-                      wmm-pin
-                      wmm-altblue
+                      wmm-circle
+                      wmm-white
                       wmm-icon-noicon
-                      wmm-icon-orange
                       wmm-size-20
                     "
                   ></div>
-                  <label style="margin-left: 10px"
+                  <label
                     >All Reference Point Locations</label
                   >
                 </div>
@@ -589,6 +589,9 @@ export default {
           document
             .getElementById("graphLoadMessage")
             .setAttribute("style", "display: none");
+            document
+            .getElementById("dataCredit")
+            .setAttribute("style", "display: none");
           document
             .getElementById("noDataMessage")
             .setAttribute("style", "display: block");
@@ -751,7 +754,7 @@ export default {
       let tooltip;
       if (e.layer._icon.outerHTML.split("class")[0] === "<div ") {
         icon =
-          '<div id="allRPIcon" style="padding-left:2px !important; margin-top: -15px !important; vertical-align: middle" class="wmm-pin wmm-altblue wmm-icon-noicon wmm-icon-orange wmm-size-15"></div>';
+          '<div id="allRPIcon" style="padding-left:2px !important; margin-top: -15px !important; vertical-align: middle" class="wmm-circle wmm-white wmm-icon-noicon wmm-size-15"></div>';
         tooltip = "<span class='tooltiptextWIMIcon'>" + e.layer.data.Name;
       } else {
         icon =
@@ -814,6 +817,9 @@ export default {
           document
             .getElementById("noDataMessageAQ")
             .setAttribute("style", "display: block");
+          document
+            .getElementById("aqDataCredit")
+            .setAttribute("style", "display: none");
           document
             .getElementById("graphContainerAQ")
             .setAttribute("style", "display: none");
@@ -1085,28 +1091,8 @@ export default {
 
         var wimIcon = L.divIcon({
           className:
-            "wmm-pin wmm-altblue wmm-icon-noicon wmm-icon-orange wmm-size-25",
+            "wmm-circle wmm-white wmm-icon-noicon wmm-size-30",
         });
-
-        // all RP layer
-        let allMarkers = L.marker([lat, lng], {
-          icon: wimIcon,
-        }).addTo(this.allRPMarkers);
-
-        allMarkers.data = {
-          thresholds: thresh,
-          LocationIdentifier: LocationIdentifier,
-          Name: Name,
-          ReferencePointPeriods: rpData,
-          Elevation: elevation,
-          Unit: unit,
-          FullName: fullname,
-          SiteName: siteName,
-          ThresholdName: thresholdName,
-          lat: lat,
-          lng: lng,
-        };
-        // end all RP Layer
 
         let url =
           "https://nwis.waterservices.usgs.gov/nwis/iv/?format=nwjson&sites=" +
@@ -1164,6 +1150,26 @@ export default {
                 lng: lng,
               };
               hasMarkers = true;
+            }else{
+              // all RP layer
+              let allMarkers = L.marker([lat, lng], {
+                icon: wimIcon,
+              }).addTo(this.allRPMarkers);
+
+              allMarkers.data = {
+                thresholds: thresh,
+                LocationIdentifier: LocationIdentifier,
+                Name: Name,
+                ReferencePointPeriods: rpData,
+                Elevation: elevation,
+                Unit: unit,
+                FullName: fullname,
+                SiteName: siteName,
+                ThresholdName: thresholdName,
+                lat: lat,
+                lng: lng,
+              };
+              // end all RP Layer
             }
           }
           // Wait for last entry to add markers to map and fit bounds, otherwise bounds will be invalid
@@ -1522,6 +1528,7 @@ export default {
   font-size: 16px;
   color: #333;
   padding-left: 8px;
+  padding-top: 8px;
 }
 
 .legendIcon {
@@ -1734,6 +1741,10 @@ export default {
 
 #mainGraphContainer {
   padding-top: 18px;
+}
+
+#legendContent {
+  margin: -8px -20px -8px -20px;
 }
 
 </style>
