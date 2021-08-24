@@ -1085,26 +1085,6 @@ export default {
             "wmm-pin wmm-altblue wmm-icon-noicon wmm-icon-orange wmm-size-25",
         });
 
-        // all RP layer
-        let allMarkers = L.marker([lat, lng], {
-          icon: wimIcon,
-        }).addTo(this.allRPMarkers);
-
-        allMarkers.data = {
-          thresholds: thresh,
-          LocationIdentifier: LocationIdentifier,
-          Name: Name,
-          ReferencePointPeriods: rpData,
-          Elevation: elevation,
-          Unit: unit,
-          FullName: fullname,
-          SiteName: siteName,
-          ThresholdName: thresholdName,
-          lat: lat,
-          lng: lng,
-        };
-        // end all RP Layer
-
         let url =
           "https://nwis.waterservices.usgs.gov/nwis/iv/?format=nwjson&sites=" +
           LocationIdentifier +
@@ -1161,6 +1141,26 @@ export default {
                 lng: lng,
               };
               hasMarkers = true;
+            }else{
+              // all RP layer
+              let allMarkers = L.marker([lat, lng], {
+                icon: wimIcon,
+              }).addTo(this.allRPMarkers);
+
+              allMarkers.data = {
+                thresholds: thresh,
+                LocationIdentifier: LocationIdentifier,
+                Name: Name,
+                ReferencePointPeriods: rpData,
+                Elevation: elevation,
+                Unit: unit,
+                FullName: fullname,
+                SiteName: siteName,
+                ThresholdName: thresholdName,
+                lat: lat,
+                lng: lng,
+              };
+              // end all RP Layer
             }
           }
           // Wait for last entry to add markers to map and fit bounds, otherwise bounds will be invalid
