@@ -5,7 +5,9 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    drawerState: false,
+    // Setting drawer state to null initially will cause sidebar
+    // to be closed on mobile and open on desktop by default
+    drawerState: null,
     basemapState: "Streets",
     streamgageState: false,
     radarState: false,
