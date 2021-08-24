@@ -586,6 +586,9 @@ export default {
           document
             .getElementById("graphLoadMessage")
             .setAttribute("style", "display: none");
+            document
+            .getElementById("dataCredit")
+            .setAttribute("style", "display: none");
           document
             .getElementById("noDataMessage")
             .setAttribute("style", "display: block");
@@ -811,6 +814,9 @@ export default {
           document
             .getElementById("noDataMessageAQ")
             .setAttribute("style", "display: block");
+          document
+            .getElementById("aqDataCredit")
+            .setAttribute("style", "display: none");
           document
             .getElementById("graphContainerAQ")
             .setAttribute("style", "display: none");
@@ -1085,26 +1091,6 @@ export default {
             "wmm-circle wmm-white wmm-icon-noicon wmm-size-30",
         });
 
-        // all RP layer
-        let allMarkers = L.marker([lat, lng], {
-          icon: wimIcon,
-        }).addTo(this.allRPMarkers);
-
-        allMarkers.data = {
-          thresholds: thresh,
-          LocationIdentifier: LocationIdentifier,
-          Name: Name,
-          ReferencePointPeriods: rpData,
-          Elevation: elevation,
-          Unit: unit,
-          FullName: fullname,
-          SiteName: siteName,
-          ThresholdName: thresholdName,
-          lat: lat,
-          lng: lng,
-        };
-        // end all RP Layer
-
         let url =
           "https://nwis.waterservices.usgs.gov/nwis/iv/?format=nwjson&sites=" +
           LocationIdentifier +
@@ -1161,6 +1147,26 @@ export default {
                 lng: lng,
               };
               hasMarkers = true;
+            }else{
+              // all RP layer
+              let allMarkers = L.marker([lat, lng], {
+                icon: wimIcon,
+              }).addTo(this.allRPMarkers);
+
+              allMarkers.data = {
+                thresholds: thresh,
+                LocationIdentifier: LocationIdentifier,
+                Name: Name,
+                ReferencePointPeriods: rpData,
+                Elevation: elevation,
+                Unit: unit,
+                FullName: fullname,
+                SiteName: siteName,
+                ThresholdName: thresholdName,
+                lat: lat,
+                lng: lng,
+              };
+              // end all RP Layer
             }
           }
           // Wait for last entry to add markers to map and fit bounds, otherwise bounds will be invalid

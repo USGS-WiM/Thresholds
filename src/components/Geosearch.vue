@@ -60,6 +60,9 @@ export default {
             .getElementById("graphLoadMessage")
             .setAttribute("style", "display: none");
           document
+            .getElementById("dataCredit")
+            .setAttribute("style", "display: none");
+          document
             .getElementById("noDataMessage")
             .setAttribute("style", "display: block");
         } else {
