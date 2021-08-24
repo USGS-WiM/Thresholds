@@ -102,7 +102,7 @@
             <div
               id="allRPIcon"
               class="
-                wmm-pin wmm-altblue wmm-icon-noicon wmm-icon-orange wmm-size-20
+                wmm-circle wmm-white wmm-icon-noicon wmm-size-20
               "
             ></div>
             <label for="allRP">All Reference Point Locations</label>
@@ -340,7 +340,7 @@ export default {
 #allRPIcon {
   margin-top: 0 !important;
   width: 30px !important;
-  padding-left: 3x !important;
+  padding-left: 3px !important;
 }
 
 #allRPLegend {

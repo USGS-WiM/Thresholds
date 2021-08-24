@@ -45,10 +45,9 @@
                   <div
                     id="allRPLegend"
                     class="
-                      wmm-pin
-                      wmm-altblue
+                      wmm-circle
+                      wmm-white
                       wmm-icon-noicon
-                      wmm-icon-orange
                       wmm-size-20
                     "
                   ></div>
@@ -748,7 +747,7 @@ export default {
       let tooltip;
       if (e.layer._icon.outerHTML.split("class")[0] === "<div ") {
         icon =
-          '<div id="allRPIcon" style="padding-left:2px !important; margin-top: -15px !important; vertical-align: middle" class="wmm-pin wmm-altblue wmm-icon-noicon wmm-icon-orange wmm-size-15"></div>';
+          '<div id="allRPIcon" style="padding-left:2px !important; margin-top: -15px !important; vertical-align: middle" class="wmm-circle wmm-white wmm-icon-noicon wmm-size-15"></div>';
         tooltip = "<span class='tooltiptextWIMIcon'>" + e.layer.data.Name;
       } else {
         icon =
@@ -1082,7 +1081,7 @@ export default {
 
         var wimIcon = L.divIcon({
           className:
-            "wmm-pin wmm-altblue wmm-icon-noicon wmm-icon-orange wmm-size-25",
+            "wmm-circle wmm-white wmm-icon-noicon wmm-size-30",
         });
 
         // all RP layer
