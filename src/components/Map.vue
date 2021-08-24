@@ -87,7 +87,7 @@
               </div>
               <!-- Threshold icons -->
               <div id="thresholdLayers">
-                <div id="thresholdLayersTitle">Streamgage Status</div>
+                <div id="thresholdLayersTitle">Active Flooding</div>
                 <div class="legendIcon" v-if="bankVisible">
                   <img
                     src="../assets/aq-icons/embankment_flooded_circle.png"
@@ -328,7 +328,7 @@ export default {
       showParagraph: false,
       fillColor: "#ffffff",
       streamgageVisible: false,
-      allRPVisible: false,
+      allRPVisible: true,
       noFloodingdialog: false,
     };
   },
@@ -343,10 +343,10 @@ export default {
         zoomSnap: 0.5,
       });
 
-      //Add Topo tilelayer to map initially
-      L.tileLayer(tileProviders[2].url, {
-        attribution: tileProviders[2].attribution,
-        name: tileProviders[2].name,
+      //Add streets tilelayer to map initially
+      L.tileLayer(tileProviders[0].url, {
+        attribution: tileProviders[0].attribution,
+        name: tileProviders[0].name,
       }).addTo(self.map);
 
       self.streamgageMarkers = L.featureGroup();
@@ -369,7 +369,8 @@ export default {
       self.allRPMarkers = L.featureGroup();
       self.allRPMarkers.on("click", function (e) {
         self.openAQPopup(e);
-      });
+      })
+      .addTo(self.map);
 
       //Create lat lon leaflet control
       L.Control.LatLngControl = L.Control.extend({
@@ -537,8 +538,8 @@ export default {
     },
     openStreamGagePopup(e) {
       //Clear out previous popup contents if existing
-      if (document.getElementById("graphContainer") != null) {
-        document.getElementById("graphContainer").remove();
+      if (document.getElementById("mainGraphContainer") != null) {
+        document.getElementById("mainGraphContainer").remove();
       }
       if (document.getElementById("graphLoadMessage") != null) {
         document.getElementById("graphLoadMessage").remove();
@@ -552,13 +553,13 @@ export default {
         document.getElementById("noDataMessage").remove();
       }
 
-      //popup for Streamgage Status
+      //popup for Active Flooding
       this.popupContent =
         '<label id="popup-title">NWIS Site ' +
         e.layer.data.siteCode +
         "</br>" +
         e.layer.data.siteName +
-        '</label><p id="graphLoadMessage"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainer" style="width:100%; min-height: 350px;display:block;"></div> <div id="dataCredit">Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
+        '</label><p id="graphLoadMessage"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="mainGraphContainer" style="width:100%; min-height: 350px;display:block;"></div> <div id="dataCredit">Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
         e.layer.data.siteCode +
         '"><b>Site ' +
         e.layer.data.siteCode +
@@ -592,7 +593,7 @@ export default {
             .getElementById("noDataMessage")
             .setAttribute("style", "display: block");
           document
-            .getElementById("graphContainer")
+            .getElementById("mainGraphContainer")
             .setAttribute("style", "display: none");
         } else {
           if (e.layer.getPopup() != undefined) {
@@ -660,7 +661,7 @@ export default {
               text: graphtitle,
               font: {
                 size: 12,
-                color: "rgba(51,51,51,0.6)",
+                color: "#333",
               },
               x: 0.05,
               y: -1.0,
@@ -700,9 +701,9 @@ export default {
           });
 
           // Render plot
-          Plotly.newPlot("graphContainer", chartData, layout, config);
+          Plotly.newPlot("mainGraphContainer", chartData, layout, config);
           document
-            .getElementById("graphContainer")
+            .getElementById("mainGraphContainer")
             .setAttribute("style", "display: block");
           document
             .getElementById("graphLoadMessage")
@@ -760,7 +761,7 @@ export default {
         tooltip = "<span class='tooltiptext'>" + layerData.ThresholdName;
       }
 
-      //Streamgage status popup and all RP popup
+      //Active Flooding popup and all RP popup
       this.aqPopupContent =
         '<div id="aqGraphHeader"><span><label id="popup-titleAQ"></br></label>' +
         layerData.SiteName +
@@ -846,7 +847,7 @@ export default {
             values.push(time[1]);
           });
 
-          // Plot for streamgage status, label for all RP and Status
+          // Plot for Active Flooding, label for all RP and Status
           let traces = [
             {
               x: dates,
@@ -880,7 +881,7 @@ export default {
               ydata.push(datapoint[1]);
             });
 
-            // threshold level for Streamgage Status
+            // threshold level for Active Flooding
             traces.push({
               x: xdata,
               y: ydata,
@@ -898,7 +899,7 @@ export default {
               },
             });
 
-            // Create labels for Streamgage Status
+            // Create labels for Active Flooding
             plotlyAnnotations.push({
               x: thresholds[i].series[thresholds[i].series.length - 1][0], // Place label after last x value
               y: ydata[0], // Place label at same y value as threshold
@@ -915,7 +916,7 @@ export default {
             });
           }
 
-          // Streamgage Status chart layout
+          // Active Flooding chart layout
           let layout = {
             autosize: false,
             width: 300,
@@ -1436,8 +1437,10 @@ export default {
     currentBounds: function () {
       this.streamgageMarkers.clearLayers();
       this.toggleStreamgage(this.streamgageMarkers, this.currentZoom);
+    if (this.map.hasLayer(this.nfhlLayer) && this.nfhlVisible) {
       this.nfhlLayer.remove();
       this.toggleNfhl(this.nfhlLayer);
+      }
     },
     currentZoom: function () {
       // Update legend on zoom
@@ -1729,20 +1732,8 @@ export default {
   padding: 20px !important;
 }
 
-#main-svg {
-  height: 200px !important;
-}
-
-#legend {
-  padding-top: 5px;
-}
-
-.v-expansion-panel-content__wrap {
-  padding: 0 5px 2px !important;
-}
-
-.v-application .px-0 {
-  padding: 0 18px 10px !important;
+#mainGraphContainer {
+  padding-top: 18px;
 }
 
 </style>

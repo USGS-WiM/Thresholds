@@ -37,7 +37,7 @@ export default {
         siteCode +
         "</br>" +
         siteName +
-        '</label></br><p id="graphLoadMessage"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainer" style="width:100%; height:200px;display:none;"></div> <div>Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
+        '</label></br><p id="graphLoadMessage"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainer" style="width:100%; height:200px;display:none;"></div> <div id="dataCredit">Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
         siteCode +
         '"><b>Site ' +
         siteCode +
@@ -95,8 +95,8 @@ export default {
 
           let layout = {
             autosize: false,
-            width: "50%",
-            height: "50%",
+            width: 310,
+            height: 235,
             font: {
               family: "Public Sans, sans-serif",
             },
@@ -108,6 +108,9 @@ export default {
             xaxis: {
               range: [dates[0], dates[dates.length - 1]],
               tickformat: "%d %b %y",
+              tickfont: {
+                size: 11,
+              },
             },
             title: {
               text: graphtitle,
@@ -116,11 +119,13 @@ export default {
                 color: "#333",
               },
               x: 0.05,
+              y: -1.0,
             },
             margin: {
-              l: 50,
-              r: 50,
-              t: 100,
+              l: 30,
+              r: 15,
+              t: 35,
+              b: 15,
             },
             legend: false,
             annotations: plotlyAnnotations,
@@ -129,10 +134,15 @@ export default {
                 family: "Public Sans, sans-serif",
               },
             },
+            modebar: {
+              orientation: "h", // Vertical modebar
+              remove: "autoscale",
+            },
+            dragmode: "pan", // Make pan the default active modebar button
           };
 
           // Make chart responsive and modebar always visible
-          let config = { responsive: true, displayModeBar: true };
+          let config = { responsive: true, displayModeBar: true, displaylogo: false, };
 
           let chartData = [];
 
@@ -207,9 +217,10 @@ export default {
                   "USGS Site: Ground Water"
                 ) !== -1
               ) {
-                let siteName = o.result.properties.Label.substr(
+                let siteName = o.result.properties.Label.split("(")[0].substr(
                   o.result.properties.Label.indexOf(" ") + 1
                 );
+                
                 let siteCode = o.result.properties.Label.split(" ")[0];
                 let latlon = [o.result.properties.Lat, o.result.properties.Lon];
                 self.openPopUp(map, siteName, siteCode, latlon);
@@ -309,5 +320,13 @@ input:not([disabled]):focus {
   .v-toolbar__content, .v-toolbar__extension {
     padding: 4px 8px 4px 8px !important;
   }
+}
+
+.leaflet-popup-content {
+  margin: -1px 10px 10px 10px !important
+}
+
+#dataCredit {
+  font-size: 10px;
 }
 </style>
