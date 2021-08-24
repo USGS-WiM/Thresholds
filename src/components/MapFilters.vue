@@ -101,11 +101,11 @@
           <div class="legend-icon">
             <div
               id="allRPIcon"
-              class="
-                wmm-pin wmm-altblue wmm-icon-noicon wmm-icon-orange wmm-size-20
-              "
+              class="wmm-circle wmm-white wmm-icon-noicon wmm-size-20"
             ></div>
-            <label for="allRP">All Reference Point Locations</label>
+            <label for="allRP" class="legend-label"
+              >All Reference Point Locations</label
+            >
           </div>
           <br />
           <div class="zoom-alert" :style="{ display: isDisplayed }">
@@ -131,7 +131,9 @@
                 wmm-borderless
               "
             ></div>
-            <label for="stream">Real-time Streamgage</label>
+            <label for="stream" class="legend-label"
+              >Real-time Streamgage</label
+            >
           </div>
           <br />
           <div class="subsection-title" id="supporting-layer-title">
@@ -347,7 +349,7 @@ export default {
 #allRPLegend {
   margin-top: 0 !important;
   width: 30px !important;
-  padding-right: 3x !important;
+  padding-right: 3px !important;
 }
 
 .subsection-title {
