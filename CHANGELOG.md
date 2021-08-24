@@ -40,6 +40,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - rename "streamgage status" to "active flooding" in legend
 - Moved NWSR, NFHL, and FWW layers to a "Supporting Layers" section
 - fix styling of legend
+- remove credit when no graph
 
 ### Fixed
 
