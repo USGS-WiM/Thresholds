@@ -1370,8 +1370,10 @@ export default {
     currentBounds: function () {
       this.streamgageMarkers.clearLayers();
       this.toggleStreamgage(this.streamgageMarkers, this.currentZoom);
+    if (this.map.hasLayer(this.nfhlLayer) && this.nfhlVisible) {
       this.nfhlLayer.remove();
       this.toggleNfhl(this.nfhlLayer);
+      }
     },
     currentZoom: function () {
       // Update legend on zoom
