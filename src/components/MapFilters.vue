@@ -88,7 +88,7 @@
     </v-expansion-panel>
     <v-expansion-panel>
       <v-expansion-panel-header> Layers </v-expansion-panel-header>
-      <v-expansion-panel-content>
+      <v-expansion-panel-content id="siteLayersContent">
         <v-container class="px-0" fluid>
         <div class="subsection-title" id="site-layer-title">Site Layers</div>
           <input
@@ -356,6 +356,10 @@ export default {
 
 #supporting-layer-title {
   padding-top: 14px;
+}
+
+#siteLayersContent {
+  margin: -10px -8px -10px -2px;
 }
 
 </style>
