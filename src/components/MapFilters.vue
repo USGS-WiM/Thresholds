@@ -100,12 +100,11 @@
           />
           <div class="legend-icon">
             <div
-              id="allRPIcon"
               class="
                 wmm-circle wmm-white wmm-icon-noicon wmm-size-20
               "
             ></div>
-            <label for="allRP">All Reference Point Locations</label>
+            <label for="allRP" class="legend-label">All Reference Point Locations</label>
           </div>
           <br />
           <div class="zoom-alert" :style="{ display: isDisplayed }">
@@ -131,7 +130,7 @@
                 wmm-borderless
               "
             ></div>
-            <label for="stream">Real-time Streamgage</label>
+            <label for="stream" class="legend-label">Real-time Streamgage</label>
           </div>
           <br />
           <div class="subsection-title" id="supporting-layer-title">Supporting Layers</div>
@@ -360,6 +359,10 @@ export default {
 
 #siteLayersContent {
   margin: -10px -8px -10px -2px;
+}
+
+.legend-label {
+  margin-left: -2px;
 }
 
 </style>

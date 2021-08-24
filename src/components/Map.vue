@@ -41,8 +41,9 @@
             <v-expansion-panel-content id="legendContent">
               <!-- Toggleable layers -->
               <div id="toggleableLayers">
-                <div class="legendIcon" style="margin-left: 16px" v-if="allRPVisible">
+                <div class="legendIconToggle" v-if="allRPVisible">
                   <div
+                    style="padding-right: 10px;"
                     id="allRPLegend"
                     class="
                       wmm-circle
@@ -51,7 +52,7 @@
                       wmm-size-20
                     "
                   ></div>
-                  <label style="margin-left: 18px"
+                  <label
                     >All Reference Point Locations</label
                   >
                 </div>
@@ -1452,6 +1453,7 @@ export default {
   font-size: 16px;
   color: #333;
   padding-left: 8px;
+  padding-top: 8px;
 }
 
 .legendIcon {
