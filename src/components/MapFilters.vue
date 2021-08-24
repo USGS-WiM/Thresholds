@@ -99,10 +99,7 @@
             v-model="allRPPicked"
           />
           <div class="legend-icon">
-            <div
-              id="allRPIcon"
-              class="wmm-circle wmm-white wmm-icon-noicon wmm-size-20"
-            ></div>
+            <div class="wmm-circle wmm-white wmm-icon-noicon wmm-size-20"></div>
             <label for="allRP" class="legend-label"
               >All Reference Point Locations</label
             >
@@ -343,7 +340,7 @@ export default {
 #allRPIcon {
   margin-top: 0 !important;
   width: 30px !important;
-  padding-left: 3x !important;
+  padding-left: 3px !important;
 }
 
 #allRPLegend {
@@ -363,5 +360,9 @@ export default {
 
 #siteLayersContent {
   margin: -10px -8px -10px -2px;
+}
+
+.legend-label {
+  margin-left: -2px;
 }
 </style>
