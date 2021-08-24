@@ -39,6 +39,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Switch RP layer to on by default
 - rename "streamgage status" to "active flooding" in legend
 - Moved NWSR, NFHL, and FWW layers to a "Supporting Layers" section
+- fix styling of legend
 
 ### Fixed
 
