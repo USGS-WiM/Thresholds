@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panels>
+  <v-expansion-panels :value="1">
     <!-- Filters Section -->
     <v-expansion-panel>
       <v-expansion-panel-header> Basemaps </v-expansion-panel-header>
@@ -346,7 +346,7 @@ export default {
 #allRPLegend {
   margin-top: 0 !important;
   width: 30px !important;
-  padding-right: 3x !important;
+  padding-right: 3px !important;
 }
 
 .subsection-title {
