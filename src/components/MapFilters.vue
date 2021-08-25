@@ -149,17 +149,6 @@
           <br />
           <input
             type="checkbox"
-            ref="nfhl"
-            id="nfhl"
-            value="false"
-            v-model="nfhlPicked"
-          />
-          <div class="legend-no-icon">
-            <label for="nfhl">National Flood Hazard Layer</label>
-          </div>
-          <br />
-          <input
-            type="checkbox"
             ref="fww"
             id="fww"
             value="false"
@@ -167,6 +156,17 @@
           />
           <div class="legend-no-icon">
             <label for="fww">Flood Watches and Warnings</label>
+          </div>
+          <br />
+          <input
+            type="checkbox"
+            ref="nfhl"
+            id="nfhl"
+            value="false"
+            v-model="nfhlPicked"
+          />
+          <div class="legend-no-icon">
+            <label for="nfhl">National Flood Hazard Layer</label>
           </div>
         </v-container>
       </v-expansion-panel-content>
