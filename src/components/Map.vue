@@ -1431,11 +1431,9 @@ export default {
                   layerName +
                   "</label>";
                 if (container != null) {
-                  if (
-                    layerName == "Air Quality Alert"
-                  ) {
+                  {
                     container.appendChild(legendEl);
-                    }
+                  }
                   container.style.display = "inline-block";
                 } else {
                   // If layer is toggled before legend is expanded, the container element will be null
@@ -1475,8 +1473,6 @@ export default {
         let layers = this.nfhlLayer.getLayers();
         this.getNfhlLegend(layers);
       }
-      let layers = this.fwwLayer.getLayers();
-      this.getFwwLegend(layers);
     },
     "$store.state.streamgageState": function () {
       this.toggleStreamgage(this.streamgageMarkers, this.currentZoom);
@@ -1681,7 +1677,8 @@ export default {
   padding: 5px;
 }
 
-.nfhlLegendComponent img {
+.nfhlLegendComponent img,
+.fwwLegendComponent img {
   vertical-align: middle;
 }
 
