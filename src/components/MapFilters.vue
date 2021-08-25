@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panels>
+  <v-expansion-panels :value="1">
     <!-- Filters Section -->
     <v-expansion-panel>
       <v-expansion-panel-header> Basemaps </v-expansion-panel-header>
@@ -90,7 +90,7 @@
       <v-expansion-panel-header> Layers </v-expansion-panel-header>
       <v-expansion-panel-content id="siteLayersContent">
         <v-container class="px-0" fluid>
-        <div class="subsection-title" id="site-layer-title">Site Layers</div>
+          <div class="subsection-title" id="site-layer-title">Site Layers</div>
           <input
             type="checkbox"
             ref="allRP"
@@ -99,12 +99,10 @@
             v-model="allRPPicked"
           />
           <div class="legend-icon">
-            <div
-              class="
-                wmm-circle wmm-white wmm-icon-noicon wmm-size-20
-              "
-            ></div>
-            <label for="allRP" class="legend-label">All Reference Point Locations</label>
+            <div class="wmm-circle wmm-white wmm-icon-noicon wmm-size-20"></div>
+            <label for="allRP" class="legend-label"
+              >All Reference Point Locations</label
+            >
           </div>
           <br />
           <div class="zoom-alert" :style="{ display: isDisplayed }">
@@ -130,11 +128,15 @@
                 wmm-borderless
               "
             ></div>
-            <label for="stream" class="legend-label">Real-time Streamgage</label>
+            <label for="stream" class="legend-label"
+              >Real-time Streamgage</label
+            >
           </div>
           <br />
-          <div class="subsection-title" id="supporting-layer-title">Supporting Layers</div>
-                  <input
+          <div class="subsection-title" id="supporting-layer-title">
+            Supporting Layers
+          </div>
+          <input
             type="checkbox"
             ref="radar"
             id="radar"
@@ -147,17 +149,6 @@
           <br />
           <input
             type="checkbox"
-            ref="nfhl"
-            id="nfhl"
-            value="false"
-            v-model="nfhlPicked"
-          />
-          <div class="legend-no-icon">
-            <label for="nfhl">National Flood Hazard Layer</label>
-          </div>
-          <br />
-          <input
-            type="checkbox"
             ref="fww"
             id="fww"
             value="false"
@@ -166,10 +157,20 @@
           <div class="legend-no-icon">
             <label for="fww">Flood Watches and Warnings</label>
           </div>
+          <br />
+          <input
+            type="checkbox"
+            ref="nfhl"
+            id="nfhl"
+            value="false"
+            v-model="nfhlPicked"
+          />
+          <div class="legend-no-icon">
+            <label for="nfhl">National Flood Hazard Layer</label>
+          </div>
         </v-container>
       </v-expansion-panel-content>
     </v-expansion-panel>
-
   </v-expansion-panels>
 </template>
 
@@ -345,7 +346,7 @@ export default {
 #allRPLegend {
   margin-top: 0 !important;
   width: 30px !important;
-  padding-right: 3x !important;
+  padding-right: 3px !important;
 }
 
 .subsection-title {
@@ -364,5 +365,4 @@ export default {
 .legend-label {
   margin-left: -2px;
 }
-
 </style>

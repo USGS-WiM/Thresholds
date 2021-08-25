@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Removed RPs with active flooding from All RP layer
 - Navigation drawer closed on mobile and open on desktop/laptop initally
 - Display RPs without real time data on map
+- Change supporting layer order in sidebar
+- Layers panel expanded on site load
 
 ### Fixed
 
