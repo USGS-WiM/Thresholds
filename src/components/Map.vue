@@ -1542,7 +1542,6 @@ export default {
 
 #findLocationContainer {
   border-radius: 5px 5px 5px 5px;
-  /* box-shadow: 0 3px 6px rgba(30, 39, 50, 0.2), 0 3px 6px rgba(30, 39, 50, 0.2); */
   left: 60px;
   top: 15px;
   height: auto;
@@ -1550,7 +1549,6 @@ export default {
   position: absolute;
   z-index: 999;
   font-size: 14px;
-  /* opacity: 0.75; */
 }
 
 #legendExplanation {
