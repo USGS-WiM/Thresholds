@@ -1288,11 +1288,9 @@ export default {
         )
         .then((data) => {
           let layerList = data.data.layers;
-          console.log(data.data.layers);
           for (let i = 0; i < layerList.length; i++) {
             layers.forEach((layer) => {
               if (layerList[i].layerId == layer) {
-                console.log(layer);
                 // Create sublayer legend div
                 let legendEl = document.createElement("div", container);
                 legendEl.className = "nfhlLegendComponent";
@@ -1410,11 +1408,9 @@ export default {
         )
         .then((data) => {
           let layerList = data.data.layers;
-          console.log(data.data.layers);
           for (let i = 0; i < layerList[1].legend.length; i++) {
             layers.forEach((layer) => {
               if (layerList[1].layerId == layer) {
-                console.log(layer);
                 // Create sublayer legend div
                 let legendEl = document.createElement("div", container);
                 legendEl.className = "fwwLegendComponent";
