@@ -39,53 +39,7 @@
               <div id="legendExplanation">Legend</div>
             </v-expansion-panel-header>
             <v-expansion-panel-content id="legendContent">
-              <!-- Toggleable layers -->
-              <div id="toggleableLayers">
-                <div class="legendIconToggle" v-if="allRPVisible">
-                  <div
-                    style="padding-right: 10px;"
-                    id="allRPLegend"
-                    class="
-                      wmm-circle
-                      wmm-white
-                      wmm-icon-noicon
-                      wmm-size-20
-                    "
-                  ></div>
-                  <label
-                    >All Reference Point Locations</label
-                  >
-                </div>
-                <div class="legendIconToggle" v-if="streamgageVisible">
-                  <div
-                    class="
-                      wmm-circle
-                      wmm-mutedblue
-                      wmm-icon-triangle
-                      wmm-icon-black
-                      wmm-size-20
-                      wmm-borderless
-                    "
-                  ></div>
-                  <label>Real-time Streamgage</label>
-                </div>
-
-                <div class="legendIconToggle" v-if="fwwVisible">
-                  <label id="fwwLabel">Flood Watches and Warnings</label>
-                </div>
-                <div id="fwwLegend"></div>
-
-                <div class="legendIconToggle" v-if="radarVisible">
-                  <label id="radarLabel">National Weather Service Radar</label>
-                  <div id="radarLegend"></div>
-                </div>
-
-                <div class="legendIconToggle" v-if="nfhlVisible">
-                  <label id="nfhlLabel">National Flood Hazard Layer</label>
-                </div>
-                <div id="nfhlLegend"></div>
-              </div>
-              <!-- Threshold icons -->
+            <!-- Threshold icons -->
               <div id="thresholdLayers">
                 <div id="thresholdLayersTitle">Active Flooding</div>
                 <div class="legendIcon" v-if="bankVisible">
@@ -158,6 +112,53 @@
                   <label>Uncategorized</label>
                 </div>
               </div>
+              <!-- Toggleable layers -->
+              <div id="toggleableLayers">
+                <div class="legendIconToggle" v-if="allRPVisible">
+                  <div
+                    style="padding-right: 10px;"
+                    id="allRPLegend"
+                    class="
+                      wmm-circle
+                      wmm-white
+                      wmm-icon-noicon
+                      wmm-size-20
+                    "
+                  ></div>
+                  <label
+                    >All Reference Point Locations</label
+                  >
+                </div>
+                <div class="legendIconToggle" v-if="streamgageVisible">
+                  <div
+                    class="
+                      wmm-circle
+                      wmm-mutedblue
+                      wmm-icon-triangle
+                      wmm-icon-black
+                      wmm-size-20
+                      wmm-borderless
+                    "
+                  ></div>
+                  <label>Real-time Streamgage</label>
+                </div>
+
+                <div class="legendIconToggle" v-if="nfhlVisible">
+                  <label id="nfhlLabel">National Flood Hazard Layer</label>
+                </div>
+                <div id="nfhlLegend"></div>
+              </div>
+
+              <div class="legendIconToggle" v-if="radarVisible">
+                  <label id="radarLabel">National Weather Service Radar</label>
+                  <div id="radarLegend"></div>
+                </div>
+
+                <div class="legendIconToggle" v-if="fwwVisible">
+                  <label id="fwwLabel">Flood Watches and Warnings</label>
+                </div>
+                <div id="fwwLegend"></div>
+
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -1291,6 +1292,7 @@ export default {
           for (let i = 0; i < layerList.length; i++) {
             layers.forEach((layer) => {
               if (layerList[i].layerId == layer) {
+                console.log(layer);
                 // Create sublayer legend div
                 let legendEl = document.createElement("div", container);
                 legendEl.className = "nfhlLegendComponent";
@@ -1378,7 +1380,7 @@ export default {
     getFwwLayer() {
       this.fwwLayer = esri.dynamicMapLayer({
         url: "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Forecasts_Guidance_Warnings/watch_warn_adv/MapServer",
-        layers: [0, 1],
+        layers: [1],
         f: "image/png",
         opacity: 0.65,
       });
@@ -1409,29 +1411,31 @@ export default {
         .then((data) => {
           let layerList = data.data.layers;
           console.log(data.data.layers);
-          for (let i = 0; i < layerList.length; i++) {
+          for (let i = 0; i < layerList[1].legend.length; i++) {
             layers.forEach((layer) => {
-              if (layerList[i].label == layer) {
+              if (layerList[1].layerId == layer) {
+                console.log(layer);
                 // Create sublayer legend div
                 let legendEl = document.createElement("div", container);
                 legendEl.className = "fwwLegendComponent";
                 let layerName;
                 // Use the legend label if existing, otherwise use the layer name
-                if (layerList[i].legend[0].label != "") {
-                  layerName = layerList[i].legend[0].label;
+                if (layerList[1].legend[i].label != "") {
+                  layerName = layerList[1].legend[i].label;
                 } else {
-                  layerName = layerList[i].layerName;
+                  layerName = layerList[1].layerName;
                 }
+                // Set innerHTML to image and layer name
                 legendEl.innerHTML =
                   "<img src=data:" +
-                  layerList[i].legend[0].contentType +
+                  layerList[1].legend[i].contentType +
                   ";base64," +
-                  layerList[i].legend[0].imageData +
+                  layerList[1].legend[i].imageData +
                   " alt=''/><label>" +
                   layerName +
                   "</label>";
                 if (container != null) {
-                  {
+                   {
                     container.appendChild(legendEl);
                   }
                   container.style.display = "inline-block";
@@ -1525,11 +1529,14 @@ export default {
   right: 10px;
   top: 45px;
   height: auto;
-  width: 210px;
+  width: 225px;
   position: absolute;
   z-index: 999;
   font-size: 14px;
   opacity: 0.75;
+  max-height: 75vh;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 #legendExplanation {
@@ -1550,7 +1557,7 @@ export default {
 .legendIcon {
   display: inline-block;
   position: relative;
-  margin: 10px;
+  margin: 8px;
   line-height: 24px;
   height: 24px;
 }
@@ -1565,7 +1572,7 @@ export default {
     display: inline-block;
     -webkit-justify-content: center;
     justify-content: center;
-    padding-left: 10px;
+    padding-left: 5px;
   }
 }
 
@@ -1669,6 +1676,11 @@ export default {
 .radarLegendComponent {
   margin-left: 20px;
   padding: 5px;
+}
+
+.nfhlLegendComponent,
+.fwwLegendComponent {
+  margin-bottom: -10px !important;
 }
 
 .nfhlLegendComponent label,
