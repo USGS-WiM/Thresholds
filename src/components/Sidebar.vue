@@ -1,5 +1,10 @@
 <template>
-  <v-navigation-drawer v-model="drawerState" app :width="325">
+  <v-navigation-drawer
+    v-model="drawerState"
+    disable-resize-watcher
+    app
+    :width="300"
+  >
     <div>
       <h2 id="sidebarTitle">Map Filters</h2>
       <MapFilters></MapFilters>
@@ -8,17 +13,17 @@
 </template>
 
 <style>
-  @import '../styles/custom.less';
+@import "../styles/custom.less";
 </style>
 
 <script>
 // imports
-import MapFilters from '../components/MapFilters';
+import MapFilters from "../components/MapFilters";
 
 export default {
   name: "NavigationDrawer",
   components: {
-    MapFilters
+    MapFilters,
   },
   computed: {
     drawerState: {
