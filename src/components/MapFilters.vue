@@ -90,21 +90,7 @@
       <v-expansion-panel-header> Layers </v-expansion-panel-header>
       <v-expansion-panel-content id="siteLayersContent">
         <v-container class="px-0" fluid>
-          <div class="subsection-title" id="site-layer-title">Site Layers</div>
-          <input
-            type="checkbox"
-            ref="allRP"
-            id="allRP"
-            value="true"
-            v-model="allRPPicked"
-          />
-          <div class="legend-icon">
-            <div class="wmm-circle wmm-white wmm-icon-noicon wmm-size-20"></div>
-            <label for="allRP" class="legend-label"
-              >All Reference Point Locations</label
-            >
-          </div>
-          <br />
+
           <div class="zoom-alert" :style="{ display: isDisplayed }">
             Real-time Streamgages available at zoom level 9 and above. Please
             zoom in to view.
@@ -133,31 +119,28 @@
             >
           </div>
           <br />
+
+          <div class="subsection-title" id="site-layer-title">Site Layers</div>
+          <input
+            type="checkbox"
+            ref="allRP"
+            id="allRP"
+            value="true"
+            v-model="allRPPicked"
+          />
+          <div class="legend-icon">
+            <div class="wmm-circle wmm-white wmm-icon-noicon wmm-size-20"></div>
+            <label for="allRP" class="legend-label"
+              >All Reference Point Locations</label
+            >
+          </div>
+
+          <br />
+
           <div class="subsection-title" id="supporting-layer-title">
             Supporting Layers
           </div>
-          <input
-            type="checkbox"
-            ref="radar"
-            id="radar"
-            value="false"
-            v-model="radarPicked"
-          />
-          <div class="legend-no-icon">
-            <label for="radar">National Weather Service Radar</label>
-          </div>
-          <br />
-          <input
-            type="checkbox"
-            ref="fww"
-            id="fww"
-            value="false"
-            v-model="fwwPicked"
-          />
-          <div class="legend-no-icon">
-            <label for="fww">Flood Watches and Warnings</label>
-          </div>
-          <br />
+
           <input
             type="checkbox"
             ref="nfhl"
@@ -168,6 +151,33 @@
           <div class="legend-no-icon">
             <label for="nfhl">National Flood Hazard Layer</label>
           </div>
+
+          <br />
+
+          <input
+            type="checkbox"
+            ref="radar"
+            id="radar"
+            value="false"
+            v-model="radarPicked"
+          />
+          <div class="legend-no-icon">
+            <label for="radar">National Weather Service Radar</label>
+          </div>
+
+          <br />
+
+          <input
+            type="checkbox"
+            ref="fww"
+            id="fww"
+            value="false"
+            v-model="fwwPicked"
+          />
+          <div class="legend-no-icon">
+            <label for="fww">Flood Watches and Warnings</label>
+          </div>
+
         </v-container>
       </v-expansion-panel-content>
     </v-expansion-panel>
@@ -346,7 +356,6 @@ export default {
 #allRPLegend {
   margin-top: 0 !important;
   width: 30px !important;
-  padding-right: 3px !important;
 }
 
 .subsection-title {

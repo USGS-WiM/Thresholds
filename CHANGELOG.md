@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
--
+- Add FWW to legend
 
 ### Changed
 
@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Display RPs without real time data on map
 - Change supporting layer order in sidebar
 - Layers panel expanded on site load
+- Update opacity of supporting layers
 
 ### Fixed
 
