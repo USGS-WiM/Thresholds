@@ -18,11 +18,15 @@
             <div class="toolbar-text">
               <span class="main-title">Real-Time Flood Impact Map</span>
               <span class="pre-alpha">Pre-Alpha: Under Active Development</span>
-              <span class="mini-title"><h1>Real-Time Flood Impact Map</h1><br><h2>Pre-Alpha: Under Active Development</h2></span>
-            </div></v-toolbar-title>
-          <Geosearch :map="map"></Geosearch>
+              <span class="mini-title"
+                ><h1>Real-Time Flood Impact Map</h1>
+                <br />
+                <h2>Pre-Alpha: Under Active Development</h2></span
+              >
+            </div></v-toolbar-title
+          >
         </v-app-bar>
-        <Map v-if="mounted" @getMap="getChildMap"></Map>
+        <Map v-if="mounted"></Map>
       </v-app>
     </div>
   </div>
@@ -33,13 +37,11 @@
 import USABanner from "@/components/USABanner";
 import Map from "./components/Map";
 import Sidebar from "./components/Sidebar";
-import Geosearch from "@/components/Geosearch";
 export default {
   components: {
     USABanner,
     Sidebar,
     Map,
-    Geosearch,
   },
   data: function () {
     return {
@@ -59,10 +61,6 @@ export default {
     },
   },
   methods: {
-    // Makes map accessible from other child components (need for geosearch)
-    getChildMap(mapObject) {
-      this.map = mapObject;
-    },
     // Set height variable for use in css using usa-banner height
     getBannerHeight() {
       let bannerHeight =
@@ -177,7 +175,8 @@ body {
 }
 
 @media screen and (max-width: 600px) {
-  .main-title, .pre-alpha {
+  .main-title,
+  .pre-alpha {
     display: none;
   }
   .toolbar-text {
@@ -198,7 +197,7 @@ body {
     color: red;
     font-size: 10px;
     font-weight: normal;
-    font-style: italic
+    font-style: italic;
   }
 }
 
