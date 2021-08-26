@@ -13,7 +13,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "11.15.0"
-      - run: npm run-script [build]
+      - run: npm run-script build
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
