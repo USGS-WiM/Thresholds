@@ -13,6 +13,14 @@ export default new Vuex.Store({
     radarState: false,
     nfhlState: false,
     allRPState: true,
+    bankState: false,
+    pathState: false,
+    roadState: false,
+    bridgeRiskState: false,
+    bridgeState: false,
+    facilityState: false,
+    bfeState: false,
+    otherState: false,
     fwwState: false,
     currentZoomState: 4,
   },
@@ -37,6 +45,30 @@ export default new Vuex.Store({
     },
     getFwwState(state, fwwPicked) {
       state.fwwState = fwwPicked;
+    },
+    getBankState(state, bankPicked) {
+      state.bankState = bankPicked;
+    },
+    getPathState(state, pathPicked) {
+      state.pathState = pathPicked;
+    },
+    getRoadState(state, roadPicked) {
+      state.roadState = roadPicked;
+    },
+    getBridgeRiskState(state, bridgeRiskPicked) {
+      state.bridgeRiskState = bridgeRiskPicked;
+    },
+    getBridgeState(state, bridgePicked) {
+      state.bridgeState = bridgePicked;
+    },
+    getFacilityState(state, facilityPicked) {
+      state.facilityState = facilityPicked;
+    },
+    getBfeState(state, bfePicked) {
+      state.bfeState = bfePicked;
+    },
+    getOtherState(state, otherPicked) {
+      state.otherState = otherPicked;
     },
     getCurrentZoomState(state, currentZoom) {
       state.currentZoomState = currentZoom;
