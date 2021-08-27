@@ -1580,8 +1580,7 @@ export default {
             break;
         }
       });
-    }
-
+    },
     getFwwLegend(layers) {
       let self = this;
       let container = document.getElementById("fwwLegend");
