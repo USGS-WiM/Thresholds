@@ -21,6 +21,7 @@
               <span class="mini-title"><h1>Real-Time Flood Impact Map</h1><br><h2>Experimental</h2></span>
             </div></v-toolbar-title>
           <Geosearch :map="map"></Geosearch>
+          <About></About>
         </v-app-bar>
         <Map v-if="mounted" @getMap="getChildMap"></Map>
       </v-app>
@@ -34,12 +35,14 @@ import USABanner from "@/components/USABanner";
 import Map from "./components/Map";
 import Sidebar from "./components/Sidebar";
 import Geosearch from "@/components/Geosearch";
+import About from "@/components/About";
 export default {
   components: {
     USABanner,
     Sidebar,
     Map,
     Geosearch,
+    About,
   },
   data: function () {
     return {
@@ -155,13 +158,13 @@ body {
   }
 }
 
-@media screen and (min-width: 574px) {
+@media screen and (min-width: 640px) {
   .mini-title {
     display: none;
   }
 }
 
-@media screen and (max-width: 574px) {
+@media screen and (max-width: 640px) {
   .main-title, .experimental-subtitle {
     display: none;
   }
@@ -187,7 +190,7 @@ body {
   }
 }
 
-@media screen and (max-width: 416px) {
+@media screen and (max-width: 450px) {
   .toolbar-text {
     margin-left: -38px;
   }
