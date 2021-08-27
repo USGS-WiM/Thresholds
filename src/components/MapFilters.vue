@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panels>
+  <v-expansion-panels :value="1">
     <!-- Filters Section -->
     <v-expansion-panel>
       <v-expansion-panel-header> Basemaps </v-expansion-panel-header>
@@ -88,8 +88,176 @@
     </v-expansion-panel>
     <v-expansion-panel>
       <v-expansion-panel-header> Layers </v-expansion-panel-header>
-      <v-expansion-panel-content>
+      <v-expansion-panel-content id="siteLayersContent">
         <v-container class="px-0" fluid>
+          <div class="subsection-title" id="site-layer-title">
+            Site Layers<br />
+          </div>
+          <div id="activeLayerTitle">Active Flooding Layers</div>
+          <div id="activeSublayers">
+            <div id="bankDiv" style="display: none">
+              <input
+                type="checkbox"
+                ref="bank"
+                id="bank"
+                value="true"
+                v-model="bankPicked"
+              />
+              <div class="sublayer-icon">
+                <img
+                  class="activeIcons"
+                  src="../assets/aq-icons/embankment_flooded_circle.png"
+                />
+                <label for="bank" class="legend-label"
+                  >Embankment Flooded</label
+                >
+              </div>
+              <br />
+            </div>
+            <div id="pathDiv" style="display: none">
+              <input
+                type="checkbox"
+                ref="path"
+                id="path"
+                value="true"
+                v-model="pathPicked"
+              />
+              <div class="sublayer-icon">
+                <img
+                  class="activeIcons"
+                  src="../assets/aq-icons/path_flooded_circle.png"
+                />
+                <label for="path" class="legend-label">Path Flooded</label>
+              </div>
+              <br />
+            </div>
+            <div id="roadDiv" style="display: none">
+              <input
+                type="checkbox"
+                ref="road"
+                id="road"
+                value="true"
+                v-model="roadPicked"
+              />
+              <div class="sublayer-icon">
+                <img
+                  class="activeIcons"
+                  src="../assets/aq-icons/car_flooded_circle.png"
+                />
+                <label for="road" class="legend-label">Road Flooded</label>
+              </div>
+              <br />
+            </div>
+            <div id="bridgeRiskDiv" style="display: none">
+              <input
+                type="checkbox"
+                ref="bridgeRisk"
+                id="bridgeRisk"
+                value="true"
+                v-model="bridgeRiskPicked"
+              />
+              <div class="sublayer-icon">
+                <img
+                  class="activeIcons"
+                  src="../assets/aq-icons/bridge_risk_circle.png"
+                />
+                <label for="bridgeRisk" class="legend-label"
+                  >Bridge Flood at Risk</label
+                >
+              </div>
+              <br />
+            </div>
+            <div id="bridgeDiv" style="display: none">
+              <input
+                type="checkbox"
+                ref="bridge"
+                id="bridge"
+                value="true"
+                v-model="bridgePicked"
+              />
+              <div class="sublayer-icon">
+                <img
+                  class="activeIcons"
+                  src="../assets/aq-icons/bridge_flooded_circle.png"
+                />
+                <label for="bridge" class="legend-label">Bridge Flooded</label>
+              </div>
+              <br />
+            </div>
+            <div id="facilityDiv" style="display: none">
+              <input
+                type="checkbox"
+                ref="facility"
+                id="facility"
+                value="true"
+                v-model="facilityPicked"
+              />
+              <div class="sublayer-icon">
+                <img
+                  class="activeIcons"
+                  src="../assets/aq-icons/building_flooded_circle.png"
+                />
+                <label for="facility" class="legend-label"
+                  >Facility Flooded</label
+                >
+              </div>
+              <br />
+            </div>
+            <div id="bfeDiv" style="display: none">
+              <input
+                type="checkbox"
+                ref="bfe"
+                id="bfe"
+                value="true"
+                v-model="bfePicked"
+              />
+              <div class="sublayer-icon">
+                <img class="activeIcons" src="../assets/aq-icons/BFE.png" />
+                <label for="bfe" class="legend-label"
+                  >Base Flood Elevation</label
+                >
+              </div>
+              <br />
+            </div>
+            <div id="otherDiv" style="display: none">
+              <input
+                type="checkbox"
+                ref="other"
+                id="other"
+                value="true"
+                v-model="otherPicked"
+              />
+              <div class="sublayer-icon">
+                <img class="activeIcons" src="../assets/aq-icons/other.png" />
+                <label for="other" class="legend-label">Uncategorized</label>
+              </div>
+              <br />
+            </div>
+          </div>
+          <div id="showAllBtn">
+            <v-btn
+              id="showAll"
+              small
+              outlined
+              color="primary"
+              @click="callShowAll"
+              >Show all active flooding</v-btn
+            >
+          </div>
+          <input
+            type="checkbox"
+            ref="allRP"
+            id="allRP"
+            value="true"
+            v-model="allRPPicked"
+          />
+          <div class="legend-icon">
+            <div class="wmm-circle wmm-white wmm-icon-noicon wmm-size-20"></div>
+            <label for="allRP" class="legend-label"
+              >All Reference Point Locations</label
+            >
+          </div>
+          <br />
           <div class="zoom-alert" :style="{ display: isDisplayed }">
             Real-time Streamgages available at zoom level 9 and above. Please
             zoom in to view.
@@ -113,20 +281,33 @@
                 wmm-borderless
               "
             ></div>
-            <label for="stream">Real-time Streamgage</label>
+            <label for="stream" class="legend-label"
+              >Real-time Streamgage</label
+            >
           </div>
-          <br>
+          <br />
+
+          <div class="subsection-title" id="site-layer-title">Site Layers</div>
           <input
             type="checkbox"
-            ref="radar"
-            id="radar"
-            value="false"
-            v-model="radarPicked"
-            />
-            <div class="legend-no-icon">
-            <label for="radar">National Weather Service Radar</label>
+            ref="allRP"
+            id="allRP"
+            value="true"
+            v-model="allRPPicked"
+          />
+          <div class="legend-icon">
+            <div class="wmm-circle wmm-white wmm-icon-noicon wmm-size-20"></div>
+            <label for="allRP" class="legend-label"
+              >All Reference Point Locations</label
+            >
           </div>
-          <br>
+
+          <br />
+
+          <div class="subsection-title" id="supporting-layer-title">
+            Supporting Layers
+          </div>
+
           <input
             type="checkbox"
             ref="nfhl"
@@ -138,6 +319,31 @@
             <label for="nfhl">National Flood Hazard Layer</label>
           </div>
 
+          <br />
+
+          <input
+            type="checkbox"
+            ref="radar"
+            id="radar"
+            value="false"
+            v-model="radarPicked"
+          />
+          <div class="legend-no-icon">
+            <label for="radar">National Weather Service Radar</label>
+          </div>
+
+          <br />
+
+          <input
+            type="checkbox"
+            ref="fww"
+            id="fww"
+            value="false"
+            v-model="fwwPicked"
+          />
+          <div class="legend-no-icon">
+            <label for="fww">Flood Watches and Warnings</label>
+          </div>
         </v-container>
       </v-expansion-panel-content>
     </v-expansion-panel>
@@ -145,6 +351,8 @@
 </template>
 
 <script>
+import { eventBus } from "../main.js";
+
 export default {
   data() {
     return {
@@ -154,6 +362,11 @@ export default {
     };
   },
   props: ["currentZoom"],
+  methods: {
+    callShowAll() {
+      eventBus.$emit("showAll");
+    },
+  },
   computed: {
     // use v-model to set basemap state
     selected: {
@@ -171,7 +384,7 @@ export default {
       },
       set(value) {
         return this.$store.commit("getStreamgageState", value);
-      }
+      },
     },
     radarPicked: {
       get() {
@@ -179,7 +392,7 @@ export default {
       },
       set(value) {
         return this.$store.commit("getRadarState", value);
-      }
+      },
     },
     // use v-model to set nfhl layer state
     nfhlPicked: {
@@ -188,6 +401,87 @@ export default {
       },
       set(value) {
         return this.$store.commit("getNfhlState", value);
+      },
+    },
+    // use v-model to set nfhl layer state
+    allRPPicked: {
+      get() {
+        return this.$store.state.allRPState;
+      },
+      set(value) {
+        return this.$store.commit("getallRPState", value);
+      },
+    },
+    fwwPicked: {
+      get() {
+        return this.$store.state.fwwState;
+      },
+      set(value) {
+        return this.$store.commit("getFwwState", value);
+      },
+    },
+    bankPicked: {
+      get() {
+        return this.$store.state.bankState;
+      },
+      set(value) {
+        return this.$store.commit("getBankState", value);
+      },
+    },
+    pathPicked: {
+      get() {
+        return this.$store.state.pathState;
+      },
+      set(value) {
+        return this.$store.commit("getPathState", value);
+      },
+    },
+    roadPicked: {
+      get() {
+        return this.$store.state.roadState;
+      },
+      set(value) {
+        return this.$store.commit("getRoadState", value);
+      },
+    },
+    bridgeRiskPicked: {
+      get() {
+        return this.$store.state.bridgeRiskState;
+      },
+      set(value) {
+        return this.$store.commit("getBridgeRiskState", value);
+      },
+    },
+    bridgePicked: {
+      get() {
+        return this.$store.state.bridgeState;
+      },
+      set(value) {
+        return this.$store.commit("getBridgeState", value);
+      },
+    },
+    facilityPicked: {
+      get() {
+        return this.$store.state.facilityState;
+      },
+      set(value) {
+        return this.$store.commit("getFacilityState", value);
+      },
+    },
+    bfePicked: {
+      get() {
+        return this.$store.state.bfeState;
+      },
+      set(value) {
+        return this.$store.commit("getBfeState", value);
+      },
+    },
+    otherPicked: {
+      get() {
+        return this.$store.state.otherState;
+      },
+      set(value) {
+        return this.$store.commit("getOtherState", value);
       },
     },
   },
@@ -288,5 +582,70 @@ export default {
 
 .zoom-alert {
   font-size: small;
+}
+
+#allRPIcon {
+  margin-top: 0 !important;
+  width: 30px !important;
+  padding-left: 3px !important;
+}
+
+#allRPLegend {
+  margin-top: 0 !important;
+  width: 30px !important;
+}
+
+.subsection-title {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+#activeLayerTitle {
+  font-size: 14px;
+}
+
+#supporting-layer-title {
+  padding-top: 14px;
+}
+
+#siteLayersContent {
+  margin: -10px -8px -10px -2px;
+}
+
+.legend-label {
+  margin-left: -2px;
+}
+
+#activeSublayers {
+  padding-left: 20px;
+}
+
+.activeIcons {
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+}
+
+.sublayer-icon {
+  display: inline-block;
+  position: relative;
+  margin: 10px;
+  line-height: 24px;
+  height: 24px;
+}
+
+.sublayer-icon label {
+  display: inline-block;
+  -webkit-justify-content: center;
+  justify-content: center;
+  padding-left: 10px;
+  color: #333;
+  font-size: 14px;
+}
+
+#showAllBtn {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
 }
 </style>

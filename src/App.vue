@@ -10,19 +10,23 @@
             style="color: white"
           ></v-app-bar-nav-icon>
           <v-toolbar-title style="color: white">
-          <a href="https://www.usgs.gov/" target="_blank">
-            <div class="toolbar-image">
-              <img alt="USGS logo" height="60px" src="../public/usgs.png" />
-            </div>
+            <a href="https://www.usgs.gov/" target="_blank">
+              <div class="toolbar-image">
+                <img alt="USGS logo" height="60px" src="../public/usgs.png" />
+              </div>
             </a>
             <div class="toolbar-text">
-              <span>Real-Time Flood Impact Map</span>
-              <span class="pre-alpha">Pre-Alpha: Under Active Development</span>
+              <span class="main-title">Real-Time Flood Impact Map</span>
+              <span class="experimental-subtitle">Experimental</span>
+              <span class="mini-title"
+                ><h1>Real-Time Flood Impact Map</h1>
+                <br />
+                <h2>Experimental</h2></span
+              >
             </div></v-toolbar-title
           >
-          <Geosearch :map="map"></Geosearch>
         </v-app-bar>
-        <Map v-if="mounted" @getMap="getChildMap"></Map>
+        <Map v-if="mounted"></Map>
       </v-app>
     </div>
   </div>
@@ -33,13 +37,11 @@
 import USABanner from "@/components/USABanner";
 import Map from "./components/Map";
 import Sidebar from "./components/Sidebar";
-import Geosearch from "@/components/Geosearch";
 export default {
   components: {
     USABanner,
     Sidebar,
     Map,
-    Geosearch,
   },
   data: function () {
     return {
@@ -59,10 +61,6 @@ export default {
     },
   },
   methods: {
-    // Makes map accessible from other child components (need for geosearch)
-    getChildMap(mapObject) {
-      this.map = mapObject;
-    },
     // Set height variable for use in css using usa-banner height
     getBannerHeight() {
       let bannerHeight =
@@ -117,6 +115,7 @@ body {
   display: inline-block;
   float: left;
   margin-top: 10px;
+  margin-left: -20px;
 }
 
 .toolbar-text {
@@ -124,26 +123,78 @@ body {
   line-height: 64px;
   float: left;
   margin-top: 8px;
-  padding-left: 20px;
-  font-size: 25px;
+  padding-left: 10px;
+  font-size: 21px;
 }
 
-@media screen and (max-width: 768px) {
+.experimental-subtitle {
+  font-size: 18px;
+  color: red;
+  padding-left: 10px;
+  font-style: italic;
+}
+
+@media screen and (max-width: 1300px) {
   .toolbar-text {
-    display: none;
+    font-size: 18px;
+  }
+  .experimental-subtitle {
+    font-size: 16px;
   }
 }
 
-@media screen and (max-width: 414px) {
+@media screen and (max-width: 900px) {
+  .toolbar-text {
+    margin-left: -28px;
+    margin-bottom: 10px;
+  }
   .toolbar-image {
     display: none;
   }
 }
 
-.pre-alpha {
-  font-size: 15px;
-  color: red;
-  padding-left: 10px;
-  font-style: italic;
+@media screen and (min-width: 574px) {
+  .mini-title {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 574px) {
+  .main-title,
+  .experimental-subtitle {
+    display: none;
+  }
+  .toolbar-text {
+    margin-bottom: -5px;
+  }
+  .mini-title {
+    display: inline-block;
+    margin-left: 8px;
+    line-height: 8px;
+  }
+  .mini-title h1 {
+    color: white;
+    font-size: 14px;
+    margin: 0;
+    font-weight: normal;
+  }
+  .mini-title h2 {
+    color: red;
+    font-size: 12px;
+    font-weight: normal;
+    font-style: italic;
+  }
+}
+
+@media screen and (max-width: 416px) {
+  .toolbar-text {
+    margin-left: -38px;
+  }
+  .mini-title h1 {
+    font-size: 11px;
+  }
+  .mini-title h2 {
+    font-size: 8px;
+  }
 }
 </style>

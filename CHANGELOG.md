@@ -9,14 +9,46 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+- Ability to toggle active flooding subtypes in sidebar
+- Add FWW to legend
+
+### Changed
+
+- Removed RPs with active flooding from All RP layer
+- Navigation drawer closed on mobile and open on desktop/laptop initally
+- Display RPs without real time data on map
+- Change supporting layer order in sidebar
+- Layers panel expanded on site load
+- Update opacity of supporting layers
+- Moves geosearch to map control
+
+### Fixed
+
+-
+
+## [v0.4.0](https://github.com/USGS-WiM/Thresholds/releases/tag/v0.4.0) - 8/19/2021
+
+### Added
+
 - Added Uncategorized icon to map and legend
 - Added NFHL layer and legend for NFHL sublayer
+- Added No active flooding dialog
 - Added NWS Radar layer
+- Added layer showing all Reference Points
 
 ### Changed
 
 - RP icons visible in legend only if on the map
+- Change hydrograph styling
+- Increase font size in RP and streamgage popups
 - NWIS streamgages shown above RPs when layer is on
+- Change default basemap to streets
+- Switch RP layer to on by default
+- rename "streamgage status" to "active flooding" in legend
+- Moved NWSR, NFHL, and FWW layers to a "Supporting Layers" section
+- fix styling of legend
+- remove credit when no graph
+- restyle RP icon
 
 ### Fixed
 

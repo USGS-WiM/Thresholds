@@ -7,6 +7,8 @@ import leaflet from "leaflet/dist/leaflet";
 import router from "./router";
 import store from "./store";
 
+export const eventBus = new Vue();
+
 Vue.config.productionTip = false;
 
 // UI Framework
