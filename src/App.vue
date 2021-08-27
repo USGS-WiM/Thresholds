@@ -18,12 +18,15 @@
             <div class="toolbar-text">
               <span class="main-title">Real-Time Flood Impact Map</span>
               <span class="experimental-subtitle">Experimental</span>
-              <span class="mini-title"><h1>Real-Time Flood Impact Map</h1><br><h2>Experimental</h2></span>
-            </div></v-toolbar-title>
-          <Geosearch :map="map"></Geosearch>
-          <About></About>
+              <span class="mini-title"
+                ><h1>Real-Time Flood Impact Map</h1>
+                <br />
+                <h2>Experimental</h2></span
+              >
+            </div></v-toolbar-title
+          >
         </v-app-bar>
-        <Map v-if="mounted" @getMap="getChildMap"></Map>
+        <Map v-if="mounted"></Map>
       </v-app>
     </div>
   </div>
@@ -62,10 +65,6 @@ export default {
     },
   },
   methods: {
-    // Makes map accessible from other child components (need for geosearch)
-    getChildMap(mapObject) {
-      this.map = mapObject;
-    },
     // Set height variable for use in css using usa-banner height
     getBannerHeight() {
       let bannerHeight =
@@ -165,7 +164,8 @@ body {
 }
 
 @media screen and (max-width: 640px) {
-  .main-title, .experimental-subtitle {
+  .main-title, 
+  .experimental-subtitle {
     display: none;
   }
   .toolbar-text {
@@ -186,7 +186,7 @@ body {
     color: red;
     font-size: 12px;
     font-weight: normal;
-    font-style: italic
+    font-style: italic;
   }
 }
 

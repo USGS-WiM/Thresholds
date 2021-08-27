@@ -145,7 +145,11 @@ export default {
           };
 
           // Make chart responsive and modebar always visible
-          let config = { responsive: true, displayModeBar: true, displaylogo: false, };
+          let config = {
+            responsive: true,
+            displayModeBar: true,
+            displaylogo: false,
+          };
 
           let chartData = [];
 
@@ -223,7 +227,7 @@ export default {
                 let siteName = o.result.properties.Label.split("(")[0].substr(
                   o.result.properties.Label.indexOf(" ") + 1
                 );
-                
+
                 let siteCode = o.result.properties.Label.split(" ")[0];
                 let latlon = [o.result.properties.Lat, o.result.properties.Lon];
                 self.openPopUp(map, siteName, siteCode, latlon);
@@ -254,7 +258,7 @@ export default {
 
 .search-api-container {
   height: 44px !important;
-  border: 2px solid #424242 !important;
+  border: 2px solid #afafaf !important;
 }
 
 .search-api-container input {
@@ -324,13 +328,14 @@ input:not([disabled]):focus {
   .search-api-container.search-api-md {
     width: 110px;
   }
-  .v-toolbar__content, .v-toolbar__extension {
+  .v-toolbar__content,
+  .v-toolbar__extension {
     padding: 4px 8px 4px 8px !important;
   }
 }
 
 .leaflet-popup-content {
-  margin: -1px 10px 10px 10px !important
+  margin: -1px 10px 10px 10px !important;
 }
 
 #dataCredit {
