@@ -90,7 +90,160 @@
       <v-expansion-panel-header> Layers </v-expansion-panel-header>
       <v-expansion-panel-content id="siteLayersContent">
         <v-container class="px-0" fluid>
-          <div class="subsection-title" id="site-layer-title">Site Layers</div>
+          <div class="subsection-title" id="site-layer-title">
+            Site Layers<br />
+          </div>
+          <div id="activeLayerTitle">Active Flooding Layers</div>
+          <div id="activeSublayers">
+            <div id="bankDiv" style="display: none">
+              <input
+                type="checkbox"
+                ref="bank"
+                id="bank"
+                value="true"
+                v-model="bankPicked"
+              />
+              <div class="sublayer-icon">
+                <img
+                  class="activeIcons"
+                  src="../assets/aq-icons/embankment_flooded_circle.png"
+                />
+                <label for="bank" class="legend-label"
+                  >Embankment Flooded</label
+                >
+              </div>
+              <br />
+            </div>
+            <div id="pathDiv" style="display: none">
+              <input
+                type="checkbox"
+                ref="path"
+                id="path"
+                value="true"
+                v-model="pathPicked"
+              />
+              <div class="sublayer-icon">
+                <img
+                  class="activeIcons"
+                  src="../assets/aq-icons/path_flooded_circle.png"
+                />
+                <label for="path" class="legend-label">Path Flooded</label>
+              </div>
+              <br />
+            </div>
+            <div id="roadDiv" style="display: none">
+              <input
+                type="checkbox"
+                ref="road"
+                id="road"
+                value="true"
+                v-model="roadPicked"
+              />
+              <div class="sublayer-icon">
+                <img
+                  class="activeIcons"
+                  src="../assets/aq-icons/car_flooded_circle.png"
+                />
+                <label for="road" class="legend-label">Road Flooded</label>
+              </div>
+              <br />
+            </div>
+            <div id="bridgeRiskDiv" style="display: none">
+              <input
+                type="checkbox"
+                ref="bridgeRisk"
+                id="bridgeRisk"
+                value="true"
+                v-model="bridgeRiskPicked"
+              />
+              <div class="sublayer-icon">
+                <img
+                  class="activeIcons"
+                  src="../assets/aq-icons/bridge_risk_circle.png"
+                />
+                <label for="bridgeRisk" class="legend-label"
+                  >Bridge Flood at Risk</label
+                >
+              </div>
+              <br />
+            </div>
+            <div id="bridgeDiv" style="display: none">
+              <input
+                type="checkbox"
+                ref="bridge"
+                id="bridge"
+                value="true"
+                v-model="bridgePicked"
+              />
+              <div class="sublayer-icon">
+                <img
+                  class="activeIcons"
+                  src="../assets/aq-icons/bridge_flooded_circle.png"
+                />
+                <label for="bridge" class="legend-label">Bridge Flooded</label>
+              </div>
+              <br />
+            </div>
+            <div id="facilityDiv" style="display: none">
+              <input
+                type="checkbox"
+                ref="facility"
+                id="facility"
+                value="true"
+                v-model="facilityPicked"
+              />
+              <div class="sublayer-icon">
+                <img
+                  class="activeIcons"
+                  src="../assets/aq-icons/building_flooded_circle.png"
+                />
+                <label for="facility" class="legend-label"
+                  >Facility Flooded</label
+                >
+              </div>
+              <br />
+            </div>
+            <div id="bfeDiv" style="display: none">
+              <input
+                type="checkbox"
+                ref="bfe"
+                id="bfe"
+                value="true"
+                v-model="bfePicked"
+              />
+              <div class="sublayer-icon">
+                <img class="activeIcons" src="../assets/aq-icons/BFE.png" />
+                <label for="bfe" class="legend-label"
+                  >Base Flood Elevation</label
+                >
+              </div>
+              <br />
+            </div>
+            <div id="otherDiv" style="display: none">
+              <input
+                type="checkbox"
+                ref="other"
+                id="other"
+                value="true"
+                v-model="otherPicked"
+              />
+              <div class="sublayer-icon">
+                <img class="activeIcons" src="../assets/aq-icons/other.png" />
+                <label for="other" class="legend-label">Uncategorized</label>
+              </div>
+              <br />
+            </div>
+          </div>
+          <div id="showAllBtn">
+            <v-btn
+              id="showAll"
+              small
+              outlined
+              color="primary"
+              @click="callShowAll"
+              >Show all active flooding</v-btn
+            >
+          </div>
           <input
             type="checkbox"
             ref="allRP"
@@ -175,6 +328,8 @@
 </template>
 
 <script>
+import { eventBus } from "../main.js";
+
 export default {
   data() {
     return {
@@ -184,6 +339,11 @@ export default {
     };
   },
   props: ["currentZoom"],
+  methods: {
+    callShowAll() {
+      eventBus.$emit("showAll");
+    },
+  },
   computed: {
     // use v-model to set basemap state
     selected: {
@@ -235,6 +395,70 @@ export default {
       },
       set(value) {
         return this.$store.commit("getFwwState", value);
+      },
+    },
+    bankPicked: {
+      get() {
+        return this.$store.state.bankState;
+      },
+      set(value) {
+        return this.$store.commit("getBankState", value);
+      },
+    },
+    pathPicked: {
+      get() {
+        return this.$store.state.pathState;
+      },
+      set(value) {
+        return this.$store.commit("getPathState", value);
+      },
+    },
+    roadPicked: {
+      get() {
+        return this.$store.state.roadState;
+      },
+      set(value) {
+        return this.$store.commit("getRoadState", value);
+      },
+    },
+    bridgeRiskPicked: {
+      get() {
+        return this.$store.state.bridgeRiskState;
+      },
+      set(value) {
+        return this.$store.commit("getBridgeRiskState", value);
+      },
+    },
+    bridgePicked: {
+      get() {
+        return this.$store.state.bridgeState;
+      },
+      set(value) {
+        return this.$store.commit("getBridgeState", value);
+      },
+    },
+    facilityPicked: {
+      get() {
+        return this.$store.state.facilityState;
+      },
+      set(value) {
+        return this.$store.commit("getFacilityState", value);
+      },
+    },
+    bfePicked: {
+      get() {
+        return this.$store.state.bfeState;
+      },
+      set(value) {
+        return this.$store.commit("getBfeState", value);
+      },
+    },
+    otherPicked: {
+      get() {
+        return this.$store.state.otherState;
+      },
+      set(value) {
+        return this.$store.commit("getOtherState", value);
       },
     },
   },
@@ -354,6 +578,10 @@ export default {
   font-size: 14px;
 }
 
+#activeLayerTitle {
+  font-size: 14px;
+}
+
 #supporting-layer-title {
   padding-top: 14px;
 }
@@ -364,5 +592,38 @@ export default {
 
 .legend-label {
   margin-left: -2px;
+}
+
+#activeSublayers {
+  padding-left: 20px;
+}
+
+.activeIcons {
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+}
+
+.sublayer-icon {
+  display: inline-block;
+  position: relative;
+  margin: 10px;
+  line-height: 24px;
+  height: 24px;
+}
+
+.sublayer-icon label {
+  display: inline-block;
+  -webkit-justify-content: center;
+  justify-content: center;
+  padding-left: 10px;
+  color: #333;
+  font-size: 14px;
+}
+
+#showAllBtn {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
 }
 </style>

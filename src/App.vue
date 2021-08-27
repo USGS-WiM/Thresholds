@@ -18,8 +18,13 @@
             <div class="toolbar-text">
               <span class="main-title">Real-Time Flood Impact Map</span>
               <span class="pre-alpha">Pre-Alpha: Under Active Development</span>
-              <span class="mini-title"><h1>Real-Time Flood Impact Map</h1><br><h2>Pre-Alpha: Under Active Development</h2></span>
-            </div></v-toolbar-title>
+              <span class="mini-title"
+                ><h1>Real-Time Flood Impact Map</h1>
+                <br />
+                <h2>Pre-Alpha: Under Active Development</h2></span
+              >
+            </div></v-toolbar-title
+          >
           <Geosearch :map="map"></Geosearch>
         </v-app-bar>
         <Map v-if="mounted" @getMap="getChildMap"></Map>
@@ -177,7 +182,8 @@ body {
 }
 
 @media screen and (max-width: 600px) {
-  .main-title, .pre-alpha {
+  .main-title,
+  .pre-alpha {
     display: none;
   }
   .toolbar-text {
@@ -198,7 +204,7 @@ body {
     color: red;
     font-size: 10px;
     font-weight: normal;
-    font-style: italic
+    font-style: italic;
   }
 }
 
