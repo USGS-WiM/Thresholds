@@ -25,7 +25,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
--
+- Hide Show All button and display No Active Flooding text in sidebar when no thresholds met
+- Fixed bug in "No active flooding" dialog
 
 ## [v0.4.0](https://github.com/USGS-WiM/Thresholds/releases/tag/v0.4.0) - 8/19/2021
 
