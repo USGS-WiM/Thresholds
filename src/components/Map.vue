@@ -1304,6 +1304,8 @@ export default {
             // Remove active flooding titles in legend and sidebar
             this.activeLayerTitleVisible = false;
             document.getElementById("activeLayerTitle").style.display = "none";
+            document.getElementById("showAllBtn").style.display = "none";
+            document.getElementById("noActiveFlooding").style.display = "block";
           }
         });
       }

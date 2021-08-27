@@ -244,6 +244,9 @@
               >Show all active flooding</v-btn
             >
           </div>
+          <div style="display: none" id="noActiveFlooding">
+            No Active Flooding
+          </div>
           <input
             type="checkbox"
             ref="allRP"
@@ -582,6 +585,7 @@ export default {
 
 .zoom-alert {
   font-size: small;
+  color: grey;
 }
 
 #allRPIcon {
@@ -647,5 +651,12 @@ export default {
   display: flex;
   justify-content: center;
   padding: 10px;
+}
+
+#noActiveFlooding {
+  text-align: left;
+  padding-top: 10px;
+  font-size: 14px;
+  color: grey;
 }
 </style>
