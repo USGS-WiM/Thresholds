@@ -585,7 +585,6 @@ export default {
 
 .zoom-alert {
   font-size: small;
-  color: grey;
 }
 
 #allRPIcon {
@@ -605,7 +604,9 @@ export default {
 }
 
 #activeLayerTitle {
+  display: none;
   font-size: 14px;
+  padding-top: 10px;
 }
 
 #supporting-layer-title {
@@ -648,7 +649,7 @@ export default {
 }
 
 #showAllBtn {
-  display: flex;
+  display: none;
   justify-content: center;
   padding: 10px;
 }
@@ -657,6 +658,5 @@ export default {
   text-align: left;
   padding-top: 10px;
   font-size: 14px;
-  color: grey;
 }
 </style>
