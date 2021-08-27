@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+- Ability to toggle active flooding subtypes in sidebar
 - Add FWW to legend
 
 ### Changed
