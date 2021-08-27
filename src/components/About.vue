@@ -91,6 +91,10 @@ export default {
 
 <style>
 
+#about {
+    margin-left: auto;
+}
+
 #about-button-desktop, #about-button-mobile {
     padding: 0;
     margin-left: 8px;

@@ -25,6 +25,7 @@
               >
             </div></v-toolbar-title
           >
+          <About></About>
         </v-app-bar>
         <Map v-if="mounted"></Map>
       </v-app>
@@ -37,14 +38,12 @@
 import USABanner from "@/components/USABanner";
 import Map from "./components/Map";
 import Sidebar from "./components/Sidebar";
-import Geosearch from "@/components/Geosearch";
 import About from "@/components/About";
 export default {
   components: {
     USABanner,
     Sidebar,
     Map,
-    Geosearch,
     About,
   },
   data: function () {
