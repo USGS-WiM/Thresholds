@@ -168,7 +168,7 @@
     <v-dialog v-model="noFloodingdialog" max-width="250">
       <v-card>
         <v-card-title class="text-h6 green lighten-2">
-          No active flooding
+          No Active Flooding
         </v-card-title>
 
         <v-card-text> Displaying all reference point locations. </v-card-text>
@@ -1280,11 +1280,13 @@ export default {
               if (hasMarkers && entryCount == this.mvpData.length) {
                 this.aqMarkers.addTo(this.map);
                 this.map.fitBounds(this.aqMarkers.getBounds());
+                document.getElementById("activeLayerTitle").style.display = "block";
+                document.getElementById("showAllBtn").style.display = "flex";
               } else if (!hasMarkers && entryCount == this.mvpData.length) {
                 this.noFloodingdialog = true;
-                // Remove active flooding titles in legend and sidebar
+                // Remove active flooding titles in legend and display No Active Flooding
                 this.activeLayerTitleVisible = false;
-                document.getElementById("activeLayerTitle").style.display = "none";
+                document.getElementById("noActiveFlooding").style.display = "block";
               }
             }
           }else{
