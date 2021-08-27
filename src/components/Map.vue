@@ -31,6 +31,7 @@
 
       <!-- a leaflet map -->
       <div id="map">
+      <div id="findLocationContainer"><Geosearch :map="map"></Geosearch></div>
         <!-- Legend -->
         <v-expansion-panels id="legendContainer">
           <v-expansion-panel>
@@ -186,6 +187,7 @@ import L from "leaflet"; //this is where you import leaflet components
 import "leaflet/dist/leaflet.css";
 import * as esri from "esri-leaflet";
 import mvpAqData from "../mvp_data/output.json";
+import Geosearch from "@/components/Geosearch";
 import axios from "axios";
 import Plotly from "plotly.js";
 import { eventBus } from "../main.js";
@@ -242,6 +244,9 @@ let graphParameterCodeList = "00065,63160,72279";
 let timeQueryRange = "&period=P7D";
 
 export default {
+  components:{
+    Geosearch
+  },
   name: "Map",
   data() {
     return {
@@ -1742,6 +1747,17 @@ export default {
   max-height: 75vh;
   overflow-x: hidden;
   overflow-y: scroll;
+}
+
+#findLocationContainer {
+  border-radius: 5px 5px 5px 5px;
+  left: 60px;
+  top: 15px;
+  height: auto;
+  width: 210px;
+  position: absolute;
+  z-index: 999;
+  font-size: 14px;
 }
 
 #legendExplanation {

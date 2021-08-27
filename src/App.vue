@@ -25,9 +25,8 @@
               >
             </div></v-toolbar-title
           >
-          <Geosearch :map="map"></Geosearch>
         </v-app-bar>
-        <Map v-if="mounted" @getMap="getChildMap"></Map>
+        <Map v-if="mounted"></Map>
       </v-app>
     </div>
   </div>
@@ -38,13 +37,11 @@
 import USABanner from "@/components/USABanner";
 import Map from "./components/Map";
 import Sidebar from "./components/Sidebar";
-import Geosearch from "@/components/Geosearch";
 export default {
   components: {
     USABanner,
     Sidebar,
     Map,
-    Geosearch,
   },
   data: function () {
     return {
@@ -64,10 +61,6 @@ export default {
     },
   },
   methods: {
-    // Makes map accessible from other child components (need for geosearch)
-    getChildMap(mapObject) {
-      this.map = mapObject;
-    },
     // Set height variable for use in css using usa-banner height
     getBannerHeight() {
       let bannerHeight =

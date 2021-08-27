@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Change supporting layer order in sidebar
 - Layers panel expanded on site load
 - Update opacity of supporting layers
+- Moves geosearch to map control
 
 ### Fixed
 
