@@ -286,9 +286,41 @@
             >
           </div>
           <br />
+
+          <div class="subsection-title" id="site-layer-title">Site Layers</div>
+          <input
+            type="checkbox"
+            ref="allRP"
+            id="allRP"
+            value="true"
+            v-model="allRPPicked"
+          />
+          <div class="legend-icon">
+            <div class="wmm-circle wmm-white wmm-icon-noicon wmm-size-20"></div>
+            <label for="allRP" class="legend-label"
+              >All Reference Point Locations</label
+            >
+          </div>
+
+          <br />
+
           <div class="subsection-title" id="supporting-layer-title">
             Supporting Layers
           </div>
+
+          <input
+            type="checkbox"
+            ref="nfhl"
+            id="nfhl"
+            value="false"
+            v-model="nfhlPicked"
+          />
+          <div class="legend-no-icon">
+            <label for="nfhl">National Flood Hazard Layer</label>
+          </div>
+
+          <br />
+
           <input
             type="checkbox"
             ref="radar"
@@ -299,7 +331,9 @@
           <div class="legend-no-icon">
             <label for="radar">National Weather Service Radar</label>
           </div>
+
           <br />
+
           <input
             type="checkbox"
             ref="fww"
@@ -309,17 +343,6 @@
           />
           <div class="legend-no-icon">
             <label for="fww">Flood Watches and Warnings</label>
-          </div>
-          <br />
-          <input
-            type="checkbox"
-            ref="nfhl"
-            id="nfhl"
-            value="false"
-            v-model="nfhlPicked"
-          />
-          <div class="legend-no-icon">
-            <label for="nfhl">National Flood Hazard Layer</label>
           </div>
         </v-container>
       </v-expansion-panel-content>
@@ -570,7 +593,6 @@ export default {
 #allRPLegend {
   margin-top: 0 !important;
   width: 30px !important;
-  padding-right: 3px !important;
 }
 
 .subsection-title {

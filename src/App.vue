@@ -17,11 +17,11 @@
             </a>
             <div class="toolbar-text">
               <span class="main-title">Real-Time Flood Impact Map</span>
-              <span class="pre-alpha">Pre-Alpha: Under Active Development</span>
+              <span class="experimental-subtitle">Experimental</span>
               <span class="mini-title"
                 ><h1>Real-Time Flood Impact Map</h1>
                 <br />
-                <h2>Pre-Alpha: Under Active Development</h2></span
+                <h2>Experimental</h2></span
               >
             </div></v-toolbar-title
           >
@@ -134,8 +134,8 @@ body {
   font-size: 21px;
 }
 
-.pre-alpha {
-  font-size: 15px;
+.experimental-subtitle {
+  font-size: 18px;
   color: red;
   padding-left: 10px;
   font-style: italic;
@@ -145,8 +145,8 @@ body {
   .toolbar-text {
     font-size: 18px;
   }
-  .pre-alpha {
-    font-size: 12px;
+  .experimental-subtitle {
+    font-size: 16px;
   }
 }
 
@@ -160,30 +160,15 @@ body {
   }
 }
 
-@media screen and (max-width: 828px) {
-  .pre-alpha {
-    font-size: 12px;
-  }
-}
-
-@media screen and (max-width: 690px) {
-  .toolbar-text {
-    font-size: 14px;
-  }
-  .pre-alpha {
-    font-size: 10px;
-  }
-}
-
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 574px) {
   .mini-title {
     display: none;
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 574px) {
   .main-title,
-  .pre-alpha {
+  .experimental-subtitle {
     display: none;
   }
   .toolbar-text {
@@ -202,7 +187,7 @@ body {
   }
   .mini-title h2 {
     color: red;
-    font-size: 10px;
+    font-size: 12px;
     font-weight: normal;
     font-style: italic;
   }
