@@ -171,7 +171,7 @@
           No active flooding
         </v-card-title>
 
-        <v-card-text> View all reference point locations </v-card-text>
+        <v-card-text> Displaying all reference point locations. </v-card-text>
 
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -1033,6 +1033,7 @@ export default {
       this.allRPMarkers.clearLayers();
       let hasMarkers = false;
       let timeQueryRange = "&period=P7D";
+      let entryCount = 0;
 
       // adding rp/threshold data from Aquarius
       for (let entry in this.mvpData) {
@@ -1156,6 +1157,7 @@ export default {
                 lng: lng,
               };
               hasMarkers = true;
+              entryCount ++;
             }else{
               // all RP layer
               let allMarkers = L.marker([lat, lng], {
@@ -1175,7 +1177,15 @@ export default {
                 lat: lat,
                 lng: lng,
               };
+              entryCount ++;
               // end all RP Layer
+              // Wait for last entry to add markers to map and fit bounds, otherwise bounds will be invalid
+              if (hasMarkers && entryCount == this.mvpData.length) {
+                this.aqMarkers.addTo(this.map);
+                this.map.fitBounds(this.aqMarkers.getBounds());
+              } else if (!hasMarkers && entryCount == this.mvpData.length) {
+                this.noFloodingdialog = true;
+              }
             }
           }else{
             // all RP layer
@@ -1196,15 +1206,18 @@ export default {
                 lat: lat,
                 lng: lng,
               };
+              entryCount ++;
               // end all RP Layer
           }
-          // Wait for last entry to add markers to map and fit bounds, otherwise bounds will be invalid
-          if (hasMarkers && entry == this.mvpData.length - 1) {
-            this.aqMarkers.addTo(this.map);
-            this.map.fitBounds(this.aqMarkers.getBounds());
-          } else if (!hasMarkers && entry == this.mvpData.length - 1) {
-            this.noFloodingdialog = true;
-          }
+          // // Wait for last entry to add markers to map and fit bounds, otherwise bounds will be invalid
+          // if (hasMarkers && entry == this.mvpData.length - 1) {
+          //   console.log(entry)
+          //   this.aqMarkers.addTo(this.map);
+          //   this.map.fitBounds(this.aqMarkers.getBounds());
+          // } else if (!hasMarkers && entry == this.mvpData.length - 1) {
+          //   console.log(entry)
+          //   this.noFloodingdialog = true;
+          // }
         });
       }
     },
