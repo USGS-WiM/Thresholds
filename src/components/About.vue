@@ -25,7 +25,7 @@
                 <v-icon small
 
                 color="#333"
-                >mdi-information</v-icon>
+                >mdi mdi-information</v-icon>
             </v-btn>
             </template>
     
@@ -110,7 +110,7 @@ export default {
     }
 }
 
-@media screen and (max-width: 828px) {
+@media screen and (max-width: 900px) {
     #about-button-desktop {
         display: inline-flex;
         height: 28px;
