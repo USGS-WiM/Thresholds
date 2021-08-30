@@ -168,10 +168,10 @@
     <v-dialog v-model="noFloodingdialog" max-width="250">
       <v-card>
         <v-card-title class="text-h6 green lighten-2">
-          No active flooding
+          No Active Flooding
         </v-card-title>
 
-        <v-card-text> View all reference point locations </v-card-text>
+        <v-card-text> Displaying all reference point locations. </v-card-text>
 
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -1077,6 +1077,7 @@ export default {
       this.allRPMarkers.clearLayers();
       let hasMarkers = false;
       let timeQueryRange = "&period=P7D";
+      let entryCount = 0;
 
       // adding rp/threshold data from Aquarius
       for (let entry in this.mvpData) {
@@ -1253,6 +1254,7 @@ export default {
                 lng: lng,
               };
               hasMarkers = true;
+              entryCount ++;
             }else{
               // all RP layer
               let allMarkers = L.marker([lat, lng], {
@@ -1272,7 +1274,20 @@ export default {
                 lat: lat,
                 lng: lng,
               };
+              entryCount ++;
               // end all RP Layer
+              // Wait for last entry to add markers to map and fit bounds, otherwise bounds will be invalid
+              if (hasMarkers && entryCount == this.mvpData.length) {
+                this.aqMarkers.addTo(this.map);
+                this.map.fitBounds(this.aqMarkers.getBounds());
+                document.getElementById("activeLayerTitle").style.display = "block";
+                document.getElementById("showAllBtn").style.display = "flex";
+              } else if (!hasMarkers && entryCount == this.mvpData.length) {
+                this.noFloodingdialog = true;
+                // Remove active flooding titles in legend and display No Active Flooding
+                this.activeLayerTitleVisible = false;
+                document.getElementById("noActiveFlooding").style.display = "block";
+              }
             }
           }else{
             // all RP layer
@@ -1293,17 +1308,8 @@ export default {
                 lat: lat,
                 lng: lng,
               };
+              entryCount ++;
               // end all RP Layer
-          }
-          // Wait for last entry to add markers to map and fit bounds, otherwise bounds will be invalid
-          if (hasMarkers && entry == this.mvpData.length - 1) {
-            this.aqMarkers.addTo(this.map);
-            this.map.fitBounds(this.aqMarkers.getBounds());
-          } else if (!hasMarkers && entry == this.mvpData.length - 1) {
-            this.noFloodingdialog = true;
-            // Remove active flooding titles in legend and sidebar
-            this.activeLayerTitleVisible = false;
-            document.getElementById("activeLayerTitle").style.display = "none";
           }
         });
       }
