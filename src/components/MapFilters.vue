@@ -603,7 +603,7 @@ export default {
 }
 
 .legend-label {
-  margin-left: -px;
+  margin-left: -2px;
 }
 
 #activeSublayers {
