@@ -10,7 +10,7 @@
         <v-progress-circular
           indeterminate
           :width="3"
-          :size="20"
+          :size="10"
         ></v-progress-circular>
         <span class="loadingLabel">Loading Layer...</span>
       </div>
@@ -24,7 +24,7 @@
         <v-progress-circular
           indeterminate
           :width="3"
-          :size="20"
+          :size="10"
         ></v-progress-circular>
         <span class="loadingLabel">Loading Layer...</span>
       </div>
@@ -1753,7 +1753,7 @@ export default {
   z-index: 999;
   font-size: 14px;
   opacity: 0.75;
-  max-height: 75vh;
+  max-height: 65vh;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -1842,8 +1842,8 @@ export default {
 
 .nwisAlertClass, .nfhlAlertClass {
   position: absolute;
-  top: 10px;
-  left: 50px;
+  bottom: 22px;
+  right: 10px;
   z-index: 999;
   color: #333;
   background-color: #0089e5;
@@ -1852,11 +1852,12 @@ export default {
   opacity: 0.75;
   font-weight: bold;
   vertical-align: middle;
-  padding: 10px;
+  padding: 6px;
 }
 
 .loadingLabel {
   padding-left: 5px;
+  font-size: 12px;
 }
 
 .nwis-link {
