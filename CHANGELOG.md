@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Layers panel expanded on site load
 - Update opacity of supporting layers
 - Moves geosearch to map control
+- Update checkboxes to vuetify
 
 ### Fixed
 
