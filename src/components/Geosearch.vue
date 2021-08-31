@@ -295,6 +295,10 @@ input:not([disabled]):focus {
   outline: none;
 }
 
+.v-toolbar__content, .v-toolbar__extension {
+    padding: 4px 8px 4px 16px !important;
+  }
+
 @media screen and (max-width: 828px) {
   .search-api-container {
     height: 32px !important;
@@ -317,7 +321,7 @@ input:not([disabled]):focus {
   }
 }
 
-@media screen and (max-width: 416px) {
+@media screen and (max-width: 450px) {
   .search-api-container input {
     font-size: 8px !important;
   }
