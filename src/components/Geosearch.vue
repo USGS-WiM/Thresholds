@@ -257,7 +257,7 @@ export default {
 }
 
 .search-api-container {
-  height: 44px !important;
+  height: 36px !important;
   border: 2px solid #afafaf !important;
 }
 
@@ -273,7 +273,7 @@ export default {
 
 .search-api-button {
   padding-right: 4px !important;
-  width: 28px !important;
+  width: 32px !important;
 }
 
 .search-api-menu-title {
@@ -304,7 +304,7 @@ input:not([disabled]):focus {
 
 @media screen and (max-width: 828px) {
   .search-api-container {
-    height: 32px !important;
+    height: 28px !important;
   }
   .search-api-container input {
     font-size: 12px !important;
