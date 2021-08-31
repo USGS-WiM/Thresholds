@@ -38,6 +38,10 @@
             <!-- Legend title -->
             <v-expansion-panel-header id="titleContainer">
               <div id="legendExplanation">Legend</div>
+              <div id="legendExplanationMobile"><v-icon 
+                small
+                color="#333"
+                >mdi mdi-map-legend</v-icon></div>
             </v-expansion-panel-header>
             <v-expansion-panel-content id="legendContent">
             <!-- Threshold icons -->
@@ -1751,7 +1755,7 @@ export default {
   opacity: 0.75;
   max-height: 75vh;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 #findLocationContainer {
@@ -2000,6 +2004,34 @@ export default {
 
 #legendContent {
   margin: -8px -20px -8px -20px;
+}
+
+@media screen and (max-width: 828px) {
+  #legendExplanation {
+    display: none;
+  }
+  #legendExplanationMobile {
+    display: block;
+    text-align: center;
+  }
+  #legendContainer {
+    width: auto;
+  }
+  #titleContainer {
+    padding: 8px 12px;
+  }
+  .v-expansion-panel--active {
+    width: 225px !important;
+  }
+}
+
+@media screen and (min-width: 828px) {
+  #legendExplanation {
+    display: block;
+  }
+  #legendExplanationMobile {
+    display: none;
+  }
 }
 
 </style>

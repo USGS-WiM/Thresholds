@@ -202,7 +202,7 @@ export default {
           let map = self.getMapFromParent();
           window.search_api.create("geosearchBar", {
             size: "md",
-            placeholder: "Search for a location",
+            placeholder: "Search",
             menu_min_char: 2, // minimum number of characters required before attempting to find menu suggestions
             include_usgs_sw: true,
             include_usgs_gw: true,
@@ -272,7 +272,8 @@ export default {
 }
 
 .search-api-button {
-  display: none !important;
+  padding-right: 4px !important;
+  width: 28px !important;
 }
 
 .search-api-menu-title {
@@ -295,7 +296,7 @@ input:not([disabled]):focus {
   outline: none;
 }
 
-@media screen and (max-width: 828px) {
+@media screen and (max-width: 1024px) {
   .search-api-container {
     height: 32px !important;
   }
@@ -319,7 +320,7 @@ input:not([disabled]):focus {
 
 @media screen and (max-width: 416px) {
   .search-api-container input {
-    font-size: 8px !important;
+    font-size: 12px !important;
   }
   .search-api-container.search-api-md {
     width: 110px;
