@@ -96,13 +96,13 @@
           <div id="activeLayerTitle">Active Flooding Layers</div>
           <div id="activeSublayers">
             <div id="bankDiv" style="display: none">
-              <input
+              <v-simple-checkbox
                 type="checkbox"
                 ref="bank"
                 id="bank"
                 value="true"
                 v-model="bankPicked"
-              />
+              ></v-simple-checkbox>
               <div class="sublayer-icon">
                 <img
                   class="activeIcons"
@@ -115,13 +115,13 @@
               <br />
             </div>
             <div id="pathDiv" style="display: none">
-              <input
+              <v-simple-checkbox
                 type="checkbox"
                 ref="path"
                 id="path"
                 value="true"
                 v-model="pathPicked"
-              />
+              ></v-simple-checkbox>
               <div class="sublayer-icon">
                 <img
                   class="activeIcons"
@@ -132,13 +132,13 @@
               <br />
             </div>
             <div id="roadDiv" style="display: none">
-              <input
+              <v-simple-checkbox
                 type="checkbox"
                 ref="road"
                 id="road"
                 value="true"
                 v-model="roadPicked"
-              />
+              ></v-simple-checkbox>
               <div class="sublayer-icon">
                 <img
                   class="activeIcons"
@@ -149,13 +149,13 @@
               <br />
             </div>
             <div id="bridgeRiskDiv" style="display: none">
-              <input
+              <v-simple-checkbox
                 type="checkbox"
                 ref="bridgeRisk"
                 id="bridgeRisk"
                 value="true"
                 v-model="bridgeRiskPicked"
-              />
+              ></v-simple-checkbox>
               <div class="sublayer-icon">
                 <img
                   class="activeIcons"
@@ -168,13 +168,13 @@
               <br />
             </div>
             <div id="bridgeDiv" style="display: none">
-              <input
+              <v-simple-checkbox
                 type="checkbox"
                 ref="bridge"
                 id="bridge"
                 value="true"
                 v-model="bridgePicked"
-              />
+              ></v-simple-checkbox>
               <div class="sublayer-icon">
                 <img
                   class="activeIcons"
@@ -185,13 +185,13 @@
               <br />
             </div>
             <div id="facilityDiv" style="display: none">
-              <input
+              <v-simple-checkbox
                 type="checkbox"
                 ref="facility"
                 id="facility"
                 value="true"
                 v-model="facilityPicked"
-              />
+              ></v-simple-checkbox>
               <div class="sublayer-icon">
                 <img
                   class="activeIcons"
@@ -204,13 +204,13 @@
               <br />
             </div>
             <div id="bfeDiv" style="display: none">
-              <input
+              <v-simple-checkbox
                 type="checkbox"
                 ref="bfe"
                 id="bfe"
                 value="true"
                 v-model="bfePicked"
-              />
+              ></v-simple-checkbox>
               <div class="sublayer-icon">
                 <img class="activeIcons" src="../assets/aq-icons/BFE.png" />
                 <label for="bfe" class="legend-label"
@@ -220,13 +220,13 @@
               <br />
             </div>
             <div id="otherDiv" style="display: none">
-              <input
+              <v-simple-checkbox
                 type="checkbox"
                 ref="other"
                 id="other"
                 value="true"
                 v-model="otherPicked"
-              />
+              ></v-simple-checkbox>
               <div class="sublayer-icon">
                 <img class="activeIcons" src="../assets/aq-icons/other.png" />
                 <label for="other" class="legend-label">Uncategorized</label>
@@ -247,13 +247,13 @@
           <div style="display: none" id="noActiveFlooding">
             No Active Flooding
           </div>
-          <input
+          <v-simple-checkbox
             type="checkbox"
             ref="allRP"
             id="allRP"
             value="true"
             v-model="allRPPicked"
-          />
+          ></v-simple-checkbox>
           <div class="legend-icon">
             <div class="wmm-circle wmm-white wmm-icon-noicon wmm-size-20"></div>
             <label for="allRP" class="legend-label"
@@ -265,14 +265,14 @@
             Real-time Streamgages available at zoom level 9 and above. Please
             zoom in to view.
           </div>
-          <input
+          <v-simple-checkbox
             type="checkbox"
             ref="stream"
             id="stream"
             value="false"
             v-model="streamgagePicked"
             :disabled="streamCheckDisabled"
-          />
+          ></v-simple-checkbox>
           <div class="legend-icon">
             <div
               class="
@@ -290,60 +290,43 @@
           </div>
           <br />
 
-          <div class="subsection-title" id="site-layer-title">Site Layers</div>
-          <input
-            type="checkbox"
-            ref="allRP"
-            id="allRP"
-            value="true"
-            v-model="allRPPicked"
-          />
-          <div class="legend-icon">
-            <div class="wmm-circle wmm-white wmm-icon-noicon wmm-size-20"></div>
-            <label for="allRP" class="legend-label"
-              >All Reference Point Locations</label
-            >
-          </div>
-
-          <br />
-
           <div class="subsection-title" id="supporting-layer-title">
             Supporting Layers
           </div>
 
-          <input
+          <v-simple-checkbox
             type="checkbox"
             ref="nfhl"
             id="nfhl"
             value="false"
             v-model="nfhlPicked"
-          />
+          ></v-simple-checkbox>
           <div class="legend-no-icon">
             <label for="nfhl">National Flood Hazard Layer</label>
           </div>
 
           <br />
 
-          <input
+          <v-simple-checkbox
             type="checkbox"
             ref="radar"
             id="radar"
             value="false"
             v-model="radarPicked"
-          />
+          ></v-simple-checkbox>
           <div class="legend-no-icon">
             <label for="radar">National Weather Service Radar</label>
           </div>
 
           <br />
 
-          <input
+          <v-simple-checkbox
             type="checkbox"
             ref="fww"
             id="fww"
             value="false"
             v-model="fwwPicked"
-          />
+          ></v-simple-checkbox>
           <div class="legend-no-icon">
             <label for="fww">Flood Watches and Warnings</label>
           </div>
@@ -548,6 +531,7 @@ export default {
   margin: 10px;
   line-height: 24px;
   height: 24px;
+  margin-right: -8px;
 }
 
 .legend-icon label {
@@ -573,6 +557,7 @@ export default {
   justify-content: center;
   color: #333;
   font-size: 14px;
+  margin-right: -10px;
 }
 
 .legendIcon label {
@@ -659,4 +644,14 @@ export default {
   padding-top: 10px;
   font-size: 14px;
 }
+
+
+.v-simple-checkbox {
+  display: inline-block;
+}
+
+.v-input--selection-controls__input {
+  margin-right: 0 !important;
+}
+
 </style>
