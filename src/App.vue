@@ -25,6 +25,7 @@
               >
             </div></v-toolbar-title
           >
+          <About></About>
         </v-app-bar>
         <Map v-if="mounted"></Map>
       </v-app>
@@ -37,11 +38,13 @@
 import USABanner from "@/components/USABanner";
 import Map from "./components/Map";
 import Sidebar from "./components/Sidebar";
+import About from "@/components/About";
 export default {
   components: {
     USABanner,
     Sidebar,
     Map,
+    About,
   },
   data: function () {
     return {
@@ -153,14 +156,14 @@ body {
   }
 }
 
-@media screen and (min-width: 574px) {
+@media screen and (min-width: 640px) {
   .mini-title {
     display: none;
   }
 }
 
-@media screen and (max-width: 574px) {
-  .main-title,
+@media screen and (max-width: 640px) {
+  .main-title, 
   .experimental-subtitle {
     display: none;
   }
@@ -186,7 +189,7 @@ body {
   }
 }
 
-@media screen and (max-width: 416px) {
+@media screen and (max-width: 450px) {
   .toolbar-text {
     margin-left: -38px;
   }
