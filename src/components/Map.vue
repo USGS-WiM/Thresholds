@@ -10,7 +10,7 @@
         <v-progress-circular
           indeterminate
           :width="3"
-          :size="20"
+          :size="10"
         ></v-progress-circular>
         <span class="loadingLabel">Loading Layer...</span>
       </div>
@@ -24,7 +24,7 @@
         <v-progress-circular
           indeterminate
           :width="3"
-          :size="20"
+          :size="10"
         ></v-progress-circular>
         <span class="loadingLabel">Loading Layer...</span>
       </div>
@@ -38,11 +38,15 @@
             <!-- Legend title -->
             <v-expansion-panel-header id="titleContainer">
               <div id="legendExplanation">Legend</div>
+              <div id="legendExplanationMobile"><v-icon 
+                small
+                color="#333"
+                >mdi mdi-map-legend</v-icon></div>
             </v-expansion-panel-header>
             <v-expansion-panel-content id="legendContent">
             <!-- Threshold icons -->
               <div id="thresholdLayers">
-                <div id="thresholdLayersTitle">Active Flooding</div>
+                <div id="thresholdLayersTitle" v-if="activeLayerTitleVisible">Active Flooding</div>
                 <div class="legendIcon" v-if="bankVisible">
                   <img
                     src="../assets/aq-icons/embankment_flooded_circle.png"
@@ -168,10 +172,10 @@
     <v-dialog v-model="noFloodingdialog" max-width="250">
       <v-card>
         <v-card-title class="text-h6 green lighten-2">
-          No active flooding
+          No Active Flooding
         </v-card-title>
 
-        <v-card-text> View all reference point locations </v-card-text>
+        <v-card-text> Displaying all reference point locations. </v-card-text>
 
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -190,6 +194,7 @@ import mvpAqData from "../mvp_data/output.json";
 import Geosearch from "@/components/Geosearch";
 import axios from "axios";
 import Plotly from "plotly.js";
+import { eventBus } from "../main.js";
 
 // this code is necessary for the default leaflet marker to work
 delete L.Icon.Default.prototype._getIconUrl;
@@ -323,6 +328,7 @@ export default {
         iconUrl: require("../assets/aq-icons/other.png"),
         iconSize: [50, 50],
       }),
+      activeLayerTitleVisible: true,
       bankVisible: false,
       pathVisible: false,
       roadVisible: false,
@@ -331,6 +337,16 @@ export default {
       facilityVisible: false,
       otherVisible: false,
       bfeVisible: false,
+      sublayerVisibility: false,
+      bankLayer: {},
+      pathLayer: {},
+      roadLayer: {},
+      bridgeRiskLayer: {},
+      bridgeFloodedLayer: {},
+      facilityLayer: {},
+      otherLayer: {},
+      bfeLayer:{},
+      activeSubtypes: [],
       showParagraph: false,
       fillColor: "#ffffff",
       streamgageVisible: false,
@@ -363,6 +379,38 @@ export default {
         .on("click", function (e) {
           self.openAQPopup(e);
         })
+        .addTo(self.map);
+
+      self.pathLayer = L.featureGroup();
+      self.pathLayer
+        .addTo(self.map);
+
+      self.roadLayer = L.featureGroup();
+      self.roadLayer
+        .addTo(self.map);
+
+      self.bridgeRiskLayer = L.featureGroup();
+      self.bridgeRiskLayer
+        .addTo(self.map);
+
+      self.bridgeFloodedLayer = L.featureGroup();
+      self.bridgeFloodedLayer
+        .addTo(self.map);
+
+      self.bfeLayer = L.featureGroup();
+      self.bfeLayer
+        .addTo(self.map);
+
+      self.otherLayer = L.featureGroup();
+      self.otherLayer
+        .addTo(self.map);
+
+      self.facilityLayer = L.featureGroup();
+      self.facilityLayer
+        .addTo(self.map);
+
+      self.bankLayer = L.featureGroup();
+      self.bankLayer
         .addTo(self.map);
 
       self.streamgageMarkers.on("click", function (e) {
@@ -1033,6 +1081,7 @@ export default {
       this.allRPMarkers.clearLayers();
       let hasMarkers = false;
       let timeQueryRange = "&period=P7D";
+      let entryCount = 0;
 
       // adding rp/threshold data from Aquarius
       for (let entry in this.mvpData) {
@@ -1118,29 +1167,82 @@ export default {
                 data.data.data[0].time_series_data.length - 1
               ][1] >= elevation
             ) {
+
+              let marker;
               // Icon visible in legend
               if (Name === "PATH") {
                 this.pathVisible = true;
+                this.$store.state.pathState = true;
+                document.getElementById("pathDiv").style.display = "block";
+                this.activeSubtypes.push("path");
+                marker = L.marker([lat, lng], {
+                  icon: aqIcon,
+                }).addTo(this.pathLayer);
+                this.pathLayer.addTo(this.aqMarkers);
               } else if (Name === "BANK") {
                 this.bankVisible = true;
+                document.getElementById("bankDiv").style.display = "block";
+                this.$store.state.bankState = true;
+                this.activeSubtypes.push("bank");
+                marker = L.marker([lat, lng], {
+                  icon: aqIcon,
+                }).addTo(this.bankLayer);
+                this.bankLayer.addTo(this.aqMarkers);
               } else if (Name === "ROAD") {
                 this.roadVisible = true;
+                document.getElementById("roadDiv").style.display = "block";
+                this.$store.state.roadState = true;
+                this.activeSubtypes.push("road");
+                marker = L.marker([lat, lng], {
+                  icon: aqIcon,
+                }).addTo(this.roadLayer);
+                this.roadLayer.addTo(this.aqMarkers);
               } else if (Name === "CHORD") {
                 this.bridgeRiskVisible = true;
+                document.getElementById("bridgeRiskDiv").style.display = "block";
+                this.$store.state.bridgeRiskState = true;
+                this.activeSubtypes.push("bridgeRiskDiv");
+                marker = L.marker([lat, lng], {
+                  icon: aqIcon,
+                }).addTo(this.bridgeRiskLayer);
+                this.bridgeRiskLayer.addTo(this.aqMarkers);
               } else if (Name === "FACILITY") {
                 this.facilityVisible = true;
+                document.getElementById("facilityDiv").style.display = "block";
+                this.$store.state.facilityState = true;
+                this.activeSubtypes.push("facility");
+                marker = L.marker([lat, lng], {
+                  icon: aqIcon,
+                }).addTo(this.facilityLayer);
+                this.facilityLayer.addTo(this.aqMarkers);
               } else if (Name === "DECK") {
                 this.bridgeFloodedVisible = true;
+                document.getElementById("bridgeDiv").style.display = "block";
+                this.$store.state.bridgeState = true;
+                this.activeSubtypes.push("bridgeFlooded");
+                marker = L.marker([lat, lng], {
+                  icon: aqIcon,
+                }).addTo(this.bridgeFloodedLayer);
+                this.bridgeFloodedLayer.addTo(this.aqMarkers);
               } else if (Name === "BFE") {
                 this.bfeVisible = true;
+                document.getElementById("bfeDiv").style.display = "block";
+                this.$store.state.bfeState = true;
+                this.activeSubtypes.push("bfe");
+                marker = L.marker([lat, lng], {
+                  icon: aqIcon,
+                }).addTo(this.bfeLayer);
+                this.bfeLayer.addTo(this.aqMarkers);
               } else {
                 this.otherVisible = true;
+                document.getElementById("otherDiv").style.display = "block";
+                this.$store.state.otherState = true;
+                this.activeSubtypes.push("other");
+                marker = L.marker([lat, lng], {
+                  icon: aqIcon,
+                }).addTo(this.otherLayer);
+                this.otherLayer.addTo(this.aqMarkers);
               }
-
-              // live layer
-              let marker = L.marker([lat, lng], {
-                icon: aqIcon,
-              }).addTo(this.aqMarkers);
 
               marker.data = {
                 thresholds: thresh,
@@ -1156,6 +1258,7 @@ export default {
                 lng: lng,
               };
               hasMarkers = true;
+              entryCount ++;
             }else{
               // all RP layer
               let allMarkers = L.marker([lat, lng], {
@@ -1175,7 +1278,20 @@ export default {
                 lat: lat,
                 lng: lng,
               };
+              entryCount ++;
               // end all RP Layer
+              // Wait for last entry to add markers to map and fit bounds, otherwise bounds will be invalid
+              if (hasMarkers && entryCount == this.mvpData.length) {
+                this.aqMarkers.addTo(this.map);
+                this.map.fitBounds(this.aqMarkers.getBounds());
+                document.getElementById("activeLayerTitle").style.display = "block";
+                document.getElementById("showAllBtn").style.display = "flex";
+              } else if (!hasMarkers && entryCount == this.mvpData.length) {
+                this.noFloodingdialog = true;
+                // Remove active flooding titles in legend and display No Active Flooding
+                this.activeLayerTitleVisible = false;
+                document.getElementById("noActiveFlooding").style.display = "block";
+              }
             }
           }else{
             // all RP layer
@@ -1196,14 +1312,8 @@ export default {
                 lat: lat,
                 lng: lng,
               };
+              entryCount ++;
               // end all RP Layer
-          }
-          // Wait for last entry to add markers to map and fit bounds, otherwise bounds will be invalid
-          if (hasMarkers && entry == this.mvpData.length - 1) {
-            this.aqMarkers.addTo(this.map);
-            this.map.fitBounds(this.aqMarkers.getBounds());
-          } else if (!hasMarkers && entry == this.mvpData.length - 1) {
-            this.noFloodingdialog = true;
           }
         });
       }
@@ -1400,7 +1510,87 @@ export default {
       });
       this.radarLayer.addTo(this.map);
     },
-
+    toggleSublayers(sublayer, sublayerState, sublayerType) {
+      if (sublayerState == true) {
+        setVisibility(true, this);
+        sublayer.addTo(this.map);
+      } else {
+        sublayer.remove();
+        setVisibility(false, this);
+      }
+      function setVisibility(visible, self){
+        switch (sublayerType){
+          case 'bank': 
+            self.bankVisible = visible; 
+            break;
+          case 'path': 
+            self.pathVisible = visible;
+            break;
+          case 'road': 
+            self.roadVisible = visible;
+            break;
+          case 'bridgeRisk': 
+            self.bridgeRiskVisible = visible;
+            break;
+          case 'bridgeFlooded': 
+            self.bridgeFloodedVisible = visible;
+            break;
+          case 'facility': 
+            self.facilityVisible = visible;
+            break;
+          case 'bfe': 
+            self.bfeVisible = visible;
+            break;
+          case 'other': 
+            self.otherVisible = visible;
+            break;
+        }
+        if (!self.bankVisible && !self.pathVisible && !self.roadVisible && !self.bridgeRiskVisible && !self.bridgeFloodedVisible && !self.facilityVisible && !self.bfeVisible && !self.otherVisible){
+          self.activeLayerTitleVisible = false;
+        }
+        else{
+          self.activeLayerTitleVisible = true;
+        }
+      }
+    },
+    showAll(){
+      this.activeSubtypes.forEach((sublayerType) => {
+        switch (sublayerType){
+          case 'bank': 
+            this.bankVisible = true;
+            this.$store.state.bankState = true;
+            break;
+          case 'path': 
+            this.pathVisible = true;
+            this.$store.state.pathState = true;
+            break;
+          case 'road': 
+            this.roadVisible = true;
+            this.$store.state.roadState = true;
+            break;
+          case 'bridgeRisk': 
+            this.bridgeRiskVisible = true;
+            this.$store.state.bridgeRiskState = true;
+            break;
+          case 'bridgeFlooded': 
+            this.bridgeFloodedVisible = true;
+            this.$store.state.bridgeState = true;
+            break;
+          case 'facility': 
+            this.facilityVisible = true;
+            this.$store.state.facilityState = true;
+            break;
+          case 'bfe': 
+            this.bfeVisible = true;
+            this.$store.state.bfeState = true;
+            break;
+          case 'other': 
+            this.otherVisible = true;
+            this.$store.state.otherState = true;
+            break;
+        }
+      });
+    },
     getFwwLegend(layers) {
       let self = this;
       let container = document.getElementById("fwwLegend");
@@ -1460,6 +1650,10 @@ export default {
   },
   mounted() {
     this.createMap();
+    let self = this;
+    eventBus.$on('showAll', function(){
+      self.showAll();
+    })
   },
   // Get streamgage data when current bounds change or streamgage checkbox is checked
   watch: {
@@ -1481,6 +1675,30 @@ export default {
     },
     "$store.state.streamgageState": function () {
       this.toggleStreamgage(this.streamgageMarkers, this.currentZoom);
+    },
+    "$store.state.bankState": function () {
+      this.toggleSublayers(this.bankLayer, this.$store.state.bankState, "bank");
+    },
+    "$store.state.pathState": function () {
+      this.toggleSublayers(this.pathLayer, this.$store.state.pathState, "path");
+    },
+    "$store.state.roadState": function () {
+      this.toggleSublayers(this.roadLayer, this.$store.state.roadState, "road");
+    },
+    "$store.state.bridgeRiskState": function () {
+      this.toggleSublayers(this.bridgeRiskLayer, this.$store.state.bridgeRiskState, "bridgeRisk");
+    },
+    "$store.state.bridgeState": function () {
+      this.toggleSublayers(this.bridgeFloodedLayer, this.$store.state.bridgeState, "bridgeFlooded");
+    },
+    "$store.state.facilityState": function () {
+      this.toggleSublayers(this.facilityLayer, this.$store.state.facilityState, "facility");
+    },
+    "$store.state.bfeState": function () {
+      this.toggleSublayers(this.bfeLayer, this.$store.state.bfeState, "bfe");
+    },
+    "$store.state.otherState": function () {
+      this.toggleSublayers(this.otherLayer, this.$store.state.otherState, "other");
     },
     "$store.state.fwwState": function () {
       this.toggleFww(this.fwwLayer);
@@ -1535,9 +1753,9 @@ export default {
   z-index: 999;
   font-size: 14px;
   opacity: 0.75;
-  max-height: 75vh;
+  max-height: 65vh;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 #findLocationContainer {
@@ -1624,8 +1842,8 @@ export default {
 
 .nwisAlertClass, .nfhlAlertClass {
   position: absolute;
-  top: 10px;
-  left: 50px;
+  bottom: 22px;
+  right: 10px;
   z-index: 999;
   color: #333;
   background-color: #0089e5;
@@ -1634,11 +1852,12 @@ export default {
   opacity: 0.75;
   font-weight: bold;
   vertical-align: middle;
-  padding: 10px;
+  padding: 6px;
 }
 
 .loadingLabel {
   padding-left: 5px;
+  font-size: 12px;
 }
 
 .nwis-link {
@@ -1786,6 +2005,34 @@ export default {
 
 #legendContent {
   margin: -8px -20px -8px -20px;
+}
+
+@media screen and (max-width: 828px) {
+  #legendExplanation {
+    display: none;
+  }
+  #legendExplanationMobile {
+    display: block;
+    text-align: center;
+  }
+  #legendContainer {
+    width: auto;
+  }
+  #titleContainer {
+    padding: 8px 12px;
+  }
+  .v-expansion-panel--active {
+    width: 225px !important;
+  }
+}
+
+@media screen and (min-width: 828px) {
+  #legendExplanation {
+    display: block;
+  }
+  #legendExplanationMobile {
+    display: none;
+  }
 }
 
 </style>

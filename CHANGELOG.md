@@ -9,7 +9,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+-
+
+### Changed
+
+-
+
+### Fixed
+
+-
+
+## [v0.5.0](https://github.com/USGS-WiM/Thresholds/releases/tag/v0.5.0) - 9/1/2021
+
+### Added
+
+- Ability to toggle active flooding subtypes in sidebar
 - Add FWW to legend
+- Add about section
 
 ### Changed
 
@@ -20,10 +36,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Layers panel expanded on site load
 - Update opacity of supporting layers
 - Moves geosearch to map control
+- Update checkboxes to vuetify
 
 ### Fixed
 
--
+- Hide Show All button and display No Active Flooding text in sidebar when no thresholds met
+- Fixed bug in "No active flooding" dialog
 
 ## [v0.4.0](https://github.com/USGS-WiM/Thresholds/releases/tag/v0.4.0) - 8/19/2021
 
