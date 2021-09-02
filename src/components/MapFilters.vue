@@ -111,6 +111,20 @@
                 <label for="bank" class="legend-label"
                   >Embankment Flooded</label
                 >
+                  <v-tooltip right>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        small
+                        color="primary"
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        mdi-information
+                      </v-icon>
+                    </template>
+                    <span>Flood waters exit the stream/river channel and overflow onto a flat surface</span>
+                  </v-tooltip>
               </div>
               <br />
             </div>
@@ -128,6 +142,20 @@
                   src="../assets/aq-icons/path_flooded_circle.png"
                 />
                 <label for="path" class="legend-label">Path Flooded</label>
+                  <v-tooltip right>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        small
+                        color="primary"
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        mdi-information
+                      </v-icon>
+                    </template>
+                    <span>Flood waters are flooding a pedestrian greenway/trail/path</span>
+                  </v-tooltip>
               </div>
               <br />
             </div>
@@ -145,6 +173,20 @@
                   src="../assets/aq-icons/car_flooded_circle.png"
                 />
                 <label for="road" class="legend-label">Road Flooded</label>
+                  <v-tooltip right>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        small
+                        color="primary"
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        mdi-information
+                      </v-icon>
+                    </template>
+                    <span>Low lying areas along roads are flooding</span>
+                  </v-tooltip>
               </div>
               <br />
             </div>
@@ -164,6 +206,20 @@
                 <label for="bridgeRisk" class="legend-label"
                   >Bridge Flood at Risk</label
                 >
+                  <v-tooltip right>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        small
+                        color="primary"
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        mdi-information
+                      </v-icon>
+                    </template>
+                    <span>Water from a river or stream is under the lowest section of a bridge</span>
+                  </v-tooltip>
               </div>
               <br />
             </div>
@@ -181,6 +237,20 @@
                   src="../assets/aq-icons/bridge_flooded_circle.png"
                 />
                 <label for="bridge" class="legend-label">Bridge Flooded</label>
+                  <v-tooltip right>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        small
+                        color="primary"
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        mdi-information
+                      </v-icon>
+                    </template>
+                    <span>A bridge is flooding</span>
+                  </v-tooltip>
               </div>
               <br />
             </div>
@@ -200,6 +270,20 @@
                 <label for="facility" class="legend-label"
                   >Facility Flooded</label
                 >
+                  <v-tooltip right>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        small
+                        color="primary"
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        mdi-information
+                      </v-icon>
+                    </template>
+                    <span>Structures/facilities are flooding</span>
+                  </v-tooltip>
               </div>
               <br />
             </div>
@@ -216,6 +300,20 @@
                 <label for="bfe" class="legend-label"
                   >Base Flood Elevation</label
                 >
+                  <v-tooltip right>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        small
+                        color="primary"
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        mdi-information
+                      </v-icon>
+                    </template>
+                    <span>The FEMA 100-year BFE has been reached</span>
+                  </v-tooltip>
               </div>
               <br />
             </div>
@@ -230,6 +328,20 @@
               <div class="sublayer-icon">
                 <img class="activeIcons" src="../assets/aq-icons/other.png" />
                 <label for="other" class="legend-label">Uncategorized</label>
+                  <v-tooltip right>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        small
+                        color="primary"
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        mdi-information
+                      </v-icon>
+                    </template>
+                    <span>Other Reference Points are experiencing flooding (parking lot, campground, railroad, etc).</span>
+                  </v-tooltip>
               </div>
               <br />
             </div>
@@ -604,10 +716,11 @@ export default {
 
 .legend-label {
   margin-left: -2px;
+  padding-right: 2px;
 }
 
 #activeSublayers {
-  padding-left: 20px;
+  padding-left: 8px;
 }
 
 .activeIcons {
