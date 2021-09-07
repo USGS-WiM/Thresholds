@@ -54,6 +54,20 @@
                     width="25px"
                   />
                   <label>Embankment Flooded</label>
+                    <v-tooltip left>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        small
+                        color="blue lighten-1"
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        mdi-information
+                      </v-icon>
+                    </template>
+                    <span>Flood waters exit the stream/river channel and overflow onto a flat surface</span>
+                  </v-tooltip>
                 </div>
                 <div class="legendIcon" v-if="pathVisible">
                   <img
@@ -63,6 +77,20 @@
                     width="25px"
                   />
                   <label>Path Flooded</label>
+                    <v-tooltip left>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        small
+                        color="blue lighten-1"
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        mdi-information
+                      </v-icon>
+                    </template>
+                    <span>Flood waters are flooding a pedestrian greenway/trail/path</span>
+                  </v-tooltip>
                 </div>
                 <div class="legendIcon" v-if="roadVisible">
                   <img
@@ -72,6 +100,20 @@
                     width="25px"
                   />
                   <label>Road Flooded</label>
+                    <v-tooltip left>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        small
+                        color="blue lighten-1"
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        mdi-information
+                      </v-icon>
+                    </template>
+                    <span>Low lying areas along roads are flooding</span>
+                  </v-tooltip>
                 </div>
                 <div class="legendIcon" v-if="bridgeRiskVisible">
                   <img
@@ -81,6 +123,20 @@
                     width="25px"
                   />
                   <label>Bridge Flood at Risk</label>
+                    <v-tooltip left>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        small
+                        color="blue lighten-1"
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        mdi-information
+                      </v-icon>
+                    </template>
+                    <span>Water from a river or stream is under the lowest section of a bridge</span>
+                  </v-tooltip>
                 </div>
                 <div class="legendIcon" v-if="bridgeFloodedVisible">
                   <img
@@ -90,6 +146,20 @@
                     width="25px"
                   />
                   <label>Bridge Flooded</label>
+                    <v-tooltip left>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        small
+                        color="blue lighten-1"
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        mdi-information
+                      </v-icon>
+                    </template>
+                    <span>A bridge is flooding</span>
+                  </v-tooltip>
                 </div>
                 <div class="legendIcon" v-if="facilityVisible">
                   <img
@@ -99,6 +169,20 @@
                     width="25px"
                   />
                   <label>Facility Flooded</label>
+                    <v-tooltip left>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        small
+                        color="blue lighten-1"
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        mdi-information
+                      </v-icon>
+                    </template>
+                    <span>Structures/facilities are flooding</span>
+                  </v-tooltip>
                 </div>
                 <div class="legendIcon" v-if="bfeVisible">
                   <img
@@ -107,6 +191,20 @@
                     width="25px"
                   />
                   <label>Base Flood Elevation</label>
+                    <v-tooltip left>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        small
+                        color="blue lighten-1"
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        mdi-information
+                      </v-icon>
+                    </template>
+                    <span>The FEMA 100-year BFE has been reached</span>
+                  </v-tooltip>
                 </div>
                 <div class="legendIcon" v-if="otherVisible">
                   <img
@@ -115,6 +213,20 @@
                     width="25px"
                   />
                   <label>Uncategorized</label>
+                    <v-tooltip left>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        small
+                        color="blue lighten-1"
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        mdi-information
+                      </v-icon>
+                    </template>
+                    <span>Other Reference Points are experiencing flooding (parking lot, campground, railroad, etc).</span>
+                  </v-tooltip>
                 </div>
               </div>
               <!-- Toggleable layers -->
@@ -1748,7 +1860,7 @@ export default {
   right: 10px;
   top: 45px;
   height: auto;
-  width: 225px;
+  width: 230px;
   position: absolute;
   z-index: 999;
   font-size: 14px;
@@ -1810,7 +1922,8 @@ export default {
   display: inline-block;
   -webkit-justify-content: center;
   justify-content: center;
-  padding-left: 10px;
+  padding-left: 4px;
+  padding-right: 2px;
 }
 
 .legendIconToggle {
