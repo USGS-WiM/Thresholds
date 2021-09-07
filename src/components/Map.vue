@@ -10,7 +10,7 @@
         <v-progress-circular
           indeterminate
           :width="3"
-          :size="20"
+          :size="10"
         ></v-progress-circular>
         <span class="loadingLabel">Loading Layer...</span>
       </div>
@@ -24,7 +24,7 @@
         <v-progress-circular
           indeterminate
           :width="3"
-          :size="20"
+          :size="10"
         ></v-progress-circular>
         <span class="loadingLabel">Loading Layer...</span>
       </div>
@@ -38,6 +38,10 @@
             <!-- Legend title -->
             <v-expansion-panel-header id="titleContainer">
               <div id="legendExplanation">Legend</div>
+              <div id="legendExplanationMobile"><v-icon 
+                small
+                color="#333"
+                >mdi mdi-map-legend</v-icon></div>
             </v-expansion-panel-header>
             <v-expansion-panel-content id="legendContent">
             <!-- Threshold icons -->
@@ -1749,9 +1753,9 @@ export default {
   z-index: 999;
   font-size: 14px;
   opacity: 0.75;
-  max-height: 75vh;
+  max-height: 65vh;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 #findLocationContainer {
@@ -1838,8 +1842,8 @@ export default {
 
 .nwisAlertClass, .nfhlAlertClass {
   position: absolute;
-  top: 10px;
-  left: 50px;
+  bottom: 22px;
+  right: 10px;
   z-index: 999;
   color: #333;
   background-color: #0089e5;
@@ -1848,11 +1852,12 @@ export default {
   opacity: 0.75;
   font-weight: bold;
   vertical-align: middle;
-  padding: 10px;
+  padding: 6px;
 }
 
 .loadingLabel {
   padding-left: 5px;
+  font-size: 12px;
 }
 
 .nwis-link {
@@ -2000,6 +2005,34 @@ export default {
 
 #legendContent {
   margin: -8px -20px -8px -20px;
+}
+
+@media screen and (max-width: 828px) {
+  #legendExplanation {
+    display: none;
+  }
+  #legendExplanationMobile {
+    display: block;
+    text-align: center;
+  }
+  #legendContainer {
+    width: auto;
+  }
+  #titleContainer {
+    padding: 8px 12px;
+  }
+  .v-expansion-panel--active {
+    width: 225px !important;
+  }
+}
+
+@media screen and (min-width: 828px) {
+  #legendExplanation {
+    display: block;
+  }
+  #legendExplanationMobile {
+    display: none;
+  }
 }
 
 </style>
