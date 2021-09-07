@@ -58,7 +58,7 @@
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
                         small
-                        color="primary"
+                        color="blue lighten-1"
                         dark
                         v-bind="attrs"
                         v-on="on"
@@ -81,7 +81,7 @@
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
                         small
-                        color="primary"
+                        color="blue lighten-1"
                         dark
                         v-bind="attrs"
                         v-on="on"
@@ -104,7 +104,7 @@
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
                         small
-                        color="primary"
+                        color="blue lighten-1"
                         dark
                         v-bind="attrs"
                         v-on="on"
@@ -127,7 +127,7 @@
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
                         small
-                        color="primary"
+                        color="blue lighten-1"
                         dark
                         v-bind="attrs"
                         v-on="on"
@@ -150,7 +150,7 @@
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
                         small
-                        color="primary"
+                        color="blue lighten-1"
                         dark
                         v-bind="attrs"
                         v-on="on"
@@ -173,7 +173,7 @@
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
                         small
-                        color="primary"
+                        color="blue lighten-1"
                         dark
                         v-bind="attrs"
                         v-on="on"
@@ -195,7 +195,7 @@
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
                         small
-                        color="primary"
+                        color="blue lighten-1"
                         dark
                         v-bind="attrs"
                         v-on="on"
@@ -217,7 +217,7 @@
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
                         small
-                        color="primary"
+                        color="blue lighten-1"
                         dark
                         v-bind="attrs"
                         v-on="on"

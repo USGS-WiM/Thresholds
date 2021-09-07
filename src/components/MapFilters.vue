@@ -115,7 +115,7 @@
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
                         small
-                        color="primary"
+                        color="blue lighten-1"
                         dark
                         v-bind="attrs"
                         v-on="on"
@@ -146,7 +146,7 @@
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
                         small
-                        color="primary"
+                        color="blue lighten-1"
                         dark
                         v-bind="attrs"
                         v-on="on"
@@ -177,7 +177,7 @@
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
                         small
-                        color="primary"
+                        color="blue lighten-1"
                         dark
                         v-bind="attrs"
                         v-on="on"
@@ -210,7 +210,7 @@
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
                         small
-                        color="primary"
+                        color="blue lighten-1"
                         dark
                         v-bind="attrs"
                         v-on="on"
@@ -241,7 +241,7 @@
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
                         small
-                        color="primary"
+                        color="blue lighten-1"
                         dark
                         v-bind="attrs"
                         v-on="on"
@@ -274,7 +274,7 @@
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
                         small
-                        color="primary"
+                        color="blue lighten-1"
                         dark
                         v-bind="attrs"
                         v-on="on"
@@ -304,7 +304,7 @@
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
                         small
-                        color="primary"
+                        color="blue lighten-1"
                         dark
                         v-bind="attrs"
                         v-on="on"
@@ -332,7 +332,7 @@
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
                         small
-                        color="primary"
+                        color="blue lighten-1"
                         dark
                         v-bind="attrs"
                         v-on="on"
@@ -351,7 +351,7 @@
               id="showAll"
               small
               outlined
-              color="primary"
+              color="blue lighten-1"
               @click="callShowAll"
               >Show all active flooding</v-btn
             >
