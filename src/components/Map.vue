@@ -570,9 +570,9 @@ export default {
           latlngDiv.innerHTML =
             "<button>Latitude: " +
             mouselat +
-            ", Longitude: " +
+            "<br/><span id='long'>Longitude: " +
             mouselon +
-            "<br/><span id='zoom'>Current Zoom: " +
+            "</span><br/><span id='zoom'>Current Zoom: " +
             self.currentZoom +
             "</span></button>";
         }
@@ -1957,7 +1957,7 @@ export default {
   position: absolute;
   bottom: 22px;
   right: 10px;
-  z-index: 999;
+  z-index: 2;
   color: #333;
   background-color: #0089e5;
   border: 1px solid #205493;
