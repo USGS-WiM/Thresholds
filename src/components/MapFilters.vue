@@ -450,6 +450,7 @@
 
 <script>
 import { eventBus } from "../main.js";
+import { Ripple } from 'vuetify/lib/directives';
 
 export default {
   data() {
@@ -464,6 +465,9 @@ export default {
     callShowAll() {
       eventBus.$emit("showAll");
     },
+  },
+  directives: {
+    Ripple
   },
   computed: {
     // use v-model to set basemap state
