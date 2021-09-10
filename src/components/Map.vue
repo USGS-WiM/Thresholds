@@ -546,9 +546,9 @@ export default {
           latlngDiv.innerHTML =
             "<button>Latitude: " +
             self.lat +
-            ", Longitude: " +
+            "<br/><span id='long'>Longitude: " +
             self.lon +
-            "<br/><span id='zoom'>Current Zoom: " +
+            "</span><br/><span id='zoom'>Current Zoom: " +
             self.currentZoom +
             "</span></button>";
           return latlngDiv;
