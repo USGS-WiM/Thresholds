@@ -357,7 +357,6 @@ let siteTypeList = "OC,OC-CO,ES,LK,ST,ST-CA,ST-DCH,ST-TS";
 let siteStatus = "active";
 
 let graphParameterCodeList = "00065,63160,72279";
-let timeQueryRange = "&period=P7D";
 
 export default {
   components:{
@@ -464,6 +463,10 @@ export default {
       streamgageVisible: false,
       allRPVisible: true,
       noFloodingdialog: false,
+      selectedDay: 0,
+      selectedMonth: 0,
+      selectedYear: 0,
+      timePeriod: ""
     };
   },
   methods: {
@@ -476,6 +479,14 @@ export default {
         zoom: self.zoom,
         zoomSnap: 0.5,
       });
+
+      // setting current date/time
+      const today = new Date();
+      this.selectedDay = today.getUTCDate(),
+      this.selectedMonth = today.getMonth(),
+      this.selectedYear = today.getUTCFullYear()
+      console.log(this.selectedDay, this.selectedMonth, this.selectedYear)
+
 
       //Add streets tilelayer to map initially
       L.tileLayer(tileProviders[0].url, {
@@ -627,6 +638,12 @@ export default {
       }
     },
 
+    /* setDateTime(day, month, year) {
+      this.selectedDay = today.getUTCDate(),
+      this.selectedMonth = today.getUTCFullYear(),
+      this.selectedYear = today.getUTCFullYear()
+    }, */
+
     // Get streamgage layer
     getData() {
       // Display loading alert
@@ -735,7 +752,7 @@ export default {
         e.layer.data.siteCode +
         "&parameterCd=" +
         graphParameterCodeList +
-        timeQueryRange;
+        this.timePeriodValue;
 
       axios.get(url).then((data) => {
         if (
@@ -914,7 +931,7 @@ export default {
       });
 
       // creating string for request
-      let timeRange = "&period=P7D";
+      //let timeRange = "&period=P7D";
 
       let icon;
       let tooltip;
@@ -957,7 +974,7 @@ export default {
         sc +
         "&parameterCd=" +
         graphParameterCodeList +
-        timeRange;
+        this.timePeriodValue;
       axios.get(url).then((data) => {
         if (
           data.data == undefined ||
@@ -1192,7 +1209,6 @@ export default {
       this.aqMarkers.clearLayers();
       this.allRPMarkers.clearLayers();
       let hasMarkers = false;
-      let timeQueryRange = "&period=P7D";
       let entryCount = 0;
 
       // adding rp/threshold data from Aquarius
@@ -1266,7 +1282,7 @@ export default {
           LocationIdentifier +
           "&parameterCd=" +
           graphParameterCodeList +
-          timeQueryRange;
+          this.timePeriodValue;
         axios.get(url).then((data) => {
           if (
             data.data != undefined &&
@@ -1279,7 +1295,6 @@ export default {
                 data.data.data[0].time_series_data.length - 1
               ][1] >= elevation
             ) {
-
               let marker;
               // Icon visible in legend
               if (Name === "PATH") {
@@ -1828,6 +1843,11 @@ export default {
     "$store.state.allRPState": function () {
       this.toggleAllRP(this.allRPMarkers);
     },
+    "$store.state.selectedTimePeriodState": function () {
+      console.log("init")
+      this.loadAQdata();
+
+    }
   },
   // Store current zoom value in state to access from other components
   computed: {
@@ -1837,6 +1857,14 @@ export default {
       },
       set(value) {
         return this.$store.commit("getCurrentZoomState", value);
+      },
+    },
+    timePeriodValue: {
+      get() {
+        return this.$store.state.selectedTimePeriodState;
+      },
+      set(value) {
+        return this.$store.commit("getSelectedTimePeriodState", value);
       },
     },
   },
