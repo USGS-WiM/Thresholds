@@ -463,7 +463,6 @@ export default {
       streamgageVisible: false,
       allRPVisible: true,
       noFloodingdialog: false,
-      timePeriod: ""
     };
   },
   methods: {

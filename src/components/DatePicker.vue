@@ -100,7 +100,6 @@ export default {
       this.timePeriodValue = timeperiod;
       this.$refs.menu.save(date);
     },
-    dateChange() {},
     addZeroToDate(num) {
       let fixedNum;
       let length = num.length;

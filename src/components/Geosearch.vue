@@ -7,7 +7,6 @@ import axios from "axios";
 import Plotly from "plotly.js";
 
 let graphParameterCodeList = "00065,63160,72279";
-//let timeQueryRange = "&period=P7D";
 
 export default {
   props: ["map"],
@@ -247,6 +246,13 @@ export default {
         };
       };
     };
+  },
+  computed: {
+    timePeriodValue: {
+      get() {
+        return this.$store.state.selectedTimePeriodState;
+      },
+    },
   },
 };
 </script>
