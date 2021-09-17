@@ -463,9 +463,6 @@ export default {
       streamgageVisible: false,
       allRPVisible: true,
       noFloodingdialog: false,
-      selectedDay: 0,
-      selectedMonth: 0,
-      selectedYear: 0,
       timePeriod: ""
     };
   },
@@ -479,14 +476,6 @@ export default {
         zoom: self.zoom,
         zoomSnap: 0.5,
       });
-
-      // setting current date/time
-      const today = new Date();
-      this.selectedDay = today.getUTCDate(),
-      this.selectedMonth = today.getMonth(),
-      this.selectedYear = today.getUTCFullYear()
-      console.log(this.selectedDay, this.selectedMonth, this.selectedYear)
-
 
       //Add streets tilelayer to map initially
       L.tileLayer(tileProviders[0].url, {
@@ -637,12 +626,6 @@ export default {
         }
       }
     },
-
-    /* setDateTime(day, month, year) {
-      this.selectedDay = today.getUTCDate(),
-      this.selectedMonth = today.getUTCFullYear(),
-      this.selectedYear = today.getUTCFullYear()
-    }, */
 
     // Get streamgage layer
     getData() {
@@ -1206,8 +1189,27 @@ export default {
       }, 100);
     },
     loadAQdata() {
+
+      // clearing variables
       this.aqMarkers.clearLayers();
       this.allRPMarkers.clearLayers();
+      this.activeSubtypes = [];
+      this.bankLayer.clearLayers();
+      this.pathLayer.clearLayers();
+      this.roadLayer.clearLayers();
+      this.bridgeRiskLayer.clearLayers();
+      this.bridgeFloodedLayer.clearLayers();
+      this.facilityLayer.clearLayers();
+      this.otherLayer.clearLayers();
+      this.bfeLayer.clearLayers();
+      document.getElementById("bankDiv").style.display = "none";
+      document.getElementById("pathDiv").style.display = "none";
+      document.getElementById("roadDiv").style.display = "none";
+      document.getElementById("bridgeRiskDiv").style.display = "none";
+      document.getElementById("bridgeDiv").style.display = "none";
+      document.getElementById("facilityDiv").style.display = "none";
+      document.getElementById("bfeDiv").style.display = "none";
+      document.getElementById("otherDiv").style.display = "none";
       let hasMarkers = false;
       let entryCount = 0;
 
@@ -1844,7 +1846,6 @@ export default {
       this.toggleAllRP(this.allRPMarkers);
     },
     "$store.state.selectedTimePeriodState": function () {
-      console.log("init")
       this.loadAQdata();
 
     }
@@ -1862,10 +1863,7 @@ export default {
     timePeriodValue: {
       get() {
         return this.$store.state.selectedTimePeriodState;
-      },
-      set(value) {
-        return this.$store.commit("getSelectedTimePeriodState", value);
-      },
+      }
     },
   },
 };
