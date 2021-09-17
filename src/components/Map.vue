@@ -671,7 +671,7 @@ export default {
             if (this.$store.state.streamgageState == true) {
               let marker = L.marker([lat, lng], {
                 icon: this.nwisIcon,
-                zIndexOffset: 100, // add marker on top of other map layers
+                zIndexOffset: 1000, // add marker on top of other map layers
               }).addTo(this.streamgageMarkers);
               marker.data = { siteName: siteName, siteCode: siteID };
             }
@@ -1306,6 +1306,7 @@ export default {
                 this.activeSubtypes.push("path");
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
+                  zIndexOffset: 100
                 }).addTo(this.pathLayer);
                 this.pathLayer.addTo(this.aqMarkers);
               } else if (Name === "BANK") {
@@ -1315,6 +1316,7 @@ export default {
                 this.activeSubtypes.push("bank");
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
+                  zIndexOffset: 100
                 }).addTo(this.bankLayer);
                 this.bankLayer.addTo(this.aqMarkers);
               } else if (Name === "ROAD") {
@@ -1324,6 +1326,7 @@ export default {
                 this.activeSubtypes.push("road");
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
+                  zIndexOffset: 100
                 }).addTo(this.roadLayer);
                 this.roadLayer.addTo(this.aqMarkers);
               } else if (Name === "CHORD") {
@@ -1333,6 +1336,7 @@ export default {
                 this.activeSubtypes.push("bridgeRiskDiv");
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
+                  zIndexOffset: 100
                 }).addTo(this.bridgeRiskLayer);
                 this.bridgeRiskLayer.addTo(this.aqMarkers);
               } else if (Name === "FACILITY") {
@@ -1342,6 +1346,7 @@ export default {
                 this.activeSubtypes.push("facility");
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
+                  zIndexOffset: 100
                 }).addTo(this.facilityLayer);
                 this.facilityLayer.addTo(this.aqMarkers);
               } else if (Name === "DECK") {
@@ -1351,6 +1356,7 @@ export default {
                 this.activeSubtypes.push("bridgeFlooded");
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
+                  zIndexOffset: 100
                 }).addTo(this.bridgeFloodedLayer);
                 this.bridgeFloodedLayer.addTo(this.aqMarkers);
               } else if (Name === "BFE") {
@@ -1360,6 +1366,7 @@ export default {
                 this.activeSubtypes.push("bfe");
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
+                  zIndexOffset: 100
                 }).addTo(this.bfeLayer);
                 this.bfeLayer.addTo(this.aqMarkers);
               } else {
@@ -1369,6 +1376,7 @@ export default {
                 this.activeSubtypes.push("other");
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
+                  zIndexOffset: 100
                 }).addTo(this.otherLayer);
                 this.otherLayer.addTo(this.aqMarkers);
               }
