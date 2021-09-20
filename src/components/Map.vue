@@ -276,6 +276,11 @@
                 </div>
                 <div id="fwwLegend"></div>
 
+                <div class="legendIconToggle" v-if="tidesVisible">
+                  <div class="wmm-diamond wmm-lime wmm-icon-triangle wmm-icon-black wmm-size-15 wmm-borderless"></div>
+                  <label id="noaaLabel">NOAA Tides and Current Stations</label>
+                </div>
+
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -376,6 +381,7 @@ export default {
       radarVisible: false,
       aqMarkers: [],
       allRPMarkers: [],
+      tideMarkers: [],
       nfhlLayer: {},
       nfhlVisible: false,
       fwwLayer: {},
@@ -439,6 +445,9 @@ export default {
         iconUrl: require("../assets/aq-icons/other.png"),
         iconSize: [50, 50],
       }),
+      noaaIcon: L.divIcon({ 
+        className: 'wmm-diamond wmm-lime wmm-icon-triangle wmm-icon-black wmm-size-15 wmm-borderless', 
+      }),
       activeLayerTitleVisible: true,
       bankVisible: false,
       pathVisible: false,
@@ -461,6 +470,7 @@ export default {
       showParagraph: false,
       fillColor: "#ffffff",
       streamgageVisible: false,
+      tidesVisible: false,
       allRPVisible: true,
       noFloodingdialog: false,
     };
@@ -483,6 +493,7 @@ export default {
       }).addTo(self.map);
 
       self.streamgageMarkers = L.featureGroup();
+      self.tideMarkers = L.featureGroup();
 
       // Live markers from Aquarius TEST environment
       self.aqMarkers = L.featureGroup();
@@ -1482,6 +1493,73 @@ export default {
         }
       }
     },
+    getNOAATidesLayer(){
+      let noaaURL = 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json'
+      let self = this;
+      axios.get(noaaURL)
+      .then(function (results) {
+          self.addNOAAMarkers(results.data);
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+      })
+    },
+    //get lat/lng for each NOAA station and add to tideMarkers layer group from siteService
+    addNOAAMarkers(stationList) {
+        if (stationList.count > 0 && stationList.stations !== undefined) {
+            let stations = stationList.stations
+            for (let station of stations) {
+                let lat = Number(station.lat);
+                let long = Number(station.lng);
+                let stationId = station.id;
+                let beginDate;
+                let endDate;
+                if(this.timePeriodValue === "&period=P7D"){
+                  endDate = new Date();
+                  beginDate = new Date();
+                  beginDate.setDate(beginDate.getDate() - 7);
+                  endDate = endDate.getFullYear().toString() + (endDate.getMonth() + 1).toString().padStart(2, '0') + endDate.getDate().toString().padStart(2, '0');
+                  beginDate = beginDate.getFullYear().toString() + (beginDate.getMonth() + 1).toString().padStart(2, '0') + beginDate.getDate().toString().padStart(2, '0');
+                }else{
+                  beginDate = this.timePeriodValue.split(/[=&]/);
+                  beginDate = beginDate[3].replace(/-/g, "");
+                  endDate = this.timePeriodValue.substr(this.timePeriodValue.length - 10);
+                  endDate = endDate.replace(/-/g, "");
+                }
+                let gageUrl =
+                "https://tidesandcurrents.noaa.gov/waterlevels.html?id=" +
+                stationId +
+                "&units=standard&bdate=" +
+                beginDate +
+                "&edate=" +
+                endDate +
+                "&timezone=GMT&datum=MLLW&interval=6&action=";
+                //create popup with link to NOAA graph
+                let popupContent =
+                '<span><a class="noaa-link" target="_blank" href=' +
+                gageUrl +
+                ">Graph of Observed Water Levels at site " +
+                stationId +
+                "</a></span>";
+                if (isNaN(lat) || isNaN(long)) {
+                    console.log(
+                        'Skipped station ' +
+                        station.id +
+                        ' in NOAA Station layer due to null lat/lng'
+                );
+                } else {
+                    //These sites are in the Atlantic Ocean or otherwise clearly out of place
+                    L.marker([lat, long], { icon: this.noaaIcon })
+                      .bindPopup(popupContent)
+                      .addTo(this.tideMarkers);
+                    this.tideMarkers.addTo(this.map);
+                }
+            }
+        }else{
+            console.log("No NOAA stations returned")
+        }
+    },
     getNfhlLayer() {
       var self = this;
       self.nfhlIsDisplayed = "block";
@@ -1610,6 +1688,16 @@ export default {
         if (container != null) {
           container.style.display = "none";
         }
+      }
+    },
+    toggleNoaa(noaaLayer) {
+      this.tideMarkers = noaaLayer;
+      if (this.$store.state.noaaState == true) {
+        this.tidesVisible = true;
+        this.getNOAATidesLayer();
+      } else {
+        this.tideMarkers.remove();
+        this.tidesVisible = false;
       }
     },
     toggleRadar(radarLayer) {
@@ -1839,6 +1927,9 @@ export default {
     "$store.state.fwwState": function () {
       this.toggleFww(this.fwwLayer);
     },
+    "$store.state.noaaState": function () {
+      this.toggleNoaa(this.tideMarkers);
+    },
     "$store.state.nfhlState": function () {
       this.toggleNfhl(this.nfhlLayer);
     },
@@ -1854,6 +1945,10 @@ export default {
     },
     "$store.state.selectedTimePeriodState": function () {
       this.loadAQdata();
+      // If visible, update NOAA layer with new time period
+      if (this.tidesVisible){
+        this.getNOAATidesLayer();
+      }
 
     }
   },
@@ -2007,6 +2102,10 @@ export default {
 }
 
 .nwis-link {
+  text-decoration: none !important;
+}
+
+.noaa-link {
   text-decoration: none !important;
 }
 

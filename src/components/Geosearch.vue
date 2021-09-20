@@ -344,10 +344,6 @@ input:not([disabled]):focus {
   }
 }
 
-.leaflet-popup-content {
-  margin: -1px 10px 10px 10px !important;
-}
-
 #dataCredit {
   font-size: 10px;
 }

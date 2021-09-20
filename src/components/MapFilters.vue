@@ -421,6 +421,31 @@
 
           <v-simple-checkbox
             type="checkbox"
+            ref="noaa"
+            id="noaa"
+            value="false"
+            v-model="noaaPicked"
+          ></v-simple-checkbox>
+          <div class="legend-icon">
+            <div
+              class="
+                wmm-diamond
+                wmm-lime
+                wmm-icon-triangle
+                wmm-icon-black
+                wmm-size-15
+                wmm-borderless
+              "
+            ></div>
+            <label for="noaa" style="padding-left: 15px"
+              >NOAA Tides and Current Stations</label
+            >
+          </div>
+
+          <br />
+
+          <v-simple-checkbox
+            type="checkbox"
             ref="nfhl"
             id="nfhl"
             value="false"
@@ -529,6 +554,14 @@ export default {
       },
       set(value) {
         return this.$store.commit("getallRPState", value);
+      },
+    },
+    noaaPicked: {
+      get() {
+        return this.$store.state.noaaState;
+      },
+      set(value) {
+        return this.$store.commit("getNoaaState", value);
       },
     },
     fwwPicked: {
