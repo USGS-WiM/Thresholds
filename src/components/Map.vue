@@ -357,7 +357,6 @@ let siteTypeList = "OC,OC-CO,ES,LK,ST,ST-CA,ST-DCH,ST-TS";
 let siteStatus = "active";
 
 let graphParameterCodeList = "00065,63160,72279";
-let timeQueryRange = "&period=P7D";
 
 export default {
   components:{
@@ -735,7 +734,7 @@ export default {
         e.layer.data.siteCode +
         "&parameterCd=" +
         graphParameterCodeList +
-        timeQueryRange;
+        this.timePeriodValue;
 
       axios.get(url).then((data) => {
         if (
@@ -914,7 +913,7 @@ export default {
       });
 
       // creating string for request
-      let timeRange = "&period=P7D";
+      //let timeRange = "&period=P7D";
 
       let icon;
       let tooltip;
@@ -957,7 +956,7 @@ export default {
         sc +
         "&parameterCd=" +
         graphParameterCodeList +
-        timeRange;
+        this.timePeriodValue;
       axios.get(url).then((data) => {
         if (
           data.data == undefined ||
@@ -1189,10 +1188,28 @@ export default {
       }, 100);
     },
     loadAQdata() {
+
+      // clearing variables
       this.aqMarkers.clearLayers();
       this.allRPMarkers.clearLayers();
+      this.activeSubtypes = [];
+      this.bankLayer.clearLayers();
+      this.pathLayer.clearLayers();
+      this.roadLayer.clearLayers();
+      this.bridgeRiskLayer.clearLayers();
+      this.bridgeFloodedLayer.clearLayers();
+      this.facilityLayer.clearLayers();
+      this.otherLayer.clearLayers();
+      this.bfeLayer.clearLayers();
+      document.getElementById("bankDiv").style.display = "none";
+      document.getElementById("pathDiv").style.display = "none";
+      document.getElementById("roadDiv").style.display = "none";
+      document.getElementById("bridgeRiskDiv").style.display = "none";
+      document.getElementById("bridgeDiv").style.display = "none";
+      document.getElementById("facilityDiv").style.display = "none";
+      document.getElementById("bfeDiv").style.display = "none";
+      document.getElementById("otherDiv").style.display = "none";
       let hasMarkers = false;
-      let timeQueryRange = "&period=P7D";
       let entryCount = 0;
 
       // adding rp/threshold data from Aquarius
@@ -1266,7 +1283,7 @@ export default {
           LocationIdentifier +
           "&parameterCd=" +
           graphParameterCodeList +
-          timeQueryRange;
+          this.timePeriodValue;
         axios.get(url).then((data) => {
           if (
             data.data != undefined &&
@@ -1279,7 +1296,6 @@ export default {
                 data.data.data[0].time_series_data.length - 1
               ][1] >= elevation
             ) {
-
               let marker;
               // Icon visible in legend
               if (Name === "PATH") {
@@ -1836,6 +1852,10 @@ export default {
     "$store.state.allRPState": function () {
       this.toggleAllRP(this.allRPMarkers);
     },
+    "$store.state.selectedTimePeriodState": function () {
+      this.loadAQdata();
+
+    }
   },
   // Store current zoom value in state to access from other components
   computed: {
@@ -1846,6 +1866,11 @@ export default {
       set(value) {
         return this.$store.commit("getCurrentZoomState", value);
       },
+    },
+    timePeriodValue: {
+      get() {
+        return this.$store.state.selectedTimePeriodState;
+      }
     },
   },
 };

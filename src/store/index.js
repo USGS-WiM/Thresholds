@@ -23,6 +23,7 @@ export default new Vuex.Store({
     otherState: false,
     fwwState: false,
     currentZoomState: 4,
+    selectedTimePeriodState: "&period=P7D"
   },
   mutations: {
     toggleDrawerState(state, data) {
@@ -73,6 +74,9 @@ export default new Vuex.Store({
     getCurrentZoomState(state, currentZoom) {
       state.currentZoomState = currentZoom;
     },
+    getSelectedTimePeriodState(state, currentTimePeriod) {
+      state.selectedTimePeriodState = currentTimePeriod;
+    },
   },
   getters: {
     drawerState: (state) => state.drawerState,
@@ -83,6 +87,7 @@ export default new Vuex.Store({
     allRPState: (state) => state.allRPState,
     fwwState: (state) => state.fwwState,
     currentZoomState: (state) => state.currentZoomState,
+    selectedTimePeriodState: (state) => state.selectedTimePeriodState,
   },
   actions: {},
   modules: {},
