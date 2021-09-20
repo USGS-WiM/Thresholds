@@ -278,7 +278,7 @@
 
                 <div class="legendIconToggle" v-if="tidesVisible">
                   <div class="wmm-diamond wmm-lime wmm-icon-triangle wmm-icon-black wmm-size-15 wmm-borderless"></div>
-                  <label id="noaaLabel">NOAA Tides and Current Stations</label>
+                  <label id="noaaLabel">NOAA Tides &amp; Current Stations</label>
                 </div>
 
             </v-expansion-panel-content>

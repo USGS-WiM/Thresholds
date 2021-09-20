@@ -438,7 +438,7 @@
               "
             ></div>
             <label for="noaa" style="padding-left: 15px"
-              >NOAA Tides and Current Stations</label
+              >NOAA Tides &amp; Current Stations</label
             >
           </div>
 

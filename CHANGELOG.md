@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Add tooltips for active flooding
 - Added NOAA Tides and Current Stations supporting layer
+- Added ability to change time period
 
 ### Changed
 
