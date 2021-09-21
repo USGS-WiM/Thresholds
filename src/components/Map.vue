@@ -1313,7 +1313,9 @@ export default {
                 this.pathVisible = true;
                 this.$store.state.pathState = true;
                 document.getElementById("pathDiv").style.display = "block";
-                this.activeSubtypes.push("path");
+                if(this.activeSubtypes.includes("path") === false){
+                  this.activeSubtypes.push("path");
+                }
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
                   zIndexOffset: 100
@@ -1323,7 +1325,9 @@ export default {
                 this.bankVisible = true;
                 document.getElementById("bankDiv").style.display = "block";
                 this.$store.state.bankState = true;
-                this.activeSubtypes.push("bank");
+                if(this.activeSubtypes.includes("bank") === false){
+                  this.activeSubtypes.push("bank");
+                }
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
                   zIndexOffset: 100
@@ -1333,7 +1337,9 @@ export default {
                 this.roadVisible = true;
                 document.getElementById("roadDiv").style.display = "block";
                 this.$store.state.roadState = true;
-                this.activeSubtypes.push("road");
+                if(this.activeSubtypes.includes("road") === false){
+                  this.activeSubtypes.push("road");
+                }
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
                   zIndexOffset: 100
@@ -1343,7 +1349,9 @@ export default {
                 this.bridgeRiskVisible = true;
                 document.getElementById("bridgeRiskDiv").style.display = "block";
                 this.$store.state.bridgeRiskState = true;
-                this.activeSubtypes.push("bridgeRiskDiv");
+                if(this.activeSubtypes.includes("bridgeRiskDiv") === false){
+                  this.activeSubtypes.push("bridgeRiskDiv");
+                }
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
                   zIndexOffset: 100
@@ -1353,7 +1361,9 @@ export default {
                 this.facilityVisible = true;
                 document.getElementById("facilityDiv").style.display = "block";
                 this.$store.state.facilityState = true;
-                this.activeSubtypes.push("facility");
+                if(this.activeSubtypes.includes("facility") === false){
+                  this.activeSubtypes.push("facility");
+                }
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
                   zIndexOffset: 100
@@ -1363,7 +1373,9 @@ export default {
                 this.bridgeFloodedVisible = true;
                 document.getElementById("bridgeDiv").style.display = "block";
                 this.$store.state.bridgeState = true;
-                this.activeSubtypes.push("bridgeFlooded");
+                if(this.activeSubtypes.includes("bridgeFlooded") === false){
+                  this.activeSubtypes.push("bridgeFlooded");
+                }
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
                   zIndexOffset: 100
@@ -1373,7 +1385,9 @@ export default {
                 this.bfeVisible = true;
                 document.getElementById("bfeDiv").style.display = "block";
                 this.$store.state.bfeState = true;
-                this.activeSubtypes.push("bfe");
+                if(this.activeSubtypes.includes("bfe") === false){
+                  this.activeSubtypes.push("bfe");
+                }
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
                   zIndexOffset: 100
@@ -1383,7 +1397,9 @@ export default {
                 this.otherVisible = true;
                 document.getElementById("otherDiv").style.display = "block";
                 this.$store.state.otherState = true;
-                this.activeSubtypes.push("other");
+                if(this.activeSubtypes.includes("other") === false){
+                  this.activeSubtypes.push("other");
+                }
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
                   zIndexOffset: 100
@@ -1737,8 +1753,10 @@ export default {
     toggleSublayers(sublayer, sublayerState, sublayerType) {
       if (sublayerState == true) {
         setVisibility(true, this);
+        this.disableShowAll();
         sublayer.addTo(this.map);
       } else {
+        this.$store.state.showAllDisabled = false;
         sublayer.remove();
         setVisibility(false, this);
       }
@@ -1777,7 +1795,58 @@ export default {
         }
       }
     },
+    disableShowAll(){
+      let numChecked = 0;
+      this.activeSubtypes.forEach((sublayerType) => {
+        switch (sublayerType){
+          case 'bank': 
+            if(this.bankVisible === true && this.$store.state.bankState === true){
+              numChecked ++;
+            } 
+            break;
+          case 'path': 
+            if(this.pathVisible === true && this.$store.state.pathState === true){
+              numChecked ++;
+            }
+            break;
+          case 'road': 
+            if(this.roadVisible === true && this.$store.state.roadState === true){
+              numChecked ++;
+            }
+            break;
+          case 'bridgeRisk': 
+            if(this.bridgeRiskVisible === true && this.$store.state.bridgeRiskState === true){
+              numChecked ++;
+            }
+            break;
+          case 'bridgeFlooded': 
+            if(this.bridgeFloodedVisible === true && this.$store.state.bridgeState === true){
+              numChecked ++;
+            }
+            break;
+          case 'facility': 
+            if(this.facilityVisible === true && this.$store.state.facilityState === true){
+              numChecked ++;
+            }
+            break;
+          case 'bfe': 
+            if(this.bfeVisible === true && this.$store.state.bfeState === true){
+              numChecked ++;
+            }
+            break;
+          case 'other': 
+            if(this.otherVisible === true && this.$store.state.otherState === true){
+              numChecked ++;
+            }
+            break;
+        }
+      });
+      if(numChecked == this.activeSubtypes.length){
+        this.$store.state.showAllDisabled = true;
+      }
+    },
     showAll(){
+      this.$store.state.showAllDisabled = true;
       this.activeSubtypes.forEach((sublayerType) => {
         switch (sublayerType){
           case 'bank': 
