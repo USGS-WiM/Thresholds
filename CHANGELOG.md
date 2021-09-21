@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - Reposition map components on mobile
+- Disable "Show All Active Flooding" button when RP layers are all checked
+- Changed "Show All Active Flooding" button text to "Show All Active Flooding Layers"
 
 ### Fixed
 

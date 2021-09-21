@@ -366,7 +366,8 @@
               outlined
               color="blue lighten-1"
               @click="callShowAll"
-              >Show all active flooding</v-btn
+              :disabled="showAllDisabled"
+              >Show all active flooding layers</v-btn
             >
           </div>
           <div style="display: none" id="noActiveFlooding">
@@ -634,6 +635,14 @@ export default {
       },
       set(value) {
         return this.$store.commit("getOtherState", value);
+      },
+    },
+    showAllDisabled: {
+      get() {
+        return this.$store.state.showAllDisabled;
+      },
+      set(value) {
+        return this.$store.commit("getShowAllDisabled", value);
       },
     },
   },
