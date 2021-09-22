@@ -1502,10 +1502,10 @@ export default {
         if (container != null) {
           container.style.display = "none";
         }
-        if(this.nfhlIsDisplayed){
+        // if(this.nfhlIsDisplayed){
           // Fade out loading alert
-          this.nfhlFadeOutAlert();
-        }
+        //   this.nfhlFadeOutAlert();
+        // }
       }
     },
     toggleAllRP() {
@@ -1590,7 +1590,7 @@ export default {
     },
     getNfhlLayer() {
       var self = this;
-      let zoomlevel = self.currentZoom;
+      // let zoomlevel = self.currentZoom;
       let nfhlURL = "https://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer"
       let extent = this.map.getBounds();
       let bbox =
@@ -1612,19 +1612,17 @@ export default {
       self.nfhlIsDisplayed = "block";
       axios.get(nfhlURL + "/export?bbox=" + bbox + "&size=1421%2C375&dpi=96&format=png32&transparent=true&bboxSR=3857&imageSR=3857&layers=show%3A0%2C3%2C14%2C27%2C28&f=image", {timeout: 30000})
         .then(function () {
-          if (zoomlevel !== self.currentZoom) {
-              self.nfhlFadeOutAlert();
-              return;
-          }
           let layers = self.nfhlLayer.getLayers();
           self.nfhlLayer.addTo(self.map);
           self.getNfhlLegend(layers);
+          // self.nfhlIsDisplayed = "none";
           self.nfhlFadeOutAlert();
         })
         .catch(function (error) {
           // handle error
           console.log(error);
           // Fade out loading alert
+          // self.nfhlIsDisplayed = "none";
           self.nfhlFadeOutAlert();
           // Wait until loading alert fades out to display services error
           setTimeout(function(){
