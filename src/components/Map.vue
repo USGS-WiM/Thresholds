@@ -1206,8 +1206,6 @@ export default {
       }, 100);
     },
     loadAQdata() {
-      this.thresholdsExceeded = 0;
-
       // clearing variables
       this.aqMarkers.clearLayers();
       this.allRPMarkers.clearLayers();
@@ -1230,10 +1228,10 @@ export default {
       document.getElementById("otherDiv").style.display = "none";
       let hasMarkers = false;
       let entryCount = 0;
+      this.thresholdsExceeded = 0;
 
       // adding rp/threshold data from Aquarius
       for (let entry in this.mvpData) {
-        let thresh = [];
         let LocationIdentifier;
         let Name;
         let fullname;
@@ -1245,23 +1243,18 @@ export default {
         let aqIcon;
         let siteName;
         let thresholdName;
+        console.log(this.mvpData[entry])
 
-        for (let i = 0; i < this.mvpData[entry].rp.length; i++) {
-          if (this.mvpData[entry].rp[i].Latitude !== undefined) {
-            lat = this.mvpData[entry].rp[i].Latitude;
-            lng = this.mvpData[entry].rp[i].Longitude;
-
-            fullname = this.mvpData[entry].rp[i].Name;
-            Name = this.mvpData[entry].rp[i].Name;
-            elevation = this.mvpData[entry].rp[i].Elevation;
-            unit = this.mvpData[entry].rp[i].Unit;
-            siteName = this.mvpData[entry].rp[i].SiteName;
-          } else {
-            LocationIdentifier = this.mvpData[entry].rp[i].LocationIdentifier;
-            thresh.push(this.mvpData[entry].rp[i]);
+        if (this.mvpData[entry].Latitude !== undefined) {
+            lat = this.mvpData[entry].Latitude;
+            lng = this.mvpData[entry].Longitude;
+            fullname = this.mvpData[entry].Name;
+            Name = this.mvpData[entry].Name;
+            elevation = this.mvpData[entry].Elevation;
+            unit = this.mvpData[entry].Unit;
+            siteName = this.mvpData[entry].SiteName;
+            LocationIdentifier = this.mvpData[entry].LocationIdentifier;
           }
-        }
-
         // Remove any digits from Name string
         Name = Name.replace(/[0-9]/, "");
 
@@ -1424,7 +1417,6 @@ export default {
               }
 
               marker.data = {
-                thresholds: thresh,
                 LocationIdentifier: LocationIdentifier,
                 Name: Name,
                 ReferencePointPeriods: rpData,
@@ -1445,7 +1437,6 @@ export default {
               }).addTo(this.allRPMarkers);
 
               allMarkers.data = {
-                thresholds: thresh,
                 LocationIdentifier: LocationIdentifier,
                 Name: Name,
                 ReferencePointPeriods: rpData,
@@ -1481,7 +1472,6 @@ export default {
               }).addTo(this.allRPMarkers);
 
               allMarkers.data = {
-                thresholds: thresh,
                 LocationIdentifier: LocationIdentifier,
                 Name: Name,
                 ReferencePointPeriods: rpData,
