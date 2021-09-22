@@ -473,6 +473,7 @@ export default {
       tidesVisible: false,
       allRPVisible: true,
       noFloodingdialog: false,
+      thresholdsExceeded: 0
     };
   },
   methods: {
@@ -891,6 +892,9 @@ export default {
             .getElementById("popup-title")
             .setAttribute("style", "display: none");
         }
+      })
+      .catch(function(error){
+        console.log(error);
       });
     },
     openAQPopup(e) {
@@ -1165,6 +1169,9 @@ export default {
             .getElementById("graphLoadMessageAQ")
             .setAttribute("style", "display: none");
         }
+      })
+      .catch(function(error){
+        console.log(error);
       });
     },
     //Fade out loading alert by reducing opacity
@@ -1321,6 +1328,7 @@ export default {
                   zIndexOffset: 100
                 }).addTo(this.pathLayer);
                 this.pathLayer.addTo(this.aqMarkers);
+                this.thresholdsExceeded ++;
               } else if (Name === "BANK") {
                 this.bankVisible = true;
                 document.getElementById("bankDiv").style.display = "block";
@@ -1333,6 +1341,7 @@ export default {
                   zIndexOffset: 100
                 }).addTo(this.bankLayer);
                 this.bankLayer.addTo(this.aqMarkers);
+                this.thresholdsExceeded ++;
               } else if (Name === "ROAD") {
                 this.roadVisible = true;
                 document.getElementById("roadDiv").style.display = "block";
@@ -1345,6 +1354,7 @@ export default {
                   zIndexOffset: 100
                 }).addTo(this.roadLayer);
                 this.roadLayer.addTo(this.aqMarkers);
+                this.thresholdsExceeded ++;
               } else if (Name === "CHORD") {
                 this.bridgeRiskVisible = true;
                 document.getElementById("bridgeRiskDiv").style.display = "block";
@@ -1357,6 +1367,7 @@ export default {
                   zIndexOffset: 100
                 }).addTo(this.bridgeRiskLayer);
                 this.bridgeRiskLayer.addTo(this.aqMarkers);
+                this.thresholdsExceeded ++;
               } else if (Name === "FACILITY") {
                 this.facilityVisible = true;
                 document.getElementById("facilityDiv").style.display = "block";
@@ -1369,6 +1380,7 @@ export default {
                   zIndexOffset: 100
                 }).addTo(this.facilityLayer);
                 this.facilityLayer.addTo(this.aqMarkers);
+                this.thresholdsExceeded ++;
               } else if (Name === "DECK") {
                 this.bridgeFloodedVisible = true;
                 document.getElementById("bridgeDiv").style.display = "block";
@@ -1381,6 +1393,7 @@ export default {
                   zIndexOffset: 100
                 }).addTo(this.bridgeFloodedLayer);
                 this.bridgeFloodedLayer.addTo(this.aqMarkers);
+                this.thresholdsExceeded ++;
               } else if (Name === "BFE") {
                 this.bfeVisible = true;
                 document.getElementById("bfeDiv").style.display = "block";
@@ -1393,6 +1406,7 @@ export default {
                   zIndexOffset: 100
                 }).addTo(this.bfeLayer);
                 this.bfeLayer.addTo(this.aqMarkers);
+                this.thresholdsExceeded ++;
               } else {
                 this.otherVisible = true;
                 document.getElementById("otherDiv").style.display = "block";
@@ -1405,6 +1419,7 @@ export default {
                   zIndexOffset: 100
                 }).addTo(this.otherLayer);
                 this.otherLayer.addTo(this.aqMarkers);
+                this.thresholdsExceeded ++;
               }
 
               marker.data = {
@@ -1449,11 +1464,13 @@ export default {
                 this.map.fitBounds(this.aqMarkers.getBounds());
                 document.getElementById("activeLayerTitle").style.display = "block";
                 document.getElementById("showAllBtn").style.display = "flex";
+                this.$store.commit("getThresholdsExceededCount", this.thresholdsExceeded);
               } else if (!hasMarkers && entryCount == this.mvpData.length) {
                 this.noFloodingdialog = true;
                 // Remove active flooding titles in legend and display No Active Flooding
                 this.activeLayerTitleVisible = false;
                 document.getElementById("noActiveFlooding").style.display = "block";
+                this.$store.commit("getThresholdsExceededCount", this.thresholdsExceeded);
               }
             }
           }else{
@@ -1478,6 +1495,9 @@ export default {
               entryCount ++;
               // end all RP Layer
           }
+        })
+        .catch(function(error){
+          console.log(error);
         });
       }
     },
