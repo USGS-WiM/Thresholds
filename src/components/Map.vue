@@ -636,7 +636,6 @@ export default {
         }
       }
     },
-
     // Get streamgage layer
     getData() {
       // Display loading alert
@@ -915,6 +914,15 @@ export default {
       let sc = e.layer.data.LocationIdentifier;
 
       let thresholds = [];
+
+      if (layerData.ahpsID !== "") {
+        let url = "https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=" + layerData.ahpsID + "&output=xml";
+        axios.get(url).then((data) => {
+          
+          let test = JSON.stringify(data.data)
+          console.log(test)
+        });
+      }
 
       // using rp elevation as threshold
       thresholds.push({
@@ -1237,6 +1245,7 @@ export default {
         let aqIcon;
         let siteName;
         let thresholdName;
+        let ahpsID;
 
         for (let i = 0; i < this.mvpData[entry].rp.length; i++) {
           if (this.mvpData[entry].rp[i].Latitude !== undefined) {
@@ -1248,6 +1257,7 @@ export default {
             elevation = this.mvpData[entry].rp[i].Elevation;
             unit = this.mvpData[entry].rp[i].Unit;
             siteName = this.mvpData[entry].rp[i].SiteName;
+            ahpsID = this.mvpData[entry].rp[i].nws_id;
           } else {
             LocationIdentifier = this.mvpData[entry].rp[i].LocationIdentifier;
             thresh.push(this.mvpData[entry].rp[i]);
@@ -1400,6 +1410,7 @@ export default {
                 Unit: unit,
                 FullName: fullname,
                 SiteName: siteName,
+                ahpsID: ahpsID,
                 ThresholdName: thresholdName,
                 lat: lat,
                 lng: lng,
