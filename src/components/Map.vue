@@ -54,6 +54,20 @@
                     width="25px"
                   />
                   <label>Embankment Flooded</label>
+                    <v-tooltip left>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        small
+                        color="blue lighten-1"
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        mdi-information
+                      </v-icon>
+                    </template>
+                    <span>Flood waters exit the stream/river channel and overflow onto a flat surface</span>
+                  </v-tooltip>
                 </div>
                 <div class="legendIcon" v-if="pathVisible">
                   <img
@@ -63,6 +77,20 @@
                     width="25px"
                   />
                   <label>Path Flooded</label>
+                    <v-tooltip left>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        small
+                        color="blue lighten-1"
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        mdi-information
+                      </v-icon>
+                    </template>
+                    <span>Flood waters are flooding a pedestrian greenway/trail/path</span>
+                  </v-tooltip>
                 </div>
                 <div class="legendIcon" v-if="roadVisible">
                   <img
@@ -72,6 +100,20 @@
                     width="25px"
                   />
                   <label>Road Flooded</label>
+                    <v-tooltip left>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        small
+                        color="blue lighten-1"
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        mdi-information
+                      </v-icon>
+                    </template>
+                    <span>Low lying areas along roads are flooding</span>
+                  </v-tooltip>
                 </div>
                 <div class="legendIcon" v-if="bridgeRiskVisible">
                   <img
@@ -81,6 +123,20 @@
                     width="25px"
                   />
                   <label>Bridge Flood at Risk</label>
+                    <v-tooltip left>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        small
+                        color="blue lighten-1"
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        mdi-information
+                      </v-icon>
+                    </template>
+                    <span>Water from a river or stream is under the lowest section of a bridge</span>
+                  </v-tooltip>
                 </div>
                 <div class="legendIcon" v-if="bridgeFloodedVisible">
                   <img
@@ -90,6 +146,20 @@
                     width="25px"
                   />
                   <label>Bridge Flooded</label>
+                    <v-tooltip left>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        small
+                        color="blue lighten-1"
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        mdi-information
+                      </v-icon>
+                    </template>
+                    <span>A bridge is flooding</span>
+                  </v-tooltip>
                 </div>
                 <div class="legendIcon" v-if="facilityVisible">
                   <img
@@ -99,6 +169,20 @@
                     width="25px"
                   />
                   <label>Facility Flooded</label>
+                    <v-tooltip left>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        small
+                        color="blue lighten-1"
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        mdi-information
+                      </v-icon>
+                    </template>
+                    <span>Structures/facilities are flooding</span>
+                  </v-tooltip>
                 </div>
                 <div class="legendIcon" v-if="bfeVisible">
                   <img
@@ -107,6 +191,20 @@
                     width="25px"
                   />
                   <label>Base Flood Elevation</label>
+                    <v-tooltip left>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        small
+                        color="blue lighten-1"
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        mdi-information
+                      </v-icon>
+                    </template>
+                    <span>The FEMA 100-year BFE has been reached</span>
+                  </v-tooltip>
                 </div>
                 <div class="legendIcon" v-if="otherVisible">
                   <img
@@ -115,6 +213,20 @@
                     width="25px"
                   />
                   <label>Uncategorized</label>
+                    <v-tooltip left>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        small
+                        color="blue lighten-1"
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        mdi-information
+                      </v-icon>
+                    </template>
+                    <span>Other Reference Points are experiencing flooding (parking lot, campground, railroad, etc).</span>
+                  </v-tooltip>
                 </div>
               </div>
               <!-- Toggleable layers -->
@@ -163,6 +275,11 @@
                   <label id="fwwLabel">Flood Watches and Warnings</label>
                 </div>
                 <div id="fwwLegend"></div>
+
+                <div class="legendIconToggle" v-if="tidesVisible">
+                  <div class="wmm-diamond wmm-lime wmm-icon-triangle wmm-icon-black wmm-size-15 wmm-borderless"></div>
+                  <label id="noaaLabel">NOAA Tides &amp; Current Stations</label>
+                </div>
 
             </v-expansion-panel-content>
           </v-expansion-panel>
@@ -245,7 +362,6 @@ let siteTypeList = "OC,OC-CO,ES,LK,ST,ST-CA,ST-DCH,ST-TS";
 let siteStatus = "active";
 
 let graphParameterCodeList = "00065,63160,72279";
-let timeQueryRange = "&period=P7D";
 
 export default {
   components:{
@@ -265,6 +381,7 @@ export default {
       radarVisible: false,
       aqMarkers: [],
       allRPMarkers: [],
+      tideMarkers: [],
       nfhlLayer: {},
       nfhlVisible: false,
       fwwLayer: {},
@@ -328,6 +445,9 @@ export default {
         iconUrl: require("../assets/aq-icons/other.png"),
         iconSize: [50, 50],
       }),
+      noaaIcon: L.divIcon({ 
+        className: 'wmm-diamond wmm-lime wmm-icon-triangle wmm-icon-black wmm-size-15 wmm-borderless', 
+      }),
       activeLayerTitleVisible: true,
       bankVisible: false,
       pathVisible: false,
@@ -350,8 +470,10 @@ export default {
       showParagraph: false,
       fillColor: "#ffffff",
       streamgageVisible: false,
+      tidesVisible: false,
       allRPVisible: true,
       noFloodingdialog: false,
+      thresholdsExceeded: 0
     };
   },
   methods: {
@@ -372,6 +494,7 @@ export default {
       }).addTo(self.map);
 
       self.streamgageMarkers = L.featureGroup();
+      self.tideMarkers = L.featureGroup();
 
       // Live markers from Aquarius TEST environment
       self.aqMarkers = L.featureGroup();
@@ -434,9 +557,9 @@ export default {
           latlngDiv.innerHTML =
             "<button>Latitude: " +
             self.lat +
-            ", Longitude: " +
+            "<br/><span id='long'>Longitude: " +
             self.lon +
-            "<br/><span id='zoom'>Current Zoom: " +
+            "</span><br/><span id='zoom'>Current Zoom: " +
             self.currentZoom +
             "</span></button>";
           return latlngDiv;
@@ -458,9 +581,9 @@ export default {
           latlngDiv.innerHTML =
             "<button>Latitude: " +
             mouselat +
-            ", Longitude: " +
+            "<br/><span id='long'>Longitude: " +
             mouselon +
-            "<br/><span id='zoom'>Current Zoom: " +
+            "</span><br/><span id='zoom'>Current Zoom: " +
             self.currentZoom +
             "</span></button>";
         }
@@ -559,7 +682,7 @@ export default {
             if (this.$store.state.streamgageState == true) {
               let marker = L.marker([lat, lng], {
                 icon: this.nwisIcon,
-                zIndexOffset: 100, // add marker on top of other map layers
+                zIndexOffset: 1000, // add marker on top of other map layers
               }).addTo(this.streamgageMarkers);
               marker.data = { siteName: siteName, siteCode: siteID };
             }
@@ -613,7 +736,7 @@ export default {
         e.layer.data.siteCode +
         "</br>" +
         e.layer.data.siteName +
-        '</label><p id="graphLoadMessage"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="mainGraphContainer" style="width:100%; min-height: 350px;display:block;"></div> <div id="dataCredit">Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
+        '</label><p id="graphLoadMessage"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="mainGraphContainer" style="width:100%; min-height: 200px;display:block;"></div> <div id="dataCredit">Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
         e.layer.data.siteCode +
         '"><b>Site ' +
         e.layer.data.siteCode +
@@ -623,7 +746,7 @@ export default {
         e.layer.data.siteCode +
         "&parameterCd=" +
         graphParameterCodeList +
-        timeQueryRange;
+        this.timePeriodValue;
 
       axios.get(url).then((data) => {
         if (
@@ -769,6 +892,9 @@ export default {
             .getElementById("popup-title")
             .setAttribute("style", "display: none");
         }
+      })
+      .catch(function(error){
+        console.log(error);
       });
     },
     openAQPopup(e) {
@@ -802,7 +928,7 @@ export default {
       });
 
       // creating string for request
-      let timeRange = "&period=P7D";
+      //let timeRange = "&period=P7D";
 
       let icon;
       let tooltip;
@@ -839,13 +965,13 @@ export default {
         " " +
         layerData.Unit +
         "</br>" +
-        '</div><p id="graphLoadMessageAQ"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainerAQ" style="width:100%; min-height: 400px; display:block;"></div> <div id="aqDataCredit">Gage Height data courtesy of the U.S. Geological Survey.</div><div id="noDataMessageAQ" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>';
+        '</div><p id="graphLoadMessageAQ"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainerAQ" style="width:100%; min-height: 200px; display:block;"></div> <div id="aqDataCredit">Gage Height data courtesy of the U.S. Geological Survey.</div><div id="noDataMessageAQ" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>';
       let url =
         "https://nwis.waterservices.usgs.gov/nwis/iv/?format=nwjson&sites=" +
         sc +
         "&parameterCd=" +
         graphParameterCodeList +
-        timeRange;
+        this.timePeriodValue;
       axios.get(url).then((data) => {
         if (
           data.data == undefined ||
@@ -1043,6 +1169,9 @@ export default {
             .getElementById("graphLoadMessageAQ")
             .setAttribute("style", "display: none");
         }
+      })
+      .catch(function(error){
+        console.log(error);
       });
     },
     //Fade out loading alert by reducing opacity
@@ -1077,10 +1206,28 @@ export default {
       }, 100);
     },
     loadAQdata() {
+
+      // clearing variables
       this.aqMarkers.clearLayers();
       this.allRPMarkers.clearLayers();
+      this.activeSubtypes = [];
+      this.bankLayer.clearLayers();
+      this.pathLayer.clearLayers();
+      this.roadLayer.clearLayers();
+      this.bridgeRiskLayer.clearLayers();
+      this.bridgeFloodedLayer.clearLayers();
+      this.facilityLayer.clearLayers();
+      this.otherLayer.clearLayers();
+      this.bfeLayer.clearLayers();
+      document.getElementById("bankDiv").style.display = "none";
+      document.getElementById("pathDiv").style.display = "none";
+      document.getElementById("roadDiv").style.display = "none";
+      document.getElementById("bridgeRiskDiv").style.display = "none";
+      document.getElementById("bridgeDiv").style.display = "none";
+      document.getElementById("facilityDiv").style.display = "none";
+      document.getElementById("bfeDiv").style.display = "none";
+      document.getElementById("otherDiv").style.display = "none";
       let hasMarkers = false;
-      let timeQueryRange = "&period=P7D";
       let entryCount = 0;
 
       // adding rp/threshold data from Aquarius
@@ -1154,7 +1301,7 @@ export default {
           LocationIdentifier +
           "&parameterCd=" +
           graphParameterCodeList +
-          timeQueryRange;
+          this.timePeriodValue;
         axios.get(url).then((data) => {
           if (
             data.data != undefined &&
@@ -1167,81 +1314,112 @@ export default {
                 data.data.data[0].time_series_data.length - 1
               ][1] >= elevation
             ) {
-
               let marker;
               // Icon visible in legend
               if (Name === "PATH") {
                 this.pathVisible = true;
                 this.$store.state.pathState = true;
                 document.getElementById("pathDiv").style.display = "block";
-                this.activeSubtypes.push("path");
+                if(this.activeSubtypes.includes("path") === false){
+                  this.activeSubtypes.push("path");
+                }
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
+                  zIndexOffset: 100
                 }).addTo(this.pathLayer);
                 this.pathLayer.addTo(this.aqMarkers);
+                this.thresholdsExceeded ++;
               } else if (Name === "BANK") {
                 this.bankVisible = true;
                 document.getElementById("bankDiv").style.display = "block";
                 this.$store.state.bankState = true;
-                this.activeSubtypes.push("bank");
+                if(this.activeSubtypes.includes("bank") === false){
+                  this.activeSubtypes.push("bank");
+                }
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
+                  zIndexOffset: 100
                 }).addTo(this.bankLayer);
                 this.bankLayer.addTo(this.aqMarkers);
+                this.thresholdsExceeded ++;
               } else if (Name === "ROAD") {
                 this.roadVisible = true;
                 document.getElementById("roadDiv").style.display = "block";
                 this.$store.state.roadState = true;
-                this.activeSubtypes.push("road");
+                if(this.activeSubtypes.includes("road") === false){
+                  this.activeSubtypes.push("road");
+                }
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
+                  zIndexOffset: 100
                 }).addTo(this.roadLayer);
                 this.roadLayer.addTo(this.aqMarkers);
+                this.thresholdsExceeded ++;
               } else if (Name === "CHORD") {
                 this.bridgeRiskVisible = true;
                 document.getElementById("bridgeRiskDiv").style.display = "block";
                 this.$store.state.bridgeRiskState = true;
-                this.activeSubtypes.push("bridgeRiskDiv");
+                if(this.activeSubtypes.includes("bridgeRiskDiv") === false){
+                  this.activeSubtypes.push("bridgeRiskDiv");
+                }
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
+                  zIndexOffset: 100
                 }).addTo(this.bridgeRiskLayer);
                 this.bridgeRiskLayer.addTo(this.aqMarkers);
+                this.thresholdsExceeded ++;
               } else if (Name === "FACILITY") {
                 this.facilityVisible = true;
                 document.getElementById("facilityDiv").style.display = "block";
                 this.$store.state.facilityState = true;
-                this.activeSubtypes.push("facility");
+                if(this.activeSubtypes.includes("facility") === false){
+                  this.activeSubtypes.push("facility");
+                }
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
+                  zIndexOffset: 100
                 }).addTo(this.facilityLayer);
                 this.facilityLayer.addTo(this.aqMarkers);
+                this.thresholdsExceeded ++;
               } else if (Name === "DECK") {
                 this.bridgeFloodedVisible = true;
                 document.getElementById("bridgeDiv").style.display = "block";
                 this.$store.state.bridgeState = true;
-                this.activeSubtypes.push("bridgeFlooded");
+                if(this.activeSubtypes.includes("bridgeFlooded") === false){
+                  this.activeSubtypes.push("bridgeFlooded");
+                }
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
+                  zIndexOffset: 100
                 }).addTo(this.bridgeFloodedLayer);
                 this.bridgeFloodedLayer.addTo(this.aqMarkers);
+                this.thresholdsExceeded ++;
               } else if (Name === "BFE") {
                 this.bfeVisible = true;
                 document.getElementById("bfeDiv").style.display = "block";
                 this.$store.state.bfeState = true;
-                this.activeSubtypes.push("bfe");
+                if(this.activeSubtypes.includes("bfe") === false){
+                  this.activeSubtypes.push("bfe");
+                }
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
+                  zIndexOffset: 100
                 }).addTo(this.bfeLayer);
                 this.bfeLayer.addTo(this.aqMarkers);
+                this.thresholdsExceeded ++;
               } else {
                 this.otherVisible = true;
                 document.getElementById("otherDiv").style.display = "block";
                 this.$store.state.otherState = true;
-                this.activeSubtypes.push("other");
+                if(this.activeSubtypes.includes("other") === false){
+                  this.activeSubtypes.push("other");
+                }
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
+                  zIndexOffset: 100
                 }).addTo(this.otherLayer);
                 this.otherLayer.addTo(this.aqMarkers);
+                this.thresholdsExceeded ++;
               }
 
               marker.data = {
@@ -1286,11 +1464,13 @@ export default {
                 this.map.fitBounds(this.aqMarkers.getBounds());
                 document.getElementById("activeLayerTitle").style.display = "block";
                 document.getElementById("showAllBtn").style.display = "flex";
+                this.$store.commit("getThresholdsExceededCount", this.thresholdsExceeded);
               } else if (!hasMarkers && entryCount == this.mvpData.length) {
                 this.noFloodingdialog = true;
                 // Remove active flooding titles in legend and display No Active Flooding
                 this.activeLayerTitleVisible = false;
                 document.getElementById("noActiveFlooding").style.display = "block";
+                this.$store.commit("getThresholdsExceededCount", this.thresholdsExceeded);
               }
             }
           }else{
@@ -1315,6 +1495,9 @@ export default {
               entryCount ++;
               // end all RP Layer
           }
+        })
+        .catch(function(error){
+          console.log(error);
         });
       }
     },
@@ -1345,6 +1528,73 @@ export default {
           container.style.display = "none";
         }
       }
+    },
+    getNOAATidesLayer(){
+      let noaaURL = 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json'
+      let self = this;
+      axios.get(noaaURL)
+      .then(function (results) {
+          self.addNOAAMarkers(results.data);
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+      })
+    },
+    //get lat/lng for each NOAA station and add to tideMarkers layer group from siteService
+    addNOAAMarkers(stationList) {
+        if (stationList.count > 0 && stationList.stations !== undefined) {
+            let stations = stationList.stations
+            for (let station of stations) {
+                let lat = Number(station.lat);
+                let long = Number(station.lng);
+                let stationId = station.id;
+                let beginDate;
+                let endDate;
+                if(this.timePeriodValue === "&period=P7D"){
+                  endDate = new Date();
+                  beginDate = new Date();
+                  beginDate.setDate(beginDate.getDate() - 7);
+                  endDate = endDate.getFullYear().toString() + (endDate.getMonth() + 1).toString().padStart(2, '0') + endDate.getDate().toString().padStart(2, '0');
+                  beginDate = beginDate.getFullYear().toString() + (beginDate.getMonth() + 1).toString().padStart(2, '0') + beginDate.getDate().toString().padStart(2, '0');
+                }else{
+                  beginDate = this.timePeriodValue.split(/[=&]/);
+                  beginDate = beginDate[3].replace(/-/g, "");
+                  endDate = this.timePeriodValue.substr(this.timePeriodValue.length - 10);
+                  endDate = endDate.replace(/-/g, "");
+                }
+                let gageUrl =
+                "https://tidesandcurrents.noaa.gov/waterlevels.html?id=" +
+                stationId +
+                "&units=standard&bdate=" +
+                beginDate +
+                "&edate=" +
+                endDate +
+                "&timezone=GMT&datum=MLLW&interval=6&action=";
+                //create popup with link to NOAA graph
+                let popupContent =
+                '<span><a class="noaa-link" target="_blank" href=' +
+                gageUrl +
+                ">Graph of Observed Water Levels at site " +
+                stationId +
+                "</a></span>";
+                if (isNaN(lat) || isNaN(long)) {
+                    console.log(
+                        'Skipped station ' +
+                        station.id +
+                        ' in NOAA Station layer due to null lat/lng'
+                );
+                } else {
+                    //These sites are in the Atlantic Ocean or otherwise clearly out of place
+                    L.marker([lat, long], { icon: this.noaaIcon })
+                      .bindPopup(popupContent)
+                      .addTo(this.tideMarkers);
+                    this.tideMarkers.addTo(this.map);
+                }
+            }
+        }else{
+            console.log("No NOAA stations returned")
+        }
     },
     getNfhlLayer() {
       var self = this;
@@ -1476,6 +1726,16 @@ export default {
         }
       }
     },
+    toggleNoaa(noaaLayer) {
+      this.tideMarkers = noaaLayer;
+      if (this.$store.state.noaaState == true) {
+        this.tidesVisible = true;
+        this.getNOAATidesLayer();
+      } else {
+        this.tideMarkers.remove();
+        this.tidesVisible = false;
+      }
+    },
     toggleRadar(radarLayer) {
       let container = document.getElementById("radarLegend");
       this.radarLayer = radarLayer;
@@ -1513,8 +1773,10 @@ export default {
     toggleSublayers(sublayer, sublayerState, sublayerType) {
       if (sublayerState == true) {
         setVisibility(true, this);
+        this.disableShowAll();
         sublayer.addTo(this.map);
       } else {
+        this.$store.state.showAllDisabled = false;
         sublayer.remove();
         setVisibility(false, this);
       }
@@ -1553,7 +1815,58 @@ export default {
         }
       }
     },
+    disableShowAll(){
+      let numChecked = 0;
+      this.activeSubtypes.forEach((sublayerType) => {
+        switch (sublayerType){
+          case 'bank': 
+            if(this.bankVisible === true && this.$store.state.bankState === true){
+              numChecked ++;
+            } 
+            break;
+          case 'path': 
+            if(this.pathVisible === true && this.$store.state.pathState === true){
+              numChecked ++;
+            }
+            break;
+          case 'road': 
+            if(this.roadVisible === true && this.$store.state.roadState === true){
+              numChecked ++;
+            }
+            break;
+          case 'bridgeRisk': 
+            if(this.bridgeRiskVisible === true && this.$store.state.bridgeRiskState === true){
+              numChecked ++;
+            }
+            break;
+          case 'bridgeFlooded': 
+            if(this.bridgeFloodedVisible === true && this.$store.state.bridgeState === true){
+              numChecked ++;
+            }
+            break;
+          case 'facility': 
+            if(this.facilityVisible === true && this.$store.state.facilityState === true){
+              numChecked ++;
+            }
+            break;
+          case 'bfe': 
+            if(this.bfeVisible === true && this.$store.state.bfeState === true){
+              numChecked ++;
+            }
+            break;
+          case 'other': 
+            if(this.otherVisible === true && this.$store.state.otherState === true){
+              numChecked ++;
+            }
+            break;
+        }
+      });
+      if(numChecked == this.activeSubtypes.length){
+        this.$store.state.showAllDisabled = true;
+      }
+    },
     showAll(){
+      this.$store.state.showAllDisabled = true;
       this.activeSubtypes.forEach((sublayerType) => {
         switch (sublayerType){
           case 'bank': 
@@ -1703,6 +2016,9 @@ export default {
     "$store.state.fwwState": function () {
       this.toggleFww(this.fwwLayer);
     },
+    "$store.state.noaaState": function () {
+      this.toggleNoaa(this.tideMarkers);
+    },
     "$store.state.nfhlState": function () {
       this.toggleNfhl(this.nfhlLayer);
     },
@@ -1716,6 +2032,14 @@ export default {
     "$store.state.allRPState": function () {
       this.toggleAllRP(this.allRPMarkers);
     },
+    "$store.state.selectedTimePeriodState": function () {
+      this.loadAQdata();
+      // If visible, update NOAA layer with new time period
+      if (this.tidesVisible){
+        this.getNOAATidesLayer();
+      }
+
+    }
   },
   // Store current zoom value in state to access from other components
   computed: {
@@ -1726,6 +2050,11 @@ export default {
       set(value) {
         return this.$store.commit("getCurrentZoomState", value);
       },
+    },
+    timePeriodValue: {
+      get() {
+        return this.$store.state.selectedTimePeriodState;
+      }
     },
   },
 };
@@ -1748,7 +2077,7 @@ export default {
   right: 10px;
   top: 45px;
   height: auto;
-  width: 225px;
+  width: 230px;
   position: absolute;
   z-index: 999;
   font-size: 14px;
@@ -1810,7 +2139,8 @@ export default {
   display: inline-block;
   -webkit-justify-content: center;
   justify-content: center;
-  padding-left: 10px;
+  padding-left: 4px;
+  padding-right: 2px;
 }
 
 .legendIconToggle {
@@ -1844,7 +2174,7 @@ export default {
   position: absolute;
   bottom: 22px;
   right: 10px;
-  z-index: 999;
+  z-index: 2;
   color: #333;
   background-color: #0089e5;
   border: 1px solid #205493;
@@ -1861,6 +2191,10 @@ export default {
 }
 
 .nwis-link {
+  text-decoration: none !important;
+}
+
+.noaa-link {
   text-decoration: none !important;
 }
 
