@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
--
+- Fixed bug in thresholds exceeded count after date change
 
 ## [v0.6.0](https://github.com/USGS-WiM/Thresholds/releases/tag/v0.6.0) - 9/22/2021
 
