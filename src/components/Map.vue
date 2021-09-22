@@ -1206,6 +1206,7 @@ export default {
       }, 100);
     },
     loadAQdata() {
+      this.thresholdsExceeded = 0;
 
       // clearing variables
       this.aqMarkers.clearLayers();
