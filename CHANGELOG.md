@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
--
+- Set min date to 01/01/2021 for date picker
 
 ### Fixed
 
