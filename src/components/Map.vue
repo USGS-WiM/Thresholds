@@ -1197,7 +1197,7 @@ export default {
       let opacity = 0.75;
       let self = this;
       let fadeOut = setInterval(function () {
-        if (opacity > 0) {
+        if (opacity > 0 && this.nfhlIsDisplayed === "block") {
           opacity -= 0.05;
           let opacityValue = String(opacity);
           self.alertOpacity = opacityValue;
@@ -1502,10 +1502,7 @@ export default {
         if (container != null) {
           container.style.display = "none";
         }
-        // if(this.nfhlIsDisplayed){
-          // Fade out loading alert
-        //   this.nfhlFadeOutAlert();
-        // }
+          this.nfhlFadeOutAlert();
       }
     },
     toggleAllRP() {
@@ -1612,17 +1609,17 @@ export default {
       self.nfhlIsDisplayed = "block";
       axios.get(nfhlURL + "/export?bbox=" + bbox + "&size=1421%2C375&dpi=96&format=png32&transparent=true&bboxSR=3857&imageSR=3857&layers=show%3A0%2C3%2C14%2C27%2C28&f=image", {timeout: 30000})
         .then(function () {
-          let layers = self.nfhlLayer.getLayers();
-          self.nfhlLayer.addTo(self.map);
-          self.getNfhlLegend(layers);
-          // self.nfhlIsDisplayed = "none";
+          if(self.nfhlIsDisplayed != "none"){
+            self.nfhlLayer.addTo(self.map);
+            let layers = self.nfhlLayer.getLayers();
+            self.getNfhlLegend(layers);
+          }
           self.nfhlFadeOutAlert();
         })
         .catch(function (error) {
           // handle error
           console.log(error);
           // Fade out loading alert
-          // self.nfhlIsDisplayed = "none";
           self.nfhlFadeOutAlert();
           // Wait until loading alert fades out to display services error
           setTimeout(function(){
