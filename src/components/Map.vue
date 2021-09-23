@@ -1243,7 +1243,6 @@ export default {
         let aqIcon;
         let siteName;
         let thresholdName;
-        console.log(this.mvpData[entry])
 
         if (this.mvpData[entry].Latitude !== undefined) {
             lat = this.mvpData[entry].Latitude;
