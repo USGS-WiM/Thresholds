@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
--
+- Added "Error loading NFHL Services" alert if layer load time > 30 seconds or another error occurs
 
 ### Changed
 
@@ -20,10 +20,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Change name of datepicker to "Date"
 - Made datepicker menu open on calendar icon click
 
-
 ### Fixed
 
 - Fixed bug in thresholds exceeded count after date change
+- Fix nfhl loading alert bug when unchecking nfhl layer before layer is loaded
 
 ## [v0.6.0](https://github.com/USGS-WiM/Thresholds/releases/tag/v0.6.0) - 9/22/2021
 
