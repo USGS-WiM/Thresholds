@@ -25,6 +25,8 @@ export default new Vuex.Store({
     noaaState: false,
     currentZoomState: 4,
     selectedTimePeriodState: "&period=P7D",
+    showAllDisabled: true,
+    thresholdsExceededCount: 0,
   },
   mutations: {
     toggleDrawerState(state, data) {
@@ -81,6 +83,12 @@ export default new Vuex.Store({
     getSelectedTimePeriodState(state, currentTimePeriod) {
       state.selectedTimePeriodState = currentTimePeriod;
     },
+    getShowAllDisabled(state, showAllDisabled) {
+      state.showAllDisabled = showAllDisabled;
+    },
+    getThresholdsExceededCount(state, thresholdsExceededCount) {
+      state.thresholdsExceededCount = thresholdsExceededCount;
+    },
   },
   getters: {
     drawerState: (state) => state.drawerState,
@@ -93,6 +101,8 @@ export default new Vuex.Store({
     noaaState: (state) => state.noaaState,
     currentZoomState: (state) => state.currentZoomState,
     selectedTimePeriodState: (state) => state.selectedTimePeriodState,
+    showAllDisabled: (state) => state.showAllDisabled,
+    thresholdsExceededCount: (state) => state.thresholdsExceededCount,
   },
   actions: {},
   modules: {},

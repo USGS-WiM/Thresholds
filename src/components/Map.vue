@@ -252,7 +252,7 @@
                     "
                   ></div>
                   <label
-                    >All Reference Point Locations</label
+                    >All Features</label
                   >
                 </div>
                 <div class="legendIconToggle" v-if="streamgageVisible">
@@ -301,7 +301,7 @@
           No Active Flooding
         </v-card-title>
 
-        <v-card-text> Displaying all reference point locations. </v-card-text>
+        <v-card-text> Displaying all features. </v-card-text>
 
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -483,6 +483,7 @@ export default {
       tidesVisible: false,
       allRPVisible: true,
       noFloodingdialog: false,
+      thresholdsExceeded: 0
     };
   },
   methods: {
@@ -812,7 +813,7 @@ export default {
               type: "scatter",
               showlegend: false,
               name: "Gage Height",
-              hovertemplate: "%{x}<br>Gage height: %{y} feet<extra></extra>",
+              hovertemplate: "%{x|%m/%d %I:%M %p}<br>Gage height: %{y} feet<extra></extra>",
               font: {
                 family: "Public Sans, sans-serif",
               },
@@ -901,6 +902,9 @@ export default {
             .getElementById("popup-title")
             .setAttribute("style", "display: none");
         }
+      })
+      .catch(function(error){
+        console.log(error);
       });
     },
     openAQPopup(e) {
@@ -1047,7 +1051,7 @@ export default {
               type: "scatter",
               showlegend: true,
               name: "<b>NWIS Observed Gage Data</b>",
-              hovertemplate: "%{x}<br>Gage height: %{y} feet<extra></extra>",
+              hovertemplate: "%{x|%m/%d %I:%M %p}<br>Gage height: %{y} feet<extra></extra>",
               font: {
                 family: "Public Sans, sans-serif",
               },
@@ -1175,6 +1179,9 @@ export default {
             .getElementById("graphLoadMessageAQ")
             .setAttribute("style", "display: none");
         }
+      })
+      .catch(function(error){
+        console.log(error);
       });
     },
     //Fade out loading alert by reducing opacity
@@ -1224,7 +1231,6 @@ export default {
       }, 100);
     },
     loadAQdata() {
-
       // clearing variables
       this.aqMarkers.clearLayers();
       this.allRPMarkers.clearLayers();
@@ -1247,10 +1253,10 @@ export default {
       document.getElementById("otherDiv").style.display = "none";
       let hasMarkers = false;
       let entryCount = 0;
+      this.thresholdsExceeded = 0;
 
       // adding rp/threshold data from Aquarius
       for (let entry in this.mvpData) {
-        let thresh = [];
         let LocationIdentifier;
         let Name;
         let fullname;
@@ -1263,22 +1269,16 @@ export default {
         let siteName;
         let thresholdName;
 
-        for (let i = 0; i < this.mvpData[entry].rp.length; i++) {
-          if (this.mvpData[entry].rp[i].Latitude !== undefined) {
-            lat = this.mvpData[entry].rp[i].Latitude;
-            lng = this.mvpData[entry].rp[i].Longitude;
-
-            fullname = this.mvpData[entry].rp[i].Name;
-            Name = this.mvpData[entry].rp[i].Name;
-            elevation = this.mvpData[entry].rp[i].Elevation;
-            unit = this.mvpData[entry].rp[i].Unit;
-            siteName = this.mvpData[entry].rp[i].SiteName;
-          } else {
-            LocationIdentifier = this.mvpData[entry].rp[i].LocationIdentifier;
-            thresh.push(this.mvpData[entry].rp[i]);
+        if (this.mvpData[entry].Latitude !== undefined) {
+            lat = this.mvpData[entry].Latitude;
+            lng = this.mvpData[entry].Longitude;
+            fullname = this.mvpData[entry].Name;
+            Name = this.mvpData[entry].Name;
+            elevation = this.mvpData[entry].Elevation;
+            unit = this.mvpData[entry].Unit;
+            siteName = this.mvpData[entry].SiteName;
+            LocationIdentifier = this.mvpData[entry].LocationIdentifier;
           }
-        }
-
         // Remove any digits from Name string
         Name = Name.replace(/[0-9]/, "");
 
@@ -1338,86 +1338,109 @@ export default {
                 this.pathVisible = true;
                 this.$store.state.pathState = true;
                 document.getElementById("pathDiv").style.display = "block";
-                this.activeSubtypes.push("path");
+                if(this.activeSubtypes.includes("path") === false){
+                  this.activeSubtypes.push("path");
+                }
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
                   zIndexOffset: 100
                 }).addTo(this.pathLayer);
                 this.pathLayer.addTo(this.aqMarkers);
+                this.thresholdsExceeded ++;
               } else if (Name === "BANK") {
                 this.bankVisible = true;
                 document.getElementById("bankDiv").style.display = "block";
                 this.$store.state.bankState = true;
-                this.activeSubtypes.push("bank");
+                if(this.activeSubtypes.includes("bank") === false){
+                  this.activeSubtypes.push("bank");
+                }
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
                   zIndexOffset: 100
                 }).addTo(this.bankLayer);
                 this.bankLayer.addTo(this.aqMarkers);
+                this.thresholdsExceeded ++;
               } else if (Name === "ROAD") {
                 this.roadVisible = true;
                 document.getElementById("roadDiv").style.display = "block";
                 this.$store.state.roadState = true;
-                this.activeSubtypes.push("road");
+                if(this.activeSubtypes.includes("road") === false){
+                  this.activeSubtypes.push("road");
+                }
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
                   zIndexOffset: 100
                 }).addTo(this.roadLayer);
                 this.roadLayer.addTo(this.aqMarkers);
+                this.thresholdsExceeded ++;
               } else if (Name === "CHORD") {
                 this.bridgeRiskVisible = true;
                 document.getElementById("bridgeRiskDiv").style.display = "block";
                 this.$store.state.bridgeRiskState = true;
-                this.activeSubtypes.push("bridgeRiskDiv");
+                if(this.activeSubtypes.includes("bridgeRiskDiv") === false){
+                  this.activeSubtypes.push("bridgeRiskDiv");
+                }
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
                   zIndexOffset: 100
                 }).addTo(this.bridgeRiskLayer);
                 this.bridgeRiskLayer.addTo(this.aqMarkers);
+                this.thresholdsExceeded ++;
               } else if (Name === "FACILITY") {
                 this.facilityVisible = true;
                 document.getElementById("facilityDiv").style.display = "block";
                 this.$store.state.facilityState = true;
-                this.activeSubtypes.push("facility");
+                if(this.activeSubtypes.includes("facility") === false){
+                  this.activeSubtypes.push("facility");
+                }
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
                   zIndexOffset: 100
                 }).addTo(this.facilityLayer);
                 this.facilityLayer.addTo(this.aqMarkers);
+                this.thresholdsExceeded ++;
               } else if (Name === "DECK") {
                 this.bridgeFloodedVisible = true;
                 document.getElementById("bridgeDiv").style.display = "block";
                 this.$store.state.bridgeState = true;
-                this.activeSubtypes.push("bridgeFlooded");
+                if(this.activeSubtypes.includes("bridgeFlooded") === false){
+                  this.activeSubtypes.push("bridgeFlooded");
+                }
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
                   zIndexOffset: 100
                 }).addTo(this.bridgeFloodedLayer);
                 this.bridgeFloodedLayer.addTo(this.aqMarkers);
+                this.thresholdsExceeded ++;
               } else if (Name === "BFE") {
                 this.bfeVisible = true;
                 document.getElementById("bfeDiv").style.display = "block";
                 this.$store.state.bfeState = true;
-                this.activeSubtypes.push("bfe");
+                if(this.activeSubtypes.includes("bfe") === false){
+                  this.activeSubtypes.push("bfe");
+                }
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
                   zIndexOffset: 100
                 }).addTo(this.bfeLayer);
                 this.bfeLayer.addTo(this.aqMarkers);
+                this.thresholdsExceeded ++;
               } else {
                 this.otherVisible = true;
                 document.getElementById("otherDiv").style.display = "block";
                 this.$store.state.otherState = true;
-                this.activeSubtypes.push("other");
+                if(this.activeSubtypes.includes("other") === false){
+                  this.activeSubtypes.push("other");
+                }
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
                   zIndexOffset: 100
                 }).addTo(this.otherLayer);
                 this.otherLayer.addTo(this.aqMarkers);
+                this.thresholdsExceeded ++;
               }
 
               marker.data = {
-                thresholds: thresh,
                 LocationIdentifier: LocationIdentifier,
                 Name: Name,
                 ReferencePointPeriods: rpData,
@@ -1438,7 +1461,6 @@ export default {
               }).addTo(this.allRPMarkers);
 
               allMarkers.data = {
-                thresholds: thresh,
                 LocationIdentifier: LocationIdentifier,
                 Name: Name,
                 ReferencePointPeriods: rpData,
@@ -1458,11 +1480,13 @@ export default {
                 this.map.fitBounds(this.aqMarkers.getBounds());
                 document.getElementById("activeLayerTitle").style.display = "block";
                 document.getElementById("showAllBtn").style.display = "flex";
+                this.$store.commit("getThresholdsExceededCount", this.thresholdsExceeded);
               } else if (!hasMarkers && entryCount == this.mvpData.length) {
                 this.noFloodingdialog = true;
                 // Remove active flooding titles in legend and display No Active Flooding
                 this.activeLayerTitleVisible = false;
                 document.getElementById("noActiveFlooding").style.display = "block";
+                this.$store.commit("getThresholdsExceededCount", this.thresholdsExceeded);
               }
             }
           }else{
@@ -1472,7 +1496,6 @@ export default {
               }).addTo(this.allRPMarkers);
 
               allMarkers.data = {
-                thresholds: thresh,
                 LocationIdentifier: LocationIdentifier,
                 Name: Name,
                 ReferencePointPeriods: rpData,
@@ -1487,6 +1510,9 @@ export default {
               entryCount ++;
               // end all RP Layer
           }
+        })
+        .catch(function(error){
+          console.log(error);
         });
       }
     },
@@ -1773,8 +1799,10 @@ export default {
     toggleSublayers(sublayer, sublayerState, sublayerType) {
       if (sublayerState == true) {
         setVisibility(true, this);
+        this.disableShowAll();
         sublayer.addTo(this.map);
       } else {
+        this.$store.state.showAllDisabled = false;
         sublayer.remove();
         setVisibility(false, this);
       }
@@ -1813,7 +1841,58 @@ export default {
         }
       }
     },
+    disableShowAll(){
+      let numChecked = 0;
+      this.activeSubtypes.forEach((sublayerType) => {
+        switch (sublayerType){
+          case 'bank': 
+            if(this.bankVisible === true && this.$store.state.bankState === true){
+              numChecked ++;
+            } 
+            break;
+          case 'path': 
+            if(this.pathVisible === true && this.$store.state.pathState === true){
+              numChecked ++;
+            }
+            break;
+          case 'road': 
+            if(this.roadVisible === true && this.$store.state.roadState === true){
+              numChecked ++;
+            }
+            break;
+          case 'bridgeRisk': 
+            if(this.bridgeRiskVisible === true && this.$store.state.bridgeRiskState === true){
+              numChecked ++;
+            }
+            break;
+          case 'bridgeFlooded': 
+            if(this.bridgeFloodedVisible === true && this.$store.state.bridgeState === true){
+              numChecked ++;
+            }
+            break;
+          case 'facility': 
+            if(this.facilityVisible === true && this.$store.state.facilityState === true){
+              numChecked ++;
+            }
+            break;
+          case 'bfe': 
+            if(this.bfeVisible === true && this.$store.state.bfeState === true){
+              numChecked ++;
+            }
+            break;
+          case 'other': 
+            if(this.otherVisible === true && this.$store.state.otherState === true){
+              numChecked ++;
+            }
+            break;
+        }
+      });
+      if(numChecked == this.activeSubtypes.length){
+        this.$store.state.showAllDisabled = true;
+      }
+    },
     showAll(){
+      this.$store.state.showAllDisabled = true;
       this.activeSubtypes.forEach((sublayerType) => {
         switch (sublayerType){
           case 'bank': 

@@ -9,13 +9,36 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+-
+
+### Changed
+
+- Set min date to 01/01/2021 for date picker
+- Added time to nwis line on graphs
+- Replaced 'Thresholds' and 'Reference Point' language with 'Feature(s)'
+- Set datepicker to month view for easier date selection
+- Change name of datepicker to "Date"
+- Made datepicker menu open on calendar icon click
+
+
+### Fixed
+
+- Fixed bug in thresholds exceeded count after date change
+
+## [v0.6.0](https://github.com/USGS-WiM/Thresholds/releases/tag/v0.6.0) - 9/22/2021
+
+### Added
+
 - Add tooltips for active flooding
 - Added NOAA Tides and Current Stations supporting layer
 - Added ability to change time period
+- Added alert with thresholds exceeded count to sidebar
 
 ### Changed
 
 - Reposition map components on mobile
+- Disable "Show All Active Flooding" button when RP layers are all checked
+- Changed "Show All Active Flooding" button text to "Show All Active Flooding Layers"
 
 ### Fixed
 
