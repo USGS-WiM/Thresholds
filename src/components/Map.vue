@@ -243,7 +243,7 @@
                     "
                   ></div>
                   <label
-                    >All Reference Point Locations</label
+                    >All Features</label
                   >
                 </div>
                 <div class="legendIconToggle" v-if="streamgageVisible">
@@ -292,7 +292,7 @@
           No Active Flooding
         </v-card-title>
 
-        <v-card-text> Displaying all reference point locations. </v-card-text>
+        <v-card-text> Displaying all features. </v-card-text>
 
         <v-card-actions>
           <v-spacer></v-spacer>

@@ -9,7 +9,7 @@
       elevation="2"
       icon="mdi-alert"
     >
-      {{ thresholdsExceededMessage }} Thresholds Exceeded
+      {{ thresholdsExceededMessage }} Flooded Features
     </v-alert>
     <v-expansion-panels :value="1">
       <!-- Filters Section -->
@@ -401,7 +401,7 @@
                 class="wmm-circle wmm-white wmm-icon-noicon wmm-size-20"
               ></div>
               <label for="allRP" class="legend-label"
-                >All Reference Point Locations</label
+                >All Features</label
               >
             </div>
             <br />
