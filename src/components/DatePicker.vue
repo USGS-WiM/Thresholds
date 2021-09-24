@@ -11,8 +11,9 @@
       <template v-slot:activator="{ on, attrs }">
         <v-text-field
           v-model="date"
-          label="Time Period Date"
+          label="Date"
           prepend-icon="mdi-calendar"
+          v-on:click:prepend="menu = true"
           readonly
           v-bind="attrs"
           v-on="on"
@@ -41,7 +42,7 @@ export default {
   }),
   watch: {
     menu(val) {
-      val && setTimeout(() => (this.activePicker = "YEAR"));
+      val && setTimeout(() => (this.activePicker = "DATE"));
     },
   },
   methods: {
