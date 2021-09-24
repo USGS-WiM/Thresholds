@@ -28,6 +28,15 @@
         ></v-progress-circular>
         <span class="loadingLabel">Loading Layer...</span>
       </div>
+      <div
+        id="nfhlServicesError"
+        class="alert nfhlServicesAlertClass fade"
+        role="alert"
+        :style="{ display: nfhlServicesAlertDisplayed, opacity: alertOpacity }"
+        load: 
+      >
+        <span class="loadingLabel">Error loading NFHL services</span>
+      </div>
 
       <!-- a leaflet map -->
       <div id="map">
@@ -392,6 +401,7 @@ export default {
       mvpData: mvpAqData,
       isDisplayed: "none",
       nfhlIsDisplayed: "none",
+      nfhlServicesAlertDisplayed: "none",
       currentZoom: 4,
       currentBounds: {
         _southWest: {
@@ -1194,13 +1204,28 @@ export default {
       let opacity = 0.75;
       let self = this;
       let fadeOut = setInterval(function () {
-        if (opacity > 0) {
+        if (opacity > 0 && this.nfhlIsDisplayed === "block") {
           opacity -= 0.05;
           let opacityValue = String(opacity);
           self.alertOpacity = opacityValue;
         } else {
           self.alertOpacity = "0.75";
           self.nfhlIsDisplayed = "none";
+          clearInterval(fadeOut);
+        }
+      }, 100);
+    },
+    nfhlFadeOutServicesAlert() {
+      let opacity = 0.75;
+      let self = this;
+      let fadeOut = setInterval(function () {
+        if (opacity > 0) {
+          opacity -= 0.05;
+          let opacityValue = String(opacity);
+          self.alertOpacity = opacityValue;
+        } else {
+          self.alertOpacity = "0.75";
+          self.nfhlServicesAlertDisplayed = "none";
           clearInterval(fadeOut);
         }
       }, 100);
@@ -1492,7 +1517,6 @@ export default {
       }
     },
     toggleNfhl(nfhlLayer) {
-      
       let container = document.getElementById("nfhlLegend");
       this.nfhlLayer = nfhlLayer;
       if (this.$store.state.nfhlState == true) {
@@ -1504,6 +1528,7 @@ export default {
         if (container != null) {
           container.style.display = "none";
         }
+          this.nfhlFadeOutAlert();
       }
     },
     toggleAllRP() {
@@ -1588,8 +1613,7 @@ export default {
     },
     getNfhlLayer() {
       var self = this;
-      self.nfhlIsDisplayed = "block";
-      let zoomlevel = self.currentZoom;
+      // let zoomlevel = self.currentZoom;
       let nfhlURL = "https://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer"
       let extent = this.map.getBounds();
       let bbox =
@@ -1608,30 +1632,36 @@ export default {
         layers: [0, 3, 14, 27, 28],
         f: "image/png",
       });
-      axios.get(nfhlURL + "/export?bbox=" + bbox + "&size=1421%2C375&dpi=96&format=png32&transparent=true&bboxSR=3857&imageSR=3857&layers=show%3A0%2C3%2C14%2C27%2C28&f=image")
+      self.nfhlIsDisplayed = "block";
+      axios.get(nfhlURL + "/export?bbox=" + bbox + "&size=1421%2C375&dpi=96&format=png32&transparent=true&bboxSR=3857&imageSR=3857&layers=show%3A0%2C3%2C14%2C27%2C28&f=image", {timeout: 30000})
         .then(function () {
-          // handle success
-          console.log("success")
+          if(self.nfhlIsDisplayed != "none"){
+            self.nfhlLayer.addTo(self.map);
+            let layers = self.nfhlLayer.getLayers();
+            self.getNfhlLegend(layers);
+          }
           self.nfhlFadeOutAlert();
-          if (zoomlevel !== self.currentZoom) {
-              this.fadeOutAlert();
-              return;
-            }
         })
         .catch(function (error) {
           // handle error
           console.log(error);
+          // Fade out loading alert
+          self.nfhlFadeOutAlert();
+          // Wait until loading alert fades out to display services error
+          setTimeout(function(){
+              self.nfhlServicesAlertDisplayed = "block";
+              setTimeout(function(){
+                  // Wait 4 seconds and then fade out services error
+                  self.nfhlFadeOutServicesAlert();
+              }, 4000);
+          }, 2000);
       })
-      
-      let layers = this.nfhlLayer.getLayers();
-      this.nfhlLayer.addTo(this.map);
-      
-      this.getNfhlLegend(layers);
     },
     getallRPLayer() {
       this.allRPMarkers.addTo(this.map);
     },
     getNfhlLegend(layers) {
+      let zoomlevel = this.currentZoom;
       let self = this;
       let container = document.getElementById("nfhlLegend");
       while (document.getElementsByClassName("nfhlLegendComponent")[0]) {
@@ -1645,6 +1675,9 @@ export default {
           let layerList = data.data.layers;
           for (let i = 0; i < layerList.length; i++) {
             layers.forEach((layer) => {
+               if (zoomlevel !== self.currentZoom) {
+                  return;
+              }
               if (layerList[i].layerId == layer) {
                 // Create sublayer legend div
                 let legendEl = document.createElement("div", container);
@@ -1700,6 +1733,9 @@ export default {
               }
             });
           }
+        })
+        .catch((error) => {
+          console.log(error);
         });
     },
     toggleFww(fwwLayer) {
@@ -2167,6 +2203,21 @@ export default {
   z-index: 2;
   color: #333;
   background-color: #0089e5;
+  border: 1px solid #205493;
+  border-radius: 2px;
+  opacity: 0.75;
+  font-weight: bold;
+  vertical-align: middle;
+  padding: 6px;
+}
+
+.nfhlServicesAlertClass {
+  position: absolute;
+  bottom: 22px;
+  right: 10px;
+  z-index: 2;
+  color: #333;
+  background-color: #E78587;
   border: 1px solid #205493;
   border-radius: 2px;
   opacity: 0.75;
