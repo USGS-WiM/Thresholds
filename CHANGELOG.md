@@ -14,10 +14,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - Set min date to 01/01/2021 for date picker
+- Added time to nwis line on graphs
 - Replaced 'Thresholds' and 'Reference Point' language with 'Feature(s)'
 - Set datepicker to month view for easier date selection
 - Change name of datepicker to "Date"
 - Made datepicker menu open on calendar icon click
+
 
 ### Fixed
 
