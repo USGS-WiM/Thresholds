@@ -926,7 +926,7 @@ export default {
 
       // storing layer data and setting site id
       let layerData = e.layer.data;
-      let sc = e.layer.data.LocationIdentifier;
+      let siteID = e.layer.data.LocationIdentifier;
 
       let thresholds = [];
 
@@ -963,7 +963,7 @@ export default {
         tooltip +
         "</span></div></br>" +
         '<a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
-        sc +
+        siteID +
         '"> <b>NWIS Site ' +
         layerData.LocationIdentifier +
         ' <i class="v-icon notranslate mdi mdi-open-in-new" style="font-size:16px"></i></b></a></br>' +
@@ -975,10 +975,12 @@ export default {
         " " +
         layerData.Unit +
         "</br>" +
-        '</div><p id="graphLoadMessageAQ"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainerAQ" style="width:100%; min-height: 200px; display:block;"></div> <div id="aqDataCredit">Gage Height data courtesy of the U.S. Geological Survey.</div><div id="noDataMessageAQ" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>';
+        '</div><p id="graphLoadMessageAQ"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainerAQ" style="width:100%; min-height: 200px; display:block;"></div><div id="waterAlert"><a class="nwis-link" target="_blank" href="https://water.usgs.gov/wateralert/subscribe2/?type_cd=ALL&site_no=' +
+        siteID +
+        '">Subscribe to Water Alert ' + '<i class="v-icon notranslate mdi mdi-open-in-new" style="font-size:16px"></i></a></span></div> <div id="aqDataCredit">Gage Height data courtesy of the U.S. Geological Survey.</div><div id="noDataMessageAQ" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>';
       let url =
         "https://nwis.waterservices.usgs.gov/nwis/iv/?format=nwjson&sites=" +
-        sc +
+        siteID +
         "&parameterCd=" +
         graphParameterCodeList +
         this.timePeriodValue;
@@ -1985,7 +1987,6 @@ export default {
           }
         });
     },
-
   },
   mounted() {
     this.createMap();
