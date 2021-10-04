@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
--
+- Fixed legend mousewheel scrolling and legend title always visible when scrolled
 
 ## [v0.7.0](https://github.com/USGS-WiM/Thresholds/releases/tag/v0.7.0) - 9/29/2021
 
