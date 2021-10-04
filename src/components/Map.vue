@@ -497,6 +497,9 @@ export default {
         zoomSnap: 0.5,
       });
 
+      // Disable map scrolling when scrolling the legend
+      L.DomEvent.disableScrollPropagation(document.querySelector('#legendContainer'))
+
       //Add streets tilelayer to map initially
       L.tileLayer(tileProviders[0].url, {
         attribution: tileProviders[0].attribution,
@@ -2104,14 +2107,11 @@ export default {
   right: 10px;
   top: 45px;
   height: auto;
-  width: 230px;
+  width: 255px;
   position: absolute;
   z-index: 999;
   font-size: 14px;
   opacity: 0.75;
-  max-height: 65vh;
-  overflow-x: hidden;
-  overflow-y: auto;
 }
 
 #findLocationContainer {
@@ -2380,7 +2380,13 @@ export default {
 }
 
 #legendContent {
-  margin: -8px -20px -8px -20px;
+  max-height: 65vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.v-expansion-panel-content__wrap {
+  padding: 0 15px 16px !important;
 }
 
 @media screen and (max-width: 828px) {

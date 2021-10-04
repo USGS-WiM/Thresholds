@@ -400,9 +400,7 @@
               <div
                 class="wmm-circle wmm-white wmm-icon-noicon wmm-size-20"
               ></div>
-              <label for="allRP" class="legend-label"
-                >All Features</label
-              >
+              <label for="allRP" class="legend-label">All Features</label>
             </div>
             <br />
             <div class="zoom-alert" :style="{ display: isDisplayed }">
