@@ -266,22 +266,22 @@
                       wmm-borderless
                     "
                   ></div>
-                  <label>Real-time Streamgage</label>
+                  <label>USGS Real-time Streamgage</label>
                 </div>
 
                 <div class="legendIconToggle" v-if="nfhlVisible">
-                  <label id="nfhlLabel">National Flood Hazard Layer</label>
+                  <label id="nfhlLabel">FEMA National Flood Hazard Layer</label>
                 </div>
                 <div id="nfhlLegend"></div>
               </div>
 
               <div class="legendIconToggle" v-if="radarVisible">
-                  <label id="radarLabel">National Weather Service Radar</label>
+                  <label id="radarLabel">NOAA National Weather Service Radar</label>
                   <div id="radarLegend"></div>
                 </div>
 
                 <div class="legendIconToggle" v-if="fwwVisible">
-                  <label id="fwwLabel">Flood Watches and Warnings</label>
+                  <label id="fwwLabel">NOAA Flood Watches and Warnings</label>
                 </div>
                 <div id="fwwLegend"></div>
 

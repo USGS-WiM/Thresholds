@@ -42,8 +42,8 @@
                 <ul>
                     <li>View locations and obtain data at all USGS real-time streamgages</li>
                     <li>View locations of all National Weather Service Flood Forecast Sites</li>
-                    <li>View National Weather Service Radar</li>
-                    <li>View Flood Watches and Warning</li>
+                    <li>View NOAA National Weather Service Radar</li>
+                    <li>View NOAA Flood Watches and Warning</li>
                     <li>View locations of real-time impacts of flood waters at or near participating USGS real-time streamgages, including,</li>
                     <ul>
                         <li>Embankment Flooded</li>
