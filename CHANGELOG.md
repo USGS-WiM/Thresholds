@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+- Text change to Layer Names
 - Update about text
 - Added all threshold icons to sidebar and legend. Icons without active flooding are disabled in sidebar.
 
