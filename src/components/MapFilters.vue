@@ -137,8 +137,9 @@
                   </v-icon>
                 </template>
                 <span
-                  >The Layers below are disabled because no locations are
-                  currently flooding.</span
+                  >The layers below are disabled because no locations are
+                  currently flooding. Change the date above to view possible
+                  flooding on past dates.</span
                 >
               </v-tooltip>
             </div>
