@@ -406,7 +406,7 @@
             </div>
             <br />
             <div class="zoom-alert" :style="{ display: isDisplayed }">
-              Real-time Streamgages available at zoom level 9 and above. Please
+              USGS Real-time Streamgages available at zoom level 9 and above. Please
               zoom in to view.
             </div>
             <v-simple-checkbox
@@ -429,7 +429,7 @@
                 "
               ></div>
               <label for="stream" class="legend-label"
-                >Real-time Streamgage</label
+                >USGS Real-time Streamgage</label
               >
             </div>
             <br />
@@ -471,7 +471,7 @@
               v-model="nfhlPicked"
             ></v-simple-checkbox>
             <div class="legend-no-icon">
-              <label for="nfhl">National Flood Hazard Layer</label>
+              <label for="nfhl">FEMA National Flood Hazard Layer</label>
             </div>
 
             <br />
@@ -484,7 +484,7 @@
               v-model="radarPicked"
             ></v-simple-checkbox>
             <div class="legend-no-icon">
-              <label for="radar">National Weather Service Radar</label>
+              <label for="radar">NOAA National Weather Service Radar</label>
             </div>
 
             <br />
@@ -497,7 +497,7 @@
               v-model="fwwPicked"
             ></v-simple-checkbox>
             <div class="legend-no-icon">
-              <label for="fww">Flood Watches and Warnings</label>
+              <label for="fww">NOAA Flood Watches and Warnings</label>
             </div>
           </v-container>
         </v-expansion-panel-content>
@@ -744,7 +744,7 @@ export default {
   justify-content: center;
   padding-left: 22px;
   color: #333;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .legend-no-icon {
@@ -760,7 +760,7 @@ export default {
   -webkit-justify-content: center;
   justify-content: center;
   color: #333;
-  font-size: 14px;
+  font-size: 12px;
   margin-right: -10px;
 }
 
@@ -862,5 +862,9 @@ export default {
   font-weight: bold;
   color: #fb8c00 !important;
   display: none !important;
+}
+
+.v-expansion-panel-content__wrap {
+  padding-left: 12px !important;
 }
 </style>
