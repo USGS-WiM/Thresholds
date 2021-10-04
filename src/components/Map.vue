@@ -56,7 +56,7 @@
             <!-- Threshold icons -->
               <div id="thresholdLayers">
                 <div id="thresholdLayersTitle" v-if="activeLayerTitleVisible">Active Flooding</div>
-                <div class="legendIcon" v-if="bankVisible">
+                <div class="legendIcon">
                   <img
                     src="../assets/aq-icons/embankment_flooded_circle.png"
                     height="25px"
@@ -78,7 +78,7 @@
                     <span>Flood waters exit the stream/river channel and overflow onto a flat surface</span>
                   </v-tooltip>
                 </div>
-                <div class="legendIcon" v-if="pathVisible">
+                <div class="legendIcon">
                   <img
                     src="../assets/aq-icons/path_flooded_circle.png"
                     alt=""
@@ -101,7 +101,7 @@
                     <span>Flood waters are flooding a pedestrian greenway/trail/path</span>
                   </v-tooltip>
                 </div>
-                <div class="legendIcon" v-if="roadVisible">
+                <div class="legendIcon">
                   <img
                     src="../assets/aq-icons/car_flooded_circle.png"
                     alt=""
@@ -124,7 +124,7 @@
                     <span>Low lying areas along roads are flooding</span>
                   </v-tooltip>
                 </div>
-                <div class="legendIcon" v-if="bridgeRiskVisible">
+                <div class="legendIcon">
                   <img
                     src="../assets/aq-icons/bridge_risk_circle.png"
                     alt=""
@@ -147,7 +147,7 @@
                     <span>Water from a river or stream is under the lowest section of a bridge</span>
                   </v-tooltip>
                 </div>
-                <div class="legendIcon" v-if="bridgeFloodedVisible">
+                <div class="legendIcon">
                   <img
                     src="../assets/aq-icons/bridge_flooded_circle.png"
                     alt=""
@@ -170,7 +170,7 @@
                     <span>A bridge is flooding</span>
                   </v-tooltip>
                 </div>
-                <div class="legendIcon" v-if="facilityVisible">
+                <div class="legendIcon">
                   <img
                     src="../assets/aq-icons/building_flooded_circle.png"
                     alt=""
@@ -193,7 +193,7 @@
                     <span>Structures/facilities are flooding</span>
                   </v-tooltip>
                 </div>
-                <div class="legendIcon" v-if="bfeVisible">
+                <div class="legendIcon">
                   <img
                     src="../assets/aq-icons/BFE.png"
                     height="25px"
@@ -215,7 +215,7 @@
                     <span>The FEMA 100-year BFE has been reached</span>
                   </v-tooltip>
                 </div>
-                <div class="legendIcon" v-if="otherVisible">
+                <div class="legendIcon">
                   <img
                     src="../assets/aq-icons/other.png"
                     height="25px"
@@ -1248,17 +1248,37 @@ export default {
       this.facilityLayer.clearLayers();
       this.otherLayer.clearLayers();
       this.bfeLayer.clearLayers();
-      document.getElementById("bankDiv").style.display = "none";
-      document.getElementById("pathDiv").style.display = "none";
-      document.getElementById("roadDiv").style.display = "none";
-      document.getElementById("bridgeRiskDiv").style.display = "none";
-      document.getElementById("bridgeDiv").style.display = "none";
-      document.getElementById("facilityDiv").style.display = "none";
-      document.getElementById("bfeDiv").style.display = "none";
-      document.getElementById("otherDiv").style.display = "none";
+      this.bankVisible = false,
+      this.pathVisible = false,
+      this.roadVisible = false,
+      this.bridgeRiskVisible = false,
+      this.bridgeFloodedVisible = false,
+      this.facilityVisible = false,
+      this.otherVisible = false,
+      this.bfeVisible = false,
+      this.$store.state.bankState = false;
+      this.$store.state.pathState = false;
+      this.$store.state.roadState = false;
+      this.$store.state.bridgeRiskState = false;
+      this.$store.state.bridgeState = false;
+      this.$store.state.facilityState = false;
+      this.$store.state.otherState = false;
+      this.$store.state.bfeState = false;
+      document.getElementById("bankDiv").style.opacity = 0.6;
+      document.getElementById("pathDiv").style.opacity = 0.6;
+      document.getElementById("roadDiv").style.opacity = 0.6;
+      document.getElementById("bridgeRiskDiv").style.opacity = 0.6;
+      document.getElementById("bridgeDiv").style.opacity = 0.6;
+      document.getElementById("facilityDiv").style.opacity = 0.6;
+      document.getElementById("bfeDiv").style.opacity = 0.6;
+      document.getElementById("otherDiv").style.opacity = 0.6;
       let hasMarkers = false;
       let entryCount = 0;
       this.thresholdsExceeded = 0;
+      this.activeLayerTitleVisible = false;
+      document.getElementById("activeLayerTitle").style.display = "none";
+      document.getElementById("noActiveFlooding").style.display = "none";
+      document.getElementById("showAllBtn").style.display = "none";
 
       // adding rp/threshold data from Aquarius
       for (let entry in this.mvpData) {
@@ -1342,7 +1362,8 @@ export default {
               if (Name === "PATH") {
                 this.pathVisible = true;
                 this.$store.state.pathState = true;
-                document.getElementById("pathDiv").style.display = "block";
+                document.getElementById("pathDiv").style.opacity = 1;
+                this.$store.commit("getPathDisabledState", false);
                 if(this.activeSubtypes.includes("path") === false){
                   this.activeSubtypes.push("path");
                 }
@@ -1354,8 +1375,9 @@ export default {
                 this.thresholdsExceeded ++;
               } else if (Name === "BANK") {
                 this.bankVisible = true;
-                document.getElementById("bankDiv").style.display = "block";
                 this.$store.state.bankState = true;
+                document.getElementById("bankDiv").style.opacity = 1;
+                this.$store.commit("getBankDisabledState", false);
                 if(this.activeSubtypes.includes("bank") === false){
                   this.activeSubtypes.push("bank");
                 }
@@ -1367,8 +1389,9 @@ export default {
                 this.thresholdsExceeded ++;
               } else if (Name === "ROAD") {
                 this.roadVisible = true;
-                document.getElementById("roadDiv").style.display = "block";
                 this.$store.state.roadState = true;
+                document.getElementById("roadDiv").style.opacity = 1;
+                this.$store.commit("getRoadDisabledState", false);
                 if(this.activeSubtypes.includes("road") === false){
                   this.activeSubtypes.push("road");
                 }
@@ -1380,10 +1403,11 @@ export default {
                 this.thresholdsExceeded ++;
               } else if (Name === "CHORD") {
                 this.bridgeRiskVisible = true;
-                document.getElementById("bridgeRiskDiv").style.display = "block";
                 this.$store.state.bridgeRiskState = true;
-                if(this.activeSubtypes.includes("bridgeRiskDiv") === false){
-                  this.activeSubtypes.push("bridgeRiskDiv");
+                document.getElementById("bridgeRiskDiv").style.opacity = 1;
+                this.$store.commit("getBridgeRiskDisabledState", false);
+                if(this.activeSubtypes.includes("bridgeRisk") === false){
+                  this.activeSubtypes.push("bridgeRisk");
                 }
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
@@ -1393,8 +1417,9 @@ export default {
                 this.thresholdsExceeded ++;
               } else if (Name === "FACILITY") {
                 this.facilityVisible = true;
-                document.getElementById("facilityDiv").style.display = "block";
                 this.$store.state.facilityState = true;
+                document.getElementById("facilityDiv").style.opacity = 1
+                this.$store.commit("getFacilityDisabledState", false);
                 if(this.activeSubtypes.includes("facility") === false){
                   this.activeSubtypes.push("facility");
                 }
@@ -1406,8 +1431,9 @@ export default {
                 this.thresholdsExceeded ++;
               } else if (Name === "DECK") {
                 this.bridgeFloodedVisible = true;
-                document.getElementById("bridgeDiv").style.display = "block";
                 this.$store.state.bridgeState = true;
+                document.getElementById("bridgeDiv").style.opacity = 1;
+                this.$store.commit("getBridgeDisabledState", false);
                 if(this.activeSubtypes.includes("bridgeFlooded") === false){
                   this.activeSubtypes.push("bridgeFlooded");
                 }
@@ -1419,8 +1445,9 @@ export default {
                 this.thresholdsExceeded ++;
               } else if (Name === "BFE") {
                 this.bfeVisible = true;
-                document.getElementById("bfeDiv").style.display = "block";
                 this.$store.state.bfeState = true;
+                document.getElementById("bfeDiv").style.opacity = 1;
+                this.$store.commit("getBfeDisabledState", false);
                 if(this.activeSubtypes.includes("bfe") === false){
                   this.activeSubtypes.push("bfe");
                 }
@@ -1432,8 +1459,9 @@ export default {
                 this.thresholdsExceeded ++;
               } else {
                 this.otherVisible = true;
-                document.getElementById("otherDiv").style.display = "block";
                 this.$store.state.otherState = true;
+                document.getElementById("otherDiv").style.opacity = 1
+                this.$store.commit("getOtherDisabledState", false);
                 if(this.activeSubtypes.includes("other") === false){
                   this.activeSubtypes.push("other");
                 }
@@ -1492,6 +1520,7 @@ export default {
                 this.activeLayerTitleVisible = false;
                 document.getElementById("noActiveFlooding").style.display = "block";
                 this.$store.commit("getThresholdsExceededCount", this.thresholdsExceeded);
+                this.map.setView(this.center, 4) 
               }
             }
           }else{

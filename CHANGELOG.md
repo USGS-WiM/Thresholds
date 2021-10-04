@@ -9,11 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
--
+- Added alert to sidebar for "No Flooded Features"
+- Added tooltip to "No Active Layers" text 
 
 ### Changed
 
 - Update about text
+- Added all threshold icons to sidebar and legend. Icons without active flooding are disabled in sidebar.
 
 ### Fixed
 
