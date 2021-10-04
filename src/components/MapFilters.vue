@@ -1,6 +1,7 @@
 <template>
   <div>
     <v-alert
+      v-if="isFlooding"
       class="threshold-alert"
       border="left"
       dense
@@ -10,6 +11,18 @@
       icon="mdi-alert"
     >
       {{ thresholdsExceededMessage }} Flooded Features
+    </v-alert>
+    <v-alert
+      v-if="!isFlooding"
+      class="noflooding-alert"
+      border="left"
+      dense
+      colored-border
+      type="success"
+      elevation="2"
+      icon="mdi-checkbox-marked-circle"
+    >
+      No Flooded Features
     </v-alert>
     <v-expansion-panels :value="1">
       <!-- Filters Section -->
@@ -111,6 +124,23 @@
             <div id="activeLayerTitle">Active Flooding Layers</div>
             <div style="display: none" id="noActiveFlooding">
               No Active Flooding
+              <v-tooltip right>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                    small
+                    color="blue lighten-1"
+                    dark
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    mdi-information
+                  </v-icon>
+                </template>
+                <span
+                  >The Layers below are disabled because no locations are
+                  currently flooding.</span
+                >
+              </v-tooltip>
             </div>
             <div id="activeSublayers">
               <div id="bankDiv">
@@ -527,6 +557,7 @@ export default {
       streamCheckDisabled: true,
       isDisplayed: "block",
       thresholdsExceededMessage: "0",
+      isFlooding: false,
     };
   },
   props: ["currentZoom"],
@@ -751,9 +782,9 @@ export default {
       this.thresholdsExceededMessage =
         this.$store.state.thresholdsExceededCount.toString();
       if (this.thresholdsExceededMessage !== "0") {
-        document
-          .querySelector(".threshold-alert")
-          .style.setProperty("display", "block", "important");
+        this.isFlooding = true;
+      } else {
+        this.isFlooding = false;
       }
     },
   },
@@ -931,6 +962,11 @@ export default {
 .threshold-alert {
   font-weight: bold;
   color: #fb8c00 !important;
-  display: none !important;
+  display: block !important;
+}
+.noflooding-alert {
+  font-weight: bold;
+  color: #00ab2e !important;
+  display: block !important;
 }
 </style>
