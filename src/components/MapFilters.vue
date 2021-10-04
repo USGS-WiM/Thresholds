@@ -109,13 +109,17 @@
             </div>
             <div id="timePeriod"><DatePicker></DatePicker></div>
             <div id="activeLayerTitle">Active Flooding Layers</div>
+            <div style="display: none" id="noActiveFlooding">
+              No Active Flooding
+            </div>
             <div id="activeSublayers">
-              <div id="bankDiv" style="display: none">
+              <div id="bankDiv">
                 <v-simple-checkbox
                   type="checkbox"
                   ref="bank"
                   id="bank"
                   value="true"
+                  :disabled="bankDisabled"
                   v-model="bankPicked"
                 ></v-simple-checkbox>
                 <div class="sublayer-icon">
@@ -146,12 +150,13 @@
                 </div>
                 <br />
               </div>
-              <div id="pathDiv" style="display: none">
+              <div id="pathDiv">
                 <v-simple-checkbox
                   type="checkbox"
                   ref="path"
                   id="path"
                   value="true"
+                  :disabled="pathDisabled"
                   v-model="pathPicked"
                 ></v-simple-checkbox>
                 <div class="sublayer-icon">
@@ -180,12 +185,13 @@
                 </div>
                 <br />
               </div>
-              <div id="roadDiv" style="display: none">
+              <div id="roadDiv">
                 <v-simple-checkbox
                   type="checkbox"
                   ref="road"
                   id="road"
                   value="true"
+                  :disabled="roadDisabled"
                   v-model="roadPicked"
                 ></v-simple-checkbox>
                 <div class="sublayer-icon">
@@ -211,12 +217,13 @@
                 </div>
                 <br />
               </div>
-              <div id="bridgeRiskDiv" style="display: none">
+              <div id="bridgeRiskDiv">
                 <v-simple-checkbox
                   type="checkbox"
                   ref="bridgeRisk"
                   id="bridgeRisk"
                   value="true"
+                  :disabled="bridgeRiskDisabled"
                   v-model="bridgeRiskPicked"
                 ></v-simple-checkbox>
                 <div class="sublayer-icon">
@@ -247,12 +254,13 @@
                 </div>
                 <br />
               </div>
-              <div id="bridgeDiv" style="display: none">
+              <div id="bridgeDiv">
                 <v-simple-checkbox
                   type="checkbox"
                   ref="bridge"
                   id="bridge"
                   value="true"
+                  :disabled="bridgeDisabled"
                   v-model="bridgePicked"
                 ></v-simple-checkbox>
                 <div class="sublayer-icon">
@@ -280,12 +288,13 @@
                 </div>
                 <br />
               </div>
-              <div id="facilityDiv" style="display: none">
+              <div id="facilityDiv">
                 <v-simple-checkbox
                   type="checkbox"
                   ref="facility"
                   id="facility"
                   value="true"
+                  :disabled="facilityDisabled"
                   v-model="facilityPicked"
                 ></v-simple-checkbox>
                 <div class="sublayer-icon">
@@ -313,12 +322,13 @@
                 </div>
                 <br />
               </div>
-              <div id="bfeDiv" style="display: none">
+              <div id="bfeDiv">
                 <v-simple-checkbox
                   type="checkbox"
                   ref="bfe"
                   id="bfe"
                   value="true"
+                  :disabled="bfeDisabled"
                   v-model="bfePicked"
                 ></v-simple-checkbox>
                 <div class="sublayer-icon">
@@ -343,12 +353,13 @@
                 </div>
                 <br />
               </div>
-              <div id="otherDiv" style="display: none">
+              <div id="otherDiv">
                 <v-simple-checkbox
                   type="checkbox"
                   ref="other"
                   id="other"
                   value="true"
+                  :disabled="otherDisabled"
                   v-model="otherPicked"
                 ></v-simple-checkbox>
                 <div class="sublayer-icon">
@@ -386,9 +397,6 @@
                 >Show all active flooding layers</v-btn
               >
             </div>
-            <div style="display: none" id="noActiveFlooding">
-              No Active Flooding
-            </div>
             <v-simple-checkbox
               type="checkbox"
               ref="allRP"
@@ -400,9 +408,7 @@
               <div
                 class="wmm-circle wmm-white wmm-icon-noicon wmm-size-20"
               ></div>
-              <label for="allRP" class="legend-label"
-                >All Features</label
-              >
+              <label for="allRP" class="legend-label">All Features</label>
             </div>
             <br />
             <div class="zoom-alert" :style="{ display: isDisplayed }">
@@ -601,12 +607,28 @@ export default {
         return this.$store.commit("getBankState", value);
       },
     },
+    bankDisabled: {
+      get() {
+        return this.$store.state.bankDisabled;
+      },
+      set(value) {
+        return this.$store.commit("getBankDisabledState", value);
+      },
+    },
     pathPicked: {
       get() {
         return this.$store.state.pathState;
       },
       set(value) {
         return this.$store.commit("getPathState", value);
+      },
+    },
+    pathDisabled: {
+      get() {
+        return this.$store.state.pathDisabled;
+      },
+      set(value) {
+        return this.$store.commit("getPathDisabledState", value);
       },
     },
     roadPicked: {
@@ -617,12 +639,28 @@ export default {
         return this.$store.commit("getRoadState", value);
       },
     },
+    roadDisabled: {
+      get() {
+        return this.$store.state.roadDisabled;
+      },
+      set(value) {
+        return this.$store.commit("getRoadDisabledState", value);
+      },
+    },
     bridgeRiskPicked: {
       get() {
         return this.$store.state.bridgeRiskState;
       },
       set(value) {
         return this.$store.commit("getBridgeRiskState", value);
+      },
+    },
+    bridgeRiskDisabled: {
+      get() {
+        return this.$store.state.bridgeRiskDisabled;
+      },
+      set(value) {
+        return this.$store.commit("getBridgeRiskDisabledState", value);
       },
     },
     bridgePicked: {
@@ -633,12 +671,28 @@ export default {
         return this.$store.commit("getBridgeState", value);
       },
     },
+    bridgeDisabled: {
+      get() {
+        return this.$store.state.bridgeDisabled;
+      },
+      set(value) {
+        return this.$store.commit("getBridgeDisabledState", value);
+      },
+    },
     facilityPicked: {
       get() {
         return this.$store.state.facilityState;
       },
       set(value) {
         return this.$store.commit("getFacilityState", value);
+      },
+    },
+    facilityDisabled: {
+      get() {
+        return this.$store.state.facilityDisabled;
+      },
+      set(value) {
+        return this.$store.commit("getFacilityDisabledState", value);
       },
     },
     bfePicked: {
@@ -649,12 +703,28 @@ export default {
         return this.$store.commit("getBfeState", value);
       },
     },
+    bfeDisabled: {
+      get() {
+        return this.$store.state.bfeDisabled;
+      },
+      set(value) {
+        return this.$store.commit("getBfeDisabledState", value);
+      },
+    },
     otherPicked: {
       get() {
         return this.$store.state.otherState;
       },
       set(value) {
         return this.$store.commit("getOtherState", value);
+      },
+    },
+    otherDisabled: {
+      get() {
+        return this.$store.state.otherDisabled;
+      },
+      set(value) {
+        return this.$store.commit("getOtherDisabledState", value);
       },
     },
     showAllDisabled: {

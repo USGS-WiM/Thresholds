@@ -14,13 +14,21 @@ export default new Vuex.Store({
     nfhlState: false,
     allRPState: true,
     bankState: false,
+    bankDisabled: true,
     pathState: false,
+    pathDisabled: true,
     roadState: false,
+    roadDisabled: true,
     bridgeRiskState: false,
+    bridgeRiskDisabled: true,
     bridgeState: false,
+    bridgeDisabled: true,
     facilityState: false,
+    facilityDisabled: true,
     bfeState: false,
+    bfeDisabled: true,
     otherState: false,
+    otherDisabled: true,
     fwwState: false,
     noaaState: false,
     currentZoomState: 4,
@@ -56,26 +64,50 @@ export default new Vuex.Store({
     getBankState(state, bankPicked) {
       state.bankState = bankPicked;
     },
+    getBankDisabledState(state, bankDisabled) {
+      state.bankDisabled = bankDisabled;
+    },
     getPathState(state, pathPicked) {
       state.pathState = pathPicked;
+    },
+    getPathDisabledState(state, pathDisabled) {
+      state.pathDisabled = pathDisabled;
     },
     getRoadState(state, roadPicked) {
       state.roadState = roadPicked;
     },
+    getRoadDisabledState(state, roadDisabled) {
+      state.roadDisabled = roadDisabled;
+    },
     getBridgeRiskState(state, bridgeRiskPicked) {
       state.bridgeRiskState = bridgeRiskPicked;
+    },
+    getBridgeRiskDisabledState(state, bridgeRiskDisabled) {
+      state.bridgeRiskDisabled = bridgeRiskDisabled;
     },
     getBridgeState(state, bridgePicked) {
       state.bridgeState = bridgePicked;
     },
+    getBridgeDisabledState(state, bridgeDisabled) {
+      state.bridgeDisabled = bridgeDisabled;
+    },
     getFacilityState(state, facilityPicked) {
       state.facilityState = facilityPicked;
+    },
+    getFacilityDisabledState(state, facilityDisabled) {
+      state.facilityDisabled = facilityDisabled;
     },
     getBfeState(state, bfePicked) {
       state.bfeState = bfePicked;
     },
+    getBfeDisabledState(state, bfeDisabled) {
+      state.bfeDisabled = bfeDisabled;
+    },
     getOtherState(state, otherPicked) {
       state.otherState = otherPicked;
+    },
+    getOtherDisabledState(state, otherDisabled) {
+      state.otherDisabled = otherDisabled;
     },
     getCurrentZoomState(state, currentZoom) {
       state.currentZoomState = currentZoom;

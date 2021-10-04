@@ -4,20 +4,21 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+
 ## [Unreleased](https://github.com/USGS-WiM/Thresholds/tree/dev)
 
 ### Added
 
-- 
+-
 
 ### Changed
 
 - Update about text
+- Added all threshold icons to sidebar and legend. Icons without active flooding are disabled in sidebar.
 
 ### Fixed
 
-- 
-
+-
 
 ## [v0.7.0](https://github.com/USGS-WiM/Thresholds/releases/tag/v0.7.0) - 9/29/2021
 
