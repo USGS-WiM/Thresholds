@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - Added alert to sidebar for "No Flooded Features"
-- Added tooltip to "No Active Layers" text 
+- Added tooltip to "No Active Layers" text
 
 ### Changed
 
@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - Fixed legend mousewheel scrolling and legend title always visible when scrolled
+- Fix mobile bugs in map controls and Safari page navigation
 
 ## [v0.7.0](https://github.com/USGS-WiM/Thresholds/releases/tag/v0.7.0) - 9/29/2021
 
