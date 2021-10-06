@@ -935,6 +935,10 @@ export default {
         document.getElementById("noDataMessageAQ").remove();
       }
 
+      if (document.getElementById("aqGraphHeader") != null) {
+        document.getElementById("aqGraphHeader").remove();
+      }
+
       // storing layer data and setting site id
       let layerData = e.layer.data;
       let siteID = e.layer.data.LocationIdentifier;
@@ -1050,6 +1054,17 @@ export default {
           let values = [];
           let plotlyAnnotations = [];
 
+          let ampm = "AM";
+          let mostRecentDate = new Date(data.data.data[0].time_series_data[data.data.data[0].time_series_data.length - 1][0]);
+          let hour = mostRecentDate.getHours();
+          if(hour > 12){
+            hour = hour - 12;
+            hour = hour.toString().padStart(2, '0');
+            ampm = "PM";
+          }
+          mostRecentDate = (mostRecentDate.getMonth() + 1) + '/' + mostRecentDate.getDate().toString().padStart(2, '0')  + "/" + mostRecentDate.getFullYear() + " " + hour + ":" + mostRecentDate.getMinutes().toString().padStart(2, '0');
+          let mostRecentHeight = data.data.data[0].time_series_data[data.data.data[0].time_series_data.length - 1][1];
+          document.getElementById("aqGraphHeader").innerHTML += `<b>Last Updated: </b>${mostRecentDate} ${ampm}<br><b>Last Updated Gage Height: </b>${mostRecentHeight} feet`;
           // Create x and y arrays for NWIS trace
           data.data.data[0].time_series_data.forEach(function (time) {
             dates.push(new Date(time[0]));
