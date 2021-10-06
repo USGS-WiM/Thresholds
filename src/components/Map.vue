@@ -757,11 +757,11 @@ export default {
 
       //popup for Active Flooding
       this.popupContent =
-        '<label id="popup-title">NWIS Site ' +
+        '<div id="popup-title"><label>NWIS Site ' +
         e.layer.data.siteCode +
         "</br>" +
         e.layer.data.siteName +
-        '</label><p id="graphLoadMessage"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="mainGraphContainer" style="width:100%; min-height: 200px;display:block;"></div> <div id="dataCredit">Gage Height data courtesy of the U.S. Geological Survey</div><div id="nwisLink"><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
+        '</label></div><p id="graphLoadMessage"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="mainGraphContainer" style="width:100%; min-height: 200px;display:block;"></div> <div id="dataCredit">Gage Height data courtesy of the U.S. Geological Survey</div><div id="nwisLink"><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
         e.layer.data.siteCode +
         '"><b>Site ' +
         e.layer.data.siteCode +
@@ -2566,10 +2566,20 @@ export default {
 
   #mainGraphContainer {
     margin: auto;
-    width: 85%;
+    width: 95%;
   }
 
   #nwisLink {
+    margin: auto;
+    width: 85%;
+  }
+
+  #popup-title {
+    margin: auto;
+    width: 85%;
+  }
+
+  #noDataMessage {
     margin: auto;
     width: 85%;
   }
