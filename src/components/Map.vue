@@ -500,7 +500,15 @@ export default {
       });
 
       // Disable map scrolling when scrolling the legend
-      L.DomEvent.disableScrollPropagation(document.querySelector('#legendContainer'))
+      L.DomEvent.disableScrollPropagation(document.querySelector('#legendContainer'));
+      // Enable clicking on map controls on mobile screens
+      L.DomEvent.disableClickPropagation(document.querySelector('#legendContainer'));
+      L.DomEvent.disableClickPropagation(document.querySelector('#findLocationContainer'));
+
+      // Prevent page navigation when swiping right and left in Safari
+      document.addEventListener("touchmove" , function(e) {
+        e.preventDefault();
+      });
 
       //Add streets tilelayer to map initially
       L.tileLayer(tileProviders[0].url, {
