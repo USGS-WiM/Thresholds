@@ -1522,6 +1522,9 @@ export default {
                 document.getElementById("activeLayerTitle").style.display = "block";
                 document.getElementById("showAllBtn").style.display = "flex";
                 this.$store.commit("getThresholdsExceededCount", this.thresholdsExceeded);
+                if(this.isDisplayed == "block"){
+                  this.fadeOutAlert();
+                }
               } else if (!hasMarkers && entryCount == this.mvpData.length) {
                 this.noFloodingdialog = true;
                 // Remove active flooding titles in legend and display No Active Flooding
@@ -1529,6 +1532,9 @@ export default {
                 document.getElementById("noActiveFlooding").style.display = "block";
                 this.$store.commit("getThresholdsExceededCount", this.thresholdsExceeded);
                 this.map.setView(this.center, 4) 
+                if(this.isDisplayed == "block"){
+                  this.fadeOutAlert();
+                }
               }
             }
           }else{
@@ -1555,6 +1561,9 @@ export default {
         })
         .catch(function(error){
           console.log(error);
+          if(this.isDisplayed == "block"){
+            this.fadeOutAlert();
+          }
         });
       }
     },
@@ -2100,12 +2109,12 @@ export default {
       this.toggleAllRP(this.allRPMarkers);
     },
     "$store.state.selectedTimePeriodState": function () {
+      this.isDisplayed = "block";
       this.loadAQdata();
       // If visible, update NOAA layer with new time period
       if (this.tidesVisible){
         this.getNOAATidesLayer();
       }
-
     }
   },
   // Store current zoom value in state to access from other components
