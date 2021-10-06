@@ -37,7 +37,8 @@
       >
         <span class="loadingLabel">Error loading NFHL services</span>
       </div>
-
+      <div id="fullscreenPopup">
+      </div>
       <!-- a leaflet map -->
       <div id="map">
       <div id="findLocationContainer"><Geosearch :map="map"></Geosearch></div>
@@ -483,7 +484,8 @@ export default {
       tidesVisible: false,
       allRPVisible: true,
       noFloodingdialog: false,
-      thresholdsExceeded: 0
+      thresholdsExceeded: 0,
+      mediaQuery: 'screen and (max-width: 767px)'
     };
   },
   methods: {
@@ -743,17 +745,19 @@ export default {
         document.getElementById("noDataMessage").remove();
       }
 
+      document.getElementById('fullscreenPopup').innerHTML = '';
+
       //popup for Active Flooding
       this.popupContent =
         '<label id="popup-title">NWIS Site ' +
         e.layer.data.siteCode +
         "</br>" +
         e.layer.data.siteName +
-        '</label><p id="graphLoadMessage"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="mainGraphContainer" style="width:100%; min-height: 200px;display:block;"></div> <div id="dataCredit">Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
+        '</label><p id="graphLoadMessage"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="mainGraphContainer" style="width:100%; min-height: 200px;display:block;"></div> <div id="dataCredit">Gage Height data courtesy of the U.S. Geological Survey</div><div id="nwisLink"><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
         e.layer.data.siteCode +
         '"><b>Site ' +
         e.layer.data.siteCode +
-        ' on NWISWeb <i class="v-icon notranslate mdi mdi-open-in-new" style="font-size:16px"></i></b></a><div id="noDataMessage" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>';
+        ' on NWISWeb <i class="v-icon notranslate mdi mdi-open-in-new" style="font-size:16px"></i></b></a></div><div id="noDataMessage" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>';
       let url =
         "https://nwis.waterservices.usgs.gov/nwis/iv/?format=nwjson&sites=" +
         e.layer.data.siteCode +
@@ -761,6 +765,8 @@ export default {
         graphParameterCodeList +
         this.timePeriodValue;
 
+      let el;
+      let self = this;
       axios.get(url).then((data) => {
         if (
           data.data == undefined ||
@@ -775,6 +781,22 @@ export default {
               .openPopup();
           } else {
             e.layer.bindPopup(this.popupContent, { minWidth: 300 }).openPopup();
+          }
+          if (window.matchMedia(this.mediaQuery).matches){
+            el = document.getElementById('fullscreenPopup');
+            el.innerHTML += '<div id="popupCloseButton">' +
+            '<i class="v-icon notranslate mdi mdi-close" style="font-size:16px"></i>' +
+            '</div><br>';
+            el.innerHTML += this.popupContent;
+
+            document.querySelector('#popupCloseButton').onclick = function(){
+              self.map.closePopup();
+              el.innerHTML = '';
+              el.classList.remove('visible');
+            }
+
+            L.DomEvent.disableClickPropagation(document.querySelector('#popupCloseButton'))
+            el.classList.add('visible');
           }
           document
             .getElementById("graphLoadMessage")
@@ -796,6 +818,23 @@ export default {
               .openPopup();
           } else {
             e.layer.bindPopup(this.popupContent, { minWidth: 300 }).openPopup();
+          }
+
+          if (window.matchMedia(this.mediaQuery).matches){
+            el = document.getElementById('fullscreenPopup');
+            el.innerHTML += '<div id="popupCloseButton">' +
+            '<i class="v-icon notranslate mdi mdi-close" style="font-size:16px"></i>' +
+            '</div><br>';
+            el.innerHTML += this.popupContent;
+
+            document.querySelector('#popupCloseButton').onclick = function(){
+              self.map.closePopup();
+              el.innerHTML = '';
+              el.classList.remove('visible');
+            }
+
+            L.DomEvent.disableClickPropagation(document.querySelector('#popupCloseButton'))
+            el.classList.add('visible');
           }
 
           let dates = [];
@@ -927,6 +966,8 @@ export default {
         document.getElementById("noDataMessageAQ").remove();
       }
 
+      document.getElementById('fullscreenPopup').innerHTML = '';
+
       // storing layer data and setting site id
       let layerData = e.layer.data;
       let siteID = e.layer.data.LocationIdentifier;
@@ -987,6 +1028,9 @@ export default {
         "&parameterCd=" +
         graphParameterCodeList +
         this.timePeriodValue;
+
+      let el;
+      let self = this;
       axios.get(url).then((data) => {
         if (
           data.data == undefined ||
@@ -1006,6 +1050,23 @@ export default {
               .bindPopup(this.aqPopupContent, { minWidth: 300 })
               .openPopup();
           }
+          if (window.matchMedia(this.mediaQuery).matches){
+            el = document.getElementById('fullscreenPopup');
+            el.innerHTML += '<div id="popupCloseButton">' +
+            '<i class="v-icon notranslate mdi mdi-close" style="font-size:16px"></i>' +
+            '</div><br>';
+            el.innerHTML += this.aqPopupContent;
+
+            document.querySelector('#popupCloseButton').onclick = function(){
+              self.map.closePopup();
+              el.innerHTML = '';
+              el.classList.remove('visible');
+            }
+
+            L.DomEvent.disableClickPropagation(document.querySelector('#popupCloseButton'))
+            el.classList.add('visible');
+          }
+
           document
             .getElementById("graphLoadMessageAQ")
             .setAttribute("style", "display: none");
@@ -1029,6 +1090,23 @@ export default {
               minWidth: 290,
             });
             e.layer.openPopup();
+          }
+
+          if (window.matchMedia(this.mediaQuery).matches){
+            el = document.getElementById('fullscreenPopup');
+            el.innerHTML += '<div id="popupCloseButton">' +
+            '<i class="v-icon notranslate mdi mdi-close" style="font-size:16px"></i>' +
+            '</div><br>';
+            el.innerHTML += this.aqPopupContent;
+
+            document.querySelector('#popupCloseButton').onclick = function(){
+              self.map.closePopup();
+              el.innerHTML = '';
+              el.classList.remove('visible');
+            }
+
+            L.DomEvent.disableClickPropagation(document.querySelector('#popupCloseButton'))
+            el.classList.add('visible');
           }
 
           // Associate time info with threshold values
@@ -2130,6 +2208,13 @@ export default {
   z-index: 1;
 }
 
+#fullscreenPopup {
+  height: 100%;
+  width: 100%;
+  display: none;
+  z-index: 9999;
+}
+
 #legendContainer {
   border-radius: 5px 5px 5px 5px;
   box-shadow: 0 3px 6px rgba(30, 39, 50, 0.2), 0 3px 6px rgba(30, 39, 50, 0.2);
@@ -2434,6 +2519,51 @@ export default {
   }
   .v-expansion-panel--active {
     width: 225px !important;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  #fullscreenPopup.visible {
+    display: block;
+  }
+
+  #popupCloseButton {
+    float: right;
+  }
+
+  #aqGraphHeader {
+    margin: auto;
+    width: 85%;
+  }
+
+  #graphContainerAQ {
+    margin: auto;
+    width: 85%;
+  }
+
+  #waterAlert {
+    margin: auto;
+    width: 85%;
+  }
+
+  #aqDataCredit {
+    margin: auto;
+    width: 85%;
+  }
+
+  #dataCredit {
+    margin: auto;
+    width: 85%;
+  }
+
+  #mainGraphContainer {
+    margin: auto;
+    width: 85%;
+  }
+
+  #nwisLink {
+    margin: auto;
+    width: 85%;
   }
 }
 
