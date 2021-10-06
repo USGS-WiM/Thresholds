@@ -12,12 +12,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added alert to sidebar for "No Flooded Features"
 - Added tooltip to "No Active Layers" text
 - Added loading alert on time period change
+- Added last updated date and gage height to AQ popup headers
 
 ### Changed
 
 - Text change to Layer Names
 - Update about text
 - Added all threshold icons to sidebar and legend. Icons without active flooding are disabled in sidebar.
+- Changed AQ and Realt-time Streamgage popups to be full screen on mobile.
 
 ### Fixed
 
