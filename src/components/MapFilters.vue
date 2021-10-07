@@ -441,10 +441,30 @@
               ></div>
               <label for="allRP" class="legend-label">All Features</label>
             </div>
+            <v-icon
+              class="opIcon"
+              @click="showAllFeaturesSlider = !showAllFeaturesSlider"
+              small
+              color="blue lighten-1"
+              dark
+            >
+              mdi-circle-opacity
+            </v-icon>
+            <div v-if="showAllFeaturesSlider" class="sliders">
+              Opacity: &nbsp; {{ allFeaturesOpacity }}
+              <v-slider
+                v-model="allFeaturesOpacity"
+                color="grey darken-2"
+                track-color="white"
+                max="1"
+                min="0"
+                step="0.01"
+              ></v-slider>
+            </div>
             <br />
             <div class="zoom-alert" :style="{ display: isDisplayed }">
-              USGS Real-time Streamgages available at zoom level 9 and above. Please
-              zoom in to view.
+              USGS Real-time Streamgages available at zoom level 9 and above.
+              Please zoom in to view.
             </div>
             <v-simple-checkbox
               type="checkbox"
@@ -466,8 +486,28 @@
                 "
               ></div>
               <label for="stream" class="legend-label"
-                >USGS Real-time Streamgage</label
-              >
+                >USGS Real-time Streamgage
+              </label>
+            </div>
+            <v-icon
+              class="opIcon"
+              @click="showRTSlider = !showRTSlider"
+              small
+              color="blue lighten-1"
+              dark
+            >
+              mdi-circle-opacity
+            </v-icon>
+            <div v-if="showRTSlider" class="sliders">
+              Opacity: &nbsp; {{ rtOpacity }}
+              <v-slider
+                v-model="rtOpacity"
+                color="grey darken-2"
+                track-color="white"
+                max="1"
+                min="0"
+                step="0.01"
+              ></v-slider>
             </div>
             <br />
 
@@ -497,7 +537,26 @@
                 >NOAA Tides &amp; Current Stations</label
               >
             </div>
-
+            <v-icon
+              class="opIcon"
+              @click="showNOAASlider = !showNOAASlider"
+              small
+              color="blue lighten-1"
+              dark
+            >
+              mdi-circle-opacity
+            </v-icon>
+            <div v-if="showNOAASlider" class="sliders">
+              Opacity: &nbsp; {{ noaaOpacity }}
+              <v-slider
+                v-model="noaaOpacity"
+                color="grey darken-2"
+                track-color="white"
+                max="1"
+                min="0"
+                step="0.01"
+              ></v-slider>
+            </div>
             <br />
 
             <v-simple-checkbox
@@ -509,6 +568,25 @@
             ></v-simple-checkbox>
             <div class="legend-no-icon">
               <label for="nfhl">FEMA National Flood Hazard Layer</label>
+            </div>
+            <v-icon
+              @click="showNFHLSlider = !showNFHLSlider"
+              small
+              color="blue lighten-1"
+              dark
+            >
+              mdi-circle-opacity
+            </v-icon>
+            <div v-if="showNFHLSlider" class="sliders">
+              Opacity: &nbsp; {{ nfhlOpacity }}
+              <v-slider
+                v-model="nfhlOpacity"
+                color="grey darken-2"
+                track-color="white"
+                max="1"
+                min="0"
+                step="0.01"
+              ></v-slider>
             </div>
 
             <br />
@@ -523,6 +601,25 @@
             <div class="legend-no-icon">
               <label for="radar">NOAA National Weather Service Radar</label>
             </div>
+            <v-icon
+              @click="showNWSSlider = !showNWSSlider"
+              small
+              color="blue lighten-1"
+              dark
+            >
+              mdi-circle-opacity
+            </v-icon>
+            <div v-if="showNWSSlider" class="sliders">
+              Opacity: &nbsp; {{ nwsOpacity }}
+              <v-slider
+                v-model="nwsOpacity"
+                color="grey darken-2"
+                track-color="white"
+                max="1"
+                min="0"
+                step="0.01"
+              ></v-slider>
+            </div>
 
             <br />
 
@@ -535,6 +632,25 @@
             ></v-simple-checkbox>
             <div class="legend-no-icon">
               <label for="fww">NOAA Flood Watches and Warnings</label>
+            </div>
+            <v-icon
+              @click="showFWWSlider = !showFWWSlider"
+              small
+              color="blue lighten-1"
+              dark
+            >
+              mdi-circle-opacity
+            </v-icon>
+            <div v-if="showFWWSlider" class="sliders">
+              Opacity: &nbsp; {{ fwwOpacity }}
+              <v-slider
+                v-model="fwwOpacity"
+                color="grey darken-2"
+                track-color="white"
+                max="1"
+                min="0"
+                step="0.01"
+              ></v-slider>
             </div>
           </v-container>
         </v-expansion-panel-content>
@@ -559,6 +675,12 @@ export default {
       isDisplayed: "block",
       thresholdsExceededMessage: "0",
       isFlooding: false,
+      showRTSlider: false,
+      showAllFeaturesSlider: false,
+      showNOAASlider: false,
+      showNFHLSlider: false,
+      showNWSSlider: false,
+      showFWWSlider: false,
     };
   },
   props: ["currentZoom"],
@@ -767,6 +889,54 @@ export default {
         return this.$store.commit("getShowAllDisabled", value);
       },
     },
+    rtOpacity: {
+      get() {
+        return this.$store.state.rtOpacity;
+      },
+      set(value) {
+        return this.$store.commit("getRtOpacity", value);
+      },
+    },
+    allFeaturesOpacity: {
+      get() {
+        return this.$store.state.allFeaturesOpacity;
+      },
+      set(value) {
+        return this.$store.commit("getAllFeaturesOpacity", value);
+      },
+    },
+    noaaOpacity: {
+      get() {
+        return this.$store.state.noaaOpacity;
+      },
+      set(value) {
+        return this.$store.commit("getnoaaOpacity", value);
+      },
+    },
+    nfhlOpacity: {
+      get() {
+        return this.$store.state.nfhlOpacity;
+      },
+      set(value) {
+        return this.$store.commit("getnfhlOpacity", value);
+      },
+    },
+    nwsOpacity: {
+      get() {
+        return this.$store.state.nwsOpacity;
+      },
+      set(value) {
+        return this.$store.commit("getnwsOpacity", value);
+      },
+    },
+    fwwOpacity: {
+      get() {
+        return this.$store.state.fwwOpacity;
+      },
+      set(value) {
+        return this.$store.commit("getfwwOpacity", value);
+      },
+    },
   },
   // Watch the current zoom value to disable checkbox
   watch: {
@@ -973,5 +1143,23 @@ export default {
 
 .v-expansion-panel-content__wrap {
   padding-left: 12px !important;
+}
+
+.sliders {
+  background-color: black;
+  opacity: 0.75;
+  position: relative;
+  z-index: 999;
+  width: 80%;
+  height: 60px;
+  color: white;
+  border-radius: 5px 5px 5px 5px;
+  padding: 5px;
+  margin: auto;
+  font-size: 12px;
+}
+
+.opIcon {
+  padding-left: 8px;
 }
 </style>

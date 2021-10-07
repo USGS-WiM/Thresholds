@@ -35,6 +35,12 @@ export default new Vuex.Store({
     selectedTimePeriodState: "&period=P7D",
     showAllDisabled: true,
     thresholdsExceededCount: 0,
+    rtOpacity: 1,
+    allFeaturesOpacity: 1,
+    noaaOpacity: 1,
+    nfhlOpacity: 1,
+    nwsOpacity: 1,
+    fwwOpacity: 1,
   },
   mutations: {
     toggleDrawerState(state, data) {
@@ -120,6 +126,24 @@ export default new Vuex.Store({
     },
     getThresholdsExceededCount(state, thresholdsExceededCount) {
       state.thresholdsExceededCount = thresholdsExceededCount;
+    },
+    getRtOpacity(state, rtOpacity) {
+      state.rtOpacity = rtOpacity;
+    },
+    getAllFeaturesOpacity(state, allFeaturesOpacity) {
+      state.allFeaturesOpacity = allFeaturesOpacity;
+    },
+    getnoaaOpacity(state, noaaOpacity) {
+      state.noaaOpacity = noaaOpacity;
+    },
+    getnfhlOpacity(state, nfhlOpacity) {
+      state.nfhlOpacity = nfhlOpacity;
+    },
+    getnwsOpacity(state, nwsOpacity) {
+      state.nwsOpacity = nwsOpacity;
+    },
+    getfwwOpacity(state, fwwOpacity) {
+      state.fwwOpacity = fwwOpacity;
     },
   },
   getters: {
