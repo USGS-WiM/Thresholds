@@ -517,7 +517,7 @@ export default {
       }).addTo(self.map);
 
       self.streamgageMarkers = L.featureGroup();
-      self.tideMarkers = L.featureGroup();
+      self.tideMarkers = L.layerGroup();
 
       // Live markers from Aquarius TEST environment
       self.aqMarkers = L.featureGroup();
@@ -706,6 +706,7 @@ export default {
               let marker = L.marker([lat, lng], {
                 icon: this.nwisIcon,
                 zIndexOffset: 1000, // add marker on top of other map layers
+                opacity: this.$store.state.rtOpacity
               }).addTo(this.streamgageMarkers);
               marker.data = { siteName: siteName, siteCode: siteID };
             }
@@ -1592,6 +1593,7 @@ export default {
               // all RP layer
               let allMarkers = L.marker([lat, lng], {
                 icon: wimIcon,
+                opacity: this.$store.state.allFeaturesOpacity
               }).addTo(this.allRPMarkers);
 
               allMarkers.data = {
@@ -1628,6 +1630,7 @@ export default {
             // all RP layer
               let allMarkers = L.marker([lat, lng], {
                 icon: wimIcon,
+                opacity: this.$store.state.allFeaturesOpacity
               }).addTo(this.allRPMarkers);
 
               allMarkers.data = {
@@ -1736,7 +1739,7 @@ export default {
                 );
                 } else {
                     //These sites are in the Atlantic Ocean or otherwise clearly out of place
-                    L.marker([lat, long], { icon: this.noaaIcon })
+                    L.marker([lat, long], { icon: this.noaaIcon, opacity: this.$store.state.noaaOpacity })
                       .bindPopup(popupContent)
                       .addTo(this.tideMarkers);
                     this.tideMarkers.addTo(this.map);
@@ -1772,6 +1775,7 @@ export default {
         .then(function () {
           if(self.nfhlIsDisplayed != "none"){
             self.nfhlLayer.addTo(self.map);
+            self.nfhlLayer.setOpacity(self.$store.state.nfhlOpacity);
             let layers = self.nfhlLayer.getLayers();
             self.getNfhlLegend(layers);
           }
@@ -1921,6 +1925,7 @@ export default {
       let layers = this.fwwLayer.getLayers();
       this.fwwLayer.addTo(this.map);
       this.getFwwLegend(layers);
+      this.fwwLayer.setOpacity(this.$store.state.fwwOpacity);
     },
     getRadarLayer() {
       this.radarLayer = esri.dynamicMapLayer({
@@ -1930,6 +1935,7 @@ export default {
         opacity: 0.65,
       });
       this.radarLayer.addTo(this.map);
+      this.radarLayer.setOpacity(this.$store.state.nwsOpacity);
     },
     toggleSublayers(sublayer, sublayerState, sublayerType) {
       if (sublayerState == true) {
@@ -2199,7 +2205,49 @@ export default {
         this.getNOAATidesLayer();
       }
 
-    }
+    },
+    "$store.state.rtOpacity": function () {
+      let self = this;
+      if(this.map.hasLayer(this.streamgageMarkers)){
+        this.streamgageMarkers.eachLayer(function(marker) {
+          marker.setOpacity(self.$store.state.rtOpacity)
+        });
+      }
+    },
+    "$store.state.allFeaturesOpacity": function () {
+      let self = this;
+      if(this.map.hasLayer(this.allRPMarkers)){
+        this.allRPMarkers.eachLayer(function(marker) {
+          marker.setOpacity(self.$store.state.allFeaturesOpacity)
+        });
+      }
+    },
+    "$store.state.noaaOpacity": function () {
+      let self = this;
+      if(this.map.hasLayer(this.tideMarkers)){
+        this.tideMarkers.eachLayer(function(marker) {
+          marker.setOpacity(self.$store.state.noaaOpacity)
+        });
+      }
+    },
+    "$store.state.nfhlOpacity": function () {
+      let self = this;
+      if(this.map.hasLayer(this.nfhlLayer)){
+        this.nfhlLayer.setOpacity(self.$store.state.nfhlOpacity);
+      }
+    },
+    "$store.state.nwsOpacity": function () {
+      let self = this;
+      if(this.map.hasLayer(this.radarLayer)){
+        this.radarLayer.setOpacity(self.$store.state.nwsOpacity)
+      }
+    },
+    "$store.state.fwwOpacity": function () {
+      let self = this;
+      if(this.map.hasLayer(this.fwwLayer)){
+        this.fwwLayer.setOpacity(self.$store.state.fwwOpacity);
+      }
+    },
   },
   // Store current zoom value in state to access from other components
   computed: {
