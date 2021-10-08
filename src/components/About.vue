@@ -69,6 +69,7 @@
                 <br>
                 <p><strong>Disclaimer for streamgage data:</strong></p>
                 <p>Data provided by the USGS real-time streamgages presented in this map are provisional and subject to revision until they have been thoroughly reviewed and received final approval. Real-time data relayed by satellite or other telemetry are automatically screened to not display improbable values until they can be verified. Provisional data may be inaccurate due to instrument malfunctions or physical changes at the measurement site. Subsequent review based on field inspections and measurements may result in significant revisions to the data.</p>
+                <p>For site specific information please contact the local USGS Water Science Center. For other inquiries, please contact our team at <a href="mailto:usgs-Realtime-Flood-Impact-Map@doimspp.onmicrosoft.com">usgs-Realtime-Flood-Impact-Map@doimspp.onmicrosoft.com</a>.</p>
             </v-card-text>
     
             <v-divider></v-divider>
