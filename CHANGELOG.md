@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added last updated date and gage height to AQ popup headers
 - Added opacity sliders for All Features, RT Streamgages, and supporting layers.
 - Add new subsection to sidebar
+- Added contact email to about
 
 ### Changed
 
