@@ -511,53 +511,9 @@
             </div>
             <br />
 
-            <div class="subsection-title" id="supporting-layer-title">
-              Supporting Layers
+            <div class="subsection-title" id="additional-flooding-layer-title">
+              Additional Flooding Layers
             </div>
-
-            <v-simple-checkbox
-              type="checkbox"
-              ref="noaa"
-              id="noaa"
-              value="false"
-              v-model="noaaPicked"
-            ></v-simple-checkbox>
-            <div class="legend-icon">
-              <div
-                class="
-                  wmm-diamond
-                  wmm-lime
-                  wmm-icon-triangle
-                  wmm-icon-black
-                  wmm-size-15
-                  wmm-borderless
-                "
-              ></div>
-              <label for="noaa" style="padding-left: 15px"
-                >NOAA Tides &amp; Current Stations</label
-              >
-            </div>
-            <v-icon
-              class="opIcon"
-              @click="showNOAASlider = !showNOAASlider"
-              small
-              color="blue lighten-1"
-              dark
-            >
-              mdi-circle-opacity
-            </v-icon>
-            <div v-if="showNOAASlider" class="sliders">
-              Opacity: &nbsp; {{ noaaOpacity }}
-              <v-slider
-                v-model="noaaOpacity"
-                color="grey darken-2"
-                track-color="white"
-                max="1"
-                min="0"
-                step="0.01"
-              ></v-slider>
-            </div>
-            <br />
 
             <v-simple-checkbox
               type="checkbox"
@@ -652,6 +608,55 @@
                 step="0.01"
               ></v-slider>
             </div>
+
+            <div class="subsection-title" id="supporting-layer-title">
+              Supporting Layers
+            </div>
+
+            <v-simple-checkbox
+              type="checkbox"
+              ref="noaa"
+              id="noaa"
+              value="false"
+              v-model="noaaPicked"
+            ></v-simple-checkbox>
+            <div class="legend-icon">
+              <div
+                class="
+                  wmm-diamond
+                  wmm-lime
+                  wmm-icon-triangle
+                  wmm-icon-black
+                  wmm-size-15
+                  wmm-borderless
+                "
+              ></div>
+              <label for="noaa" style="padding-left: 15px"
+                >NOAA Tides &amp; Current Stations</label
+              >
+            </div>
+            <v-icon
+              class="opIcon"
+              @click="showNOAASlider = !showNOAASlider"
+              small
+              color="blue lighten-1"
+              dark
+            >
+              mdi-circle-opacity
+            </v-icon>
+            <div v-if="showNOAASlider" class="sliders">
+              Opacity: &nbsp; {{ noaaOpacity }}
+              <v-slider
+                v-model="noaaOpacity"
+                color="grey darken-2"
+                track-color="white"
+                max="1"
+                min="0"
+                step="0.01"
+              ></v-slider>
+            </div>
+            <br />
+
           </v-container>
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -1070,7 +1075,7 @@ export default {
   padding-top: 10px;
 }
 
-#supporting-layer-title {
+#supporting-layer-title, #additional-flooding-layer-title {
   padding-top: 14px;
 }
 
