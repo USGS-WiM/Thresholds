@@ -485,7 +485,9 @@ export default {
       allRPVisible: true,
       noFloodingdialog: false,
       thresholdsExceeded: 0,
-      mediaQuery: 'screen and (max-width: 767px)'
+      mediaQuery: 'screen and (max-width: 767px)',
+      predictedValues: [],
+      predictedDates: []
     };
   },
   methods: {
@@ -959,6 +961,9 @@ export default {
       });
     },
     openAQPopup(e) {
+      let self = this;
+      this.predictedValues = [];
+      this.predictedDates = [];
       //Clear out previous popup contents if existing
       if (document.getElementById("graphContainerAQ") != null) {
         document.getElementById("graphContainerAQ").remove();
@@ -994,9 +999,6 @@ export default {
         series: [],
       });
 
-      // creating string for request
-      //let timeRange = "&period=P7D";
-
       let icon;
       let tooltip;
       if (e.layer._icon.outerHTML.split("class")[0] === "<div ") {
@@ -1012,7 +1014,7 @@ export default {
       }
 
       //Active Flooding popup and all RP popup
-      this.aqPopupContent =
+      self.aqPopupContent =
         '<div id="aqGraphHeader"><span><label id="popup-titleAQ"></br></label>' +
         layerData.SiteName +
         " </label></span><div class='popupIcon'>" +
@@ -1042,254 +1044,308 @@ export default {
         graphParameterCodeList +
         this.timePeriodValue;
 
-      let el;
-      let self = this;
-      axios.get(url).then((data) => {
-        if (
-          data.data == undefined ||
-          data.data.response_code == 404 ||
-          data.data.data[0].time_series_data.length == 0
-        ) {
-          console.log("No NWIS data available for this time period");
-          if (e.layer.getPopup() != undefined) {
-            e.layer
-              .getPopup()
-              .setContent(this.aqPopupContent, {
-                minWidth: 300,
-              })
-              .openPopup();
-          } else {
-            e.layer
-              .bindPopup(this.aqPopupContent, { minWidth: 300 })
-              .openPopup();
-          }
-          if (window.matchMedia(this.mediaQuery).matches){
-            el = document.getElementById('fullscreenPopup');
-            el.innerHTML += '<div id="popupCloseButton">' +
-            '<i class="v-icon notranslate mdi mdi-close" style="font-size:16px"></i>' +
-            '</div><br>';
-            el.innerHTML += this.aqPopupContent;
+      let createPopup = function(){
+        let el;
+        axios.get(url).then((data) => {
+          if (
+            data.data == undefined ||
+            data.data.response_code == 404 ||
+            data.data.data[0].time_series_data.length == 0
+          ) {
+            console.log("No NWIS data available for this time period");
+            if (e.layer.getPopup() != undefined) {
+              e.layer
+                .getPopup()
+                .setContent(self.aqPopupContent, {
+                  minWidth: 300,
+                })
+                .openPopup();
+            } else {
+              e.layer
+                .bindPopup(self.aqPopupContent, { minWidth: 300 })
+                .openPopup();
+            }
+            if (window.matchMedia(self.mediaQuery).matches){
+              el = document.getElementById('fullscreenPopup');
+              el.innerHTML += '<div id="popupCloseButton">' +
+              '<i class="v-icon notranslate mdi mdi-close" style="font-size:16px"></i>' +
+              '</div><br>';
+              el.innerHTML += self.aqPopupContent;
 
-            document.querySelector('#popupCloseButton').onclick = function(){
-              self.map.closePopup();
-              el.innerHTML = '';
-              el.classList.remove('visible');
+              document.querySelector('#popupCloseButton').onclick = function(){
+                self.map.closePopup();
+                el.innerHTML = '';
+                el.classList.remove('visible');
+              }
+
+              L.DomEvent.disableClickPropagation(document.querySelector('#popupCloseButton'))
+              el.classList.add('visible');
             }
 
-            L.DomEvent.disableClickPropagation(document.querySelector('#popupCloseButton'))
-            el.classList.add('visible');
-          }
-
-          document
-            .getElementById("graphLoadMessageAQ")
-            .setAttribute("style", "display: none");
-          document
-            .getElementById("noDataMessageAQ")
-            .setAttribute("style", "display: block");
-          document
-            .getElementById("aqDataCredit")
-            .setAttribute("style", "display: none");
-          document
-            .getElementById("graphContainerAQ")
-            .setAttribute("style", "display: none");
-        } else {
-          if (e.layer.getPopup() != undefined) {
-            e.layer.getPopup().setContent(this.aqPopupContent, {
-              minWidth: 290,
-            });
-            e.layer.openPopup();
+            document
+              .getElementById("graphLoadMessageAQ")
+              .setAttribute("style", "display: none");
+            document
+              .getElementById("noDataMessageAQ")
+              .setAttribute("style", "display: block");
+            document
+              .getElementById("aqDataCredit")
+              .setAttribute("style", "display: none");
+            document
+              .getElementById("graphContainerAQ")
+              .setAttribute("style", "display: none");
           } else {
-            e.layer.bindPopup(this.aqPopupContent, {
-              minWidth: 290,
-            });
-            e.layer.openPopup();
-          }
-
-          if (window.matchMedia(this.mediaQuery).matches){
-            el = document.getElementById('fullscreenPopup');
-            el.innerHTML += '<div id="popupCloseButton">' +
-            '<i class="v-icon notranslate mdi mdi-close" style="font-size:16px"></i>' +
-            '</div><br>';
-            el.innerHTML += this.aqPopupContent;
-
-            document.querySelector('#popupCloseButton').onclick = function(){
-              self.map.closePopup();
-              el.innerHTML = '';
-              el.classList.remove('visible');
+            if (e.layer.getPopup() != undefined) {
+              e.layer.getPopup().setContent(self.aqPopupContent, {
+                minWidth: 290,
+              });
+              e.layer.openPopup();
+            } else {
+              e.layer.bindPopup(self.aqPopupContent, {
+                minWidth: 290,
+              });
+              e.layer.openPopup();
             }
 
-            L.DomEvent.disableClickPropagation(document.querySelector('#popupCloseButton'))
-            el.classList.add('visible');
-          }
+            if (window.matchMedia(self.mediaQuery).matches){
+              el = document.getElementById('fullscreenPopup');
+              el.innerHTML += '<div id="popupCloseButton">' +
+              '<i class="v-icon notranslate mdi mdi-close" style="font-size:16px"></i>' +
+              '</div><br>';
+              el.innerHTML += self.aqPopupContent;
 
-          // Associate time info with threshold values
-          thresholds.forEach(function (threshold) {
+              document.querySelector('#popupCloseButton').onclick = function(){
+                self.map.closePopup();
+                el.innerHTML = '';
+                el.classList.remove('visible');
+              }
+
+              L.DomEvent.disableClickPropagation(document.querySelector('#popupCloseButton'))
+              el.classList.add('visible');
+            }
+
+            let timeSeriesArray = [];
+            // Time series array with both observed and predicted values for x axis range
             data.data.data[0].time_series_data.forEach(function (value) {
-              threshold.series.push([value[0], threshold.value]);
+              timeSeriesArray.push(value[0]);
             });
-          });
+            self.predictedDates.forEach(function (value) {
+              timeSeriesArray.push(value);
+            });
 
-          let dates = [];
-          let values = [];
-          let plotlyAnnotations = [];
+            // Associate time info with threshold values
+            thresholds.forEach(function (threshold) {
+              timeSeriesArray.forEach(function (value) {
+                threshold.series.push([value, threshold.value]);
+              });
+            });
 
-          let ampm = "AM";
-          let mostRecentDate = new Date(data.data.data[0].time_series_data[data.data.data[0].time_series_data.length - 1][0]);
-          let hour = mostRecentDate.getHours();
-          if(hour > 12){
-            hour = hour - 12;
-            hour = hour.toString().padStart(2, '0');
-            ampm = "PM";
-          }
-          mostRecentDate = (mostRecentDate.getMonth() + 1) + '/' + mostRecentDate.getDate().toString().padStart(2, '0')  + "/" + mostRecentDate.getFullYear() + " " + hour + ":" + mostRecentDate.getMinutes().toString().padStart(2, '0');
-          let mostRecentHeight = data.data.data[0].time_series_data[data.data.data[0].time_series_data.length - 1][1];
-          document.getElementById("aqGraphHeader").innerHTML += `<b>Last Updated: </b>${mostRecentDate} ${ampm}<br><b>Last Updated Gage Height: </b>${mostRecentHeight} feet`;
-          // Create x and y arrays for NWIS trace
-          data.data.data[0].time_series_data.forEach(function (time) {
-            dates.push(new Date(time[0]));
-            values.push(time[1]);
-          });
+            let dates = [];
+            let values = [];
+            let plotlyAnnotations = [];
 
-          // Plot for Active Flooding, label for all RP and Status
-          let traces = [
-            {
-              x: dates,
-              y: values,
-              type: "scatter",
-              showlegend: true,
-              name: "<b>NWIS Observed Gage Data</b>",
-              hovertemplate: "%{x|%m/%d %I:%M %p}<br>Gage height: %{y} feet<extra></extra>",
-              font: {
-                family: "Public Sans, sans-serif",
+            let ampm = "AM";
+            let mostRecentDate = new Date(data.data.data[0].time_series_data[data.data.data[0].time_series_data.length - 1][0]);
+            let hour = mostRecentDate.getHours();
+            if(hour > 12){
+              hour = hour - 12;
+              hour = hour.toString().padStart(2, '0');
+              ampm = "PM";
+            }
+            mostRecentDate = (mostRecentDate.getMonth() + 1) + '/' + mostRecentDate.getDate().toString().padStart(2, '0')  + "/" + mostRecentDate.getFullYear() + " " + hour + ":" + mostRecentDate.getMinutes().toString().padStart(2, '0');
+            let mostRecentHeight = data.data.data[0].time_series_data[data.data.data[0].time_series_data.length - 1][1];
+            document.getElementById("aqGraphHeader").innerHTML += `<b>Last Updated: </b>${mostRecentDate} ${ampm}<br><b>Last Updated Gage Height: </b>${mostRecentHeight} feet`;
+            // Create x and y arrays for NWIS trace
+            data.data.data[0].time_series_data.forEach(function (time) {
+              dates.push(new Date(time[0]));
+              values.push(time[1]);
+            });
+
+            // Plot for Active Flooding, label for all RP and Status
+            let traces = [
+              {
+                x: dates,
+                y: values,
+                type: "scatter",
+                mode: "lines",
+                showlegend: true,
+                name: "<b>NWIS Observed Gage Data</b>",
+                hovertemplate: "%{x|%m/%d %I:%M %p}<br>Gage height: %{y} feet<extra></extra>",
+                font: {
+                  family: "Public Sans, sans-serif",
+                },
               },
-            },
-          ];
+            ];
 
-          // Create trace and annotation for each threshold
-          for (let i = 0; i < thresholds.length; i++) {
-            let xdata = [];
-            let ydata = [];
-
-            // Add one line representing all thresholds to legend
-            let showLegend = false;
-
-            if (i == 0) {
-              showLegend = true;
+            if (self.predictedValues.length > 0){
+              traces.push({
+                  x: self.predictedDates,
+                  y: self.predictedValues,
+                  type: "scatter",
+                  mode: "lines",
+                  showlegend: true,
+                  name: "<b>NWS Predicted Gage Data</b>",
+                  hovertemplate: "%{x|%m/%d %I:%M %p}<br>Predicted Gage height: %{y} feet<extra></extra>",
+                  font: {
+                    family: "Public Sans, sans-serif",
+                  },
+              });
             }
 
-            // Create x and y arrays for threshold traces
-            thresholds[i].series.forEach(function (datapoint) {
-              let xdatapoint = new Date(datapoint[0]);
-              xdata.push(xdatapoint);
-              ydata.push(datapoint[1]);
-            });
+            // Create trace and annotation for each threshold
+            for (let i = 0; i < thresholds.length; i++) {
+              let xdata = [];
+              let ydata = [];
 
-            // threshold level for Active Flooding
-            traces.push({
-              x: xdata,
-              y: ydata,
-              type: "scatter",
-              line: {
-                color: "#8b0000",
-              },
-              showlegend: showLegend,
-              legendgroup: "thresholds",
-              name: layerData.ThresholdName + " Threshold",
-              // Tooltip
-              hovertemplate: "%{fullData.name}: %{y} feet<extra></extra>",
+              // Add one line representing all thresholds to legend
+              let showLegend = false;
+
+              if (i == 0) {
+                showLegend = true;
+              }
+
+              // Create x and y arrays for threshold traces
+              thresholds[i].series.forEach(function (datapoint) {
+                let xdatapoint = new Date(datapoint[0]);
+                xdata.push(xdatapoint);
+                ydata.push(datapoint[1]);
+              });
+
+              // threshold level for Active Flooding
+              traces.push({
+                x: xdata,
+                y: ydata,
+                type: "scatter",
+                mode: "lines",
+                line: {
+                  color: "#8b0000",
+                },
+                showlegend: showLegend,
+                legendgroup: "thresholds",
+                name: layerData.ThresholdName + " Threshold",
+                // Tooltip
+                hovertemplate: "%{fullData.name}: %{y} feet<extra></extra>",
+                font: {
+                  family: "Public Sans, sans-serif",
+                },
+              });
+
+              // Create labels for Active Flooding
+              plotlyAnnotations.push({
+                x: thresholds[i].series[thresholds[i].series.length - 1][0], // Place label after last x value
+                y: ydata[0], // Place label at same y value as threshold
+                xref: "x",
+                yref: "y",
+                text: layerData.Elevation + " " + layerData.Unit,
+                showarrow: false,
+                arrowhead: 0,
+                font: {
+                  family: "Public Sans, sans-serif",
+                  size: 9,
+                },
+                xanchor: "left",
+              });
+            }
+
+            // Active Flooding chart layout
+            let layout = {
+              autosize: false,
+              width: 300,
+              height: 235,
               font: {
                 family: "Public Sans, sans-serif",
               },
+              yaxis: {
+                title: "Gage Height, feet",
+                titlefont: { size: 11 },
+                automargin: true,
+              },
+              xaxis: {
+                range: [dates[0], timeSeriesArray[timeSeriesArray.length -1]],
+                tickformat: "%d %b %y",
+                tickfont: {
+                  size: 11,
+                },
+              },
+              legend: {
+                font: {
+                  size: 11,
+                },
+                orientation: "h",
+                y: -0.15,
+              },
+              margin: {
+                l: 25,
+                r: 25,
+                t: 15,
+                pad: 4,
+              },
+              annotations: plotlyAnnotations,
+              hoverlabel: {
+                font: {
+                  family: "Public Sans, sans-serif",
+                  color: "#FFF"
+                },
+                bordercolor: "#FFF"
+              },
+              modebar: {
+                orientation: "h", // Vertical modebar
+                remove: "autoscale",
+              },
+              dragmode: "pan", // Make pan the default active modebar button
+            };
+
+            let config = {
+              responsive: true, // Make chart responsive
+              displayModeBar: true, // Modebar always visible, not just on plot hover
+              displaylogo: false, // Remove plotly.js icon from modebar
+            };
+
+            let chartData = [];
+
+            traces.forEach(function (trace) {
+              chartData.push(trace);
             });
 
-            // Create labels for Active Flooding
-            plotlyAnnotations.push({
-              x: thresholds[i].series[thresholds[i].series.length - 1][0], // Place label after last x value
-              y: ydata[0], // Place label at same y value as threshold
-              xref: "x",
-              yref: "y",
-              text: layerData.Elevation + " " + layerData.Unit,
-              showarrow: false,
-              arrowhead: 0,
-              font: {
-                family: "Public Sans, sans-serif",
-                size: 9,
-              },
-              xanchor: "left",
-            });
+            // Render plot
+            Plotly.newPlot("graphContainerAQ", chartData, layout, config);
+            document
+              .getElementById("graphContainerAQ")
+              .setAttribute("style", "display: block");
+            document
+              .getElementById("graphLoadMessageAQ")
+              .setAttribute("style", "display: none");
           }
+        })
+        .catch(function(error){
+          console.log(error);
+        })
+      }
 
-          // Active Flooding chart layout
-          let layout = {
-            autosize: false,
-            width: 300,
-            height: 235,
-            font: {
-              family: "Public Sans, sans-serif",
-            },
-            yaxis: {
-              title: "Gage Height, feet",
-              titlefont: { size: 11 },
-              automargin: true,
-            },
-            xaxis: {
-              range: [dates[0], dates[dates.length - 1]],
-              tickformat: "%d %b %y",
-              tickfont: {
-                size: 11,
-              },
-            },
-            legend: {
-              font: {
-                size: 11,
-              },
-              orientation: "h",
-              y: -0.15,
-            },
-            margin: {
-              l: 25,
-              r: 25,
-              t: 20,
-              pad: 4,
-            },
-            annotations: plotlyAnnotations,
-            hoverlabel: {
-              font: {
-                family: "Public Sans, sans-serif",
-              },
-            },
-            modebar: {
-              orientation: "h", // Vertical modebar
-              remove: "autoscale",
-            },
-            dragmode: "pan", // Make pan the default active modebar button
-          };
-
-          let config = {
-            responsive: true, // Make chart responsive
-            displayModeBar: true, // Modebar always visible, not just on plot hover
-            displaylogo: false, // Remove plotly.js icon from modebar
-          };
-
-          let chartData = [];
-
-          traces.forEach(function (trace) {
-            chartData.push(trace);
-          });
-
-          // Render plot
-          Plotly.newPlot("graphContainerAQ", chartData, layout, config);
-          document
-            .getElementById("graphContainerAQ")
-            .setAttribute("style", "display: block");
-          document
-            .getElementById("graphLoadMessageAQ")
-            .setAttribute("style", "display: none");
-        }
-      })
-      .catch(function(error){
-        console.log(error);
-      });
+      // Get AHPS forecast values if available and if today's date
+      if (layerData.ahpsID !== "" && self.timePeriodValue === "&period=P7D") {
+        let ahpsurl = "https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=" + layerData.ahpsID + "&output=xml";
+        axios.get(ahpsurl).then((data) => {
+          let domParser = new DOMParser();
+          let xmlElement = domParser.parseFromString(data.data, "text/xml");
+          let forecast = xmlElement.getElementsByTagName("forecast");
+          forecast.forEach(function(value){
+            if(!value.innerHTML.includes("No Displayable Forecast")){
+              let datums = value.getElementsByTagName("datum");
+              datums.forEach(function(datum){
+                self.predictedValues.push(datum.getElementsByTagName("primary")[0].innerHTML);
+                self.predictedDates.push(datum.getElementsByTagName("valid")[0].innerHTML);
+              });
+            }
+          })
+          createPopup();
+        }).catch(function(error){
+          console.log(error);
+          createPopup();
+        });
+      }else{
+        createPopup();
+      }
     },
     //Fade out loading alert by reducing opacity
     fadeOutAlert() {
@@ -1395,6 +1451,7 @@ export default {
         let aqIcon;
         let siteName;
         let thresholdName;
+        let ahpsID;
 
         if (this.mvpData[entry].Latitude !== undefined) {
             lat = this.mvpData[entry].Latitude;
@@ -1404,6 +1461,7 @@ export default {
             elevation = this.mvpData[entry].Elevation;
             unit = this.mvpData[entry].Unit;
             siteName = this.mvpData[entry].SiteName;
+            ahpsID = this.mvpData[entry].nws_id;
             LocationIdentifier = this.mvpData[entry].LocationIdentifier;
           }
         // Remove any digits from Name string
@@ -1581,6 +1639,7 @@ export default {
                 ReferencePointPeriods: rpData,
                 Elevation: elevation,
                 Unit: unit,
+                ahpsID: ahpsID,
                 FullName: fullname,
                 SiteName: siteName,
                 ThresholdName: thresholdName,
@@ -1602,6 +1661,7 @@ export default {
                 ReferencePointPeriods: rpData,
                 Elevation: elevation,
                 Unit: unit,
+                ahpsID: ahpsID,
                 FullName: fullname,
                 SiteName: siteName,
                 ThresholdName: thresholdName,
@@ -1645,6 +1705,7 @@ export default {
                 ReferencePointPeriods: rpData,
                 Elevation: elevation,
                 Unit: unit,
+                ahpsID: ahpsID,
                 FullName: fullname,
                 SiteName: siteName,
                 ThresholdName: thresholdName,
