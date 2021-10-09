@@ -1321,9 +1321,32 @@ export default {
           console.log(error);
         })
       }
+      
+      // Getting todays date to account for user changing dates and returning to today
+      let isToday;
+      let endDateString;
+      
+      let today = new Date();
+      let d = today.getDate().toString().padStart(2, '0');
+      let m = today.getMonth() + 1;
+      m = m.toString().padStart(2, '0');
+      let y = today.getFullYear().toString().padStart(2, '0');
+
+      endDateString = "&endDT=" +
+        y +
+        "-" +
+        m +
+        "-" +
+        d;
+      
+      if (self.timePeriodValue === "&period=P7D" || self.timePeriodValue.includes(endDateString)) {
+        isToday = true;
+      } else {
+        isToday = false;
+      }
 
       // Get AHPS forecast values if available and if today's date
-      if (layerData.ahpsID !== "" && self.timePeriodValue === "&period=P7D") {
+      if (layerData.ahpsID !== "" && isToday) {
         let ahpsurl = "https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=" + layerData.ahpsID + "&output=xml";
         axios.get(ahpsurl).then((data) => {
           let domParser = new DOMParser();
