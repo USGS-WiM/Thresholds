@@ -23,12 +23,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Text change to Layer Names
 - Update about text
 - Added all threshold icons to sidebar and legend. Icons without active flooding are disabled in sidebar.
-- Changed AQ and Realt-time Streamgage popups to be full screen on mobile.
+- Changed AQ and Real-time Streamgage popups to be full screen on mobile.
+- Removed NWIS link from bottom of streamgage popups and added to popup title.
 
 ### Fixed
 
 - Fixed legend mousewheel scrolling and legend title always visible when scrolled
 - Fix mobile bugs in map controls and Safari page navigation
+- Fixed popup title cut off on streamgage popups
 
 ## [v0.7.0](https://github.com/USGS-WiM/Thresholds/releases/tag/v0.7.0) - 9/29/2021
 
