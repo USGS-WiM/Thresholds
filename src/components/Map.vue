@@ -760,15 +760,15 @@ export default {
 
       //popup for Active Flooding
       this.popupContent =
-        '<div id="popup-title"><label>NWIS Site ' +
+        '<div id="popup-title"><label>' +
+        '<a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
         e.layer.data.siteCode +
-        "</br>" +
+        '"> <b>NWIS Site ' +
+        e.layer.data.siteCode +
+        ' <i class="v-icon notranslate mdi mdi-open-in-new" style="font-size:16px"></i></b></a></br>' +
         e.layer.data.siteName +
-        '</label></div><p id="graphLoadMessage"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="mainGraphContainer" style="width:100%; min-height: 200px;display:block;"></div> <div id="dataCredit">Gage Height data courtesy of the U.S. Geological Survey</div><div id="nwisLink"><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
-        e.layer.data.siteCode +
-        '"><b>Site ' +
-        e.layer.data.siteCode +
-        ' on NWISWeb <i class="v-icon notranslate mdi mdi-open-in-new" style="font-size:16px"></i></b></a></div><div id="noDataMessage" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>';
+        '</label>' +
+        '</div><p id="graphLoadMessage"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="mainGraphContainer" style="width:100%; min-height: 200px;display:block;"></div> <div id="dataCredit">Gage Height data courtesy of the U.S. Geological Survey</div><div id="noDataMessage" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>';
       let url =
         "https://nwis.waterservices.usgs.gov/nwis/iv/?format=nwjson&sites=" +
         e.layer.data.siteCode +
@@ -874,13 +874,6 @@ export default {
           ];
 
           // Overall layout of Real-time streamgage chart
-          let graphtitle =
-            "<b>NWIS Site " +
-            e.layer.data.siteCode +
-            "<br>" +
-            e.layer.data.siteName +
-            "</b>";
-
           let layout = {
             autosize: false,
             width: 310,
@@ -899,15 +892,6 @@ export default {
               tickfont: {
                 size: 11,
               },
-            },
-            title: {
-              text: graphtitle,
-              font: {
-                size: 12,
-                color: "#333",
-              },
-              x: 0.05,
-              y: -1.0,
             },
             margin: {
               l: 30,
@@ -950,9 +934,6 @@ export default {
             .setAttribute("style", "display: block");
           document
             .getElementById("graphLoadMessage")
-            .setAttribute("style", "display: none");
-          document
-            .getElementById("popup-title")
             .setAttribute("style", "display: none");
         }
       })
@@ -2519,10 +2500,8 @@ export default {
 }
 
 #popup-title {
-  font-size: 12px;
-  color: rgba(51, 51, 51, 0.6);
+  font-size: 11px;
   font-family: "Public Sans", sans-serif;
-  font-weight: bold;
 }
 
 #dataCredit {
