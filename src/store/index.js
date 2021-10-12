@@ -14,19 +14,33 @@ export default new Vuex.Store({
     nfhlState: false,
     allRPState: true,
     bankState: false,
+    bankDisabled: true,
     pathState: false,
+    pathDisabled: true,
     roadState: false,
+    roadDisabled: true,
     bridgeRiskState: false,
+    bridgeRiskDisabled: true,
     bridgeState: false,
+    bridgeDisabled: true,
     facilityState: false,
+    facilityDisabled: true,
     bfeState: false,
+    bfeDisabled: true,
     otherState: false,
+    otherDisabled: true,
     fwwState: false,
     noaaState: false,
     currentZoomState: 4,
     selectedTimePeriodState: "&period=P7D",
     showAllDisabled: true,
     thresholdsExceededCount: 0,
+    rtOpacity: 1,
+    allFeaturesOpacity: 1,
+    noaaOpacity: 1,
+    nfhlOpacity: 1,
+    nwsOpacity: 1,
+    fwwOpacity: 1,
   },
   mutations: {
     toggleDrawerState(state, data) {
@@ -56,26 +70,50 @@ export default new Vuex.Store({
     getBankState(state, bankPicked) {
       state.bankState = bankPicked;
     },
+    getBankDisabledState(state, bankDisabled) {
+      state.bankDisabled = bankDisabled;
+    },
     getPathState(state, pathPicked) {
       state.pathState = pathPicked;
+    },
+    getPathDisabledState(state, pathDisabled) {
+      state.pathDisabled = pathDisabled;
     },
     getRoadState(state, roadPicked) {
       state.roadState = roadPicked;
     },
+    getRoadDisabledState(state, roadDisabled) {
+      state.roadDisabled = roadDisabled;
+    },
     getBridgeRiskState(state, bridgeRiskPicked) {
       state.bridgeRiskState = bridgeRiskPicked;
+    },
+    getBridgeRiskDisabledState(state, bridgeRiskDisabled) {
+      state.bridgeRiskDisabled = bridgeRiskDisabled;
     },
     getBridgeState(state, bridgePicked) {
       state.bridgeState = bridgePicked;
     },
+    getBridgeDisabledState(state, bridgeDisabled) {
+      state.bridgeDisabled = bridgeDisabled;
+    },
     getFacilityState(state, facilityPicked) {
       state.facilityState = facilityPicked;
+    },
+    getFacilityDisabledState(state, facilityDisabled) {
+      state.facilityDisabled = facilityDisabled;
     },
     getBfeState(state, bfePicked) {
       state.bfeState = bfePicked;
     },
+    getBfeDisabledState(state, bfeDisabled) {
+      state.bfeDisabled = bfeDisabled;
+    },
     getOtherState(state, otherPicked) {
       state.otherState = otherPicked;
+    },
+    getOtherDisabledState(state, otherDisabled) {
+      state.otherDisabled = otherDisabled;
     },
     getCurrentZoomState(state, currentZoom) {
       state.currentZoomState = currentZoom;
@@ -88,6 +126,24 @@ export default new Vuex.Store({
     },
     getThresholdsExceededCount(state, thresholdsExceededCount) {
       state.thresholdsExceededCount = thresholdsExceededCount;
+    },
+    getRtOpacity(state, rtOpacity) {
+      state.rtOpacity = rtOpacity;
+    },
+    getAllFeaturesOpacity(state, allFeaturesOpacity) {
+      state.allFeaturesOpacity = allFeaturesOpacity;
+    },
+    getnoaaOpacity(state, noaaOpacity) {
+      state.noaaOpacity = noaaOpacity;
+    },
+    getnfhlOpacity(state, nfhlOpacity) {
+      state.nfhlOpacity = nfhlOpacity;
+    },
+    getnwsOpacity(state, nwsOpacity) {
+      state.nwsOpacity = nwsOpacity;
+    },
+    getfwwOpacity(state, fwwOpacity) {
+      state.fwwOpacity = fwwOpacity;
     },
   },
   getters: {

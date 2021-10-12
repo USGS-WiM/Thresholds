@@ -163,7 +163,7 @@ body {
 }
 
 @media screen and (max-width: 640px) {
-  .main-title, 
+  .main-title,
   .experimental-subtitle {
     display: none;
   }

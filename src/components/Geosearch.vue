@@ -32,15 +32,14 @@ export default {
       }
 
       let popupContent =
-        '<label id="popup-title">NWIS Site ' +
+        '<label id="popup-title">' +
+        '<a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
         siteCode +
-        "</br>" +
+        '"> <b>NWIS Site ' +
+        siteCode +
+        ' <i class="v-icon notranslate mdi mdi-open-in-new" style="font-size:16px"></i></b></a></br>' +
         siteName +
-        '</label></br><p id="graphLoadMessage"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainer" style="width:100%; min-height:200px;display:none;"></div> <div id="dataCredit">Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
-        siteCode +
-        '"><b>Site ' +
-        siteCode +
-        ' on NWISWeb <i class="v-icon notranslate mdi mdi-open-in-new" style="font-size:16px"></i></b></a><div id="noDataMessage" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>';
+        '</label></br><p id="graphLoadMessage"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainer" style="width:100%; min-height:200px;display:none;"></div> <div id="dataCredit">Gage Height data courtesy of the U.S. Geological Survey</div><div id="noDataMessage" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>';
       let url =
         "https://nwis.waterservices.usgs.gov/nwis/iv/?format=nwjson&sites=" +
         siteCode +
@@ -92,9 +91,6 @@ export default {
           ];
 
           // Overall layout of chart
-          let graphtitle =
-            "<b>NWIS Site " + siteCode + "<br>" + siteName + "</b>";
-
           let layout = {
             autosize: false,
             width: 310,
@@ -113,15 +109,6 @@ export default {
               tickfont: {
                 size: 11,
               },
-            },
-            title: {
-              text: graphtitle,
-              font: {
-                size: 12,
-                color: "#333",
-              },
-              x: 0.05,
-              y: -1.0,
             },
             margin: {
               l: 30,
@@ -163,9 +150,6 @@ export default {
             .setAttribute("style", "display: block");
           document
             .getElementById("graphLoadMessage")
-            .setAttribute("style", "display: none");
-          document
-            .getElementById("popup-title")
             .setAttribute("style", "display: none");
         }
       });

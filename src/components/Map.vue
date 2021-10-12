@@ -37,7 +37,8 @@
       >
         <span class="loadingLabel">Error loading NFHL services</span>
       </div>
-
+      <div id="fullscreenPopup">
+      </div>
       <!-- a leaflet map -->
       <div id="map">
       <div id="findLocationContainer"><Geosearch :map="map"></Geosearch></div>
@@ -56,7 +57,7 @@
             <!-- Threshold icons -->
               <div id="thresholdLayers">
                 <div id="thresholdLayersTitle" v-if="activeLayerTitleVisible">Active Flooding</div>
-                <div class="legendIcon" v-if="bankVisible">
+                <div class="legendIcon">
                   <img
                     src="../assets/aq-icons/embankment_flooded_circle.png"
                     height="25px"
@@ -78,7 +79,7 @@
                     <span>Flood waters exit the stream/river channel and overflow onto a flat surface</span>
                   </v-tooltip>
                 </div>
-                <div class="legendIcon" v-if="pathVisible">
+                <div class="legendIcon">
                   <img
                     src="../assets/aq-icons/path_flooded_circle.png"
                     alt=""
@@ -101,7 +102,7 @@
                     <span>Flood waters are flooding a pedestrian greenway/trail/path</span>
                   </v-tooltip>
                 </div>
-                <div class="legendIcon" v-if="roadVisible">
+                <div class="legendIcon">
                   <img
                     src="../assets/aq-icons/car_flooded_circle.png"
                     alt=""
@@ -124,7 +125,7 @@
                     <span>Low lying areas along roads are flooding</span>
                   </v-tooltip>
                 </div>
-                <div class="legendIcon" v-if="bridgeRiskVisible">
+                <div class="legendIcon">
                   <img
                     src="../assets/aq-icons/bridge_risk_circle.png"
                     alt=""
@@ -147,7 +148,7 @@
                     <span>Water from a river or stream is under the lowest section of a bridge</span>
                   </v-tooltip>
                 </div>
-                <div class="legendIcon" v-if="bridgeFloodedVisible">
+                <div class="legendIcon">
                   <img
                     src="../assets/aq-icons/bridge_flooded_circle.png"
                     alt=""
@@ -170,7 +171,7 @@
                     <span>A bridge is flooding</span>
                   </v-tooltip>
                 </div>
-                <div class="legendIcon" v-if="facilityVisible">
+                <div class="legendIcon">
                   <img
                     src="../assets/aq-icons/building_flooded_circle.png"
                     alt=""
@@ -193,7 +194,7 @@
                     <span>Structures/facilities are flooding</span>
                   </v-tooltip>
                 </div>
-                <div class="legendIcon" v-if="bfeVisible">
+                <div class="legendIcon">
                   <img
                     src="../assets/aq-icons/BFE.png"
                     height="25px"
@@ -215,7 +216,7 @@
                     <span>The FEMA 100-year BFE has been reached</span>
                   </v-tooltip>
                 </div>
-                <div class="legendIcon" v-if="otherVisible">
+                <div class="legendIcon">
                   <img
                     src="../assets/aq-icons/other.png"
                     height="25px"
@@ -266,22 +267,22 @@
                       wmm-borderless
                     "
                   ></div>
-                  <label>Real-time Streamgage</label>
+                  <label>USGS Real-time Streamgage</label>
                 </div>
 
                 <div class="legendIconToggle" v-if="nfhlVisible">
-                  <label id="nfhlLabel">National Flood Hazard Layer</label>
+                  <label id="nfhlLabel">FEMA National Flood Hazard Layer</label>
                 </div>
                 <div id="nfhlLegend"></div>
               </div>
 
               <div class="legendIconToggle" v-if="radarVisible">
-                  <label id="radarLabel">National Weather Service Radar</label>
+                  <label id="radarLabel">NOAA National Weather Service Radar</label>
                   <div id="radarLegend"></div>
                 </div>
 
                 <div class="legendIconToggle" v-if="fwwVisible">
-                  <label id="fwwLabel">Flood Watches and Warnings</label>
+                  <label id="fwwLabel">NOAA Flood Watches and Warnings</label>
                 </div>
                 <div id="fwwLegend"></div>
 
@@ -483,7 +484,10 @@ export default {
       tidesVisible: false,
       allRPVisible: true,
       noFloodingdialog: false,
-      thresholdsExceeded: 0
+      thresholdsExceeded: 0,
+      mediaQuery: 'screen and (max-width: 767px)',
+      predictedValues: [],
+      predictedDates: []
     };
   },
   methods: {
@@ -497,6 +501,17 @@ export default {
         zoomSnap: 0.5,
       });
 
+      // Disable map scrolling when scrolling the legend
+      L.DomEvent.disableScrollPropagation(document.querySelector('#legendContainer'));
+      // Enable clicking on map controls on mobile screens
+      L.DomEvent.disableClickPropagation(document.querySelector('#legendContainer'));
+      L.DomEvent.disableClickPropagation(document.querySelector('#findLocationContainer'));
+
+      // Prevent page navigation when swiping right and left in Safari
+      document.addEventListener("touchmove" , function(e) {
+        e.preventDefault();
+      });
+
       //Add streets tilelayer to map initially
       L.tileLayer(tileProviders[0].url, {
         attribution: tileProviders[0].attribution,
@@ -504,7 +519,7 @@ export default {
       }).addTo(self.map);
 
       self.streamgageMarkers = L.featureGroup();
-      self.tideMarkers = L.featureGroup();
+      self.tideMarkers = L.layerGroup();
 
       // Live markers from Aquarius TEST environment
       self.aqMarkers = L.featureGroup();
@@ -693,6 +708,7 @@ export default {
               let marker = L.marker([lat, lng], {
                 icon: this.nwisIcon,
                 zIndexOffset: 1000, // add marker on top of other map layers
+                opacity: this.$store.state.rtOpacity
               }).addTo(this.streamgageMarkers);
               marker.data = { siteName: siteName, siteCode: siteID };
             }
@@ -740,17 +756,19 @@ export default {
         document.getElementById("noDataMessage").remove();
       }
 
+      document.getElementById('fullscreenPopup').innerHTML = '';
+
       //popup for Active Flooding
       this.popupContent =
-        '<label id="popup-title">NWIS Site ' +
+        '<div id="popup-title"><label>' +
+        '<a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
         e.layer.data.siteCode +
-        "</br>" +
+        '"> <b>NWIS Site ' +
+        e.layer.data.siteCode +
+        ' <i class="v-icon notranslate mdi mdi-open-in-new" style="font-size:16px"></i></b></a></br>' +
         e.layer.data.siteName +
-        '</label><p id="graphLoadMessage"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="mainGraphContainer" style="width:100%; min-height: 200px;display:block;"></div> <div id="dataCredit">Gage Height data courtesy of the U.S. Geological Survey</div><a class="nwis-link" target="_blank" href="https://nwis.waterdata.usgs.gov/nwis/uv?site_no=' +
-        e.layer.data.siteCode +
-        '"><b>Site ' +
-        e.layer.data.siteCode +
-        ' on NWISWeb <i class="v-icon notranslate mdi mdi-open-in-new" style="font-size:16px"></i></b></a><div id="noDataMessage" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>';
+        '</label>' +
+        '</div><p id="graphLoadMessage"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="mainGraphContainer" style="width:100%; min-height: 200px;display:block;"></div> <div id="dataCredit">Gage Height data courtesy of the U.S. Geological Survey</div><div id="noDataMessage" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>';
       let url =
         "https://nwis.waterservices.usgs.gov/nwis/iv/?format=nwjson&sites=" +
         e.layer.data.siteCode +
@@ -758,6 +776,8 @@ export default {
         graphParameterCodeList +
         this.timePeriodValue;
 
+      let el;
+      let self = this;
       axios.get(url).then((data) => {
         if (
           data.data == undefined ||
@@ -772,6 +792,22 @@ export default {
               .openPopup();
           } else {
             e.layer.bindPopup(this.popupContent, { minWidth: 300 }).openPopup();
+          }
+          if (window.matchMedia(this.mediaQuery).matches){
+            el = document.getElementById('fullscreenPopup');
+            el.innerHTML += '<div id="popupCloseButton">' +
+            '<i class="v-icon notranslate mdi mdi-close" style="font-size:16px"></i>' +
+            '</div><br>';
+            el.innerHTML += this.popupContent;
+
+            document.querySelector('#popupCloseButton').onclick = function(){
+              self.map.closePopup();
+              el.innerHTML = '';
+              el.classList.remove('visible');
+            }
+
+            L.DomEvent.disableClickPropagation(document.querySelector('#popupCloseButton'))
+            el.classList.add('visible');
           }
           document
             .getElementById("graphLoadMessage")
@@ -793,6 +829,23 @@ export default {
               .openPopup();
           } else {
             e.layer.bindPopup(this.popupContent, { minWidth: 300 }).openPopup();
+          }
+
+          if (window.matchMedia(this.mediaQuery).matches){
+            el = document.getElementById('fullscreenPopup');
+            el.innerHTML += '<div id="popupCloseButton">' +
+            '<i class="v-icon notranslate mdi mdi-close" style="font-size:16px"></i>' +
+            '</div><br>';
+            el.innerHTML += this.popupContent;
+
+            document.querySelector('#popupCloseButton').onclick = function(){
+              self.map.closePopup();
+              el.innerHTML = '';
+              el.classList.remove('visible');
+            }
+
+            L.DomEvent.disableClickPropagation(document.querySelector('#popupCloseButton'))
+            el.classList.add('visible');
           }
 
           let dates = [];
@@ -821,13 +874,6 @@ export default {
           ];
 
           // Overall layout of Real-time streamgage chart
-          let graphtitle =
-            "<b>NWIS Site " +
-            e.layer.data.siteCode +
-            "<br>" +
-            e.layer.data.siteName +
-            "</b>";
-
           let layout = {
             autosize: false,
             width: 310,
@@ -846,15 +892,6 @@ export default {
               tickfont: {
                 size: 11,
               },
-            },
-            title: {
-              text: graphtitle,
-              font: {
-                size: 12,
-                color: "#333",
-              },
-              x: 0.05,
-              y: -1.0,
             },
             margin: {
               l: 30,
@@ -898,9 +935,6 @@ export default {
           document
             .getElementById("graphLoadMessage")
             .setAttribute("style", "display: none");
-          document
-            .getElementById("popup-title")
-            .setAttribute("style", "display: none");
         }
       })
       .catch(function(error){
@@ -908,6 +942,9 @@ export default {
       });
     },
     openAQPopup(e) {
+      let self = this;
+      this.predictedValues = [];
+      this.predictedDates = [];
       //Clear out previous popup contents if existing
       if (document.getElementById("graphContainerAQ") != null) {
         document.getElementById("graphContainerAQ").remove();
@@ -924,6 +961,12 @@ export default {
         document.getElementById("noDataMessageAQ").remove();
       }
 
+      document.getElementById('fullscreenPopup').innerHTML = '';
+
+      if (document.getElementById("aqGraphHeader") != null) {
+        document.getElementById("aqGraphHeader").remove();
+      }
+
       // storing layer data and setting site id
       let layerData = e.layer.data;
       let siteID = e.layer.data.LocationIdentifier;
@@ -936,9 +979,6 @@ export default {
         value: layerData.Elevation,
         series: [],
       });
-
-      // creating string for request
-      //let timeRange = "&period=P7D";
 
       let icon;
       let tooltip;
@@ -955,7 +995,7 @@ export default {
       }
 
       //Active Flooding popup and all RP popup
-      this.aqPopupContent =
+      self.aqPopupContent =
         '<div id="aqGraphHeader"><span><label id="popup-titleAQ"></br></label>' +
         layerData.SiteName +
         " </label></span><div class='popupIcon'>" +
@@ -984,207 +1024,332 @@ export default {
         "&parameterCd=" +
         graphParameterCodeList +
         this.timePeriodValue;
-      axios.get(url).then((data) => {
-        if (
-          data.data == undefined ||
-          data.data.response_code == 404 ||
-          data.data.data[0].time_series_data.length == 0
-        ) {
-          console.log("No NWIS data available for this time period");
-          if (e.layer.getPopup() != undefined) {
-            e.layer
-              .getPopup()
-              .setContent(this.aqPopupContent, {
-                minWidth: 300,
-              })
-              .openPopup();
-          } else {
-            e.layer
-              .bindPopup(this.aqPopupContent, { minWidth: 300 })
-              .openPopup();
-          }
-          document
-            .getElementById("graphLoadMessageAQ")
-            .setAttribute("style", "display: none");
-          document
-            .getElementById("noDataMessageAQ")
-            .setAttribute("style", "display: block");
-          document
-            .getElementById("aqDataCredit")
-            .setAttribute("style", "display: none");
-          document
-            .getElementById("graphContainerAQ")
-            .setAttribute("style", "display: none");
-        } else {
-          if (e.layer.getPopup() != undefined) {
-            e.layer.getPopup().setContent(this.aqPopupContent, {
-              minWidth: 290,
-            });
-            e.layer.openPopup();
-          } else {
-            e.layer.bindPopup(this.aqPopupContent, {
-              minWidth: 290,
-            });
-            e.layer.openPopup();
-          }
 
-          // Associate time info with threshold values
-          thresholds.forEach(function (threshold) {
-            data.data.data[0].time_series_data.forEach(function (value) {
-              threshold.series.push([value[0], threshold.value]);
-            });
-          });
+      let createPopup = function(){
+        let el;
+        axios.get(url).then((data) => {
+          if (
+            data.data == undefined ||
+            data.data.response_code == 404 ||
+            data.data.data[0].time_series_data.length == 0
+          ) {
+            console.log("No NWIS data available for this time period");
+            if (e.layer.getPopup() != undefined) {
+              e.layer
+                .getPopup()
+                .setContent(self.aqPopupContent, {
+                  minWidth: 300,
+                })
+                .openPopup();
+            } else {
+              e.layer
+                .bindPopup(self.aqPopupContent, { minWidth: 300 })
+                .openPopup();
+            }
+            if (window.matchMedia(self.mediaQuery).matches){
+              el = document.getElementById('fullscreenPopup');
+              el.innerHTML += '<div id="popupCloseButton">' +
+              '<i class="v-icon notranslate mdi mdi-close" style="font-size:16px"></i>' +
+              '</div><br>';
+              el.innerHTML += self.aqPopupContent;
 
-          let dates = [];
-          let values = [];
-          let plotlyAnnotations = [];
+              document.querySelector('#popupCloseButton').onclick = function(){
+                self.map.closePopup();
+                el.innerHTML = '';
+                el.classList.remove('visible');
+              }
 
-          // Create x and y arrays for NWIS trace
-          data.data.data[0].time_series_data.forEach(function (time) {
-            dates.push(new Date(time[0]));
-            values.push(time[1]);
-          });
-
-          // Plot for Active Flooding, label for all RP and Status
-          let traces = [
-            {
-              x: dates,
-              y: values,
-              type: "scatter",
-              showlegend: true,
-              name: "<b>NWIS Observed Gage Data</b>",
-              hovertemplate: "%{x|%m/%d %I:%M %p}<br>Gage height: %{y} feet<extra></extra>",
-              font: {
-                family: "Public Sans, sans-serif",
-              },
-            },
-          ];
-
-          // Create trace and annotation for each threshold
-          for (let i = 0; i < thresholds.length; i++) {
-            let xdata = [];
-            let ydata = [];
-
-            // Add one line representing all thresholds to legend
-            let showLegend = false;
-
-            if (i == 0) {
-              showLegend = true;
+              L.DomEvent.disableClickPropagation(document.querySelector('#popupCloseButton'))
+              el.classList.add('visible');
             }
 
-            // Create x and y arrays for threshold traces
-            thresholds[i].series.forEach(function (datapoint) {
-              let xdatapoint = new Date(datapoint[0]);
-              xdata.push(xdatapoint);
-              ydata.push(datapoint[1]);
+            document
+              .getElementById("graphLoadMessageAQ")
+              .setAttribute("style", "display: none");
+            document
+              .getElementById("noDataMessageAQ")
+              .setAttribute("style", "display: block");
+            document
+              .getElementById("aqDataCredit")
+              .setAttribute("style", "display: none");
+            document
+              .getElementById("graphContainerAQ")
+              .setAttribute("style", "display: none");
+          } else {
+            if (e.layer.getPopup() != undefined) {
+              e.layer.getPopup().setContent(self.aqPopupContent, {
+                minWidth: 290,
+              });
+              e.layer.openPopup();
+            } else {
+              e.layer.bindPopup(self.aqPopupContent, {
+                minWidth: 290,
+              });
+              e.layer.openPopup();
+            }
+
+            if (window.matchMedia(self.mediaQuery).matches){
+              el = document.getElementById('fullscreenPopup');
+              el.innerHTML += '<div id="popupCloseButton">' +
+              '<i class="v-icon notranslate mdi mdi-close" style="font-size:16px"></i>' +
+              '</div><br>';
+              el.innerHTML += self.aqPopupContent;
+
+              document.querySelector('#popupCloseButton').onclick = function(){
+                self.map.closePopup();
+                el.innerHTML = '';
+                el.classList.remove('visible');
+              }
+
+              L.DomEvent.disableClickPropagation(document.querySelector('#popupCloseButton'))
+              el.classList.add('visible');
+            }
+
+            let timeSeriesArray = [];
+            // Time series array with both observed and predicted values for x axis range
+            data.data.data[0].time_series_data.forEach(function (value) {
+              timeSeriesArray.push(value[0]);
+            });
+            self.predictedDates.forEach(function (value) {
+              timeSeriesArray.push(value);
             });
 
-            // threshold level for Active Flooding
-            traces.push({
-              x: xdata,
-              y: ydata,
-              type: "scatter",
-              line: {
-                color: "#8b0000",
+            // Associate time info with threshold values
+            thresholds.forEach(function (threshold) {
+              timeSeriesArray.forEach(function (value) {
+                threshold.series.push([value, threshold.value]);
+              });
+            });
+
+            let dates = [];
+            let values = [];
+            let plotlyAnnotations = [];
+
+            let ampm = "AM";
+            let mostRecentDate = new Date(data.data.data[0].time_series_data[data.data.data[0].time_series_data.length - 1][0]);
+            let hour = mostRecentDate.getHours();
+            if(hour > 12){
+              hour = hour - 12;
+              hour = hour.toString().padStart(2, '0');
+              ampm = "PM";
+            }
+            mostRecentDate = (mostRecentDate.getMonth() + 1) + '/' + mostRecentDate.getDate().toString().padStart(2, '0')  + "/" + mostRecentDate.getFullYear() + " " + hour + ":" + mostRecentDate.getMinutes().toString().padStart(2, '0');
+            let mostRecentHeight = data.data.data[0].time_series_data[data.data.data[0].time_series_data.length - 1][1];
+            document.getElementById("aqGraphHeader").innerHTML += `<b>Last Updated: </b>${mostRecentDate} ${ampm}<br><b>Last Updated Gage Height: </b>${mostRecentHeight} feet`;
+            // Create x and y arrays for NWIS trace
+            data.data.data[0].time_series_data.forEach(function (time) {
+              dates.push(new Date(time[0]));
+              values.push(time[1]);
+            });
+
+            // Plot for Active Flooding, label for all RP and Status
+            let traces = [
+              {
+                x: dates,
+                y: values,
+                type: "scatter",
+                mode: "lines",
+                showlegend: true,
+                name: "<b>NWIS Observed Gage Data</b>",
+                hovertemplate: "%{x|%m/%d %I:%M %p}<br>Gage height: %{y} feet<extra></extra>",
+                font: {
+                  family: "Public Sans, sans-serif",
+                },
               },
-              showlegend: showLegend,
-              legendgroup: "thresholds",
-              name: layerData.ThresholdName + " Threshold",
-              // Tooltip
-              hovertemplate: "%{fullData.name}: %{y} feet<extra></extra>",
+            ];
+
+            if (self.predictedValues.length > 0){
+              traces.push({
+                  x: self.predictedDates,
+                  y: self.predictedValues,
+                  type: "scatter",
+                  mode: "lines",
+                  showlegend: true,
+                  name: "<b>NWS Predicted Gage Data</b>",
+                  hovertemplate: "%{x|%m/%d %I:%M %p}<br>Predicted Gage height: %{y} feet<extra></extra>",
+                  font: {
+                    family: "Public Sans, sans-serif",
+                  },
+              });
+            }
+
+            // Create trace and annotation for each threshold
+            for (let i = 0; i < thresholds.length; i++) {
+              let xdata = [];
+              let ydata = [];
+
+              // Add one line representing all thresholds to legend
+              let showLegend = false;
+
+              if (i == 0) {
+                showLegend = true;
+              }
+
+              // Create x and y arrays for threshold traces
+              thresholds[i].series.forEach(function (datapoint) {
+                let xdatapoint = new Date(datapoint[0]);
+                xdata.push(xdatapoint);
+                ydata.push(datapoint[1]);
+              });
+
+              // threshold level for Active Flooding
+              traces.push({
+                x: xdata,
+                y: ydata,
+                type: "scatter",
+                mode: "lines",
+                line: {
+                  color: "#8b0000",
+                },
+                showlegend: showLegend,
+                legendgroup: "thresholds",
+                name: layerData.ThresholdName + " Threshold",
+                // Tooltip
+                hovertemplate: "%{fullData.name}: %{y} feet<extra></extra>",
+                font: {
+                  family: "Public Sans, sans-serif",
+                },
+              });
+
+              // Create labels for Active Flooding
+              plotlyAnnotations.push({
+                x: thresholds[i].series[thresholds[i].series.length - 1][0], // Place label after last x value
+                y: ydata[0], // Place label at same y value as threshold
+                xref: "x",
+                yref: "y",
+                text: layerData.Elevation + " " + layerData.Unit,
+                showarrow: false,
+                arrowhead: 0,
+                font: {
+                  family: "Public Sans, sans-serif",
+                  size: 9,
+                },
+                xanchor: "left",
+              });
+            }
+
+            // Active Flooding chart layout
+            let layout = {
+              autosize: false,
+              width: 300,
+              height: 235,
               font: {
                 family: "Public Sans, sans-serif",
               },
+              yaxis: {
+                title: "Gage Height, feet",
+                titlefont: { size: 11 },
+                automargin: true,
+              },
+              xaxis: {
+                range: [dates[0], timeSeriesArray[timeSeriesArray.length -1]],
+                tickformat: "%d %b %y",
+                tickfont: {
+                  size: 11,
+                },
+              },
+              legend: {
+                font: {
+                  size: 11,
+                },
+                orientation: "h",
+                y: -0.15,
+              },
+              margin: {
+                l: 25,
+                r: 25,
+                t: 15,
+                pad: 4,
+              },
+              annotations: plotlyAnnotations,
+              hoverlabel: {
+                font: {
+                  family: "Public Sans, sans-serif",
+                  color: "#FFF"
+                },
+                bordercolor: "#FFF"
+              },
+              modebar: {
+                orientation: "h", // Vertical modebar
+                remove: "autoscale",
+              },
+              dragmode: "pan", // Make pan the default active modebar button
+            };
+
+            let config = {
+              responsive: true, // Make chart responsive
+              displayModeBar: true, // Modebar always visible, not just on plot hover
+              displaylogo: false, // Remove plotly.js icon from modebar
+            };
+
+            let chartData = [];
+
+            traces.forEach(function (trace) {
+              chartData.push(trace);
             });
 
-            // Create labels for Active Flooding
-            plotlyAnnotations.push({
-              x: thresholds[i].series[thresholds[i].series.length - 1][0], // Place label after last x value
-              y: ydata[0], // Place label at same y value as threshold
-              xref: "x",
-              yref: "y",
-              text: layerData.Elevation + " " + layerData.Unit,
-              showarrow: false,
-              arrowhead: 0,
-              font: {
-                family: "Public Sans, sans-serif",
-                size: 9,
-              },
-              xanchor: "left",
-            });
+            // Render plot
+            Plotly.newPlot("graphContainerAQ", chartData, layout, config);
+            document
+              .getElementById("graphContainerAQ")
+              .setAttribute("style", "display: block");
+            document
+              .getElementById("graphLoadMessageAQ")
+              .setAttribute("style", "display: none");
           }
+        })
+        .catch(function(error){
+          console.log(error);
+        })
+      }
+      
+      // Getting todays date to account for user changing dates and returning to today
+      let isToday;
+      let endDateString;
+      
+      let today = new Date();
+      let d = today.getDate().toString().padStart(2, '0');
+      let m = today.getMonth() + 1;
+      m = m.toString().padStart(2, '0');
+      let y = today.getFullYear().toString().padStart(2, '0');
 
-          // Active Flooding chart layout
-          let layout = {
-            autosize: false,
-            width: 300,
-            height: 235,
-            font: {
-              family: "Public Sans, sans-serif",
-            },
-            yaxis: {
-              title: "Gage Height, feet",
-              titlefont: { size: 11 },
-              automargin: true,
-            },
-            xaxis: {
-              range: [dates[0], dates[dates.length - 1]],
-              tickformat: "%d %b %y",
-              tickfont: {
-                size: 11,
-              },
-            },
-            legend: {
-              font: {
-                size: 11,
-              },
-              orientation: "h",
-              y: -0.15,
-            },
-            margin: {
-              l: 25,
-              r: 25,
-              t: 20,
-              pad: 4,
-            },
-            annotations: plotlyAnnotations,
-            hoverlabel: {
-              font: {
-                family: "Public Sans, sans-serif",
-              },
-            },
-            modebar: {
-              orientation: "h", // Vertical modebar
-              remove: "autoscale",
-            },
-            dragmode: "pan", // Make pan the default active modebar button
-          };
+      endDateString = "&endDT=" +
+        y +
+        "-" +
+        m +
+        "-" +
+        d;
+      
+      if (self.timePeriodValue === "&period=P7D" || self.timePeriodValue.includes(endDateString)) {
+        isToday = true;
+      } else {
+        isToday = false;
+      }
 
-          let config = {
-            responsive: true, // Make chart responsive
-            displayModeBar: true, // Modebar always visible, not just on plot hover
-            displaylogo: false, // Remove plotly.js icon from modebar
-          };
-
-          let chartData = [];
-
-          traces.forEach(function (trace) {
-            chartData.push(trace);
-          });
-
-          // Render plot
-          Plotly.newPlot("graphContainerAQ", chartData, layout, config);
-          document
-            .getElementById("graphContainerAQ")
-            .setAttribute("style", "display: block");
-          document
-            .getElementById("graphLoadMessageAQ")
-            .setAttribute("style", "display: none");
-        }
-      })
-      .catch(function(error){
-        console.log(error);
-      });
+      // Get AHPS forecast values if available and if today's date
+      if (layerData.ahpsID !== "" && isToday) {
+        let ahpsurl = "https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=" + layerData.ahpsID + "&output=xml";
+        axios.get(ahpsurl).then((data) => {
+          let domParser = new DOMParser();
+          let xmlElement = domParser.parseFromString(data.data, "text/xml");
+          let forecast = xmlElement.getElementsByTagName("forecast");
+          forecast.forEach(function(value){
+            if(!value.innerHTML.includes("No Displayable Forecast")){
+              let datums = value.getElementsByTagName("datum");
+              datums.forEach(function(datum){
+                self.predictedValues.push(datum.getElementsByTagName("primary")[0].innerHTML);
+                self.predictedDates.push(datum.getElementsByTagName("valid")[0].innerHTML);
+              });
+            }
+          })
+          createPopup();
+        }).catch(function(error){
+          console.log(error);
+          createPopup();
+        });
+      }else{
+        createPopup();
+      }
     },
     //Fade out loading alert by reducing opacity
     fadeOutAlert() {
@@ -1245,17 +1410,37 @@ export default {
       this.facilityLayer.clearLayers();
       this.otherLayer.clearLayers();
       this.bfeLayer.clearLayers();
-      document.getElementById("bankDiv").style.display = "none";
-      document.getElementById("pathDiv").style.display = "none";
-      document.getElementById("roadDiv").style.display = "none";
-      document.getElementById("bridgeRiskDiv").style.display = "none";
-      document.getElementById("bridgeDiv").style.display = "none";
-      document.getElementById("facilityDiv").style.display = "none";
-      document.getElementById("bfeDiv").style.display = "none";
-      document.getElementById("otherDiv").style.display = "none";
+      this.bankVisible = false,
+      this.pathVisible = false,
+      this.roadVisible = false,
+      this.bridgeRiskVisible = false,
+      this.bridgeFloodedVisible = false,
+      this.facilityVisible = false,
+      this.otherVisible = false,
+      this.bfeVisible = false,
+      this.$store.state.bankState = false;
+      this.$store.state.pathState = false;
+      this.$store.state.roadState = false;
+      this.$store.state.bridgeRiskState = false;
+      this.$store.state.bridgeState = false;
+      this.$store.state.facilityState = false;
+      this.$store.state.otherState = false;
+      this.$store.state.bfeState = false;
+      document.getElementById("bankDiv").style.opacity = 0.6;
+      document.getElementById("pathDiv").style.opacity = 0.6;
+      document.getElementById("roadDiv").style.opacity = 0.6;
+      document.getElementById("bridgeRiskDiv").style.opacity = 0.6;
+      document.getElementById("bridgeDiv").style.opacity = 0.6;
+      document.getElementById("facilityDiv").style.opacity = 0.6;
+      document.getElementById("bfeDiv").style.opacity = 0.6;
+      document.getElementById("otherDiv").style.opacity = 0.6;
       let hasMarkers = false;
       let entryCount = 0;
       this.thresholdsExceeded = 0;
+      this.activeLayerTitleVisible = false;
+      document.getElementById("activeLayerTitle").style.display = "none";
+      document.getElementById("noActiveFlooding").style.display = "none";
+      document.getElementById("showAllBtn").style.display = "none";
 
       // adding rp/threshold data from Aquarius
       for (let entry in this.mvpData) {
@@ -1270,6 +1455,7 @@ export default {
         let aqIcon;
         let siteName;
         let thresholdName;
+        let ahpsID;
 
         if (this.mvpData[entry].Latitude !== undefined) {
             lat = this.mvpData[entry].Latitude;
@@ -1279,6 +1465,7 @@ export default {
             elevation = this.mvpData[entry].Elevation;
             unit = this.mvpData[entry].Unit;
             siteName = this.mvpData[entry].SiteName;
+            ahpsID = this.mvpData[entry].nws_id;
             LocationIdentifier = this.mvpData[entry].LocationIdentifier;
           }
         // Remove any digits from Name string
@@ -1339,7 +1526,8 @@ export default {
               if (Name === "PATH") {
                 this.pathVisible = true;
                 this.$store.state.pathState = true;
-                document.getElementById("pathDiv").style.display = "block";
+                document.getElementById("pathDiv").style.opacity = 1;
+                this.$store.commit("getPathDisabledState", false);
                 if(this.activeSubtypes.includes("path") === false){
                   this.activeSubtypes.push("path");
                 }
@@ -1351,8 +1539,9 @@ export default {
                 this.thresholdsExceeded ++;
               } else if (Name === "BANK") {
                 this.bankVisible = true;
-                document.getElementById("bankDiv").style.display = "block";
                 this.$store.state.bankState = true;
+                document.getElementById("bankDiv").style.opacity = 1;
+                this.$store.commit("getBankDisabledState", false);
                 if(this.activeSubtypes.includes("bank") === false){
                   this.activeSubtypes.push("bank");
                 }
@@ -1364,8 +1553,9 @@ export default {
                 this.thresholdsExceeded ++;
               } else if (Name === "ROAD") {
                 this.roadVisible = true;
-                document.getElementById("roadDiv").style.display = "block";
                 this.$store.state.roadState = true;
+                document.getElementById("roadDiv").style.opacity = 1;
+                this.$store.commit("getRoadDisabledState", false);
                 if(this.activeSubtypes.includes("road") === false){
                   this.activeSubtypes.push("road");
                 }
@@ -1377,10 +1567,11 @@ export default {
                 this.thresholdsExceeded ++;
               } else if (Name === "CHORD") {
                 this.bridgeRiskVisible = true;
-                document.getElementById("bridgeRiskDiv").style.display = "block";
                 this.$store.state.bridgeRiskState = true;
-                if(this.activeSubtypes.includes("bridgeRiskDiv") === false){
-                  this.activeSubtypes.push("bridgeRiskDiv");
+                document.getElementById("bridgeRiskDiv").style.opacity = 1;
+                this.$store.commit("getBridgeRiskDisabledState", false);
+                if(this.activeSubtypes.includes("bridgeRisk") === false){
+                  this.activeSubtypes.push("bridgeRisk");
                 }
                 marker = L.marker([lat, lng], {
                   icon: aqIcon,
@@ -1390,8 +1581,9 @@ export default {
                 this.thresholdsExceeded ++;
               } else if (Name === "FACILITY") {
                 this.facilityVisible = true;
-                document.getElementById("facilityDiv").style.display = "block";
                 this.$store.state.facilityState = true;
+                document.getElementById("facilityDiv").style.opacity = 1
+                this.$store.commit("getFacilityDisabledState", false);
                 if(this.activeSubtypes.includes("facility") === false){
                   this.activeSubtypes.push("facility");
                 }
@@ -1403,8 +1595,9 @@ export default {
                 this.thresholdsExceeded ++;
               } else if (Name === "DECK") {
                 this.bridgeFloodedVisible = true;
-                document.getElementById("bridgeDiv").style.display = "block";
                 this.$store.state.bridgeState = true;
+                document.getElementById("bridgeDiv").style.opacity = 1;
+                this.$store.commit("getBridgeDisabledState", false);
                 if(this.activeSubtypes.includes("bridgeFlooded") === false){
                   this.activeSubtypes.push("bridgeFlooded");
                 }
@@ -1416,8 +1609,9 @@ export default {
                 this.thresholdsExceeded ++;
               } else if (Name === "BFE") {
                 this.bfeVisible = true;
-                document.getElementById("bfeDiv").style.display = "block";
                 this.$store.state.bfeState = true;
+                document.getElementById("bfeDiv").style.opacity = 1;
+                this.$store.commit("getBfeDisabledState", false);
                 if(this.activeSubtypes.includes("bfe") === false){
                   this.activeSubtypes.push("bfe");
                 }
@@ -1429,8 +1623,9 @@ export default {
                 this.thresholdsExceeded ++;
               } else {
                 this.otherVisible = true;
-                document.getElementById("otherDiv").style.display = "block";
                 this.$store.state.otherState = true;
+                document.getElementById("otherDiv").style.opacity = 1
+                this.$store.commit("getOtherDisabledState", false);
                 if(this.activeSubtypes.includes("other") === false){
                   this.activeSubtypes.push("other");
                 }
@@ -1448,6 +1643,7 @@ export default {
                 ReferencePointPeriods: rpData,
                 Elevation: elevation,
                 Unit: unit,
+                ahpsID: ahpsID,
                 FullName: fullname,
                 SiteName: siteName,
                 ThresholdName: thresholdName,
@@ -1460,6 +1656,7 @@ export default {
               // all RP layer
               let allMarkers = L.marker([lat, lng], {
                 icon: wimIcon,
+                opacity: this.$store.state.allFeaturesOpacity
               }).addTo(this.allRPMarkers);
 
               allMarkers.data = {
@@ -1468,6 +1665,7 @@ export default {
                 ReferencePointPeriods: rpData,
                 Elevation: elevation,
                 Unit: unit,
+                ahpsID: ahpsID,
                 FullName: fullname,
                 SiteName: siteName,
                 ThresholdName: thresholdName,
@@ -1483,18 +1681,26 @@ export default {
                 document.getElementById("activeLayerTitle").style.display = "block";
                 document.getElementById("showAllBtn").style.display = "flex";
                 this.$store.commit("getThresholdsExceededCount", this.thresholdsExceeded);
+                if(this.isDisplayed == "block"){
+                  this.fadeOutAlert();
+                }
               } else if (!hasMarkers && entryCount == this.mvpData.length) {
                 this.noFloodingdialog = true;
                 // Remove active flooding titles in legend and display No Active Flooding
                 this.activeLayerTitleVisible = false;
                 document.getElementById("noActiveFlooding").style.display = "block";
                 this.$store.commit("getThresholdsExceededCount", this.thresholdsExceeded);
+                this.map.setView(this.center, 4) 
+                if(this.isDisplayed == "block"){
+                  this.fadeOutAlert();
+                }
               }
             }
           }else{
             // all RP layer
               let allMarkers = L.marker([lat, lng], {
                 icon: wimIcon,
+                opacity: this.$store.state.allFeaturesOpacity
               }).addTo(this.allRPMarkers);
 
               allMarkers.data = {
@@ -1503,6 +1709,7 @@ export default {
                 ReferencePointPeriods: rpData,
                 Elevation: elevation,
                 Unit: unit,
+                ahpsID: ahpsID,
                 FullName: fullname,
                 SiteName: siteName,
                 ThresholdName: thresholdName,
@@ -1515,6 +1722,9 @@ export default {
         })
         .catch(function(error){
           console.log(error);
+          if(this.isDisplayed == "block"){
+            this.fadeOutAlert();
+          }
         });
       }
     },
@@ -1603,7 +1813,7 @@ export default {
                 );
                 } else {
                     //These sites are in the Atlantic Ocean or otherwise clearly out of place
-                    L.marker([lat, long], { icon: this.noaaIcon })
+                    L.marker([lat, long], { icon: this.noaaIcon, opacity: this.$store.state.noaaOpacity })
                       .bindPopup(popupContent)
                       .addTo(this.tideMarkers);
                     this.tideMarkers.addTo(this.map);
@@ -1639,6 +1849,7 @@ export default {
         .then(function () {
           if(self.nfhlIsDisplayed != "none"){
             self.nfhlLayer.addTo(self.map);
+            self.nfhlLayer.setOpacity(self.$store.state.nfhlOpacity);
             let layers = self.nfhlLayer.getLayers();
             self.getNfhlLegend(layers);
           }
@@ -1788,6 +1999,7 @@ export default {
       let layers = this.fwwLayer.getLayers();
       this.fwwLayer.addTo(this.map);
       this.getFwwLegend(layers);
+      this.fwwLayer.setOpacity(this.$store.state.fwwOpacity);
     },
     getRadarLayer() {
       this.radarLayer = esri.dynamicMapLayer({
@@ -1797,6 +2009,7 @@ export default {
         opacity: 0.65,
       });
       this.radarLayer.addTo(this.map);
+      this.radarLayer.setOpacity(this.$store.state.nwsOpacity);
     },
     toggleSublayers(sublayer, sublayerState, sublayerType) {
       if (sublayerState == true) {
@@ -2060,13 +2273,55 @@ export default {
       this.toggleAllRP(this.allRPMarkers);
     },
     "$store.state.selectedTimePeriodState": function () {
+      this.isDisplayed = "block";
       this.loadAQdata();
       // If visible, update NOAA layer with new time period
       if (this.tidesVisible){
         this.getNOAATidesLayer();
       }
-
-    }
+    },
+    "$store.state.rtOpacity": function () {
+      let self = this;
+      if(this.map.hasLayer(this.streamgageMarkers)){
+        this.streamgageMarkers.eachLayer(function(marker) {
+          marker.setOpacity(self.$store.state.rtOpacity)
+        });
+      }
+    },
+    "$store.state.allFeaturesOpacity": function () {
+      let self = this;
+      if(this.map.hasLayer(this.allRPMarkers)){
+        this.allRPMarkers.eachLayer(function(marker) {
+          marker.setOpacity(self.$store.state.allFeaturesOpacity)
+        });
+      }
+    },
+    "$store.state.noaaOpacity": function () {
+      let self = this;
+      if(this.map.hasLayer(this.tideMarkers)){
+        this.tideMarkers.eachLayer(function(marker) {
+          marker.setOpacity(self.$store.state.noaaOpacity)
+        });
+      }
+    },
+    "$store.state.nfhlOpacity": function () {
+      let self = this;
+      if(this.map.hasLayer(this.nfhlLayer)){
+        this.nfhlLayer.setOpacity(self.$store.state.nfhlOpacity);
+      }
+    },
+    "$store.state.nwsOpacity": function () {
+      let self = this;
+      if(this.map.hasLayer(this.radarLayer)){
+        this.radarLayer.setOpacity(self.$store.state.nwsOpacity)
+      }
+    },
+    "$store.state.fwwOpacity": function () {
+      let self = this;
+      if(this.map.hasLayer(this.fwwLayer)){
+        this.fwwLayer.setOpacity(self.$store.state.fwwOpacity);
+      }
+    },
   },
   // Store current zoom value in state to access from other components
   computed: {
@@ -2098,20 +2353,24 @@ export default {
   z-index: 1;
 }
 
+#fullscreenPopup {
+  height: 100%;
+  width: 100%;
+  display: none;
+  z-index: 9999;
+}
+
 #legendContainer {
   border-radius: 5px 5px 5px 5px;
   box-shadow: 0 3px 6px rgba(30, 39, 50, 0.2), 0 3px 6px rgba(30, 39, 50, 0.2);
   right: 10px;
   top: 45px;
   height: auto;
-  width: 230px;
+  width: 255px;
   position: absolute;
   z-index: 999;
   font-size: 14px;
   opacity: 0.75;
-  max-height: 65vh;
-  overflow-x: hidden;
-  overflow-y: auto;
 }
 
 #findLocationContainer {
@@ -2241,10 +2500,8 @@ export default {
 }
 
 #popup-title {
-  font-size: 12px;
-  color: rgba(51, 51, 51, 0.6);
+  font-size: 11px;
   font-family: "Public Sans", sans-serif;
-  font-weight: bold;
 }
 
 #dataCredit {
@@ -2380,7 +2637,13 @@ export default {
 }
 
 #legendContent {
-  margin: -8px -20px -8px -20px;
+  max-height: 65vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.v-expansion-panel-content__wrap {
+  padding: 0 15px 16px !important;
 }
 
 @media screen and (max-width: 828px) {
@@ -2399,6 +2662,61 @@ export default {
   }
   .v-expansion-panel--active {
     width: 225px !important;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  #fullscreenPopup.visible {
+    display: block;
+  }
+
+  #popupCloseButton {
+    float: right;
+  }
+
+  #aqGraphHeader {
+    margin: auto;
+    width: 85%;
+  }
+
+  #graphContainerAQ {
+    margin: auto;
+    width: 85%;
+  }
+
+  #waterAlert {
+    margin: auto;
+    width: 85%;
+  }
+
+  #aqDataCredit {
+    margin: auto;
+    width: 85%;
+  }
+
+  #dataCredit {
+    margin: auto;
+    width: 85%;
+  }
+
+  #mainGraphContainer {
+    margin: auto;
+    width: 95%;
+  }
+
+  #nwisLink {
+    margin: auto;
+    width: 85%;
+  }
+
+  #popup-title {
+    margin: auto;
+    width: 85%;
+  }
+
+  #noDataMessage {
+    margin: auto;
+    width: 85%;
   }
 }
 
