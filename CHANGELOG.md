@@ -14,14 +14,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added loading alert on time period change
 - Added last updated date and gage height to AQ popup headers
 - Added opacity sliders for All Features, RT Streamgages, and supporting layers.
-- Add available AHPS predicted gage height to AQ popup graphs for current date
-- Add new subsection to sidebar
+- Added available AHPS predicted gage height to AQ popup graphs for current date
+- Added new subsection to sidebar
 - Added contact email to about
 
 ### Changed
 
 - Text change to Layer Names
-- Update about text
+- Updated about text
 - Added all threshold icons to sidebar and legend. Icons without active flooding are disabled in sidebar.
 - Changed AQ and Real-time Streamgage popups to be full screen on mobile.
 - Removed NWIS link from bottom of streamgage popups and added to popup title.
@@ -29,8 +29,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - Fixed legend mousewheel scrolling and legend title always visible when scrolled
+- Fixed mobile bugs in map controls and Safari page navigation
+- fixed issue where predicted values were not showing up on todays date after changing dates
 - Fix mobile bugs in map controls and Safari page navigation
 - Fixed popup title cut off on streamgage popups
+
 
 ## [v0.7.0](https://github.com/USGS-WiM/Thresholds/releases/tag/v0.7.0) - 9/29/2021
 
