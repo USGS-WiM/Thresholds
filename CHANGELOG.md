@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+-
+
+### Changed
+
+-
+
+### Fixed
+
+-
+
+## [v1.0.0](https://github.com/USGS-WiM/Thresholds/releases/tag/v1.0.0) - 10/12/2021
+
+### Added
+
 - Added alert to sidebar for "No Flooded Features"
 - Added tooltip to "No Active Layers" text
 - Added loading alert on time period change
@@ -33,7 +47,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - fixed issue where predicted values were not showing up on todays date after changing dates
 - Fix mobile bugs in map controls and Safari page navigation
 - Fixed popup title cut off on streamgage popups
-
 
 ## [v0.7.0](https://github.com/USGS-WiM/Thresholds/releases/tag/v0.7.0) - 9/29/2021
 
