@@ -1,5 +1,25 @@
 [
     {
+        "LocationIdentifier": "02207055",
+        "SiteName": "JACKS CREEK AT BRANNAN ROAD, NEAR SNELLVILLE, GA",
+        "Name": "BANK",
+        "Latitude": 33.825173,
+        "Longitude": -84.058902,
+        "Elevation": 2.66,
+        "Unit": "ft",
+        "nws_id": "JCKG1"
+    },
+    {
+        "LocationIdentifier": "02207055",
+        "SiteName": "JACKS CREEK AT BRANNAN ROAD, NEAR SNELLVILLE, GA",
+        "Name": "DECK",
+        "Latitude": 33.82524,
+        "Longitude": -84.058999,
+        "Elevation": 3.37,
+        "Unit": "ft",
+        "nws_id": "JCKG1"
+    },
+    {
         "LocationIdentifier": "02351890",
         "SiteName": "MUCKALEE CREEK AT GA 195, NEAR LEESBURG, GA",
         "Name": "ROAD",
@@ -28,26 +48,6 @@
         "Elevation": 17.99,
         "Unit": "ft",
         "nws_id": "MCKG1"
-    },
-    {
-        "LocationIdentifier": "02207055",
-        "SiteName": "JACKS CREEK AT BRANNAN ROAD, NEAR SNELLVILLE, GA",
-        "Name": "BANK",
-        "Latitude": 33.825173,
-        "Longitude": -84.058902,
-        "Elevation": 2.66,
-        "Unit": "ft",
-        "nws_id": "JCKG1"
-    },
-    {
-        "LocationIdentifier": "02207055",
-        "SiteName": "JACKS CREEK AT BRANNAN ROAD, NEAR SNELLVILLE, GA",
-        "Name": "DECK",
-        "Latitude": 33.82524,
-        "Longitude": -84.058999,
-        "Elevation": 3.37,
-        "Unit": "ft",
-        "nws_id": "JCKG1"
     },
     {
         "LocationIdentifier": "02327500",
@@ -88,56 +88,6 @@
         "Elevation": 29.42,
         "Unit": "ft",
         "nws_id": "AUSG1"
-    },
-    {
-        "LocationIdentifier": "02335350",
-        "SiteName": "CROOKED CREEK NEAR NORCROSS, GA",
-        "Name": "BANK",
-        "Latitude": 33.965156,
-        "Longitude": -84.265043,
-        "Elevation": 11.37,
-        "Unit": "ft",
-        "nws_id": "CRKG1"
-    },
-    {
-        "LocationIdentifier": "02335350",
-        "SiteName": "CROOKED CREEK NEAR NORCROSS, GA",
-        "Name": "DECK",
-        "Latitude": 33.965174,
-        "Longitude": -84.264742,
-        "Elevation": 19.53,
-        "Unit": "ft",
-        "nws_id": "CRKG1"
-    },
-    {
-        "LocationIdentifier": "02334480",
-        "SiteName": "RICHLAND CREEK AT SUWANEE DAM ROAD, NEAR BUFORD,GA",
-        "Name": "ROAD",
-        "Latitude": 34.132595,
-        "Longitude": -84.070117,
-        "Elevation": 17.73,
-        "Unit": "ft",
-        "nws_id": "RLCG1"
-    },
-    {
-        "LocationIdentifier": "02334480",
-        "SiteName": "RICHLAND CREEK AT SUWANEE DAM ROAD, NEAR BUFORD,GA",
-        "Name": "BANK",
-        "Latitude": 34.132561,
-        "Longitude": -84.069978,
-        "Elevation": 8.85,
-        "Unit": "ft",
-        "nws_id": "RLCG1"
-    },
-    {
-        "LocationIdentifier": "02341460",
-        "SiteName": "CHATTAHOOCHEE RIVER AT 14TH ST, AT COLUMBUS, GA",
-        "Name": "PATH",
-        "Latitude": 32.472953,
-        "Longitude": -84.997128,
-        "Elevation": 54.8,
-        "Unit": "ft",
-        "nws_id": "CBUG1"
     },
     {
         "LocationIdentifier": "02336300",
@@ -188,6 +138,56 @@
         "Elevation": 19.03,
         "Unit": "ft",
         "nws_id": "QUTG1"
+    },
+    {
+        "LocationIdentifier": "02335350",
+        "SiteName": "CROOKED CREEK NEAR NORCROSS, GA",
+        "Name": "BANK",
+        "Latitude": 33.965156,
+        "Longitude": -84.265043,
+        "Elevation": 11.37,
+        "Unit": "ft",
+        "nws_id": "CRKG1"
+    },
+    {
+        "LocationIdentifier": "02335350",
+        "SiteName": "CROOKED CREEK NEAR NORCROSS, GA",
+        "Name": "DECK",
+        "Latitude": 33.965174,
+        "Longitude": -84.264742,
+        "Elevation": 19.53,
+        "Unit": "ft",
+        "nws_id": "CRKG1"
+    },
+    {
+        "LocationIdentifier": "02334480",
+        "SiteName": "RICHLAND CREEK AT SUWANEE DAM ROAD, NEAR BUFORD,GA",
+        "Name": "ROAD",
+        "Latitude": 34.132595,
+        "Longitude": -84.070117,
+        "Elevation": 17.73,
+        "Unit": "ft",
+        "nws_id": "RLCG1"
+    },
+    {
+        "LocationIdentifier": "02334480",
+        "SiteName": "RICHLAND CREEK AT SUWANEE DAM ROAD, NEAR BUFORD,GA",
+        "Name": "BANK",
+        "Latitude": 34.132561,
+        "Longitude": -84.069978,
+        "Elevation": 8.85,
+        "Unit": "ft",
+        "nws_id": "RLCG1"
+    },
+    {
+        "LocationIdentifier": "02341460",
+        "SiteName": "CHATTAHOOCHEE RIVER AT 14TH ST, AT COLUMBUS, GA",
+        "Name": "PATH",
+        "Latitude": 32.472953,
+        "Longitude": -84.997128,
+        "Elevation": 54.8,
+        "Unit": "ft",
+        "nws_id": "CBUG1"
     },
     {
         "LocationIdentifier": "02334885",
@@ -570,16 +570,6 @@
         "nws_id": "CLBN1"
     },
     {
-        "LocationIdentifier": "06811500",
-        "SiteName": "Little Nemaha River at Auburn, Nebr.",
-        "Name": "CHORD",
-        "Latitude": 40.392669,
-        "Longitude": -95.812861,
-        "Elevation": 32.5,
-        "Unit": "ft",
-        "nws_id": "ABRN1"
-    },
-    {
         "LocationIdentifier": "06796000",
         "SiteName": "Platte River at North Bend, Nebr.",
         "Name": "BANK",
@@ -608,6 +598,16 @@
         "Elevation": 19.95,
         "Unit": "ft",
         "nws_id": "NBDN1"
+    },
+    {
+        "LocationIdentifier": "06811500",
+        "SiteName": "Little Nemaha River at Auburn, Nebr.",
+        "Name": "CHORD",
+        "Latitude": 40.392669,
+        "Longitude": -95.812861,
+        "Elevation": 32.5,
+        "Unit": "ft",
+        "nws_id": "ABRN1"
     },
     {
         "LocationIdentifier": "06880800",
@@ -1660,6 +1660,76 @@
         "nws_id": ""
     },
     {
+        "LocationIdentifier": "01480700",
+        "SiteName": "East Branch Brandywine Creek near Downingtown, PA",
+        "Name": "PATH2",
+        "Latitude": 40.03539,
+        "Longitude": -75.70817,
+        "Elevation": 9.7,
+        "Unit": "ft",
+        "nws_id": "EBBP1"
+    },
+    {
+        "LocationIdentifier": "01480700",
+        "SiteName": "East Branch Brandywine Creek near Downingtown, PA",
+        "Name": "BANK",
+        "Latitude": 40.03464,
+        "Longitude": -75.70868,
+        "Elevation": 8.3,
+        "Unit": "ft",
+        "nws_id": "EBBP1"
+    },
+    {
+        "LocationIdentifier": "01480700",
+        "SiteName": "East Branch Brandywine Creek near Downingtown, PA",
+        "Name": "BANK2",
+        "Latitude": 40.03466,
+        "Longitude": -75.70834,
+        "Elevation": 6.5,
+        "Unit": "ft",
+        "nws_id": "EBBP1"
+    },
+    {
+        "LocationIdentifier": "01480700",
+        "SiteName": "East Branch Brandywine Creek near Downingtown, PA",
+        "Name": "DECK",
+        "Latitude": 40.03481,
+        "Longitude": -75.70847,
+        "Elevation": 15.7,
+        "Unit": "ft",
+        "nws_id": "EBBP1"
+    },
+    {
+        "LocationIdentifier": "01480700",
+        "SiteName": "East Branch Brandywine Creek near Downingtown, PA",
+        "Name": "CHORD",
+        "Latitude": 40.03475,
+        "Longitude": -75.70859,
+        "Elevation": 12.2,
+        "Unit": "ft",
+        "nws_id": "EBBP1"
+    },
+    {
+        "LocationIdentifier": "01480700",
+        "SiteName": "East Branch Brandywine Creek near Downingtown, PA",
+        "Name": "PATH",
+        "Latitude": 40.03482,
+        "Longitude": -75.70793,
+        "Elevation": 11.4,
+        "Unit": "ft",
+        "nws_id": "EBBP1"
+    },
+    {
+        "LocationIdentifier": "01480700",
+        "SiteName": "East Branch Brandywine Creek near Downingtown, PA",
+        "Name": "ROAD",
+        "Latitude": 40.03452,
+        "Longitude": -75.70919,
+        "Elevation": 16.2,
+        "Unit": "ft",
+        "nws_id": "EBBP1"
+    },
+    {
         "LocationIdentifier": "01480870",
         "SiteName": "East Branch Brandywine Creek below Downingtown, PA",
         "Name": "CHORD",
@@ -1738,76 +1808,6 @@
         "Elevation": 11.3,
         "Unit": "ft",
         "nws_id": "CDFP1"
-    },
-    {
-        "LocationIdentifier": "01480700",
-        "SiteName": "East Branch Brandywine Creek near Downingtown, PA",
-        "Name": "PATH2",
-        "Latitude": 40.03539,
-        "Longitude": -75.70817,
-        "Elevation": 9.7,
-        "Unit": "ft",
-        "nws_id": "EBBP1"
-    },
-    {
-        "LocationIdentifier": "01480700",
-        "SiteName": "East Branch Brandywine Creek near Downingtown, PA",
-        "Name": "BANK",
-        "Latitude": 40.03464,
-        "Longitude": -75.70868,
-        "Elevation": 8.3,
-        "Unit": "ft",
-        "nws_id": "EBBP1"
-    },
-    {
-        "LocationIdentifier": "01480700",
-        "SiteName": "East Branch Brandywine Creek near Downingtown, PA",
-        "Name": "BANK2",
-        "Latitude": 40.03466,
-        "Longitude": -75.70834,
-        "Elevation": 6.5,
-        "Unit": "ft",
-        "nws_id": "EBBP1"
-    },
-    {
-        "LocationIdentifier": "01480700",
-        "SiteName": "East Branch Brandywine Creek near Downingtown, PA",
-        "Name": "DECK",
-        "Latitude": 40.03481,
-        "Longitude": -75.70847,
-        "Elevation": 15.7,
-        "Unit": "ft",
-        "nws_id": "EBBP1"
-    },
-    {
-        "LocationIdentifier": "01480700",
-        "SiteName": "East Branch Brandywine Creek near Downingtown, PA",
-        "Name": "CHORD",
-        "Latitude": 40.03475,
-        "Longitude": -75.70859,
-        "Elevation": 12.2,
-        "Unit": "ft",
-        "nws_id": "EBBP1"
-    },
-    {
-        "LocationIdentifier": "01480700",
-        "SiteName": "East Branch Brandywine Creek near Downingtown, PA",
-        "Name": "PATH",
-        "Latitude": 40.03482,
-        "Longitude": -75.70793,
-        "Elevation": 11.4,
-        "Unit": "ft",
-        "nws_id": "EBBP1"
-    },
-    {
-        "LocationIdentifier": "01480700",
-        "SiteName": "East Branch Brandywine Creek near Downingtown, PA",
-        "Name": "ROAD",
-        "Latitude": 40.03452,
-        "Longitude": -75.70919,
-        "Elevation": 16.2,
-        "Unit": "ft",
-        "nws_id": "EBBP1"
     },
     {
         "LocationIdentifier": "02110500",
