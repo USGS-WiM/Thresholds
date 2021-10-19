@@ -13,7 +13,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
--Update tooltips
+-
+
+### Fixed
+
+-
+
+## [v1.0.1](https://github.com/USGS-WiM/Thresholds/releases/tag/v1.0.1) - 10/19/2021
+
+### Added
+
+-
+
+### Changed
+
+- Updated tooltips
+- Updated contact us email
+- Radar layer now visible on site load
 
 ### Fixed
 
