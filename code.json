@@ -3,7 +3,7 @@
     "name": "Thresholds",
     "organization": "U.S. Geological Survey",
     "description": "Alternative Way of Delivering USGS Streamgage Data Using Thresholds",
-    "version": "v1.0.0",
+    "version": "v1.0.1",
     "status": ["Development"],
 
     "permissions": {

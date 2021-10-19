@@ -174,8 +174,7 @@
                       </v-icon>
                     </template>
                     <span
-                      >Flood waters exit the stream/river channel and overflow
-                      onto a flat surface</span
+                      >Flood waters are overflowing the stream/river channel and into the surrounding area.</span
                     >
                   </v-tooltip>
                 </div>
@@ -209,8 +208,7 @@
                       </v-icon>
                     </template>
                     <span
-                      >Flood waters are flooding a pedestrian
-                      greenway/trail/path</span
+                      >Pedestrian greenway/trail/path is underwater.</span
                     >
                   </v-tooltip>
                 </div>
@@ -243,7 +241,7 @@
                         mdi-information
                       </v-icon>
                     </template>
-                    <span>Low lying areas along roads are flooding</span>
+                    <span>Road is underwater.</span>
                   </v-tooltip>
                 </div>
                 <br />
@@ -278,8 +276,7 @@
                       </v-icon>
                     </template>
                     <span
-                      >Water from a river or stream is under the lowest section
-                      of a bridge</span
+                      >Water from the river or stream has reached the bottom of the bridge.</span
                     >
                   </v-tooltip>
                 </div>
@@ -314,7 +311,7 @@
                         mdi-information
                       </v-icon>
                     </template>
-                    <span>A bridge is flooding</span>
+                    <span>Bridge is underwater.</span>
                   </v-tooltip>
                 </div>
                 <br />
@@ -348,7 +345,7 @@
                         mdi-information
                       </v-icon>
                     </template>
-                    <span>Structures/facilities are flooding</span>
+                    <span>Water from the river or stream has reached the lowest finished floor of the structure (FEMA Finished Floor Elevation, or FFE).</span>
                   </v-tooltip>
                 </div>
                 <br />
@@ -379,7 +376,7 @@
                         mdi-information
                       </v-icon>
                     </template>
-                    <span>The FEMA 100-year BFE has been reached</span>
+                    <span>The FEMA 100-year Base Flood Elevation (BFE) has been reached.</span>
                   </v-tooltip>
                 </div>
                 <br />
@@ -409,8 +406,7 @@
                       </v-icon>
                     </template>
                     <span
-                      >Other Reference Points are experiencing flooding (parking
-                      lot, campground, railroad, etc).</span
+                      >This Flood Impact Location is experiencing flooding. For more information about this location, open the icon’s pop-up and look for the “Flood Impact Type” description. </span
                     >
                   </v-tooltip>
                 </div>
