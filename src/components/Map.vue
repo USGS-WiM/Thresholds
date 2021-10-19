@@ -388,7 +388,7 @@ export default {
       tileProviders: tileProviders,
       streamgageMarkers: [],
       radarLayer: {},
-      radarVisible: false,
+      radarVisible: true,
       aqMarkers: [],
       allRPMarkers: [],
       tideMarkers: [],
@@ -632,6 +632,8 @@ export default {
       self.map.on("zoomend dragend", function () {
         self.currentBounds = self.map.getBounds();
       });
+
+      this.getRadarLayer();
 
       // Emit map object to parent component
       self.getMapObject();

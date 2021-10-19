@@ -10,7 +10,7 @@ export default new Vuex.Store({
     drawerState: null,
     basemapState: "Streets",
     streamgageState: false,
-    radarState: false,
+    radarState: true,
     nfhlState: false,
     allRPState: true,
     bankState: false,
