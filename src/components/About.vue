@@ -69,7 +69,9 @@
               </li>
               <li><strong>Bridge Flooded</strong> – Bridge is underwater.</li>
               <li>
-                <strong>Structures Flooded</strong> – Bridge is underwater.
+                <strong>Structures Flooded</strong> – Water from the river or
+                stream has reached the lowest finished floor of the structure
+                (FEMA Finished Floor Elevation, or FFE).
               </li>
               <li>
                 <strong>FEMA 100-year BFE</strong> – The FEMA 100-year Base
