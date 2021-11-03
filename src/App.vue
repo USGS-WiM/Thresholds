@@ -17,11 +17,11 @@
             </a>
             <div class="toolbar-text">
               <span class="main-title">Real-Time Flood Impact Map</span>
-              <span class="experimental-subtitle">Experimental</span>
+              <span class="beta-subtitle">Beta</span>
               <span class="mini-title"
                 ><h1>Real-Time Flood Impact Map</h1>
                 <br />
-                <h2>Experimental</h2></span
+                <h2>Beta</h2></span
               >
             </div></v-toolbar-title
           >
@@ -130,7 +130,7 @@ body {
   font-size: 21px;
 }
 
-.experimental-subtitle {
+.beta-subtitle {
   font-size: 18px;
   color: red;
   padding-left: 10px;
@@ -141,7 +141,7 @@ body {
   .toolbar-text {
     font-size: 18px;
   }
-  .experimental-subtitle {
+  .beta-subtitle {
     font-size: 16px;
   }
 }
@@ -164,7 +164,7 @@ body {
 
 @media screen and (max-width: 640px) {
   .main-title,
-  .experimental-subtitle {
+  .beta-subtitle {
     display: none;
   }
   .toolbar-text {
