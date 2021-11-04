@@ -100,6 +100,25 @@ export default {
 
       this.timePeriodValue = timeperiod;
       this.$refs.menu.save(date);
+
+      // Remove radar layer if it's not today's date
+      if (this.isToday(dateObject)) {
+        if (this.$store.state.radarState == false) {
+          this.$store.state.radarState = true;
+        }
+      } else {
+        if (this.$store.state.radarState == true) {
+          this.$store.state.radarState = false;
+        }
+      }
+    },
+    isToday(date) {
+      const today = new Date();
+      return (
+        date.getDate() == today.getDate() &&
+        date.getMonth() == today.getMonth() &&
+        date.getFullYear() == today.getFullYear()
+      );
     },
     addZeroToDate(num) {
       let fixedNum;
