@@ -317,7 +317,6 @@
 import L from "leaflet"; //this is where you import leaflet components
 import "leaflet/dist/leaflet.css";
 import * as esri from "esri-leaflet";
-import mvpAqData from "../mvp_data/output.json";
 import Geosearch from "@/components/Geosearch";
 import axios from "axios";
 import Plotly from "plotly.js";
@@ -399,7 +398,7 @@ export default {
       popupContent: "",
       aqPopupContent: "",
       alertOpacity: "0.75",
-      mvpData: mvpAqData,
+      mvpData: [],
       isDisplayed: "none",
       nfhlIsDisplayed: "none",
       nfhlServicesAlertDisplayed: "none",
@@ -637,9 +636,6 @@ export default {
 
       // Emit map object to parent component
       self.getMapObject();
-
-      // loading data from Aquarius
-      this.loadAQdata();
     },
     // Pass map object to parent
     getMapObject() {
@@ -2202,7 +2198,21 @@ export default {
           }
         });
     },
+    getAQData() {
+    // get AQ data
+      const aqURL = 'https://thresholds.wim.usgs.gov/output.json'
+      axios.get(aqURL).then((data) => {
+        this.mvpData = data.data
+        // loading data from Aquarius
+        this.loadAQdata();
+      }).catch(function(error){
+        console.log(error);  
+      });
+    },
   },
+  created () {
+      this.getAQData()
+    },
   mounted() {
     this.createMap();
     let self = this;
