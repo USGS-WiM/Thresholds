@@ -19,6 +19,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 -
 
+## [v1.0.2](https://github.com/USGS-WiM/Thresholds/releases/tag/v1.0.2) - 11/4/2021
+
+### Changed
+
+- Removing radar layer when a date other than today is selected
+- Change "Experimental" to "Beta"
+
+### Fixed
+
+- Corrected text error in About dialog
+
 ## [v1.0.1](https://github.com/USGS-WiM/Thresholds/releases/tag/v1.0.1) - 10/19/2021
 
 ### Added
