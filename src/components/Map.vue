@@ -592,7 +592,6 @@ export default {
       
        //reset map view on click
       document.getElementById("resetbutton").onclick = function() {
-      console.log("oh hi!")
       self.map.setView([37.0902, -82.7129], 4)
        }
       
