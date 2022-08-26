@@ -594,10 +594,6 @@ export default {
       document.getElementById("resetbutton").onclick = function() {
       self.map.setView([37.0902, -82.7129], 4)
        }
-      
-     
-       
-      });
 
       //Create lat lon leaflet control
       L.Control.LatLngControl = L.Control.extend({
@@ -1040,10 +1036,9 @@ export default {
         layerData.Elevation +
         " " +
         layerData.Unit +
-        "</br>" +
-        '</div><p id="graphLoadMessageAQ"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainerAQ" style="width:100%; min-height: 200px; display:block;"></div><div id="waterAlert"><a class="nwis-link" target="_blank" href="https://water.usgs.gov/wateralert/subscribe2/?type_cd=ALL&site_no=' +
-        siteID +
-        '">Subscribe to Water Alert ' + '<i class="v-icon notranslate mdi mdi-open-in-new" style="font-size:16px"></i></a></span></div> <div id="aqDataCredit">Gage Height data courtesy of the U.S. Geological Survey.</div><div id="noDataMessageAQ" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>';
+        "</br>" + 
+        '</div><p id="graphLoadMessageAQ"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainerAQ" style="width:100%; min-height: 200px; display:block;"></div><div id="waterAlert"><a class="nwis-link" target="_blank" href="https://accounts.waterdata.usgs.gov/wateralert/my-alerts/#siteNumber=' +
+        siteID + '&parameterCode=00065">Subscribe to Water Alert ' + '<i class="v-icon notranslate mdi mdi-open-in-new" style="font-size:16px"></i></a></span></div> <div id="aqDataCredit">Gage Height data courtesy of the U.S. Geological Survey.</div><div id="noDataMessageAQ" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>';
       let url =
         "https://nwis.waterservices.usgs.gov/nwis/iv/?format=nwjson&sites=" +
         siteID +
