@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - 'Beta' switched to 'Pilot'
+- Water Alert URL to new version/address
 
 ### Fixed
 
@@ -34,7 +35,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
--
+- Added "Reset View" button that returns map view to full extent
 
 ### Changed
 
