@@ -13,12 +13,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
-- 'Beta' switched to 'Pilot'
-- Water Alert URL to new version/address
+-
 
 ### Fixed
 
 -
+
+## [v1.0.3](https://github.com/USGS-WiM/Thresholds/releases/tag/v1.0.3)
+
+### Added
+
+- Reset View button
+
+### Changed
+
+- 'Beta' switched to 'Pilot'
+- Water Alert URL to new version/address
 
 ## [v1.0.2](https://github.com/USGS-WiM/Thresholds/releases/tag/v1.0.2) - 11/4/2021
 
