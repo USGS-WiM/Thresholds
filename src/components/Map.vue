@@ -595,10 +595,7 @@ export default {
       self.map.setView([37.0902, -82.7129], 4)
        }
       
-      self.map.on("click", function () {
-        self.currentZoom = self.map.getZoom();
-        //Zoom value to update state
-        self.zoomValue = self.currentZoom;
+     
        
       });
 
