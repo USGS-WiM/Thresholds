@@ -16,7 +16,7 @@
               </div>
             </a>
             <div class="toolbar-text">
-              <span class="main-title">Real-Time Flood Impact Map</span>
+              <span class="main-title">{{ this.title() }}</span>
               <span class="beta-subtitle">Pilot</span>
               <span class="mini-title"
                 ><h1>Real-Time Flood Impact Map</h1>
@@ -39,7 +39,10 @@ import USABanner from "@/components/USABanner";
 import Map from "./components/Map";
 import Sidebar from "./components/Sidebar";
 import About from "@/components/About";
+import { text } from "./mixins/text";
+
 export default {
+  mixins: [text],
   components: {
     USABanner,
     Sidebar,
@@ -51,6 +54,7 @@ export default {
       map: "",
       tileProviders: [],
       mounted: false,
+      text,
     };
   },
   computed: {

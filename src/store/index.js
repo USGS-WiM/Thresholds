@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     // Setting drawer state to null initially will cause sidebar
     // to be closed on mobile and open on desktop by default
+    spanishState: false,
     drawerState: null,
     basemapState: "Streets",
     streamgageState: false,
@@ -43,6 +44,9 @@ export default new Vuex.Store({
     fwwOpacity: 1,
   },
   mutations: {
+    getEnglishState(state, englishState) {
+      state.englishState = englishState;
+    },
     toggleDrawerState(state, data) {
       state.drawerState = data;
     },
