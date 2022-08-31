@@ -1,12 +1,7 @@
 export const text = {
-    methods: {
+    methods: { // If Spanish State is true then display Spanish text; if false display English
         title() {
-            if (this.$store.state.spanishState == true) {
-                return 'PLACEHOLDER TEXT';
-            } else {
-                return 'Real-Time Flood Impact Map';
-            }
-
+            return this.$store.state.spanishState == true ? 'PLACEHOLDER FOR SPANISH TEXT' : 'Real-Time Flood Impact Map';
         },
 
     }
