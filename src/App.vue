@@ -23,8 +23,15 @@
                 <br />
                 <h2>Beta</h2></span
               >
-            </div></v-toolbar-title
-          >
+            </div>
+          </v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+          <v-btn icon  v-bind="attrs" v-on="on">
+            <v-icon color="white">mdi-translate</v-icon>
+          </v-btn> </template>
+          <span>Translate to Spanish</span></v-tooltip>
           <About></About>
         </v-app-bar>
         <Map v-if="mounted"></Map>
