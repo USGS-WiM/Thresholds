@@ -26,9 +26,18 @@
             </div>
           </v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-btn icon>
+
+
+          <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+          <v-btn icon  v-bind="attrs" v-on="on">
             <v-icon color="white">mdi-translate</v-icon>
-          </v-btn>
+          </v-btn> </template>
+          <span>Translate to Spanish</span></v-tooltip>
+
+
+
+
           <About></About>
         </v-app-bar>
         <Map v-if="mounted"></Map>
