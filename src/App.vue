@@ -23,8 +23,12 @@
                 <br />
                 <h2>Beta</h2></span
               >
-            </div></v-toolbar-title
-          >
+            </div>
+          </v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-btn icon>
+            <v-icon color="white">mdi-translate</v-icon>
+          </v-btn>
           <About></About>
         </v-app-bar>
         <Map v-if="mounted"></Map>
