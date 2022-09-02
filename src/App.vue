@@ -15,26 +15,22 @@
                 <img alt="USGS logo" height="60px" src="../public/usgs.png" />
               </div>
             </a>
-          
             <div class="toolbar-text">
               <span class="main-title">{{ this.title() }}</span>
               <span class="beta-subtitle">Pilot</span>
-              
               <span class="mini-title"
                 ><h1>Real-Time Flood Impact Map</h1>
                 <br />
-                <h2>Beta</h2></span>
-         
-            </div></v-toolbar-title>
-           
-            <v-btn id= "translate-btn-desktop" color= "white" height= 40px>
-            <v-icon>mdi-translate</v-icon>Translate</v-btn>
-            <v-btn xSmall id= "translate-btn-mobile" color= "white">
-            <v-icon small>mdi-translate</v-icon></v-btn>
-           
+                <h2>Beta</h2></span
+              >
+            </div>
+          </v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-btn icon>
+            <v-icon color="white">mdi-translate</v-icon>
+          </v-btn>
           <About></About>
-          
-          </v-app-bar>
+        </v-app-bar>
         <Map v-if="mounted"></Map>
       </v-app>
     </div>
@@ -126,8 +122,6 @@ body {
   color: #333;
 }
 
-
-
 .toolbar-image {
   display: inline-block;
   float: left;
@@ -151,31 +145,12 @@ body {
   font-style: italic;
 }
 
-#translate-btn-desktop{
-position: inline-flex;
-margin-left: 900px;
-  }
-
-#translate-btn-mobile {
-  padding: 0;
-  margin-left: 150px;
-  height: 28px;
-  min-width: 28px;
-}
-
-
-
 @media screen and (max-width: 1300px) {
   .toolbar-text {
     font-size: 18px;
   }
   .beta-subtitle {
     font-size: 16px;
-  }
-  #translate-btn-desktop{
-  position: inline-flex;
-  margin-left: -100px;
-  
   }
 }
 
@@ -186,9 +161,6 @@ margin-left: 900px;
   }
   .toolbar-image {
     display: none;
-  }
-   #translate-btn-desktop{
-    display:none;
   }
 }
 
@@ -226,14 +198,6 @@ margin-left: 900px;
     font-weight: normal;
     font-style: italic;
   }
-  #translate-btn-mobile{
-    display: inline-flex;
-    min-width: 28px;
-    height: 28px;
-  }
-    #translate-btn-desktop{
-    display: none;
-  }
 }
 
 @media screen and (max-width: 450px) {
@@ -245,9 +209,6 @@ margin-left: 900px;
   }
   .mini-title h2 {
     font-size: 8px;
-  }
-    #translate-btn-desktop{
-    display: none;
   }
 }
 </style>
