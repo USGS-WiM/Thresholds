@@ -171,9 +171,6 @@ body {
   .mini-title {
     display: none;
   }
-   #translate-btn-mobile{
-    display:none;
-  }
 }
 
 @media screen and (max-width: 640px) {
