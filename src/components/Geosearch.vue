@@ -5,10 +5,12 @@
 <script>
 import axios from "axios";
 import Plotly from "plotly.js";
+import { text } from "../mixins/text.js";
 
 let graphParameterCodeList = "00065,63160,72279";
 
 export default {
+  mixins: [text],
   props: ["map"],
   methods: {
     getMapFromParent() {
@@ -240,6 +242,7 @@ export default {
   },
 };
 </script>
+import { text } from "../mixins/text.js";
 
 <style>
 #geosearchBar {

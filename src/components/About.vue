@@ -10,7 +10,7 @@
             v-on="on"
             id="about-button-desktop"
           >
-            <div style="color: #333">About</div>
+          <div style="color: #333">About</div>
           </v-btn>
           <v-btn
             color="white"
@@ -24,159 +24,97 @@
         </template>
 
         <v-card>
-          <v-card-title class="text-h5 grey lighten-2"> About </v-card-title>
+          <v-card-title class="text-h5 grey lighten-2"> {{this.about_h4()}} </v-card-title>
 
           <v-card-text>
-            <h4>Welcome to the USGS Real-Time Flood Impact Map</h4>
+            <h4>{{this.about_h4()}}</h4>
             <p>
-              The Real-Time Flood Impact Map displays the locations (called
-              “Flood Impact Locations”) where the USGS has measured the height
-              of critical safety or infrastructure features that may be
-              vulnerable to flood impacts. Some examples of flood impact
-              locations include stream and river embankments; roads and bridges;
-              pedestrian paths; buildings; and more.
+              {{this.about_p1()}}
             </p>
             <p>
-              Flood Impact Locations are surveyed and associated with a nearby
-              USGS real-time streamgage. When the streamgage water level (or
-              gage height) exceeds the Flood Impact Location’s surveyed height,
-              its icon will display on the map, showing that this location may
-              be currently flooded. When you click on the icon, the pop-up will
-              display the current gage height and the Flood Impact Location
-              height, so you can compare how close that location is to the
-              current water level. Some Flood Impact Locations may be measured
-              below the level of actual flooding to provide an early warning
-              that flooding may be imminent.
+              {{this.about_p2()}}
             </p>
             <p>
-              The following are the flood impact icon descriptions currently
-              represented:
+              {{this.about_p3()}}
             </p>
             <ul>
               <li>
-                <strong>Embankment Flooded</strong> – Flood waters are
-                overflowing the stream/river channel and into the surrounding
-                area.
+                <strong>{{this.embankmentFlooded()}}</strong> – {{this.embankmentFloodedTooltip()}}
               </li>
               <li>
-                <strong>Path Flooded</strong> – Pedestrian greenway/trail/path
-                is underwater.
+                <strong>{{this.pathFlooded()}}</strong> – {{this.pathFloodedTooltip()}}
               </li>
-              <li><strong>Road Flooded</strong> – Road is underwater.</li>
+              <li><strong>{{this.roadFlooded()}}</strong> – {{this.roadFloodedTooltip()}}</li>
               <li>
-                <strong>Bridge Flood at Risk</strong> – Water from the river or
-                stream has reached the bottom of the bridge.
+                <strong>{{this.bridgeFloodRisk()}}</strong> – {{this.bridgeAtRiskTooltip()}}
               </li>
-              <li><strong>Bridge Flooded</strong> – Bridge is underwater.</li>
+              <li><strong>{{this.bridgeFlooded()}}</strong> – {{this.bridgeFloodedTooltip()}}</li>
               <li>
-                <strong>Structures Flooded</strong> – Water from the river or
-                stream has reached the lowest finished floor of the structure
-                (FEMA Finished Floor Elevation, or FFE).
+                <strong>{{this.facilityFlooded()}}</strong> – {{this.facilityFloodedTooltip()}}
               </li>
               <li>
-                <strong>FEMA 100-year BFE</strong> – The FEMA 100-year Base
-                Flood Elevation (BFE) has been reached.
+                <strong>{{this.femaBFE()}}</strong> – {{this.baseFloodedTooltip()}}
               </li>
               <li>
-                <strong>Uncategorized</strong> – This Flood Impact Location is
-                experiencing flooding. For more information about this location,
-                open the icon’s pop-up and look for the “Flood Impact Type”
-                description.
+                <strong>{{this.uncategorized()}}</strong> – {{this.uncategorizedTooltip()}}
               </li>
             </ul>
             <br />
             <p>
-              The white circles on the map represent
-              <strong>all Flood Impact Locations</strong> that have been
-              measured but are not currently flooding. You can use the date
-              picker to retroactively view Active Flood Locations of any 7-day
-              period within the last calendar year.
+              {{this.about_p4()}}
+              <strong>{{this.about_p4_bold()}}</strong> {{this.about_p4_2()}}
             </p>
             <p>
-              Although this mapper is not a flood warning system, it can be used
-              to convey immediate flood risks by showing the locations where
-              flooding may be currently or soon occurring. These additional
-              flood information layers can be used to provide additional
-              context:
+              {{this.about_p5()}}
             </p>
             <ul>
               <li>
-                View locations and real-time hydographs for all USGS
-                <strong>real-time streamgages</strong>, even those that do not
-                have any associated Flood Impact Locations yet (must be zoomed
-                in to level 9). Connect to USGS Water Data for the Nation for
-                additional data.
+                {{this.about_li_01()}}
+                <strong>{{this.about_li_01_bold()}}</strong>{{this.about_li_015()}}
               </li>
               <li>
-                View <strong>FEMA National Flood Hazard Layer</strong>,
-                including National Flood Insurance Program flood maps and flood
-                probability designations
+                {{this.view()}} <strong>{{this.femaLayer()}}</strong>{{this.about_li_02()}}
               </li>
               <li>
-                View real-time
-                <strong>NOAA National Weather Service Radar</strong>
+                {{this.view_rt()}}
+                <strong>{{this.noaaRadarLayer()}}</strong>
               </li>
               <li>
-                View real-time
+                {{this.view_rt()}}
                 <strong
-                  >NOAA National Weather Service Watches and Warnings</strong
+                  >{{this.noaaWatches()}}</strong
                 >
-                (all hazards)
+                {{this.allHaz()}}
               </li>
-              <li>View <strong>NOAA Tides and Water Level Stations</strong></li>
+              <li>{{this.view()}} <strong>{{this.noaaWaterLevels()}}</strong></li>
             </ul>
             <br />
-            <p>Some important things to know:</p>
+            <p>{{this.important()}}</p>
             <ul>
               <li>
-                The flood impact status reporting is based on the USGS
-                streamgage near the Flood Impact Location. If the streamgage
-                malfunctions, or stops returning data due to damage or
-                overtopping by floodwaters, this map may not correctly report
-                potential flooding.
+                {{this.about_li_03()}}
               </li>
               <li>
-                Users are cautioned to consider carefully the provisional nature
-                of the information before using it for decisions that concern
-                personal or public safety, or the conduct of business that
-                involves substantial monetary or operational consequences.
-                Information concerning the accuracy and appropriate uses of
-                these data or concerning other hydrologic data may be obtained
-                from the USGS.
+                {{this.about_li_04()}}
               </li>
               <li>
-                The USGS has over 10,000 streamgages nationwide in the
-                continental U.S. and U.S. territories. Please note: flood
-                impacts have not been collected at all USGS streamgages.
-                Additional Flood Impact Locations will continue to be added. If
-                you would like to have flood impact locations collected at or
-                near an existing USGS streamgage in your area, please contact
-                the
+                {{this.about_li_05()}}
                 <a
                   href="https://www.usgs.gov/usgs-science-centers#:~:text=USGS%20Science%20Centers%20%20%20%20Science%20Center,%20%20California%20%2022%20more%20rows%20"
-                  >USGS Water Science Center</a
+                  >{{this.waterScienceCenter()}}</a
                 >
-                in your state.
+                {{this.about_li_052()}}
               </li>
             </ul>
             <br />
-            <p><strong>Disclaimer for streamgage data:</strong></p>
+            <p><strong>{{this.disclaimerTitle()}}</strong></p>
             <p>
-              Data provided by the USGS real-time streamgages presented in this
-              map are provisional and subject to revision until they have been
-              thoroughly reviewed and received final approval. Real-time data
-              relayed by satellite or other telemetry are automatically screened
-              to not display improbable values until they can be verified.
-              Provisional data may be inaccurate due to instrument malfunctions
-              or physical changes at the measurement site. Subsequent review
-              based on field inspections and measurements may result in
-              significant revisions to the data.
+              {{this.disclaimerText()}}
             </p>
             <p>
-              For site specific information please contact the local USGS Water
-              Science Center. For other inquiries, please contact our team at
+              {{this.about_p6()}}
               <a href="mailto:gs_real_time_flood_impact_map_group@usgs.gov"
-                >gs_real_time_flood_impact_map_group@usgs.gov</a
+                >{{this.about_p6_link()}}</a
               >.
             </p>
           </v-card-text>
@@ -185,7 +123,7 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" text @click="dialog = false"> Close </v-btn>
+            <v-btn color="primary" text @click="dialog = false"> {{this.close()}} </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -195,8 +133,10 @@
 
 <script>
 import "@mdi/font/css/materialdesignicons.css";
+import { text } from "../mixins/text.js";
 
 export default {
+  mixins: [text],
   data() {
     return {
       dialog: false,

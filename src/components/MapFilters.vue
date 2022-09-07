@@ -22,12 +22,12 @@
       elevation="2"
       icon="mdi-checkbox-marked-circle"
     >
-      No Flooded Features
+      {{this.noFloodingAlert()}}
     </v-alert>
     <v-expansion-panels :value="1">
       <!-- Filters Section -->
       <v-expansion-panel>
-        <v-expansion-panel-header> Basemaps </v-expansion-panel-header>
+        <v-expansion-panel-header> {{this.basemaps()}} </v-expansion-panel-header>
         <v-expansion-panel-content>
           <v-container class="px-0" fluid>
             <v-btn-toggle borderless>
@@ -42,7 +42,7 @@
                   class="basemapThumb"
                   alt=""
                   src="../assets/streets.jpg"
-                /><label for="streets">Streets</label>
+                /><label for="streets">{{this.streets()}}</label>
               </v-btn>
               <v-btn
                 text
@@ -55,7 +55,7 @@
                   class="basemapThumb"
                   alt=""
                   src="../assets/satellite.jpg"
-                /><label for="satellite">Satellite</label>
+                /><label for="satellite">{{this.satellite()}}</label>
               </v-btn>
               <v-btn
                 text
@@ -68,7 +68,7 @@
                   class="basemapThumb"
                   alt=""
                   src="../assets/topo.jpg"
-                /><label for="topo">Topo</label>
+                /><label for="topo">{{this.topo()}}</label>
               </v-btn>
               <v-btn
                 text
@@ -81,7 +81,7 @@
                   class="basemapThumb"
                   alt=""
                   src="../assets/terrain.jpg"
-                /><label for="terrain">Terrain</label>
+                /><label for="terrain">{{this.terrain()}}</label>
               </v-btn>
               <v-btn
                 text
@@ -94,7 +94,7 @@
                   class="basemapThumb"
                   alt=""
                   src="../assets/gray.jpg"
-                /><label for="gray">Gray</label>
+                /><label for="gray">{{this.gray()}}</label>
               </v-btn>
               <v-btn
                 text
@@ -107,14 +107,14 @@
                   class="basemapThumb"
                   alt=""
                   src="../assets/natgeo.jpg"
-                /><label for="natgeo">NatGeo</label>
+                /><label for="natgeo">{{this.natGeo()}}</label>
               </v-btn>
             </v-btn-toggle>
           </v-container>
         </v-expansion-panel-content>
       </v-expansion-panel>
       <v-expansion-panel>
-        <v-expansion-panel-header> Layers </v-expansion-panel-header>
+        <v-expansion-panel-header> {{this.layers()}} </v-expansion-panel-header>
         <v-expansion-panel-content id="siteLayersContent">
           <v-container class="px-0" fluid>
             <div class="subsection-title" id="site-layer-title">
@@ -123,7 +123,7 @@
             <div id="timePeriod"><DatePicker></DatePicker></div>
             <div id="activeLayerTitle">Active Flooding Layers</div>
             <div style="display: none" id="noActiveFlooding">
-              No Active Flooding
+              {{this.noActiveFlooding()}}
               <v-tooltip right>
                 <template v-slot:activator="{ on, attrs }">
                   <v-icon
@@ -137,9 +137,7 @@
                   </v-icon>
                 </template>
                 <span
-                  >The layers below are disabled because no locations are
-                  currently flooding. Change the date above to view possible
-                  flooding on past dates.</span
+                  >{{this.noActiveFloodingTooltip()}}</span
                 >
               </v-tooltip>
             </div>
@@ -159,7 +157,7 @@
                     src="../assets/aq-icons/embankment_flooded_circle.png"
                   />
                   <label for="bank" class="legend-label"
-                    >Embankment Flooded</label
+                    >{{this.embankmentFlooded()}}</label
                   >
                   <v-tooltip right>
                     <template v-slot:activator="{ on, attrs }">
@@ -174,7 +172,7 @@
                       </v-icon>
                     </template>
                     <span
-                      >Flood waters are overflowing the stream/river channel and into the surrounding area.</span
+                      >{{this.embankmentFloodedTooltip()}}</span
                     >
                   </v-tooltip>
                 </div>
@@ -194,7 +192,7 @@
                     class="activeIcons"
                     src="../assets/aq-icons/path_flooded_circle.png"
                   />
-                  <label for="path" class="legend-label">Path Flooded</label>
+                  <label for="path" class="legend-label">{{this.pathFlooded()}}</label>
                   <v-tooltip right>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -208,7 +206,7 @@
                       </v-icon>
                     </template>
                     <span
-                      >Pedestrian greenway/trail/path is underwater.</span
+                      >{{this.pathFloodedTooltip()}}</span
                     >
                   </v-tooltip>
                 </div>
@@ -228,7 +226,7 @@
                     class="activeIcons"
                     src="../assets/aq-icons/car_flooded_circle.png"
                   />
-                  <label for="road" class="legend-label">Road Flooded</label>
+                  <label for="road" class="legend-label">{{this.roadFlooded()}}</label>
                   <v-tooltip right>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -241,7 +239,7 @@
                         mdi-information
                       </v-icon>
                     </template>
-                    <span>Road is underwater.</span>
+                    <span>{{this.roadFloodedTooltip()}}</span>
                   </v-tooltip>
                 </div>
                 <br />
@@ -261,7 +259,7 @@
                     src="../assets/aq-icons/bridge_risk_circle.png"
                   />
                   <label for="bridgeRisk" class="legend-label"
-                    >Bridge Flood at Risk</label
+                    >{{bridgeFloodRisk()}}</label
                   >
                   <v-tooltip right>
                     <template v-slot:activator="{ on, attrs }">
@@ -276,7 +274,7 @@
                       </v-icon>
                     </template>
                     <span
-                      >Water from the river or stream has reached the bottom of the bridge.</span
+                      >{{bridgeAtRiskTooltip()}}</span
                     >
                   </v-tooltip>
                 </div>
@@ -297,7 +295,7 @@
                     src="../assets/aq-icons/bridge_flooded_circle.png"
                   />
                   <label for="bridge" class="legend-label"
-                    >Bridge Flooded</label
+                    >{{this.bridgeFlooded()}}</label
                   >
                   <v-tooltip right>
                     <template v-slot:activator="{ on, attrs }">
@@ -311,7 +309,7 @@
                         mdi-information
                       </v-icon>
                     </template>
-                    <span>Bridge is underwater.</span>
+                    <span>{{bridgeFloodedTooltip()}}</span>
                   </v-tooltip>
                 </div>
                 <br />
@@ -331,7 +329,7 @@
                     src="../assets/aq-icons/building_flooded_circle.png"
                   />
                   <label for="facility" class="legend-label"
-                    >Facility Flooded</label
+                    >{{this.facilityFlooded()}}</label
                   >
                   <v-tooltip right>
                     <template v-slot:activator="{ on, attrs }">
@@ -345,7 +343,7 @@
                         mdi-information
                       </v-icon>
                     </template>
-                    <span>Water from the river or stream has reached the lowest finished floor of the structure (FEMA Finished Floor Elevation, or FFE).</span>
+                    <span>{{this.facilityFloodedTooltip()}}</span>
                   </v-tooltip>
                 </div>
                 <br />
@@ -362,7 +360,7 @@
                 <div class="sublayer-icon">
                   <img class="activeIcons" src="../assets/aq-icons/BFE.png" />
                   <label for="bfe" class="legend-label"
-                    >Base Flood Elevation</label
+                    >{{this.baseFloodElevation()}}</label
                   >
                   <v-tooltip right>
                     <template v-slot:activator="{ on, attrs }">
@@ -376,7 +374,7 @@
                         mdi-information
                       </v-icon>
                     </template>
-                    <span>The FEMA 100-year Base Flood Elevation (BFE) has been reached.</span>
+                    <span>{{this.baseFloodedTooltip()}}</span>
                   </v-tooltip>
                 </div>
                 <br />
@@ -392,7 +390,7 @@
                 ></v-simple-checkbox>
                 <div class="sublayer-icon">
                   <img class="activeIcons" src="../assets/aq-icons/other.png" />
-                  <label for="other" class="legend-label">Uncategorized</label>
+                  <label for="other" class="legend-label">{{this.uncategorized()}}</label>
                   <v-tooltip right>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -406,7 +404,7 @@
                       </v-icon>
                     </template>
                     <span
-                      >This Flood Impact Location is experiencing flooding. For more information about this location, open the icon’s pop-up and look for the “Flood Impact Type” description. </span
+                      >{{this.uncategorizedTooltip()}}</span
                     >
                   </v-tooltip>
                 </div>
@@ -435,7 +433,7 @@
               <div
                 class="wmm-circle wmm-white wmm-icon-noicon wmm-size-20"
               ></div>
-              <label for="allRP" class="legend-label">All Features</label>
+              <label for="allRP" class="legend-label">{{this.allFeatures()}}</label>
             </div>
             <v-icon
               class="opIcon"
@@ -447,7 +445,7 @@
               mdi-circle-opacity
             </v-icon>
             <div v-if="showAllFeaturesSlider" class="sliders">
-              Opacity: &nbsp; {{ allFeaturesOpacity }}
+              {{this.opacity()}}: &nbsp; {{ allFeaturesOpacity }}
               <v-slider
                 v-model="allFeaturesOpacity"
                 color="grey darken-2"
@@ -459,8 +457,7 @@
             </div>
             <br />
             <div class="zoom-alert" :style="{ display: isDisplayed }">
-              USGS Real-time Streamgages available at zoom level 9 and above.
-              Please zoom in to view.
+              {{this.streamgageDesc()}}
             </div>
             <v-simple-checkbox
               type="checkbox"
@@ -482,7 +479,7 @@
                 "
               ></div>
               <label for="stream" class="legend-label"
-                >USGS Real-time Streamgage
+                >{{this.streamgageLabel()}}
               </label>
             </div>
             <v-icon
@@ -495,7 +492,7 @@
               mdi-circle-opacity
             </v-icon>
             <div v-if="showRTSlider" class="sliders">
-              Opacity: &nbsp; {{ rtOpacity }}
+              {{this.opacity()}}: &nbsp; {{ rtOpacity }}
               <v-slider
                 v-model="rtOpacity"
                 color="grey darken-2"
@@ -508,7 +505,7 @@
             <br />
 
             <div class="subsection-title" id="additional-flooding-layer-title">
-              Additional Flooding Layers
+              {{addFloodLayers()}}
             </div>
 
             <v-simple-checkbox
@@ -519,7 +516,7 @@
               v-model="nfhlPicked"
             ></v-simple-checkbox>
             <div class="legend-no-icon">
-              <label for="nfhl">FEMA National Flood Hazard Layer</label>
+              <label for="nfhl">{{this.femaLayer()}}</label>
             </div>
             <v-icon
               @click="showNFHLSlider = !showNFHLSlider"
@@ -530,7 +527,7 @@
               mdi-circle-opacity
             </v-icon>
             <div v-if="showNFHLSlider" class="sliders">
-              Opacity: &nbsp; {{ nfhlOpacity }}
+              {{this.opacity()}}: &nbsp; {{ nfhlOpacity }}
               <v-slider
                 v-model="nfhlOpacity"
                 color="grey darken-2"
@@ -551,7 +548,7 @@
               v-model="radarPicked"
             ></v-simple-checkbox>
             <div class="legend-no-icon">
-              <label for="radar">NOAA National Weather Service Radar</label>
+              <label for="radar">{{this.noaaRadarLayer()}}</label>
             </div>
             <v-icon
               @click="showNWSSlider = !showNWSSlider"
@@ -562,7 +559,7 @@
               mdi-circle-opacity
             </v-icon>
             <div v-if="showNWSSlider" class="sliders">
-              Opacity: &nbsp; {{ nwsOpacity }}
+              {{this.opacity()}}: &nbsp; {{ nwsOpacity }}
               <v-slider
                 v-model="nwsOpacity"
                 color="grey darken-2"
@@ -583,7 +580,7 @@
               v-model="fwwPicked"
             ></v-simple-checkbox>
             <div class="legend-no-icon">
-              <label for="fww">NOAA Flood Watches and Warnings</label>
+              <label for="fww">{{this.noaaFloodLayer()}}</label>
             </div>
             <v-icon
               @click="showFWWSlider = !showFWWSlider"
@@ -594,7 +591,7 @@
               mdi-circle-opacity
             </v-icon>
             <div v-if="showFWWSlider" class="sliders">
-              Opacity: &nbsp; {{ fwwOpacity }}
+              {{this.opacity()}}: &nbsp; {{ fwwOpacity }}
               <v-slider
                 v-model="fwwOpacity"
                 color="grey darken-2"
@@ -606,7 +603,7 @@
             </div>
 
             <div class="subsection-title" id="supporting-layer-title">
-              Supporting Layers
+              {{this.supportingLayers()}}
             </div>
 
             <v-simple-checkbox
@@ -628,7 +625,7 @@
                 "
               ></div>
               <label for="noaa" style="padding-left: 15px"
-                >NOAA Tides &amp; Current Stations</label
+                >{{this.noaaTides()}}</label
               >
             </div>
             <v-icon
@@ -641,7 +638,7 @@
               mdi-circle-opacity
             </v-icon>
             <div v-if="showNOAASlider" class="sliders">
-              Opacity: &nbsp; {{ noaaOpacity }}
+              {{this.opacity()}}: &nbsp; {{ noaaOpacity }}
               <v-slider
                 v-model="noaaOpacity"
                 color="grey darken-2"
@@ -664,8 +661,10 @@
 import { eventBus } from "../main.js";
 import { Ripple } from "vuetify/lib/directives";
 import DatePicker from "@/components/DatePicker";
+import { text } from "../mixins/text.js";
 
 export default {
+  mixins: [text],
   components: {
     DatePicker,
   },

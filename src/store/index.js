@@ -149,6 +149,9 @@ export default new Vuex.Store({
     getfwwOpacity(state, fwwOpacity) {
       state.fwwOpacity = fwwOpacity;
     },
+    getSpanishState(state, spanishState) {
+      state.spanishState = spanishState;
+    },
   },
   getters: {
     drawerState: (state) => state.drawerState,
@@ -163,6 +166,7 @@ export default new Vuex.Store({
     selectedTimePeriodState: (state) => state.selectedTimePeriodState,
     showAllDisabled: (state) => state.showAllDisabled,
     thresholdsExceededCount: (state) => state.thresholdsExceededCount,
+    spanishState: (state) => state.spanishState,
   },
   actions: {},
   modules: {},
