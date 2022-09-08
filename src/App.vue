@@ -28,7 +28,7 @@
           <v-spacer></v-spacer>
           <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
-          <v-btn icon  v-bind="attrs" v-on="on">
+          <v-btn icon  v-bind="attrs" v-on="on" @click="spanishState = !spanishState" >
             <v-icon color="white">mdi-translate</v-icon>
           </v-btn> </template>
           <span>Translate to Spanish</span></v-tooltip>
@@ -71,6 +71,14 @@ export default {
       },
       set(v) {
         return this.$store.commit("toggleDrawerState", v);
+      },
+    },
+     spanishState: {
+      get() {
+        return this.$store.getters.spanishState;
+      },
+      set(v) {
+        return this.$store.commit("getSpanishState", v);
       },
     },
   },
