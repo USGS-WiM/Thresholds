@@ -628,13 +628,13 @@ export default {
           let mouselat = e.latlng.lat.toFixed(4);
           let mouselon = e.latlng.lng.toFixed(4);
           self.currentZoom = self.map.getZoom();
-          latlngDiv.innerHTML = "<button><span id='lat'>Latitude: " +
+          latlngDiv.innerHTML = "<button><span id='lat'>Latitude:</span> " +
             mouselat +
-            "</span><br/><span id='long'>Longitude: " +
+            "<br/><span id='long'>Longitude:</span> " +
             mouselon +
-            "</span><br/><span id='zoom'>Current Zoom: " +
+            "<br/><span id='zoom'>Current Zoom:</span> " +
             self.currentZoom +
-            "</span></button>";
+            "</button>";
         }
       });
 
@@ -643,15 +643,9 @@ export default {
         self.currentZoom = self.map.getZoom();
         //Zoom value to update state
         self.zoomValue = self.currentZoom;
-        if(this.$store.state.spanishState){
+       
         document.getElementById("zoom").innerHTML =
-          "<span id='zoom'>PLACEHOLDER:" + self.currentZoom + "</span>";
-        }
-        else{
-          document.getElementById("zoom").innerHTML =
-          "<span id='zoom'> Current Zoom:" + self.currentZoom + "</span>";
-
-        }
+          "<span id='zoom'>PLACEHOLDER:</span>" + self.currentZoom;
       });
 
       //Scale control

@@ -5,7 +5,7 @@ export const text = {
             this.about();
             this.long()
             this.latitude();
-            this.zoom();
+            this.zoomControl();
         }
     },
     methods: { // If Spanish State is true then display Spanish text; if false display English
@@ -168,7 +168,7 @@ export const text = {
                 element.innerHTML = 'Longitude:'
             }
         },
-        zoom(){
+        zoomControl(){
             let element = document.getElementById('zoom');
             if(this.$store.state.spanishState == true){
                 element.innerHTML = 'PLACEHOLDER:'
