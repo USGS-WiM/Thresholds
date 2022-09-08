@@ -1,8 +1,11 @@
 export const text = {
     watch: { // watching for spanishState change and then running methods for translating if state has changed
         "$store.state.spanishState": function () {
-            console.log("translating");
             this.title();
+            this.about();
+            this.long()
+            this.latitude();
+            this.zoom();
         }
     },
     methods: { // If Spanish State is true then display Spanish text; if false display English
@@ -135,46 +138,49 @@ export const text = {
 
         
         about() {
-            return this.$store.state.spanishState == true ? 'PLACEHOLDER FOR SPANISH TEXT' : 'About';
+            let element = document.getElementById('aboutButton');
+            if(this.$store.state.spanishState == true){
+                element.innerHTML= 'PLACEHOLDER;'
+            }
+            else{
+                element.innerHTML = 'About'
+            }
         },
         search() {
             return this.$store.state.spanishState == true ? 'PLACEHOLDER FOR SPANISH TEXT' : 'Search';
         },
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-
         latitude() {
-            let lat = document.getElementById('lat')
-            return this.$store.state.spanishState == true ? lat.innerHTML = 'PLACEHOLDER FOR SPANISH TEXT' : lat.innerHTML = 'hi hannah:';
+            let element = document.getElementById('lat');
+            if(this.$store.state.spanishState == true){
+                element.innerHTML = 'PLACEHOLDER:'
+            }
+            else{
+                element.innerHTML = 'Latitude:'
+            }
         },
-        longitude() {
-            return this.$store.state.spanishState == true ? 'PLACEHOLDER FOR SPANISH TEXT' : 'Longitude:';
+
+        long() {
+            let element = document.getElementById('long');
+            if(this.$store.state.spanishState == true){
+                element.innerHTML = 'PLACEHOLDER:'
+            }
+            else{
+                element.innerHTML = 'Longitude:'
+            }
         },
-        currentZoom() {
-            return this.$store.state.spanishState == true ? 'PLACEHOLDER FOR SPANISH TEXT' : 'Current Zoom:';
+        zoom(){
+            let element = document.getElementById('zoom');
+            if(this.$store.state.spanishState == true){
+                element.innerHTML = 'PLACEHOLDER:'
+            }
+            else{
+                element.innerHTML = 'Current Zoom:'
+            }
         },
         legend() {
             return this.$store.state.spanishState == true ? 'PLACEHOLDER FOR SPANISH TEXT' : 'Legend';
         },
-        //not sure we need this one... i think the abbreviation for miles will be the same thing
-        scale() {
-            return this.$store.state.spanishState == true ? 'PLACEHOLDER FOR SPANISH TEXT' : 'Search';
-        },
+        
         close() {
             return this.$store.state.spanishState == true ? 'PLACEHOLDER FOR SPANISH TEXT' : 'Close';
         },

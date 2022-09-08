@@ -603,11 +603,11 @@ export default {
         onAdd: function () {
           latlngDiv = L.DomUtil.create("div", "latlngcontrol");
           latlngDiv.innerHTML =
-            "<button id ='latlong'> ${{this.latitude()}}: " +
+          "<button> <span id= 'lat'> Latitude:" +
             self.lat +
-            "<br/><span id='long'> {{this.longitude()}}: " +
+            "</span><br/><span id='long'>Longitude: " +
             self.lon +
-            "</span><br/><span id='zoom'>{{this.currentZoom()}}: " +
+            "</span><br/><span id='zoom'>Current Zoom: " +
             self.currentZoom +
             "</span></button>";
           return latlngDiv;
@@ -628,10 +628,8 @@ export default {
           let mouselat = e.latlng.lat.toFixed(4);
           let mouselon = e.latlng.lng.toFixed(4);
           self.currentZoom = self.map.getZoom();
-          latlngDiv.innerHTML =
-            "<button> <span id= 'lat'>{{this.latitude()}} " +
+          latlngDiv.innerHTML = "<button><span id='lat'>Latitude: " +
             mouselat +
-            
             "</span><br/><span id='long'>Longitude: " +
             mouselon +
             "</span><br/><span id='zoom'>Current Zoom: " +
@@ -645,8 +643,15 @@ export default {
         self.currentZoom = self.map.getZoom();
         //Zoom value to update state
         self.zoomValue = self.currentZoom;
+        if(this.$store.state.spanishState){
         document.getElementById("zoom").innerHTML =
-          "<span id='zoom'>Current Zoom: " + self.currentZoom + "</span>";
+          "<span id='zoom'>PLACEHOLDER:" + self.currentZoom + "</span>";
+        }
+        else{
+          document.getElementById("zoom").innerHTML =
+          "<span id='zoom'> Current Zoom:" + self.currentZoom + "</span>";
+
+        }
       });
 
       //Scale control

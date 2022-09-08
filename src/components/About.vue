@@ -10,7 +10,7 @@
             v-on="on"
             id="about-button-desktop"
           >
-          <div style="color: #333">About</div>
+          <div style="color: black" id="aboutButton">About</div>
           </v-btn>
           <v-btn
             color="white"
