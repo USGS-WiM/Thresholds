@@ -317,7 +317,8 @@ export const text = {
         showActive() {
             return this.$store.state.spanishState == true ? 'Mostrar todas las capas de información de inundación activa' : 'Show all Active flooding Layers';
         },
-        date() {
+        dateText() {
+
             return this.$store.state.spanishState == true ? 'Fecha' : 'Date';
         },
         uncategorized_a() {
