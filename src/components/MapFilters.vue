@@ -107,7 +107,7 @@
                   class="basemapThumb"
                   alt=""
                   src="../assets/natgeo.jpg"
-                /><label for="natgeo">{{this.natGeo()}}</label>
+                />NatGeo<label for="natgeo"></label>
               </v-btn>
             </v-btn-toggle>
           </v-container>
@@ -118,10 +118,10 @@
         <v-expansion-panel-content id="siteLayersContent">
           <v-container class="px-0" fluid>
             <div class="subsection-title" id="site-layer-title">
-              Site Layers<br />
+              {{this.siteLayers()}}<br />
             </div>
             <div id="timePeriod"><DatePicker></DatePicker></div>
-            <div id="activeLayerTitle">Active Flooding Layers</div>
+            <div id="activeLayerTitle">{{this.activeLayers()}}</div>
             <div style="display: none" id="noActiveFlooding">
               {{this.noActiveFlooding()}}
               <v-tooltip right>
@@ -419,7 +419,7 @@
                 color="blue lighten-1"
                 @click="callShowAll"
                 :disabled="showAllDisabled"
-                >Show all active flooding layers</v-btn
+                >{{this.showActive()}}</v-btn
               >
             </div>
             <v-simple-checkbox

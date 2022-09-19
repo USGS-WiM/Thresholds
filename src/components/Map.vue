@@ -302,7 +302,7 @@
           {{this.noActiveFlooding()}}
         </v-card-title>
 
-        <v-card-text> Displaying all features. </v-card-text>
+        <v-card-text> {{this.displaying_all_features()}} </v-card-text>
 
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -581,7 +581,7 @@ export default {
         options: {position: "bottomleft"},
         onAdd: function () {
           resetDiv = L.DomUtil.create("div", "resetcontrol");
-          resetDiv.innerHTML = "<button id= resetbutton >Reset View </button>"
+          resetDiv.innerHTML = "<button id= resetbutton >Reset View</button>"
           return resetDiv;
         },
       });

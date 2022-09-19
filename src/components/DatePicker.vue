@@ -11,7 +11,7 @@
       <template v-slot:activator="{ on, attrs }">
         <v-text-field
           v-model="date"
-          label="Date"
+          label= "Date"
           prepend-icon="mdi-calendar"
           v-on:click:prepend="menu = true"
           readonly
@@ -34,7 +34,12 @@
   </div>
 </template>
 <script>
+//imports
+import { text } from "../mixins/text";
+
+
 export default {
+  mixins: [text],
   data: () => ({
     activePicker: null,
     date: null,
