@@ -53,10 +53,10 @@
                 <strong>{{this.facilityFlooded()}}</strong> – {{this.facilityFloodedTooltip()}}
               </li>
               <li>
-                <strong>{{this.femaBFE()}}</strong> – {{this.baseFloodedTooltip()}}
+                <strong>{{this.about_bfe()}}</strong> – {{this.baseFloodedTooltip()}}
               </li>
               <li>
-                <strong>{{this.uncategorized()}}</strong> – {{this.uncategorizedTooltip()}}
+                <strong>{{this.uncategorized_a()}}</strong> – {{this.uncategorizedTooltip()}}
               </li>
             </ul>
             <br />
@@ -73,14 +73,14 @@
                 <strong>{{this.about_li_01_bold()}}</strong>{{this.about_li_015()}}
               </li>
               <li>
-                {{this.view()}} <strong>{{this.femaLayer()}}</strong>{{this.about_li_02()}}
+                {{this.view_la()}} <strong>{{this.femaLayer()}}</strong>{{this.about_li_02()}}
               </li>
               <li>
                 {{this.view_rt()}}
                 <strong>{{this.noaaRadarLayer()}}</strong>
               </li>
               <li>
-                {{this.view_rt()}}
+                {{this.view_rt_02()}}
                 <strong
                   >{{this.noaaWatches()}}</strong
                 >
@@ -114,8 +114,8 @@
             <p>
               {{this.about_p6()}}
               <a href="mailto:gs_real_time_flood_impact_map_group@usgs.gov"
-                >{{this.about_p6_link()}}</a
-              >.
+                >gs_real_time_flood_impact_map_group@usgs.gov.</a
+              >
             </p>
           </v-card-text>
 

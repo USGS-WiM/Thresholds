@@ -31,7 +31,7 @@
           <v-btn icon  v-bind="attrs" v-on="on" @click="spanishState = !spanishState" >
             <v-icon color="white">mdi-translate</v-icon>
           </v-btn> </template>
-          <span>Translate to Spanish</span></v-tooltip>
+          <span>Traducir al español </span></v-tooltip>
           <About></About>
         </v-app-bar>
         <Map v-if="mounted"></Map>
