@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
--
+- Spanish button with translations
+- Deploy to S3 workflow
 
 ### Changed
 
