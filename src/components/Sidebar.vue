@@ -3,24 +3,22 @@
     v-model="drawerState"
     disable-resize-watcher
     app
-    :width="300"
+    :width="350"
   >
     <div>
-      <h2 id="sidebarTitle"> {{this.sidebarTitle()}} </h2>
+      <h2 id="sidebarTitle">{{ this.sidebarTitle() }}</h2>
       <MapFilters></MapFilters>
     </div>
     <div id="disclaimerText">
-        <h5>{{this.dataStatement()}}</h5>
-        <p>{{this.dataStatementText()}}</p>
-        <p>{{this.dataStatementText2()}}</p>
-        
+      <h5>{{ this.dataStatement() }}</h5>
+      <p>{{ this.dataStatementText() }}</p>
+      <p>{{ this.dataStatementText2() }}</p>
     </div>
   </v-navigation-drawer>
 </template>
 
 <style>
 @import "../styles/custom.less";
-
 
 #disclaimerText {
   margin: 10px;
@@ -29,7 +27,6 @@
 #disclaimerText p {
   font-size: 11px;
 }
-
 </style>
 
 <script>
