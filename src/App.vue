@@ -27,11 +27,19 @@
           </v-toolbar-title>
           <v-spacer></v-spacer>
           <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-          <v-btn icon  v-bind="attrs" v-on="on" @click="spanishState = !spanishState" >
-            <v-icon color="white">mdi-translate</v-icon>
-          </v-btn> </template>
-          <span>Traducir al español </span></v-tooltip>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                icon
+                v-bind="attrs"
+                v-on="on"
+                @click="spanishState = !spanishState"
+              >
+                <v-icon color="white">mdi-translate</v-icon>
+              </v-btn>
+            </template>
+            <span v-if="!spanishState">Traducir al español </span
+            ><span v-if="spanishState">Translate to English </span></v-tooltip
+          >
           <About></About>
         </v-app-bar>
         <Map v-if="mounted"></Map>
@@ -73,11 +81,12 @@ export default {
         return this.$store.commit("toggleDrawerState", v);
       },
     },
-     spanishState: {
+    spanishState: {
       get() {
         return this.$store.getters.spanishState;
       },
       set(v) {
+        localStorage.setItem("spanishState", v); // saving state to local storage for return users
         return this.$store.commit("getSpanishState", v);
       },
     },
@@ -96,6 +105,15 @@ export default {
   mounted() {
     // When page loads or resizes, calculate height of v-app
     this.getBannerHeight();
+
+    // checcking state and loading app in selected language
+    let localSpanishState = localStorage.getItem("spanishState");
+    if (localSpanishState == "true") {
+      this.spanishState = true;
+    } else {
+      this.spanishState = false;
+    }
+
     window.addEventListener("resize", this.getBannerHeight);
     // Need to mount parent before rendering Map component, otherwise height change will break intial map zoom
     this.mounted = true;
