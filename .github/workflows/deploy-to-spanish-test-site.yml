@@ -4,7 +4,7 @@ on:
       - staging-spanish
 name: Deploy to Spanish Test site
 jobs:
-  deployToTest:
+  deployToSpanishTest:
     name: Deploy to Spanish Test site
     runs-on: ubuntu-latest
     steps:
