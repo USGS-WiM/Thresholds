@@ -2403,7 +2403,7 @@ export default {
   right: 10px;
   top: 45px;
   height: auto;
-  width: 255px;
+  width: 320px;
   position: absolute;
   z-index: 999;
   font-size: 14px;
