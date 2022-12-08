@@ -47,7 +47,7 @@
           <v-expansion-panel>
             <!-- Legend title -->
             <v-expansion-panel-header id="titleContainer">
-              <div id="legendExplanation">Legend</div>
+              <div id="legendExplanation">{{this.legend()}}</div>
               <div id="legendExplanationMobile"><v-icon 
                 small
                 color="#333"
@@ -56,14 +56,14 @@
             <v-expansion-panel-content id="legendContent">
             <!-- Threshold icons -->
               <div id="thresholdLayers">
-                <div id="thresholdLayersTitle" v-if="activeLayerTitleVisible">Active Flooding</div>
+                <div id="thresholdLayersTitle" v-if="activeLayerTitleVisible">{{this.activeFlooding()}}</div>
                 <div class="legendIcon">
                   <img
                     src="../assets/aq-icons/embankment_flooded_circle.png"
                     height="25px"
                     width="25px"
                   />
-                  <label>Embankment Flooded</label>
+                  <label>{{this.embankmentFlooded()}}</label>
                     <v-tooltip left>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -76,7 +76,7 @@
                         mdi-information
                       </v-icon>
                     </template>
-                    <span>Flood waters are overflowing the stream/river channel and into the surrounding area.</span>
+                    <span>{{this.embankmentFloodedTooltip()}}</span>
                   </v-tooltip>
                 </div>
                 <div class="legendIcon">
@@ -86,7 +86,7 @@
                     height="25px"
                     width="25px"
                   />
-                  <label>Path Flooded</label>
+                  <label>{{this.pathFlooded()}}</label>
                     <v-tooltip left>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -99,7 +99,7 @@
                         mdi-information
                       </v-icon>
                     </template>
-                    <span>Pedestrian greenway/trail/path is underwater.</span>
+                    <span>{{this.pathFloodedTooltip()}}</span>
                   </v-tooltip>
                 </div>
                 <div class="legendIcon">
@@ -109,7 +109,7 @@
                     height="25px"
                     width="25px"
                   />
-                  <label>Road Flooded</label>
+                  <label>{{this.roadFlooded()}}</label>
                     <v-tooltip left>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -122,7 +122,7 @@
                         mdi-information
                       </v-icon>
                     </template>
-                    <span>Road is underwater.</span>
+                    <span>{{this.roadFloodedTooltip()}}</span>
                   </v-tooltip>
                 </div>
                 <div class="legendIcon">
@@ -132,7 +132,7 @@
                     height="25px"
                     width="25px"
                   />
-                  <label>Bridge Flood at Risk</label>
+                  <label>{{this.bridgeFloodRisk()}}</label>
                     <v-tooltip left>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -145,7 +145,7 @@
                         mdi-information
                       </v-icon>
                     </template>
-                    <span>Water from the river or stream has reached the bottom of the bridge.</span>
+                    <span>{{this.bridgeAtRiskTooltip()}}</span>
                   </v-tooltip>
                 </div>
                 <div class="legendIcon">
@@ -155,7 +155,7 @@
                     height="25px"
                     width="25px"
                   />
-                  <label>Bridge Flooded</label>
+                  <label>{{this.bridgeFlooded()}}</label>
                     <v-tooltip left>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -168,7 +168,7 @@
                         mdi-information
                       </v-icon>
                     </template>
-                    <span>Bridge is underwater.</span>
+                    <span>{{this.bridgeFloodedTooltip()}}</span>
                   </v-tooltip>
                 </div>
                 <div class="legendIcon">
@@ -178,7 +178,7 @@
                     height="25px"
                     width="25px"
                   />
-                  <label>Facility Flooded</label>
+                  <label>{{this.facilityFlooded()}}</label>
                     <v-tooltip left>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -191,7 +191,7 @@
                         mdi-information
                       </v-icon>
                     </template>
-                    <span>Water from the river or stream has reached the lowest finished floor of the structure (FEMA Finished Floor Elevation, or FFE).</span>
+                    <span>{{this.facilityFloodedTooltip()}}</span>
                   </v-tooltip>
                 </div>
                 <div class="legendIcon">
@@ -200,7 +200,7 @@
                     height="25px"
                     width="25px"
                   />
-                  <label>Base Flood Elevation</label>
+                  <label>{{this.baseFloodElevation()}}</label>
                     <v-tooltip left>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -213,7 +213,7 @@
                         mdi-information
                       </v-icon>
                     </template>
-                    <span>The FEMA 100-year Base Flood Elevation (BFE) has been reached.</span>
+                    <span>{{this.baseFloodedTooltip()}}</span>
                   </v-tooltip>
                 </div>
                 <div class="legendIcon">
@@ -222,7 +222,7 @@
                     height="25px"
                     width="25px"
                   />
-                  <label>Uncategorized</label>
+                  <label>{{this.uncategorized()}}</label>
                     <v-tooltip left>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -235,7 +235,7 @@
                         mdi-information
                       </v-icon>
                     </template>
-                    <span>This Flood Impact Location is experiencing flooding. For more information about this location, open the icon’s pop-up and look for the “Flood Impact Type” description.</span>
+                    <span>{{this.uncategorizedTooltip()}}</span>
                   </v-tooltip>
                 </div>
               </div>
@@ -253,7 +253,7 @@
                     "
                   ></div>
                   <label
-                    >All Features</label
+                    >{{this.allFeatures()}}</label
                   >
                 </div>
                 <div class="legendIconToggle" v-if="streamgageVisible">
@@ -267,28 +267,28 @@
                       wmm-borderless
                     "
                   ></div>
-                  <label>USGS Real-time Streamgage</label>
+                  <label>{{this.streamgageLable()}}</label>
                 </div>
 
                 <div class="legendIconToggle" v-if="nfhlVisible">
-                  <label id="nfhlLabel">FEMA National Flood Hazard Layer</label>
+                  <label id="nfhlLabel">{{this.femaLayer()}}</label>
                 </div>
                 <div id="nfhlLegend"></div>
               </div>
 
               <div class="legendIconToggle" v-if="radarVisible">
-                  <label id="radarLabel">NOAA National Weather Service Radar</label>
+                  <label id="radarLabel">{{this.noaaRadarLayer()}}</label>
                   <div id="radarLegend"></div>
                 </div>
 
                 <div class="legendIconToggle" v-if="fwwVisible">
-                  <label id="fwwLabel">NOAA Flood Watches and Warnings</label>
+                  <label id="fwwLabel">{{this.noaaFloodLayer()}}</label>
                 </div>
                 <div id="fwwLegend"></div>
 
                 <div class="legendIconToggle" v-if="tidesVisible">
                   <div class="wmm-diamond wmm-lime wmm-icon-triangle wmm-icon-black wmm-size-15 wmm-borderless"></div>
-                  <label id="noaaLabel">NOAA Tides &amp; Current Stations</label>
+                  <label id="noaaLabel">{{this.noaaTides()}}</label>
                 </div>
 
             </v-expansion-panel-content>
@@ -299,14 +299,14 @@
     <v-dialog v-model="noFloodingdialog" max-width="250">
       <v-card>
         <v-card-title class="text-h6 green lighten-2">
-          No Active Flooding
+          {{this.noActiveFlooding()}}
         </v-card-title>
 
-        <v-card-text> Displaying all features. </v-card-text>
+        <v-card-text> {{this.displaying_all_features()}} </v-card-text>
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text @click="noFloodingdialog = false"> Close </v-btn>
+          <v-btn text @click="noFloodingdialog = false"> {{this.close()}} </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -321,6 +321,7 @@ import Geosearch from "@/components/Geosearch";
 import axios from "axios";
 import Plotly from "plotly.js";
 import { eventBus } from "../main.js";
+import { text } from "../mixins/text.js";
 
 // this code is necessary for the default leaflet marker to work
 delete L.Icon.Default.prototype._getIconUrl;
@@ -373,6 +374,7 @@ let siteStatus = "active";
 let graphParameterCodeList = "00065,63160,72279";
 
 export default {
+  mixins: [text],
   components:{
     Geosearch
   },
@@ -579,7 +581,7 @@ export default {
         options: {position: "bottomleft"},
         onAdd: function () {
           resetDiv = L.DomUtil.create("div", "resetcontrol");
-          resetDiv.innerHTML = "<button id= resetbutton >Reset View </button>"
+          resetDiv.innerHTML = "<button id= resetbutton >Reset View</button>"
           return resetDiv;
         },
       });
@@ -601,9 +603,9 @@ export default {
         onAdd: function () {
           latlngDiv = L.DomUtil.create("div", "latlngcontrol");
           latlngDiv.innerHTML =
-            "<button>Latitude: " +
+          "<button> <span id= 'lat'> Latitude:" +
             self.lat +
-            "<br/><span id='long'>Longitude: " +
+            "</span><br/><span id='long'>Longitude: " +
             self.lon +
             "</span><br/><span id='zoom'>Current Zoom: " +
             self.currentZoom +
@@ -626,14 +628,13 @@ export default {
           let mouselat = e.latlng.lat.toFixed(4);
           let mouselon = e.latlng.lng.toFixed(4);
           self.currentZoom = self.map.getZoom();
-          latlngDiv.innerHTML =
-            "<button>Latitude: " +
+          latlngDiv.innerHTML = "<button><span id='lat'>Latitude:</span> " +
             mouselat +
-            "<br/><span id='long'>Longitude: " +
+            "<br/><span id='long'>Longitude:</span> " +
             mouselon +
-            "</span><br/><span id='zoom'>Current Zoom: " +
+            "<br/><span id='zoom'>Current Zoom:</span> " +
             self.currentZoom +
-            "</span></button>";
+            "</button>";
         }
       });
 
@@ -642,8 +643,9 @@ export default {
         self.currentZoom = self.map.getZoom();
         //Zoom value to update state
         self.zoomValue = self.currentZoom;
+       
         document.getElementById("zoom").innerHTML =
-          "<span id='zoom'>Current Zoom: " + self.currentZoom + "</span>";
+          "<span id='zoom'>PLACEHOLDER:</span>" + self.currentZoom;
       });
 
       //Scale control
@@ -2401,7 +2403,7 @@ export default {
   right: 10px;
   top: 45px;
   height: auto;
-  width: 255px;
+  width: 320px;
   position: absolute;
   z-index: 999;
   font-size: 14px;
