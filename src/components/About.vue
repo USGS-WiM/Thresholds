@@ -10,7 +10,9 @@
             v-on="on"
             id="about-button-desktop"
           >
-          <div style="color: black" id="aboutButton">About</div>
+            <div style="color: black; min-width: 75px" id="aboutButton">
+              About
+            </div>
           </v-btn>
           <v-btn
             color="white"
@@ -24,95 +26,114 @@
         </template>
 
         <v-card>
-          <v-card-title class="text-h5 grey lighten-2"> {{this.about_h4()}} </v-card-title>
+          <v-card-title class="text-h5 grey lighten-2">
+            {{ this.about_h4() }}
+          </v-card-title>
 
           <v-card-text>
-            <h4>{{this.about_h4()}}</h4>
+            <h4>{{ this.about_h4() }}</h4>
             <p>
-              {{this.about_p1()}}
+              {{ this.about_p1() }}
             </p>
             <p>
-              {{this.about_p2()}}
+              {{ this.about_p2() }}
             </p>
             <p>
-              {{this.about_p3()}}
+              {{ this.about_p3() }}
             </p>
             <ul>
               <li>
-                <strong>{{this.embankmentFlooded()}}</strong> – {{this.embankmentFloodedTooltip()}}
+                <strong>{{ this.embankmentFlooded() }}</strong> –
+                {{ this.embankmentFloodedTooltip() }}
               </li>
               <li>
-                <strong>{{this.pathFlooded()}}</strong> – {{this.pathFloodedTooltip()}}
-              </li>
-              <li><strong>{{this.roadFlooded()}}</strong> – {{this.roadFloodedTooltip()}}</li>
-              <li>
-                <strong>{{this.bridgeFloodRisk()}}</strong> – {{this.bridgeAtRiskTooltip()}}
-              </li>
-              <li><strong>{{this.bridgeFlooded()}}</strong> – {{this.bridgeFloodedTooltip()}}</li>
-              <li>
-                <strong>{{this.facilityFlooded()}}</strong> – {{this.facilityFloodedTooltip()}}
+                <strong>{{ this.pathFlooded() }}</strong> –
+                {{ this.pathFloodedTooltip() }}
               </li>
               <li>
-                <strong>{{this.about_bfe()}}</strong> – {{this.baseFloodedTooltip()}}
+                <strong>{{ this.roadFlooded() }}</strong> –
+                {{ this.roadFloodedTooltip() }}
               </li>
               <li>
-                <strong>{{this.uncategorized_a()}}</strong> – {{this.uncategorizedTooltip()}}
+                <strong>{{ this.bridgeFloodRisk() }}</strong> –
+                {{ this.bridgeAtRiskTooltip() }}
+              </li>
+              <li>
+                <strong>{{ this.bridgeFlooded() }}</strong> –
+                {{ this.bridgeFloodedTooltip() }}
+              </li>
+              <li>
+                <strong>{{ this.facilityFlooded() }}</strong> –
+                {{ this.facilityFloodedTooltip() }}
+              </li>
+              <li>
+                <strong>{{ this.about_bfe() }}</strong> –
+                {{ this.baseFloodedTooltip() }}
+              </li>
+              <li>
+                <strong>{{ this.uncategorized_a() }}</strong> –
+                {{ this.uncategorizedTooltip() }}
               </li>
             </ul>
             <br />
             <p>
-              {{this.about_p4()}}
-              <strong>{{this.about_p4_bold()}}</strong> {{this.about_p4_2()}}
+              {{ this.about_p4() }}
+              <strong>{{ this.about_p4_bold() }}</strong>
+              {{ this.about_p4_2() }}
             </p>
             <p>
-              {{this.about_p5()}}
+              {{ this.about_p5() }}
             </p>
             <ul>
               <li>
-                {{this.about_li_01()}}
-                <strong>{{this.about_li_01_bold()}}</strong>{{this.about_li_015()}}
+                {{ this.about_li_01() }}
+                <strong>{{ this.about_li_01_bold() }}</strong
+                >{{ this.about_li_015() }}
               </li>
               <li>
-                {{this.view_la()}} <strong>{{this.femaLayer()}}</strong>{{this.about_li_02()}}
+                {{ this.view_la() }} <strong>{{ this.femaLayer() }}</strong
+                >{{ this.about_li_02() }}
               </li>
               <li>
-                {{this.view_rt()}}
-                <strong>{{this.noaaRadarLayer()}}</strong>
+                {{ this.view_rt() }}
+                <strong>{{ this.noaaRadarLayer() }}</strong>
               </li>
               <li>
-                {{this.view_rt_02()}}
-                <strong
-                  >{{this.noaaWatches()}}</strong
-                >
-                {{this.allHaz()}}
+                {{ this.view_rt_02() }}
+                <strong>{{ this.noaaWatches() }}</strong>
+                {{ this.allHaz() }}
               </li>
-              <li>{{this.view()}} <strong>{{this.noaaWaterLevels()}}</strong></li>
+              <li>
+                {{ this.view() }} <strong>{{ this.noaaWaterLevels() }}</strong>
+              </li>
             </ul>
             <br />
-            <p>{{this.important()}}</p>
+            <p>{{ this.important() }}</p>
             <ul>
               <li>
-                {{this.about_li_03()}}
+                {{ this.about_li_03() }}
               </li>
               <li>
-                {{this.about_li_04()}}
+                {{ this.about_li_04() }}
               </li>
               <li>
-                {{this.about_li_05()}}
+                {{ this.about_li_05() }}
                 <a
                   href="https://www.usgs.gov/usgs-science-centers#:~:text=USGS%20Science%20Centers%20%20%20%20Science%20Center,%20%20California%20%2022%20more%20rows%20"
-                  >{{this.waterScienceCenter()}}</a
+                  >{{ this.waterScienceCenter() }}</a
                 >
-                {{this.about_li_052()}}
+                {{ this.about_li_052() }}
               </li>
             </ul>
             <br />
-            <p><strong>{{this.disclaimerTitle()}}</strong></p>
             <p>
-              {{this.disclaimerText()}}
+              <strong>{{ this.disclaimerTitle() }}</strong>
             </p>
             <p>
-              {{this.about_p6()}}
+              {{ this.disclaimerText() }}
+            </p>
+            <p>
+              {{ this.about_p6() }}
               <a href="mailto:gs_real_time_flood_impact_map_group@usgs.gov"
                 >gs_real_time_flood_impact_map_group@usgs.gov.</a
               >
@@ -123,7 +144,9 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" text @click="dialog = false"> {{this.close()}} </v-btn>
+            <v-btn color="primary" text @click="dialog = false">
+              {{ this.close() }}
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>

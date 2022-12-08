@@ -22,12 +22,14 @@
       elevation="2"
       icon="mdi-checkbox-marked-circle"
     >
-      {{this.noFloodingAlert()}}
+      {{ this.noFloodingAlert() }}
     </v-alert>
     <v-expansion-panels :value="1">
       <!-- Filters Section -->
       <v-expansion-panel>
-        <v-expansion-panel-header> {{this.basemaps()}} </v-expansion-panel-header>
+        <v-expansion-panel-header>
+          {{ this.basemaps() }}
+        </v-expansion-panel-header>
         <v-expansion-panel-content>
           <v-container class="px-0" fluid>
             <v-btn-toggle borderless>
@@ -42,7 +44,7 @@
                   class="basemapThumb"
                   alt=""
                   src="../assets/streets.jpg"
-                /><label for="streets">{{this.streets()}}</label>
+                /><label for="streets">{{ this.streets() }}</label>
               </v-btn>
               <v-btn
                 text
@@ -55,7 +57,7 @@
                   class="basemapThumb"
                   alt=""
                   src="../assets/satellite.jpg"
-                /><label for="satellite">{{this.satellite()}}</label>
+                /><label for="satellite">{{ this.satellite() }}</label>
               </v-btn>
               <v-btn
                 text
@@ -68,7 +70,7 @@
                   class="basemapThumb"
                   alt=""
                   src="../assets/topo.jpg"
-                /><label for="topo">{{this.topo()}}</label>
+                /><label for="topo">{{ this.topo() }}</label>
               </v-btn>
               <v-btn
                 text
@@ -81,7 +83,7 @@
                   class="basemapThumb"
                   alt=""
                   src="../assets/terrain.jpg"
-                /><label for="terrain">{{this.terrain()}}</label>
+                /><label for="terrain">{{ this.terrain() }}</label>
               </v-btn>
               <v-btn
                 text
@@ -94,7 +96,7 @@
                   class="basemapThumb"
                   alt=""
                   src="../assets/gray.jpg"
-                /><label for="gray">{{this.gray()}}</label>
+                /><label for="gray">{{ this.gray() }}</label>
               </v-btn>
               <v-btn
                 text
@@ -114,16 +116,18 @@
         </v-expansion-panel-content>
       </v-expansion-panel>
       <v-expansion-panel>
-        <v-expansion-panel-header> {{this.layers()}} </v-expansion-panel-header>
+        <v-expansion-panel-header>
+          {{ this.layers() }}
+        </v-expansion-panel-header>
         <v-expansion-panel-content id="siteLayersContent">
           <v-container class="px-0" fluid>
             <div class="subsection-title" id="site-layer-title">
-              {{this.siteLayers()}}<br />
+              {{ this.siteLayers() }}<br />
             </div>
             <div id="timePeriod"><DatePicker></DatePicker></div>
-            <div id="activeLayerTitle">{{this.activeLayers()}}</div>
+            <div id="activeLayerTitle">{{ this.activeLayers() }}</div>
             <div style="display: none" id="noActiveFlooding">
-              {{this.noActiveFlooding()}}
+              {{ this.noActiveFlooding() }}
               <v-tooltip right>
                 <template v-slot:activator="{ on, attrs }">
                   <v-icon
@@ -136,9 +140,7 @@
                     mdi-information
                   </v-icon>
                 </template>
-                <span
-                  >{{this.noActiveFloodingTooltip()}}</span
-                >
+                <span>{{ this.noActiveFloodingTooltip() }}</span>
               </v-tooltip>
             </div>
             <div id="activeSublayers">
@@ -156,9 +158,9 @@
                     class="activeIcons"
                     src="../assets/aq-icons/embankment_flooded_circle.png"
                   />
-                  <label for="bank" class="legend-label"
-                    >{{this.embankmentFlooded()}}</label
-                  >
+                  <label for="bank" class="legend-label">{{
+                    this.embankmentFlooded()
+                  }}</label>
                   <v-tooltip right>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -171,9 +173,7 @@
                         mdi-information
                       </v-icon>
                     </template>
-                    <span
-                      >{{this.embankmentFloodedTooltip()}}</span
-                    >
+                    <span>{{ this.embankmentFloodedTooltip() }}</span>
                   </v-tooltip>
                 </div>
                 <br />
@@ -192,7 +192,9 @@
                     class="activeIcons"
                     src="../assets/aq-icons/path_flooded_circle.png"
                   />
-                  <label for="path" class="legend-label">{{this.pathFlooded()}}</label>
+                  <label for="path" class="legend-label">{{
+                    this.pathFlooded()
+                  }}</label>
                   <v-tooltip right>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -205,9 +207,7 @@
                         mdi-information
                       </v-icon>
                     </template>
-                    <span
-                      >{{this.pathFloodedTooltip()}}</span
-                    >
+                    <span>{{ this.pathFloodedTooltip() }}</span>
                   </v-tooltip>
                 </div>
                 <br />
@@ -226,7 +226,9 @@
                     class="activeIcons"
                     src="../assets/aq-icons/car_flooded_circle.png"
                   />
-                  <label for="road" class="legend-label">{{this.roadFlooded()}}</label>
+                  <label for="road" class="legend-label">{{
+                    this.roadFlooded()
+                  }}</label>
                   <v-tooltip right>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -239,7 +241,7 @@
                         mdi-information
                       </v-icon>
                     </template>
-                    <span>{{this.roadFloodedTooltip()}}</span>
+                    <span>{{ this.roadFloodedTooltip() }}</span>
                   </v-tooltip>
                 </div>
                 <br />
@@ -258,9 +260,9 @@
                     class="activeIcons"
                     src="../assets/aq-icons/bridge_risk_circle.png"
                   />
-                  <label for="bridgeRisk" class="legend-label"
-                    >{{bridgeFloodRisk()}}</label
-                  >
+                  <label for="bridgeRisk" class="legend-label">{{
+                    bridgeFloodRisk()
+                  }}</label>
                   <v-tooltip right>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -273,9 +275,7 @@
                         mdi-information
                       </v-icon>
                     </template>
-                    <span
-                      >{{bridgeAtRiskTooltip()}}</span
-                    >
+                    <span>{{ bridgeAtRiskTooltip() }}</span>
                   </v-tooltip>
                 </div>
                 <br />
@@ -294,9 +294,9 @@
                     class="activeIcons"
                     src="../assets/aq-icons/bridge_flooded_circle.png"
                   />
-                  <label for="bridge" class="legend-label"
-                    >{{this.bridgeFlooded()}}</label
-                  >
+                  <label for="bridge" class="legend-label">{{
+                    this.bridgeFlooded()
+                  }}</label>
                   <v-tooltip right>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -309,7 +309,7 @@
                         mdi-information
                       </v-icon>
                     </template>
-                    <span>{{bridgeFloodedTooltip()}}</span>
+                    <span>{{ bridgeFloodedTooltip() }}</span>
                   </v-tooltip>
                 </div>
                 <br />
@@ -328,9 +328,9 @@
                     class="activeIcons"
                     src="../assets/aq-icons/building_flooded_circle.png"
                   />
-                  <label for="facility" class="legend-label"
-                    >{{this.facilityFlooded()}}</label
-                  >
+                  <label for="facility" class="legend-label">{{
+                    this.facilityFlooded()
+                  }}</label>
                   <v-tooltip right>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -343,7 +343,7 @@
                         mdi-information
                       </v-icon>
                     </template>
-                    <span>{{this.facilityFloodedTooltip()}}</span>
+                    <span>{{ this.facilityFloodedTooltip() }}</span>
                   </v-tooltip>
                 </div>
                 <br />
@@ -359,9 +359,9 @@
                 ></v-simple-checkbox>
                 <div class="sublayer-icon">
                   <img class="activeIcons" src="../assets/aq-icons/BFE.png" />
-                  <label for="bfe" class="legend-label"
-                    >{{this.baseFloodElevation()}}</label
-                  >
+                  <label for="bfe" class="legend-label">{{
+                    this.baseFloodElevation()
+                  }}</label>
                   <v-tooltip right>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -374,7 +374,7 @@
                         mdi-information
                       </v-icon>
                     </template>
-                    <span>{{this.baseFloodedTooltip()}}</span>
+                    <span>{{ this.baseFloodedTooltip() }}</span>
                   </v-tooltip>
                 </div>
                 <br />
@@ -390,7 +390,9 @@
                 ></v-simple-checkbox>
                 <div class="sublayer-icon">
                   <img class="activeIcons" src="../assets/aq-icons/other.png" />
-                  <label for="other" class="legend-label">{{this.uncategorized()}}</label>
+                  <label for="other" class="legend-label">{{
+                    this.uncategorized()
+                  }}</label>
                   <v-tooltip right>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -403,9 +405,7 @@
                         mdi-information
                       </v-icon>
                     </template>
-                    <span
-                      >{{this.uncategorizedTooltip()}}</span
-                    >
+                    <span>{{ this.uncategorizedTooltip() }}</span>
                   </v-tooltip>
                 </div>
                 <br />
@@ -419,7 +419,7 @@
                 color="blue lighten-1"
                 @click="callShowAll"
                 :disabled="showAllDisabled"
-                >{{this.showActive()}}</v-btn
+                >{{ this.showActive() }}</v-btn
               >
             </div>
             <v-simple-checkbox
@@ -433,7 +433,9 @@
               <div
                 class="wmm-circle wmm-white wmm-icon-noicon wmm-size-20"
               ></div>
-              <label for="allRP" class="legend-label">{{this.allFeatures()}}</label>
+              <label for="allRP" class="legend-label">{{
+                this.allFeatures()
+              }}</label>
             </div>
             <v-icon
               class="opIcon"
@@ -445,7 +447,7 @@
               mdi-circle-opacity
             </v-icon>
             <div v-if="showAllFeaturesSlider" class="sliders">
-              {{this.opacity()}}: &nbsp; {{ allFeaturesOpacity }}
+              {{ this.opacity() }}: &nbsp; {{ allFeaturesOpacity }}
               <v-slider
                 v-model="allFeaturesOpacity"
                 color="grey darken-2"
@@ -457,30 +459,32 @@
             </div>
             <br />
             <div class="zoom-alert" :style="{ display: isDisplayed }">
-              {{this.streamgageDesc()}}
+              {{ this.streamgageDesc() }}
             </div>
-            <v-simple-checkbox
-              type="checkbox"
-              ref="stream"
-              id="stream"
-              value="false"
-              v-model="streamgagePicked"
-              :disabled="streamCheckDisabled"
-            ></v-simple-checkbox>
-            <div class="legend-icon">
-              <div
-                class="
-                  wmm-circle
-                  wmm-mutedblue
-                  wmm-icon-triangle
-                  wmm-icon-black
-                  wmm-size-20
-                  wmm-borderless
-                "
-              ></div>
-              <label for="stream" class="legend-label"
-                >{{this.streamgageLabel()}}
-              </label>
+            <div>
+              <v-simple-checkbox
+                type="checkbox"
+                ref="stream"
+                id="stream"
+                value="false"
+                v-model="streamgagePicked"
+                :disabled="streamCheckDisabled"
+              ></v-simple-checkbox>
+              <div class="legend-icon">
+                <div
+                  class="
+                    wmm-circle
+                    wmm-mutedblue
+                    wmm-icon-triangle
+                    wmm-icon-black
+                    wmm-size-20
+                    wmm-borderless
+                  "
+                ></div>
+                <label for="stream" class="legend-label"
+                  >{{ this.streamgageLabel() }}
+                </label>
+              </div>
             </div>
             <v-icon
               class="opIcon"
@@ -492,7 +496,7 @@
               mdi-circle-opacity
             </v-icon>
             <div v-if="showRTSlider" class="sliders">
-              {{this.opacity()}}: &nbsp; {{ rtOpacity }}
+              {{ this.opacity() }}: &nbsp; {{ rtOpacity }}
               <v-slider
                 v-model="rtOpacity"
                 color="grey darken-2"
@@ -505,7 +509,7 @@
             <br />
 
             <div class="subsection-title" id="additional-flooding-layer-title">
-              {{addFloodLayers()}}
+              {{ addFloodLayers() }}
             </div>
 
             <v-simple-checkbox
@@ -516,7 +520,7 @@
               v-model="nfhlPicked"
             ></v-simple-checkbox>
             <div class="legend-no-icon">
-              <label for="nfhl">{{this.femaLayer()}}</label>
+              <label for="nfhl">{{ this.femaLayer() }}</label>
             </div>
             <v-icon
               @click="showNFHLSlider = !showNFHLSlider"
@@ -527,7 +531,7 @@
               mdi-circle-opacity
             </v-icon>
             <div v-if="showNFHLSlider" class="sliders">
-              {{this.opacity()}}: &nbsp; {{ nfhlOpacity }}
+              {{ this.opacity() }}: &nbsp; {{ nfhlOpacity }}
               <v-slider
                 v-model="nfhlOpacity"
                 color="grey darken-2"
@@ -548,7 +552,7 @@
               v-model="radarPicked"
             ></v-simple-checkbox>
             <div class="legend-no-icon">
-              <label for="radar">{{this.noaaRadarLayer()}}</label>
+              <label for="radar">{{ this.noaaRadarLayer() }}</label>
             </div>
             <v-icon
               @click="showNWSSlider = !showNWSSlider"
@@ -559,7 +563,7 @@
               mdi-circle-opacity
             </v-icon>
             <div v-if="showNWSSlider" class="sliders">
-              {{this.opacity()}}: &nbsp; {{ nwsOpacity }}
+              {{ this.opacity() }}: &nbsp; {{ nwsOpacity }}
               <v-slider
                 v-model="nwsOpacity"
                 color="grey darken-2"
@@ -580,7 +584,7 @@
               v-model="fwwPicked"
             ></v-simple-checkbox>
             <div class="legend-no-icon">
-              <label for="fww">{{this.noaaFloodLayer()}}</label>
+              <label for="fww">{{ this.noaaFloodLayer() }}</label>
             </div>
             <v-icon
               @click="showFWWSlider = !showFWWSlider"
@@ -591,7 +595,7 @@
               mdi-circle-opacity
             </v-icon>
             <div v-if="showFWWSlider" class="sliders">
-              {{this.opacity()}}: &nbsp; {{ fwwOpacity }}
+              {{ this.opacity() }}: &nbsp; {{ fwwOpacity }}
               <v-slider
                 v-model="fwwOpacity"
                 color="grey darken-2"
@@ -603,7 +607,7 @@
             </div>
 
             <div class="subsection-title" id="supporting-layer-title">
-              {{this.supportingLayers()}}
+              {{ this.supportingLayers() }}
             </div>
 
             <v-simple-checkbox
@@ -624,9 +628,9 @@
                   wmm-borderless
                 "
               ></div>
-              <label for="noaa" style="padding-left: 15px"
-                >{{this.noaaTides()}}</label
-              >
+              <label for="noaa" style="padding-left: 15px">{{
+                this.noaaTides()
+              }}</label>
             </div>
             <v-icon
               class="opIcon"
@@ -638,7 +642,7 @@
               mdi-circle-opacity
             </v-icon>
             <div v-if="showNOAASlider" class="sliders">
-              {{this.opacity()}}: &nbsp; {{ noaaOpacity }}
+              {{ this.opacity() }}: &nbsp; {{ noaaOpacity }}
               <v-slider
                 v-model="noaaOpacity"
                 color="grey darken-2"
@@ -649,7 +653,6 @@
               ></v-slider>
             </div>
             <br />
-
           </v-container>
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -1070,7 +1073,8 @@ export default {
   padding-top: 10px;
 }
 
-#supporting-layer-title, #additional-flooding-layer-title {
+#supporting-layer-title,
+#additional-flooding-layer-title {
   padding-top: 14px;
 }
 
