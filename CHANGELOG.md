@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - hover text on translate button to 'translate to english' when hovered and app is in spanish
+- Adjusted About button width to fit spanish translation
 
 ### Fixed
 
