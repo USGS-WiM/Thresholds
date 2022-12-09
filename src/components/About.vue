@@ -133,6 +133,9 @@
               {{ this.disclaimerText() }}
             </p>
             <p>
+              <strong> {{ this.spanishDislaimer() }}</strong>
+            </p>
+            <p>
               {{ this.about_p6() }}
               <a href="mailto:gs_real_time_flood_impact_map_group@usgs.gov"
                 >gs_real_time_flood_impact_map_group@usgs.gov.</a

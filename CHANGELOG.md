@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Spanish button with translations
 - Deploy to S3 workflow
 - LocalStorage of language select so app will load next time in the selected language
+- Note about Spanish translation to about
 
 ### Changed
 
