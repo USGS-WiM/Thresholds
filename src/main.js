@@ -17,7 +17,7 @@ Vue.use(vuetify);
 // For tracking states
 Vue.use(Vuex);
 
-// USWDS (may not use this)
+// USWDS
 Vue.use(uswds);
 
 // Leaflet

@@ -34,7 +34,12 @@
   </div>
 </template>
 <script>
+//imports
+import { text } from "../mixins/text";
+
+
 export default {
+  mixins: [text],
   data: () => ({
     activePicker: null,
     date: null,

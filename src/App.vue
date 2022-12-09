@@ -16,14 +16,29 @@
               </div>
             </a>
             <div class="toolbar-text">
-              <span class="main-title">Real-Time Flood Impact Map</span>
+              <span class="main-title">{{ this.title() }}</span>
               <span class="beta-subtitle">Pilot</span>
               <span class="mini-title"
                 ><h1>Real-Time Flood Impact Map</h1>
                 <br />
                 <h2>Beta</h2></span
               >
-            </div></v-toolbar-title
+            </div>
+          </v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                icon
+                v-bind="attrs"
+                v-on="on"
+                @click="spanishState = !spanishState"
+              >
+                <v-icon color="white">mdi-translate</v-icon>
+              </v-btn>
+            </template>
+            <span v-if="!spanishState">Traducir al español </span
+            ><span v-if="spanishState">Translate to English </span></v-tooltip
           >
           <About></About>
         </v-app-bar>
@@ -39,7 +54,10 @@ import USABanner from "@/components/USABanner";
 import Map from "./components/Map";
 import Sidebar from "./components/Sidebar";
 import About from "@/components/About";
+import { text } from "./mixins/text";
+
 export default {
+  mixins: [text],
   components: {
     USABanner,
     Sidebar,
@@ -51,6 +69,7 @@ export default {
       map: "",
       tileProviders: [],
       mounted: false,
+      text,
     };
   },
   computed: {
@@ -60,6 +79,15 @@ export default {
       },
       set(v) {
         return this.$store.commit("toggleDrawerState", v);
+      },
+    },
+    spanishState: {
+      get() {
+        return this.$store.getters.spanishState;
+      },
+      set(v) {
+        localStorage.setItem("spanishState", v); // saving state to local storage for return users
+        return this.$store.commit("getSpanishState", v);
       },
     },
   },
@@ -77,6 +105,15 @@ export default {
   mounted() {
     // When page loads or resizes, calculate height of v-app
     this.getBannerHeight();
+
+    // checcking state and loading app in selected language
+    let localSpanishState = localStorage.getItem("spanishState");
+    if (localSpanishState == "true") {
+      this.spanishState = true;
+    } else {
+      this.spanishState = false;
+    }
+
     window.addEventListener("resize", this.getBannerHeight);
     // Need to mount parent before rendering Map component, otherwise height change will break intial map zoom
     this.mounted = true;
