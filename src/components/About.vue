@@ -180,7 +180,6 @@ export default {
 #about-button-mobile {
   padding: 0;
   margin-left: 8px;
-  height: 40px;
 }
 
 @media screen and (min-width: 640px) {
