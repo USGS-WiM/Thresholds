@@ -17,7 +17,7 @@
             </a>
             <div class="toolbar-text">
               <span class="main-title">{{ this.title() }}</span>
-              <span class="beta-subtitle">Pilot</span>
+              <span class="beta-subtitle"> {{ this.pilot() }}</span>
               <span class="mini-title"
                 ><h1>Real-Time Flood Impact Map</h1>
                 <br />
@@ -29,12 +29,14 @@
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
               <v-btn
-                icon
+                color="white"
                 v-bind="attrs"
                 v-on="on"
                 @click="spanishState = !spanishState"
               >
-                <v-icon color="white">mdi-translate</v-icon>
+                <v-icon color="#0a0a57">mdi-translate</v-icon>
+                <span v-if="!spanishState">Español</span>
+                <span v-if="spanishState">English</span>
               </v-btn>
             </template>
             <span v-if="!spanishState">Traducir al español </span
