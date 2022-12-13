@@ -13,11 +13,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Deploy to S3 workflow
 - LocalStorage of language select so app will load next time in the selected language
 - Note about Spanish translation to about
+- Translation of 'pilot'
 
 ### Changed
 
-- hover text on translate button to 'translate to english' when hovered and app is in spanish
+- Hover text on translate button to 'translate to english' when hovered and app is in spanish
 - Adjusted About button width to fit spanish translation
+- Added text to translate button
 
 ### Fixed
 
