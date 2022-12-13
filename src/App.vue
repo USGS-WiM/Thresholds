@@ -17,7 +17,7 @@
             </a>
             <div class="toolbar-text">
               <span class="main-title">{{ this.title() }}</span>
-              <span class="beta-subtitle">Pilot</span>
+              <span class="beta-subtitle"> {{ this.pilot() }}</span>
               <span class="mini-title"
                 ><h1>Real-Time Flood Impact Map</h1>
                 <br />

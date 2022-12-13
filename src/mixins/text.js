@@ -13,6 +13,9 @@ export const text = {
         title() {
             return this.$store.state.spanishState == true ? 'Mapa de impacto de inundaciones en tiempo real' : 'Real-Time Flood Impact Map';
         },
+        pilot() {
+            return this.$store.state.spanishState == true ? 'piloto' : 'pilot';
+        },
         sidebarTitle() {
             return this.$store.state.spanishState == true ? 'Filtros de mapas' : 'Map Filters';
         },
