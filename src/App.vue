@@ -108,7 +108,7 @@ export default {
     // When page loads or resizes, calculate height of v-app
     this.getBannerHeight();
 
-    // checcking state and loading app in selected language
+    // checking state and loading app in selected language
     let localSpanishState = localStorage.getItem("spanishState");
     if (localSpanishState == "true") {
       this.spanishState = true;
