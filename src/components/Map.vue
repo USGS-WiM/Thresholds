@@ -672,15 +672,6 @@ export default {
       // Emit map object to parent component
       self.getMapObject();
     },
-    zoomControl() {
-        let element = document.getElementById('zoom');
-        if (this.$store.state.spanishState == true) {
-            element.innerHTML = 'Zoom actual:'
-        }
-        else {
-            element.innerHTML = 'Current Zoom:'
-        }
-    },
     // Pass map object to parent
     getMapObject() {
       this.$emit("getMap", this.map);
