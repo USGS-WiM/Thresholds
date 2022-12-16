@@ -628,22 +628,31 @@ export default {
           let mouselat = e.latlng.lat.toFixed(4);
           let mouselon = e.latlng.lng.toFixed(4);
           self.currentZoom = self.map.getZoom();
-          latlngDiv.innerHTML = "<button><span id='lat'>Latitude:</span> " +
+          let localSpanishState = localStorage.getItem("spanishState");
+          if (localSpanishState == 'false') {
+            latlngDiv.innerHTML = "<button><span id='lat'>Latitude:</span> " +
             mouselat +
             "<br/><span id='long'>Longitude:</span> " +
             mouselon +
             "<br/><span id='zoom'>Current Zoom:</span> " +
             self.currentZoom +
             "</button>";
+          } else {
+            latlngDiv.innerHTML = "<button><span id='lat'>Latitud:</span> " +
+            mouselat +
+            "<br/><span id='long'>Longitud:</span> " +
+            mouselon +
+            "<br/><span id='zoom'>Zoom actual:</span> " +
+            self.currentZoom +
+            "</button>";
+          }
         }
       });
-
       //Update lat lng control on zoomend
       self.map.on("zoomend", function () {
         self.currentZoom = self.map.getZoom();
         //Zoom value to update state
         self.zoomValue = self.currentZoom;
-       
         document.getElementById("zoom").innerHTML =
           "<span id='zoom'>PLACEHOLDER:</span>" + self.currentZoom;
       });
@@ -662,6 +671,15 @@ export default {
 
       // Emit map object to parent component
       self.getMapObject();
+    },
+    zoomControl() {
+        let element = document.getElementById('zoom');
+        if (this.$store.state.spanishState == true) {
+            element.innerHTML = 'Zoom actual:'
+        }
+        else {
+            element.innerHTML = 'Current Zoom:'
+        }
     },
     // Pass map object to parent
     getMapObject() {
