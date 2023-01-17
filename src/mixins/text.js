@@ -147,7 +147,7 @@ export const text = {
             }
         },
         search() {
-            return this.$store.state.spanishState == true ? 'Buscar' : 'Search';
+            return this.$store.state.spanishState == true ? 'Búsqueda' : 'Search';
         },
         latitude() {
             let element = document.getElementById('lat');

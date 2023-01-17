@@ -156,6 +156,74 @@ export default {
         }
       });
     },
+    /* recreateSearchForLangChange() {
+      window.search_api.destory();
+      let map = this.getMapFromParent();
+      let lang = this.getLang();
+      window.search_api.create("geosearchBar", {
+        size: "md",
+        placeholder: lang,
+        menu_min_char: 2, // minimum number of characters required before attempting to find menu suggestions
+        include_usgs_sw: true,
+        include_usgs_gw: true,
+        include_usgs_sp: true,
+        include_usgs_at: true,
+        include_usgs_ot: true,
+        on_result: function (o) {
+          map.fitBounds([
+            // zoom to location
+            [o.result.properties.LatMin, o.result.properties.LonMin],
+            [o.result.properties.LatMax, o.result.properties.LonMax],
+          ]);
+          console.log("init")
+          // Open streamgage popup with chart if USGS ground or surface water site was searched
+          if (
+            o.result.properties.Category.indexOf(
+              "USGS Site: Surface Water"
+            ) !== -1 ||
+            o.result.properties.Category.indexOf(
+              "USGS Site: Ground Water"
+            ) !== -1
+          ) {
+            let siteName = o.result.properties.Label.split("(")[0].substr(
+              o.result.properties.Label.indexOf(" ") + 1
+            );
+
+            let siteCode = o.result.properties.Label.split(" ")[0];
+            let latlon = [o.result.properties.Lat, o.result.properties.Lon];
+            self.openPopUp(map, siteName, siteCode, latlon);
+          } else {
+            map.openPopup(
+              // open popup
+              "<b>" +
+              o.result.properties.Label +
+              "</b><br/><i>" +
+              o.result.properties.Category +
+              "</i>",
+              [o.result.properties.Lat, o.result.properties.Lon]
+            );
+          }
+        },
+      });
+
+    }, */
+    /* getLang() {
+      let state = this.$store.state.spanishState;
+      if (state !== undefined) {
+        if (state == "true") {
+          return "Search";
+        } else {
+          return "Búsqueda";
+        }
+      } else {
+        let localSpanishState = localStorage.getItem("spanishState");
+        if (localSpanishState == "true") {
+          return "Búsqueda";
+        } else {
+          return "Search";
+        }
+      }
+    }*/
   },
   mounted: function () {
     let self = this;
@@ -185,9 +253,10 @@ export default {
 
         geosearchScript.onload = () => {
           let map = self.getMapFromParent();
+          let lang = this.getLang();
           window.search_api.create("geosearchBar", {
             size: "md",
-            placeholder: "Search",
+            placeholder: lang,
             menu_min_char: 2, // minimum number of characters required before attempting to find menu suggestions
             include_usgs_sw: true,
             include_usgs_gw: true,
@@ -220,10 +289,10 @@ export default {
                 map.openPopup(
                   // open popup
                   "<b>" +
-                    o.result.properties.Label +
-                    "</b><br/><i>" +
-                    o.result.properties.Category +
-                    "</i>",
+                  o.result.properties.Label +
+                  "</b><br/><i>" +
+                  o.result.properties.Category +
+                  "</i>",
                   [o.result.properties.Lat, o.result.properties.Lon]
                 );
               }
@@ -242,7 +311,6 @@ export default {
   },
 };
 </script>
-import { text } from "../mixins/text.js";
 
 <style>
 #geosearchBar {
@@ -290,6 +358,7 @@ input:not([disabled]):focus {
 }
 
 @media screen and (max-width: 1024px) {
+
   .v-toolbar__content,
   .v-toolbar__extension {
     padding: 4px 8px 4px 16px !important;
@@ -300,9 +369,11 @@ input:not([disabled]):focus {
   .search-api-container {
     height: 28px !important;
   }
+
   .search-api-container input {
     font-size: 12px !important;
   }
+
   .search-api-container.search-api-md {
     width: 150px;
   }
@@ -322,9 +393,11 @@ input:not([disabled]):focus {
   .search-api-container input {
     font-size: 12px !important;
   }
+
   .search-api-container.search-api-md {
     width: 110px;
   }
+
   .v-toolbar__content,
   .v-toolbar__extension {
     padding: 4px 8px 4px 8px !important;
