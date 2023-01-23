@@ -186,8 +186,8 @@ export default {
         geosearchScript.onload = () => {
           let map = self.getMapFromParent();
           window.search_api.create("geosearchBar", {
-            size: "md",
-            placeholder: "",
+            size: "lg",
+            placeholder: "Search (búsqueda)",
             menu_min_char: 2, // minimum number of characters required before attempting to find menu suggestions
             include_usgs_sw: true,
             include_usgs_gw: true,

@@ -3,24 +3,12 @@
     <div class="text-center">
       <v-dialog v-model="dialog" width="1000">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            color="white"
-            dark
-            v-bind="attrs"
-            v-on="on"
-            id="about-button-desktop"
-          >
+          <v-btn color="white" dark v-bind="attrs" v-on="on" id="about-button-desktop">
             <div style="color: black; min-width: 75px" id="aboutButton">
               About
             </div>
           </v-btn>
-          <v-btn
-            color="white"
-            dark
-            v-bind="attrs"
-            v-on="on"
-            id="about-button-mobile"
-          >
+          <v-btn color="white" dark v-bind="attrs" v-on="on" id="about-button-mobile">
             <v-icon small color="#333">mdi mdi-information</v-icon>
           </v-btn>
         </template>
@@ -87,12 +75,10 @@
             <ul>
               <li>
                 {{ this.about_li_01() }}
-                <strong>{{ this.about_li_01_bold() }}</strong
-                >{{ this.about_li_015() }}
+                <strong>{{ this.about_li_01_bold() }}</strong>{{ this.about_li_015() }}
               </li>
               <li>
-                {{ this.view_la() }} <strong>{{ this.femaLayer() }}</strong
-                >{{ this.about_li_02() }}
+                {{ this.view_la() }} <strong>{{ this.femaLayer() }}</strong>{{ this.about_li_02() }}
               </li>
               <li>
                 {{ this.view_rt() }}
@@ -108,7 +94,7 @@
               </li>
             </ul>
             <br />
-            <p>{{ this.important() }}</p>
+            <p> <strong> {{ this.important() }} </strong></p>
             <ul>
               <li>
                 {{ this.about_li_03() }}
@@ -119,9 +105,9 @@
               <li>
                 {{ this.about_li_05() }}
                 <a
-                  href="https://www.usgs.gov/usgs-science-centers#:~:text=USGS%20Science%20Centers%20%20%20%20Science%20Center,%20%20California%20%2022%20more%20rows%20"
-                  >{{ this.waterScienceCenter() }}</a
-                >
+                  href="https://www.usgs.gov/usgs-science-centers#:~:text=USGS%20Science%20Centers%20%20%20%20Science%20Center,%20%20California%20%2022%20more%20rows%20">{{
+                    this.waterScienceCenter()
+                  }}</a>
                 {{ this.about_li_052() }}
               </li>
             </ul>
@@ -133,13 +119,17 @@
               {{ this.disclaimerText() }}
             </p>
             <p>
-              <strong> {{ this.spanishDislaimer() }}</strong>
+              <strong> {{ this.spanishDisclaimer() }}</strong>
             </p>
             <p>
+              {{ this.spanishDataDisclaimer() }}
+            </p>
+            <hr>
+            <br>
+            <p>
               {{ this.about_p6() }}
-              <a href="mailto:gs_real_time_flood_impact_map_group@usgs.gov"
-                >gs_real_time_flood_impact_map_group@usgs.gov.</a
-              >
+              <a
+                href="mailto:gs_real_time_flood_impact_map_group@usgs.gov">gs_real_time_flood_impact_map_group@usgs.gov.</a>
             </p>
           </v-card-text>
 
@@ -186,6 +176,7 @@ export default {
   #about-button-desktop {
     display: inline-flex;
   }
+
   #about-button-mobile {
     display: none;
   }
@@ -202,6 +193,7 @@ export default {
   #about-button-desktop {
     display: none;
   }
+
   #about-button-mobile {
     display: inline-flex;
     min-width: 28px;

@@ -22,6 +22,9 @@ export const text = {
         noFloodingAlert() {
             return this.$store.state.spanishState == true ? 'No hay rasgos de inundación' : 'No Flooded Features';
         },
+        floodedFeatures() {
+            return this.$store.state.spanishState == true ? 'Rasgos de Inundación' : 'Flooded Features';
+        },
         basemaps() {
             return this.$store.state.spanishState == true ? 'Mapas base' : 'Basemaps';
         },
@@ -293,14 +296,16 @@ export const text = {
             return this.$store.state.spanishState == true ? 'Los datos proporcionados por los medidores de flujo de corrientes en tiempo real del USGS presentados en este mapa son provisionales y están sujetos a revisión hasta que hayan sido examinados a fondo y hayan recibido la aprobación final. Los datos en tiempo real transmitidos por satélite u otro tipo de telemetría son filtrados automáticamente para no mostrar valores improbables hasta que puedan ser verificados. Los datos provisionales pueden ser inexactos debido a un mal funcionamiento de los instrumentos o a cambios físicos en la ubicación de la medición. Una revisión posterior basada en inspecciones y mediciones sobre el terreno puede resultar en revisiones significativas de los datos.' : 'Data provided by the USGS real-time streamgages presented in this map are provisional and subject to revision until they have been thoroughly reviewed and received final approval. Real-time data relayed by satellite or other telemetry are automatically screened to not display improbable values until they can be verified. Provisional data may be inaccurate due to instrument malfunctions or physical changes at the measurement site. Subsequent review based on field inspections and measurements may result in significant revisions to the data.';
 
         },
-        spanishDislaimer() {
-            return this.$store.state.spanishState == true ? 'Traducción al español proporcionada por el National Language Service Corps.' : 'Spanish translation provided by the National Language Service Corps.';
+        spanishDisclaimer() {
+            return this.$store.state.spanishState == true ? 'Traducción al español proporcionada por el National Language Service Corps:' : 'Spanish translation provided by the National Language Service Corps:';
+        },
+        spanishDataDisclaimer() {
+            return this.$store.state.spanishState == true ? 'Actualmente, solo se traduce la interfaz de la aplicación y no las conexiones de datos de "flujo descendente" ni recursos de terceros. Por ejemplo, los datos del Sistema Nacional de Información del Agua (NWIS, por sus siglas en inglés) y las cadenas de texto almacenadas en la base de datos del NWIS se referencian del NWD y no están disponibles en español.' : 'Currently, only the application’s front-end interface is translated and not any “downstream” data connections or third-party resources. For example, the National Water Information System (NWIS) data and text strings stored in the NWIS database are referenced from the NWD and are not available in Spanish.'
         },
         about_p6() {
             return this.$store.state.spanishState == true ? 'Para obtener información específica del lugar, por favor póngase en contacto con el Centro local de Ciencias del Agua del USGS. Para otras consultas, por favor póngase en contacto con nuestro equipo en:' : 'For site specific information please contact the local USGS Water Science Center. For other inquiries, please contact our team at';
 
         },
-
         activeFlooding() {
             return this.$store.state.spanishState == true ? 'Inundación activa' : 'Active Flooding';
         },
