@@ -1,295 +1,179 @@
 <template>
   <v-main>
     <div style="height: 100%; width: 100%">
-      <div
-        id="nwisLoadingAlert"
-        class="alert nwisAlertClass fade"
-        role="alert"
-        :style="{ display: isDisplayed, opacity: alertOpacity }"
-      >
-        <v-progress-circular
-          indeterminate
-          :width="3"
-          :size="10"
-        ></v-progress-circular>
+      <div id="nwisLoadingAlert" class="alert nwisAlertClass fade" role="alert"
+        :style="{ display: isDisplayed, opacity: alertOpacity }">
+        <v-progress-circular indeterminate :width="3" :size="10"></v-progress-circular>
         <span class="loadingLabel">Loading Layer...</span>
       </div>
-      <div
-        id="nfhlLoadingAlert"
-        class="alert nfhlAlertClass fade"
-        role="alert"
-        :style="{ display: nfhlIsDisplayed, opacity: alertOpacity }"
-        load: 
-      >
-        <v-progress-circular
-          indeterminate
-          :width="3"
-          :size="10"
-        ></v-progress-circular>
+      <div id="nfhlLoadingAlert" class="alert nfhlAlertClass fade" role="alert"
+        :style="{ display: nfhlIsDisplayed, opacity: alertOpacity }" load:>
+        <v-progress-circular indeterminate :width="3" :size="10"></v-progress-circular>
         <span class="loadingLabel">Loading Layer...</span>
       </div>
-      <div
-        id="nfhlServicesError"
-        class="alert nfhlServicesAlertClass fade"
-        role="alert"
-        :style="{ display: nfhlServicesAlertDisplayed, opacity: alertOpacity }"
-        load: 
-      >
+      <div id="nfhlServicesError" class="alert nfhlServicesAlertClass fade" role="alert"
+        :style="{ display: nfhlServicesAlertDisplayed, opacity: alertOpacity }" load:>
         <span class="loadingLabel">Error loading NFHL services</span>
       </div>
       <div id="fullscreenPopup">
       </div>
       <!-- a leaflet map -->
       <div id="map">
-      <div id="findLocationContainer"><Geosearch :map="map"></Geosearch></div>
+        <div id="findLocationContainer">
+          <Geosearch :map="map"></Geosearch>
+        </div>
         <!-- Legend -->
         <v-expansion-panels id="legendContainer">
           <v-expansion-panel>
             <!-- Legend title -->
             <v-expansion-panel-header id="titleContainer">
-              <div id="legendExplanation">{{this.legend()}}</div>
-              <div id="legendExplanationMobile"><v-icon 
-                small
-                color="#333"
-                >mdi mdi-map-legend</v-icon></div>
+              <div id="legendExplanation">{{ this.legend() }}</div>
+              <div id="legendExplanationMobile"><v-icon small color="#333">mdi mdi-map-legend</v-icon></div>
             </v-expansion-panel-header>
             <v-expansion-panel-content id="legendContent">
-            <!-- Threshold icons -->
+              <!-- Threshold icons -->
               <div id="thresholdLayers">
-                <div id="thresholdLayersTitle" v-if="activeLayerTitleVisible">{{this.activeFlooding()}}</div>
+                <div id="thresholdLayersTitle" v-if="activeLayerTitleVisible">{{ this.activeFlooding() }}</div>
                 <div class="legendIcon">
-                  <img
-                    src="../assets/aq-icons/embankment_flooded_circle.png"
-                    height="25px"
-                    width="25px"
-                  />
-                  <label>{{this.embankmentFlooded()}}</label>
-                    <v-tooltip left>
+                  <img src="../assets/aq-icons/embankment_flooded_circle.png" height="25px" width="25px" />
+                  <label>{{ this.embankmentFlooded() }}</label>
+                  <v-tooltip left>
                     <template v-slot:activator="{ on, attrs }">
-                      <v-icon
-                        small
-                        color="blue lighten-1"
-                        dark
-                        v-bind="attrs"
-                        v-on="on"
-                      >
+                      <v-icon small color="blue lighten-1" dark v-bind="attrs" v-on="on">
                         mdi-information
                       </v-icon>
                     </template>
-                    <span>{{this.embankmentFloodedTooltip()}}</span>
+                    <span>{{ this.embankmentFloodedTooltip() }}</span>
                   </v-tooltip>
                 </div>
                 <div class="legendIcon">
-                  <img
-                    src="../assets/aq-icons/path_flooded_circle.png"
-                    alt=""
-                    height="25px"
-                    width="25px"
-                  />
-                  <label>{{this.pathFlooded()}}</label>
-                    <v-tooltip left>
+                  <img src="../assets/aq-icons/path_flooded_circle.png" alt="" height="25px" width="25px" />
+                  <label>{{ this.pathFlooded() }}</label>
+                  <v-tooltip left>
                     <template v-slot:activator="{ on, attrs }">
-                      <v-icon
-                        small
-                        color="blue lighten-1"
-                        dark
-                        v-bind="attrs"
-                        v-on="on"
-                      >
+                      <v-icon small color="blue lighten-1" dark v-bind="attrs" v-on="on">
                         mdi-information
                       </v-icon>
                     </template>
-                    <span>{{this.pathFloodedTooltip()}}</span>
+                    <span>{{ this.pathFloodedTooltip() }}</span>
                   </v-tooltip>
                 </div>
                 <div class="legendIcon">
-                  <img
-                    src="../assets/aq-icons/car_flooded_circle.png"
-                    alt=""
-                    height="25px"
-                    width="25px"
-                  />
-                  <label>{{this.roadFlooded()}}</label>
-                    <v-tooltip left>
+                  <img src="../assets/aq-icons/car_flooded_circle.png" alt="" height="25px" width="25px" />
+                  <label>{{ this.roadFlooded() }}</label>
+                  <v-tooltip left>
                     <template v-slot:activator="{ on, attrs }">
-                      <v-icon
-                        small
-                        color="blue lighten-1"
-                        dark
-                        v-bind="attrs"
-                        v-on="on"
-                      >
+                      <v-icon small color="blue lighten-1" dark v-bind="attrs" v-on="on">
                         mdi-information
                       </v-icon>
                     </template>
-                    <span>{{this.roadFloodedTooltip()}}</span>
+                    <span>{{ this.roadFloodedTooltip() }}</span>
                   </v-tooltip>
                 </div>
                 <div class="legendIcon">
-                  <img
-                    src="../assets/aq-icons/bridge_risk_circle.png"
-                    alt=""
-                    height="25px"
-                    width="25px"
-                  />
-                  <label>{{this.bridgeFloodRisk()}}</label>
-                    <v-tooltip left>
+                  <img src="../assets/aq-icons/bridge_risk_circle.png" alt="" height="25px" width="25px" />
+                  <label>{{ this.bridgeFloodRisk() }}</label>
+                  <v-tooltip left>
                     <template v-slot:activator="{ on, attrs }">
-                      <v-icon
-                        small
-                        color="blue lighten-1"
-                        dark
-                        v-bind="attrs"
-                        v-on="on"
-                      >
+                      <v-icon small color="blue lighten-1" dark v-bind="attrs" v-on="on">
                         mdi-information
                       </v-icon>
                     </template>
-                    <span>{{this.bridgeAtRiskTooltip()}}</span>
+                    <span>{{ this.bridgeAtRiskTooltip() }}</span>
                   </v-tooltip>
                 </div>
                 <div class="legendIcon">
-                  <img
-                    src="../assets/aq-icons/bridge_flooded_circle.png"
-                    alt=""
-                    height="25px"
-                    width="25px"
-                  />
-                  <label>{{this.bridgeFlooded()}}</label>
-                    <v-tooltip left>
+                  <img src="../assets/aq-icons/bridge_flooded_circle.png" alt="" height="25px" width="25px" />
+                  <label>{{ this.bridgeFlooded() }}</label>
+                  <v-tooltip left>
                     <template v-slot:activator="{ on, attrs }">
-                      <v-icon
-                        small
-                        color="blue lighten-1"
-                        dark
-                        v-bind="attrs"
-                        v-on="on"
-                      >
+                      <v-icon small color="blue lighten-1" dark v-bind="attrs" v-on="on">
                         mdi-information
                       </v-icon>
                     </template>
-                    <span>{{this.bridgeFloodedTooltip()}}</span>
+                    <span>{{ this.bridgeFloodedTooltip() }}</span>
                   </v-tooltip>
                 </div>
                 <div class="legendIcon">
-                  <img
-                    src="../assets/aq-icons/building_flooded_circle.png"
-                    alt=""
-                    height="25px"
-                    width="25px"
-                  />
-                  <label>{{this.facilityFlooded()}}</label>
-                    <v-tooltip left>
+                  <img src="../assets/aq-icons/building_flooded_circle.png" alt="" height="25px" width="25px" />
+                  <label>{{ this.facilityFlooded() }}</label>
+                  <v-tooltip left>
                     <template v-slot:activator="{ on, attrs }">
-                      <v-icon
-                        small
-                        color="blue lighten-1"
-                        dark
-                        v-bind="attrs"
-                        v-on="on"
-                      >
+                      <v-icon small color="blue lighten-1" dark v-bind="attrs" v-on="on">
                         mdi-information
                       </v-icon>
                     </template>
-                    <span>{{this.facilityFloodedTooltip()}}</span>
+                    <span>{{ this.facilityFloodedTooltip() }}</span>
                   </v-tooltip>
                 </div>
                 <div class="legendIcon">
-                  <img
-                    src="../assets/aq-icons/BFE.png"
-                    height="25px"
-                    width="25px"
-                  />
-                  <label>{{this.baseFloodElevation()}}</label>
-                    <v-tooltip left>
+                  <img src="../assets/aq-icons/BFE.png" height="25px" width="25px" />
+                  <label>{{ this.baseFloodElevation() }}</label>
+                  <v-tooltip left>
                     <template v-slot:activator="{ on, attrs }">
-                      <v-icon
-                        small
-                        color="blue lighten-1"
-                        dark
-                        v-bind="attrs"
-                        v-on="on"
-                      >
+                      <v-icon small color="blue lighten-1" dark v-bind="attrs" v-on="on">
                         mdi-information
                       </v-icon>
                     </template>
-                    <span>{{this.baseFloodedTooltip()}}</span>
+                    <span>{{ this.baseFloodedTooltip() }}</span>
                   </v-tooltip>
                 </div>
                 <div class="legendIcon">
-                  <img
-                    src="../assets/aq-icons/other.png"
-                    height="25px"
-                    width="25px"
-                  />
-                  <label>{{this.uncategorized()}}</label>
-                    <v-tooltip left>
+                  <img src="../assets/aq-icons/other.png" height="25px" width="25px" />
+                  <label>{{ this.uncategorized() }}</label>
+                  <v-tooltip left>
                     <template v-slot:activator="{ on, attrs }">
-                      <v-icon
-                        small
-                        color="blue lighten-1"
-                        dark
-                        v-bind="attrs"
-                        v-on="on"
-                      >
+                      <v-icon small color="blue lighten-1" dark v-bind="attrs" v-on="on">
                         mdi-information
                       </v-icon>
                     </template>
-                    <span>{{this.uncategorizedTooltip()}}</span>
+                    <span>{{ this.uncategorizedTooltip() }}</span>
                   </v-tooltip>
                 </div>
               </div>
               <!-- Toggleable layers -->
               <div id="toggleableLayers">
                 <div class="legendIconToggle" v-if="allRPVisible">
-                  <div
-                    style="padding-right: 10px;"
-                    id="allRPLegend"
-                    class="
+                  <div style="padding-right: 10px;" id="allRPLegend" class="
                       wmm-circle
                       wmm-white
                       wmm-icon-noicon
                       wmm-size-20
-                    "
-                  ></div>
-                  <label
-                    >{{this.allFeatures()}}</label
-                  >
+                    "></div>
+                  <label>{{ this.allFeatures() }}</label>
                 </div>
                 <div class="legendIconToggle" v-if="streamgageVisible">
-                  <div
-                    class="
+                  <div class="
                       wmm-circle
                       wmm-mutedblue
                       wmm-icon-triangle
                       wmm-icon-black
                       wmm-size-20
                       wmm-borderless
-                    "
-                  ></div>
-                  <label>{{this.streamgageLable()}}</label>
+                    "></div>
+                  <label>{{ this.streamgageLable() }}</label>
                 </div>
 
                 <div class="legendIconToggle" v-if="nfhlVisible">
-                  <label id="nfhlLabel">{{this.femaLayer()}}</label>
+                  <label id="nfhlLabel">{{ this.femaLayer() }}</label>
                 </div>
                 <div id="nfhlLegend"></div>
               </div>
 
               <div class="legendIconToggle" v-if="radarVisible">
-                  <label id="radarLabel">{{this.noaaRadarLayer()}}</label>
-                  <div id="radarLegend"></div>
-                </div>
+                <label id="radarLabel">{{ this.noaaRadarLayer() }}</label>
+                <div id="radarLegend"></div>
+              </div>
 
-                <div class="legendIconToggle" v-if="fwwVisible">
-                  <label id="fwwLabel">{{this.noaaFloodLayer()}}</label>
-                </div>
-                <div id="fwwLegend"></div>
+              <div class="legendIconToggle" v-if="fwwVisible">
+                <label id="fwwLabel">{{ this.noaaFloodLayer() }}</label>
+              </div>
+              <div id="fwwLegend"></div>
 
-                <div class="legendIconToggle" v-if="tidesVisible">
-                  <div class="wmm-diamond wmm-lime wmm-icon-triangle wmm-icon-black wmm-size-15 wmm-borderless"></div>
-                  <label id="noaaLabel">{{this.noaaTides()}}</label>
-                </div>
+              <div class="legendIconToggle" v-if="tidesVisible">
+                <div class="wmm-diamond wmm-lime wmm-icon-triangle wmm-icon-black wmm-size-15 wmm-borderless"></div>
+                <label id="noaaLabel">{{ this.noaaTides() }}</label>
+              </div>
 
             </v-expansion-panel-content>
           </v-expansion-panel>
@@ -299,14 +183,14 @@
     <v-dialog v-model="noFloodingdialog" max-width="250">
       <v-card>
         <v-card-title class="text-h6 green lighten-2">
-          {{this.noActiveFlooding()}}
+          {{ this.noActiveFlooding() }}
         </v-card-title>
 
-        <v-card-text> {{this.displaying_all_features()}} </v-card-text>
+        <v-card-text> {{ this.displaying_all_features() }} </v-card-text>
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text @click="noFloodingdialog = false"> {{this.close()}} </v-btn>
+          <v-btn text @click="noFloodingdialog = false"> {{ this.close() }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -375,7 +259,7 @@ let graphParameterCodeList = "00065,63160,72279";
 
 export default {
   mixins: [text],
-  components:{
+  components: {
     Geosearch
   },
   name: "Map",
@@ -457,8 +341,8 @@ export default {
         iconUrl: require("../assets/aq-icons/other.png"),
         iconSize: [50, 50],
       }),
-      noaaIcon: L.divIcon({ 
-        className: 'wmm-diamond wmm-lime wmm-icon-triangle wmm-icon-black wmm-size-15 wmm-borderless', 
+      noaaIcon: L.divIcon({
+        className: 'wmm-diamond wmm-lime wmm-icon-triangle wmm-icon-black wmm-size-15 wmm-borderless',
       }),
       activeLayerTitleVisible: true,
       bankVisible: false,
@@ -477,7 +361,7 @@ export default {
       bridgeFloodedLayer: {},
       facilityLayer: {},
       otherLayer: {},
-      bfeLayer:{},
+      bfeLayer: {},
       activeSubtypes: [],
       showParagraph: false,
       fillColor: "#ffffff",
@@ -509,7 +393,7 @@ export default {
       L.DomEvent.disableClickPropagation(document.querySelector('#findLocationContainer'));
 
       // Prevent page navigation when swiping right and left in Safari
-      document.addEventListener("touchmove" , function(e) {
+      document.addEventListener("touchmove", function (e) {
         e.preventDefault();
       });
 
@@ -573,12 +457,12 @@ export default {
       self.allRPMarkers.on("click", function (e) {
         self.openAQPopup(e);
       })
-      .addTo(self.map);
+        .addTo(self.map);
 
       let resetDiv;
       //create view reset leaflet control
       L.Control.ViewResetControl = L.Control.extend({
-        options: {position: "bottomleft"},
+        options: { position: "bottomleft" },
         onAdd: function () {
           resetDiv = L.DomUtil.create("div", "resetcontrol");
           resetDiv.innerHTML = "<button id= resetbutton >Reset View</button>"
@@ -591,11 +475,11 @@ export default {
       };
 
       L.control.ViewResetControl({ position: "bottomleft" }).addTo(self.map);
-      
-       //reset map view on click
-      document.getElementById("resetbutton").onclick = function() {
-      self.map.setView([37.0902, -82.7129], 4)
-       }
+
+      //reset map view on click
+      document.getElementById("resetbutton").onclick = function () {
+        self.map.setView([37.0902, -82.7129], 4)
+      }
 
       //Create lat lon leaflet control
       L.Control.LatLngControl = L.Control.extend({
@@ -603,7 +487,7 @@ export default {
         onAdd: function () {
           latlngDiv = L.DomUtil.create("div", "latlngcontrol");
           latlngDiv.innerHTML =
-          "<button> <span id= 'lat'> Latitude:" +
+            "<button> <span id= 'lat'> Latitude:" +
             self.lat +
             "</span><br/><span id='long'>Longitude: " +
             self.lon +
@@ -620,7 +504,7 @@ export default {
 
       L.control.LatLngControl({ position: "bottomleft" }).addTo(self.map);
 
-     
+
 
       //Update lat lng control on mousemove
       self.map.on("mousemove", function (e) {
@@ -631,20 +515,20 @@ export default {
           let localSpanishState = localStorage.getItem("spanishState");
           if (localSpanishState == 'false') {
             latlngDiv.innerHTML = "<button><span id='lat'>Latitude:</span> " +
-            mouselat +
-            "<br/><span id='long'>Longitude:</span> " +
-            mouselon +
-            "<br/><span id='zoom'>Current Zoom:</span> " +
-            self.currentZoom +
-            "</button>";
+              mouselat +
+              "<br/><span id='long'>Longitude:</span> " +
+              mouselon +
+              "<br/><span id='zoom'>Current Zoom:</span> " +
+              self.currentZoom +
+              "</button>";
           } else {
             latlngDiv.innerHTML = "<button><span id='lat'>Latitud:</span> " +
-            mouselat +
-            "<br/><span id='long'>Longitud:</span> " +
-            mouselon +
-            "<br/><span id='zoom'>Zoom actual:</span> " +
-            self.currentZoom +
-            "</button>";
+              mouselat +
+              "<br/><span id='long'>Longitud:</span> " +
+              mouselon +
+              "<br/><span id='zoom'>Zoom actual:</span> " +
+              self.currentZoom +
+              "</button>";
           }
         }
       });
@@ -826,14 +710,14 @@ export default {
           } else {
             e.layer.bindPopup(this.popupContent, { minWidth: 300 }).openPopup();
           }
-          if (window.matchMedia(this.mediaQuery).matches){
+          if (window.matchMedia(this.mediaQuery).matches) {
             el = document.getElementById('fullscreenPopup');
             el.innerHTML += '<div id="popupCloseButton">' +
-            '<i class="v-icon notranslate mdi mdi-close" style="font-size:16px"></i>' +
-            '</div><br>';
+              '<i class="v-icon notranslate mdi mdi-close" style="font-size:16px"></i>' +
+              '</div><br>';
             el.innerHTML += this.popupContent;
 
-            document.querySelector('#popupCloseButton').onclick = function(){
+            document.querySelector('#popupCloseButton').onclick = function () {
               self.map.closePopup();
               el.innerHTML = '';
               el.classList.remove('visible');
@@ -845,7 +729,7 @@ export default {
           document
             .getElementById("graphLoadMessage")
             .setAttribute("style", "display: none");
-            document
+          document
             .getElementById("dataCredit")
             .setAttribute("style", "display: none");
           document
@@ -864,14 +748,14 @@ export default {
             e.layer.bindPopup(this.popupContent, { minWidth: 300 }).openPopup();
           }
 
-          if (window.matchMedia(this.mediaQuery).matches){
+          if (window.matchMedia(this.mediaQuery).matches) {
             el = document.getElementById('fullscreenPopup');
             el.innerHTML += '<div id="popupCloseButton">' +
-            '<i class="v-icon notranslate mdi mdi-close" style="font-size:16px"></i>' +
-            '</div><br>';
+              '<i class="v-icon notranslate mdi mdi-close" style="font-size:16px"></i>' +
+              '</div><br>';
             el.innerHTML += this.popupContent;
 
-            document.querySelector('#popupCloseButton').onclick = function(){
+            document.querySelector('#popupCloseButton').onclick = function () {
               self.map.closePopup();
               el.innerHTML = '';
               el.classList.remove('visible');
@@ -970,9 +854,9 @@ export default {
             .setAttribute("style", "display: none");
         }
       })
-      .catch(function(error){
-        console.log(error);
-      });
+        .catch(function (error) {
+          console.log(error);
+        });
     },
     openAQPopup(e) {
       let self = this;
@@ -1015,6 +899,7 @@ export default {
 
       let icon;
       let tooltip;
+
       if (e.layer._icon.outerHTML.split("class")[0] === "<div ") {
         icon =
           '<div id="allRPIcon" style="padding-left:2px !important; margin-top: -15px !important; vertical-align: middle" class="wmm-circle wmm-white wmm-icon-noicon wmm-size-15"></div>';
@@ -1047,7 +932,7 @@ export default {
         layerData.Elevation +
         " " +
         layerData.Unit +
-        "</br>" + 
+        "</br>" +
         '</div><p id="graphLoadMessageAQ"><v-progress-circular indeterminate :width=3 :size=20></v-progress-circular><span> NWIS data graph loading...</span></p><div id="graphContainerAQ" style="width:100%; min-height: 200px; display:block;"></div><div id="waterAlert"><a class="nwis-link" target="_blank" href="https://accounts.waterdata.usgs.gov/wateralert/my-alerts/#siteNumber=' +
         siteID + '&parameterCode=00065">Subscribe to Water Alert ' + '<i class="v-icon notranslate mdi mdi-open-in-new" style="font-size:16px"></i></a></span></div> <div id="aqDataCredit">Gage Height data courtesy of the U.S. Geological Survey.</div><div id="noDataMessageAQ" style="width:100%;display:none;"><b><span>NWIS water level data not available to graph</span></b></div>';
       let url =
@@ -1057,7 +942,7 @@ export default {
         graphParameterCodeList +
         this.timePeriodValue;
 
-      let createPopup = function(){
+      let createPopup = function () {
         let el;
         axios.get(url).then((data) => {
           if (
@@ -1078,14 +963,14 @@ export default {
                 .bindPopup(self.aqPopupContent, { minWidth: 300 })
                 .openPopup();
             }
-            if (window.matchMedia(self.mediaQuery).matches){
+            if (window.matchMedia(self.mediaQuery).matches) {
               el = document.getElementById('fullscreenPopup');
               el.innerHTML += '<div id="popupCloseButton">' +
-              '<i class="v-icon notranslate mdi mdi-close" style="font-size:16px"></i>' +
-              '</div><br>';
+                '<i class="v-icon notranslate mdi mdi-close" style="font-size:16px"></i>' +
+                '</div><br>';
               el.innerHTML += self.aqPopupContent;
 
-              document.querySelector('#popupCloseButton').onclick = function(){
+              document.querySelector('#popupCloseButton').onclick = function () {
                 self.map.closePopup();
                 el.innerHTML = '';
                 el.classList.remove('visible');
@@ -1120,14 +1005,14 @@ export default {
               e.layer.openPopup();
             }
 
-            if (window.matchMedia(self.mediaQuery).matches){
+            if (window.matchMedia(self.mediaQuery).matches) {
               el = document.getElementById('fullscreenPopup');
               el.innerHTML += '<div id="popupCloseButton">' +
-              '<i class="v-icon notranslate mdi mdi-close" style="font-size:16px"></i>' +
-              '</div><br>';
+                '<i class="v-icon notranslate mdi mdi-close" style="font-size:16px"></i>' +
+                '</div><br>';
               el.innerHTML += self.aqPopupContent;
 
-              document.querySelector('#popupCloseButton').onclick = function(){
+              document.querySelector('#popupCloseButton').onclick = function () {
                 self.map.closePopup();
                 el.innerHTML = '';
                 el.classList.remove('visible');
@@ -1160,12 +1045,12 @@ export default {
             let ampm = "AM";
             let mostRecentDate = new Date(data.data.data[0].time_series_data[data.data.data[0].time_series_data.length - 1][0]);
             let hour = mostRecentDate.getHours();
-            if(hour > 12){
+            if (hour > 12) {
               hour = hour - 12;
               hour = hour.toString().padStart(2, '0');
               ampm = "PM";
             }
-            mostRecentDate = (mostRecentDate.getMonth() + 1) + '/' + mostRecentDate.getDate().toString().padStart(2, '0')  + "/" + mostRecentDate.getFullYear() + " " + hour + ":" + mostRecentDate.getMinutes().toString().padStart(2, '0');
+            mostRecentDate = (mostRecentDate.getMonth() + 1) + '/' + mostRecentDate.getDate().toString().padStart(2, '0') + "/" + mostRecentDate.getFullYear() + " " + hour + ":" + mostRecentDate.getMinutes().toString().padStart(2, '0');
             let mostRecentHeight = data.data.data[0].time_series_data[data.data.data[0].time_series_data.length - 1][1];
             document.getElementById("aqGraphHeader").innerHTML += `<b>Last Updated: </b>${mostRecentDate} ${ampm}<br><b>Last Updated Gage Height: </b>${mostRecentHeight} feet`;
             // Create x and y arrays for NWIS trace
@@ -1190,18 +1075,18 @@ export default {
               },
             ];
 
-            if (self.predictedValues.length > 0){
+            if (self.predictedValues.length > 0) {
               traces.push({
-                  x: self.predictedDates,
-                  y: self.predictedValues,
-                  type: "scatter",
-                  mode: "lines",
-                  showlegend: true,
-                  name: "<b>NWS Predicted Gage Data</b>",
-                  hovertemplate: "%{x|%m/%d %I:%M %p}<br>Predicted Gage height: %{y} feet<extra></extra>",
-                  font: {
-                    family: "Public Sans, sans-serif",
-                  },
+                x: self.predictedDates,
+                y: self.predictedValues,
+                type: "scatter",
+                mode: "lines",
+                showlegend: true,
+                name: "<b>NWS Predicted Gage Data</b>",
+                hovertemplate: "%{x|%m/%d %I:%M %p}<br>Predicted Gage height: %{y} feet<extra></extra>",
+                font: {
+                  family: "Public Sans, sans-serif",
+                },
               });
             }
 
@@ -1274,7 +1159,7 @@ export default {
                 automargin: true,
               },
               xaxis: {
-                range: [dates[0], timeSeriesArray[timeSeriesArray.length -1]],
+                range: [dates[0], timeSeriesArray[timeSeriesArray.length - 1]],
                 tickformat: "%d %b %y",
                 tickfont: {
                   size: 11,
@@ -1330,15 +1215,15 @@ export default {
               .setAttribute("style", "display: none");
           }
         })
-        .catch(function(error){
-          console.log(error);
-        })
+          .catch(function (error) {
+            console.log(error);
+          })
       }
-      
+
       // Getting todays date to account for user changing dates and returning to today
       let isToday;
       let endDateString;
-      
+
       let today = new Date();
       let d = today.getDate().toString().padStart(2, '0');
       let m = today.getMonth() + 1;
@@ -1351,7 +1236,7 @@ export default {
         m +
         "-" +
         d;
-      
+
       if (self.timePeriodValue === "&period=P7D" || self.timePeriodValue.includes(endDateString)) {
         isToday = true;
       } else {
@@ -1365,21 +1250,21 @@ export default {
           let domParser = new DOMParser();
           let xmlElement = domParser.parseFromString(data.data, "text/xml");
           let forecast = xmlElement.getElementsByTagName("forecast");
-          forecast.forEach(function(value){
-            if(!value.innerHTML.includes("No Displayable Forecast")){
+          forecast.forEach(function (value) {
+            if (!value.innerHTML.includes("No Displayable Forecast")) {
               let datums = value.getElementsByTagName("datum");
-              datums.forEach(function(datum){
+              datums.forEach(function (datum) {
                 self.predictedValues.push(datum.getElementsByTagName("primary")[0].innerHTML);
                 self.predictedDates.push(datum.getElementsByTagName("valid")[0].innerHTML);
               });
             }
           })
           createPopup();
-        }).catch(function(error){
+        }).catch(function (error) {
           console.log(error);
           createPopup();
         });
-      }else{
+      } else {
         createPopup();
       }
     },
@@ -1443,14 +1328,14 @@ export default {
       this.otherLayer.clearLayers();
       this.bfeLayer.clearLayers();
       this.bankVisible = false,
-      this.pathVisible = false,
-      this.roadVisible = false,
-      this.bridgeRiskVisible = false,
-      this.bridgeFloodedVisible = false,
-      this.facilityVisible = false,
-      this.otherVisible = false,
-      this.bfeVisible = false,
-      this.$store.state.bankState = false;
+        this.pathVisible = false,
+        this.roadVisible = false,
+        this.bridgeRiskVisible = false,
+        this.bridgeFloodedVisible = false,
+        this.facilityVisible = false,
+        this.otherVisible = false,
+        this.bfeVisible = false,
+        this.$store.state.bankState = false;
       this.$store.state.pathState = false;
       this.$store.state.roadState = false;
       this.$store.state.bridgeRiskState = false;
@@ -1490,16 +1375,16 @@ export default {
         let ahpsID;
 
         if (this.mvpData[entry].Latitude !== undefined) {
-            lat = this.mvpData[entry].Latitude;
-            lng = this.mvpData[entry].Longitude;
-            fullname = this.mvpData[entry].Name;
-            Name = this.mvpData[entry].Name;
-            elevation = this.mvpData[entry].Elevation;
-            unit = this.mvpData[entry].Unit;
-            siteName = this.mvpData[entry].SiteName;
-            ahpsID = this.mvpData[entry].nws_id;
-            LocationIdentifier = this.mvpData[entry].LocationIdentifier;
-          }
+          lat = this.mvpData[entry].Latitude;
+          lng = this.mvpData[entry].Longitude;
+          fullname = this.mvpData[entry].Name;
+          Name = this.mvpData[entry].Name;
+          elevation = this.mvpData[entry].Elevation;
+          unit = this.mvpData[entry].Unit;
+          siteName = this.mvpData[entry].SiteName;
+          ahpsID = this.mvpData[entry].nws_id;
+          LocationIdentifier = this.mvpData[entry].LocationIdentifier;
+        }
         // Remove any digits from Name string
         Name = Name.replace(/[0-9]/, "");
 
@@ -1550,7 +1435,7 @@ export default {
           ) {
             if (
               data.data.data[0].time_series_data[
-                data.data.data[0].time_series_data.length - 1
+              data.data.data[0].time_series_data.length - 1
               ][1] >= elevation
             ) {
               let marker;
@@ -1560,7 +1445,7 @@ export default {
                 this.$store.state.pathState = true;
                 document.getElementById("pathDiv").style.opacity = 1;
                 this.$store.commit("getPathDisabledState", false);
-                if(this.activeSubtypes.includes("path") === false){
+                if (this.activeSubtypes.includes("path") === false) {
                   this.activeSubtypes.push("path");
                 }
                 marker = L.marker([lat, lng], {
@@ -1568,13 +1453,13 @@ export default {
                   zIndexOffset: 100
                 }).addTo(this.pathLayer);
                 this.pathLayer.addTo(this.aqMarkers);
-                this.thresholdsExceeded ++;
+                this.thresholdsExceeded++;
               } else if (Name === "BANK") {
                 this.bankVisible = true;
                 this.$store.state.bankState = true;
                 document.getElementById("bankDiv").style.opacity = 1;
                 this.$store.commit("getBankDisabledState", false);
-                if(this.activeSubtypes.includes("bank") === false){
+                if (this.activeSubtypes.includes("bank") === false) {
                   this.activeSubtypes.push("bank");
                 }
                 marker = L.marker([lat, lng], {
@@ -1582,13 +1467,13 @@ export default {
                   zIndexOffset: 100
                 }).addTo(this.bankLayer);
                 this.bankLayer.addTo(this.aqMarkers);
-                this.thresholdsExceeded ++;
+                this.thresholdsExceeded++;
               } else if (Name === "ROAD") {
                 this.roadVisible = true;
                 this.$store.state.roadState = true;
                 document.getElementById("roadDiv").style.opacity = 1;
                 this.$store.commit("getRoadDisabledState", false);
-                if(this.activeSubtypes.includes("road") === false){
+                if (this.activeSubtypes.includes("road") === false) {
                   this.activeSubtypes.push("road");
                 }
                 marker = L.marker([lat, lng], {
@@ -1596,13 +1481,13 @@ export default {
                   zIndexOffset: 100
                 }).addTo(this.roadLayer);
                 this.roadLayer.addTo(this.aqMarkers);
-                this.thresholdsExceeded ++;
+                this.thresholdsExceeded++;
               } else if (Name === "CHORD") {
                 this.bridgeRiskVisible = true;
                 this.$store.state.bridgeRiskState = true;
                 document.getElementById("bridgeRiskDiv").style.opacity = 1;
                 this.$store.commit("getBridgeRiskDisabledState", false);
-                if(this.activeSubtypes.includes("bridgeRisk") === false){
+                if (this.activeSubtypes.includes("bridgeRisk") === false) {
                   this.activeSubtypes.push("bridgeRisk");
                 }
                 marker = L.marker([lat, lng], {
@@ -1610,13 +1495,13 @@ export default {
                   zIndexOffset: 100
                 }).addTo(this.bridgeRiskLayer);
                 this.bridgeRiskLayer.addTo(this.aqMarkers);
-                this.thresholdsExceeded ++;
+                this.thresholdsExceeded++;
               } else if (Name === "FACILITY") {
                 this.facilityVisible = true;
                 this.$store.state.facilityState = true;
                 document.getElementById("facilityDiv").style.opacity = 1
                 this.$store.commit("getFacilityDisabledState", false);
-                if(this.activeSubtypes.includes("facility") === false){
+                if (this.activeSubtypes.includes("facility") === false) {
                   this.activeSubtypes.push("facility");
                 }
                 marker = L.marker([lat, lng], {
@@ -1624,13 +1509,13 @@ export default {
                   zIndexOffset: 100
                 }).addTo(this.facilityLayer);
                 this.facilityLayer.addTo(this.aqMarkers);
-                this.thresholdsExceeded ++;
+                this.thresholdsExceeded++;
               } else if (Name === "DECK") {
                 this.bridgeFloodedVisible = true;
                 this.$store.state.bridgeState = true;
                 document.getElementById("bridgeDiv").style.opacity = 1;
                 this.$store.commit("getBridgeDisabledState", false);
-                if(this.activeSubtypes.includes("bridgeFlooded") === false){
+                if (this.activeSubtypes.includes("bridgeFlooded") === false) {
                   this.activeSubtypes.push("bridgeFlooded");
                 }
                 marker = L.marker([lat, lng], {
@@ -1638,13 +1523,13 @@ export default {
                   zIndexOffset: 100
                 }).addTo(this.bridgeFloodedLayer);
                 this.bridgeFloodedLayer.addTo(this.aqMarkers);
-                this.thresholdsExceeded ++;
+                this.thresholdsExceeded++;
               } else if (Name === "BFE") {
                 this.bfeVisible = true;
                 this.$store.state.bfeState = true;
                 document.getElementById("bfeDiv").style.opacity = 1;
                 this.$store.commit("getBfeDisabledState", false);
-                if(this.activeSubtypes.includes("bfe") === false){
+                if (this.activeSubtypes.includes("bfe") === false) {
                   this.activeSubtypes.push("bfe");
                 }
                 marker = L.marker([lat, lng], {
@@ -1652,13 +1537,13 @@ export default {
                   zIndexOffset: 100
                 }).addTo(this.bfeLayer);
                 this.bfeLayer.addTo(this.aqMarkers);
-                this.thresholdsExceeded ++;
+                this.thresholdsExceeded++;
               } else {
                 this.otherVisible = true;
                 this.$store.state.otherState = true;
                 document.getElementById("otherDiv").style.opacity = 1
                 this.$store.commit("getOtherDisabledState", false);
-                if(this.activeSubtypes.includes("other") === false){
+                if (this.activeSubtypes.includes("other") === false) {
                   this.activeSubtypes.push("other");
                 }
                 marker = L.marker([lat, lng], {
@@ -1666,7 +1551,7 @@ export default {
                   zIndexOffset: 100
                 }).addTo(this.otherLayer);
                 this.otherLayer.addTo(this.aqMarkers);
-                this.thresholdsExceeded ++;
+                this.thresholdsExceeded++;
               }
 
               marker.data = {
@@ -1683,8 +1568,8 @@ export default {
                 lng: lng,
               };
               hasMarkers = true;
-              entryCount ++;
-            }else{
+              entryCount++;
+            } else {
               // all RP layer
               let allMarkers = L.marker([lat, lng], {
                 icon: wimIcon,
@@ -1704,7 +1589,7 @@ export default {
                 lat: lat,
                 lng: lng,
               };
-              entryCount ++;
+              entryCount++;
               // end all RP Layer
               // Wait for last entry to add markers to map and fit bounds, otherwise bounds will be invalid
               if (hasMarkers && entryCount == this.mvpData.length) {
@@ -1713,7 +1598,7 @@ export default {
                 document.getElementById("activeLayerTitle").style.display = "block";
                 document.getElementById("showAllBtn").style.display = "flex";
                 this.$store.commit("getThresholdsExceededCount", this.thresholdsExceeded);
-                if(this.isDisplayed == "block"){
+                if (this.isDisplayed == "block") {
                   this.fadeOutAlert();
                 }
               } else if (!hasMarkers && entryCount == this.mvpData.length) {
@@ -1722,42 +1607,42 @@ export default {
                 this.activeLayerTitleVisible = false;
                 document.getElementById("noActiveFlooding").style.display = "block";
                 this.$store.commit("getThresholdsExceededCount", this.thresholdsExceeded);
-                this.map.setView(this.center, 4) 
-                if(this.isDisplayed == "block"){
+                this.map.setView(this.center, 4)
+                if (this.isDisplayed == "block") {
                   this.fadeOutAlert();
                 }
               }
             }
-          }else{
+          } else {
             // all RP layer
-              let allMarkers = L.marker([lat, lng], {
-                icon: wimIcon,
-                opacity: this.$store.state.allFeaturesOpacity
-              }).addTo(this.allRPMarkers);
+            let allMarkers = L.marker([lat, lng], {
+              icon: wimIcon,
+              opacity: this.$store.state.allFeaturesOpacity
+            }).addTo(this.allRPMarkers);
 
-              allMarkers.data = {
-                LocationIdentifier: LocationIdentifier,
-                Name: Name,
-                ReferencePointPeriods: rpData,
-                Elevation: elevation,
-                Unit: unit,
-                ahpsID: ahpsID,
-                FullName: fullname,
-                SiteName: siteName,
-                ThresholdName: thresholdName,
-                lat: lat,
-                lng: lng,
-              };
-              entryCount ++;
-              // end all RP Layer
+            allMarkers.data = {
+              LocationIdentifier: LocationIdentifier,
+              Name: Name,
+              ReferencePointPeriods: rpData,
+              Elevation: elevation,
+              Unit: unit,
+              ahpsID: ahpsID,
+              FullName: fullname,
+              SiteName: siteName,
+              ThresholdName: thresholdName,
+              lat: lat,
+              lng: lng,
+            };
+            entryCount++;
+            // end all RP Layer
           }
         })
-        .catch(function(error){
-          console.log(error);
-          if(this.isDisplayed == "block"){
-            this.fadeOutAlert();
-          }
-        });
+          .catch(function (error) {
+            console.log(error);
+            if (this.isDisplayed == "block") {
+              this.fadeOutAlert();
+            }
+          });
       }
     },
     toggleNfhl(nfhlLayer) {
@@ -1772,7 +1657,7 @@ export default {
         if (container != null) {
           container.style.display = "none";
         }
-          this.nfhlFadeOutAlert();
+        this.nfhlFadeOutAlert();
       }
     },
     toggleAllRP() {
@@ -1788,72 +1673,72 @@ export default {
         }
       }
     },
-    getNOAATidesLayer(){
+    getNOAATidesLayer() {
       let noaaURL = 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json'
       let self = this;
       axios.get(noaaURL)
-      .then(function (results) {
+        .then(function (results) {
           self.addNOAAMarkers(results.data);
         })
         .catch(function (error) {
           // handle error
           console.log(error);
-      })
+        })
     },
     //get lat/lng for each NOAA station and add to tideMarkers layer group from siteService
     addNOAAMarkers(stationList) {
-        if (stationList.count > 0 && stationList.stations !== undefined) {
-            let stations = stationList.stations
-            for (let station of stations) {
-                let lat = Number(station.lat);
-                let long = Number(station.lng);
-                let stationId = station.id;
-                let beginDate;
-                let endDate;
-                if(this.timePeriodValue === "&period=P7D"){
-                  endDate = new Date();
-                  beginDate = new Date();
-                  beginDate.setDate(beginDate.getDate() - 7);
-                  endDate = endDate.getFullYear().toString() + (endDate.getMonth() + 1).toString().padStart(2, '0') + endDate.getDate().toString().padStart(2, '0');
-                  beginDate = beginDate.getFullYear().toString() + (beginDate.getMonth() + 1).toString().padStart(2, '0') + beginDate.getDate().toString().padStart(2, '0');
-                }else{
-                  beginDate = this.timePeriodValue.split(/[=&]/);
-                  beginDate = beginDate[3].replace(/-/g, "");
-                  endDate = this.timePeriodValue.substr(this.timePeriodValue.length - 10);
-                  endDate = endDate.replace(/-/g, "");
-                }
-                let gageUrl =
-                "https://tidesandcurrents.noaa.gov/waterlevels.html?id=" +
-                stationId +
-                "&units=standard&bdate=" +
-                beginDate +
-                "&edate=" +
-                endDate +
-                "&timezone=GMT&datum=MLLW&interval=6&action=";
-                //create popup with link to NOAA graph
-                let popupContent =
-                '<span><a class="noaa-link" target="_blank" href=' +
-                gageUrl +
-                ">Graph of Observed Water Levels at site " +
-                stationId +
-                "</a></span>";
-                if (isNaN(lat) || isNaN(long)) {
-                    console.log(
-                        'Skipped station ' +
-                        station.id +
-                        ' in NOAA Station layer due to null lat/lng'
-                );
-                } else {
-                    //These sites are in the Atlantic Ocean or otherwise clearly out of place
-                    L.marker([lat, long], { icon: this.noaaIcon, opacity: this.$store.state.noaaOpacity })
-                      .bindPopup(popupContent)
-                      .addTo(this.tideMarkers);
-                    this.tideMarkers.addTo(this.map);
-                }
-            }
-        }else{
-            console.log("No NOAA stations returned")
+      if (stationList.count > 0 && stationList.stations !== undefined) {
+        let stations = stationList.stations
+        for (let station of stations) {
+          let lat = Number(station.lat);
+          let long = Number(station.lng);
+          let stationId = station.id;
+          let beginDate;
+          let endDate;
+          if (this.timePeriodValue === "&period=P7D") {
+            endDate = new Date();
+            beginDate = new Date();
+            beginDate.setDate(beginDate.getDate() - 7);
+            endDate = endDate.getFullYear().toString() + (endDate.getMonth() + 1).toString().padStart(2, '0') + endDate.getDate().toString().padStart(2, '0');
+            beginDate = beginDate.getFullYear().toString() + (beginDate.getMonth() + 1).toString().padStart(2, '0') + beginDate.getDate().toString().padStart(2, '0');
+          } else {
+            beginDate = this.timePeriodValue.split(/[=&]/);
+            beginDate = beginDate[3].replace(/-/g, "");
+            endDate = this.timePeriodValue.substr(this.timePeriodValue.length - 10);
+            endDate = endDate.replace(/-/g, "");
+          }
+          let gageUrl =
+            "https://tidesandcurrents.noaa.gov/waterlevels.html?id=" +
+            stationId +
+            "&units=standard&bdate=" +
+            beginDate +
+            "&edate=" +
+            endDate +
+            "&timezone=GMT&datum=MLLW&interval=6&action=";
+          //create popup with link to NOAA graph
+          let popupContent =
+            '<span><a class="noaa-link" target="_blank" href=' +
+            gageUrl +
+            ">Graph of Observed Water Levels at site " +
+            stationId +
+            "</a></span>";
+          if (isNaN(lat) || isNaN(long)) {
+            console.log(
+              'Skipped station ' +
+              station.id +
+              ' in NOAA Station layer due to null lat/lng'
+            );
+          } else {
+            //These sites are in the Atlantic Ocean or otherwise clearly out of place
+            L.marker([lat, long], { icon: this.noaaIcon, opacity: this.$store.state.noaaOpacity })
+              .bindPopup(popupContent)
+              .addTo(this.tideMarkers);
+            this.tideMarkers.addTo(this.map);
+          }
         }
+      } else {
+        console.log("No NOAA stations returned")
+      }
     },
     getNfhlLayer() {
       var self = this;
@@ -1877,9 +1762,9 @@ export default {
         f: "image/png",
       });
       self.nfhlIsDisplayed = "block";
-      axios.get(nfhlURL + "/export?bbox=" + bbox + "&size=1421%2C375&dpi=96&format=png32&transparent=true&bboxSR=3857&imageSR=3857&layers=show%3A0%2C3%2C14%2C27%2C28&f=image", {timeout: 30000})
+      axios.get(nfhlURL + "/export?bbox=" + bbox + "&size=1421%2C375&dpi=96&format=png32&transparent=true&bboxSR=3857&imageSR=3857&layers=show%3A0%2C3%2C14%2C27%2C28&f=image", { timeout: 30000 })
         .then(function () {
-          if(self.nfhlIsDisplayed != "none"){
+          if (self.nfhlIsDisplayed != "none") {
             self.nfhlLayer.addTo(self.map);
             self.nfhlLayer.setOpacity(self.$store.state.nfhlOpacity);
             let layers = self.nfhlLayer.getLayers();
@@ -1893,14 +1778,14 @@ export default {
           // Fade out loading alert
           self.nfhlFadeOutAlert();
           // Wait until loading alert fades out to display services error
-          setTimeout(function(){
-              self.nfhlServicesAlertDisplayed = "block";
-              setTimeout(function(){
-                  // Wait 4 seconds and then fade out services error
-                  self.nfhlFadeOutServicesAlert();
-              }, 4000);
+          setTimeout(function () {
+            self.nfhlServicesAlertDisplayed = "block";
+            setTimeout(function () {
+              // Wait 4 seconds and then fade out services error
+              self.nfhlFadeOutServicesAlert();
+            }, 4000);
           }, 2000);
-      })
+        })
     },
     getallRPLayer() {
       this.allRPMarkers.addTo(this.map);
@@ -1920,8 +1805,8 @@ export default {
           let layerList = data.data.layers;
           for (let i = 0; i < layerList.length; i++) {
             layers.forEach((layer) => {
-               if (zoomlevel !== self.currentZoom) {
-                  return;
+              if (zoomlevel !== self.currentZoom) {
+                return;
               }
               if (layerList[i].layerId == layer) {
                 // Create sublayer legend div
@@ -2053,124 +1938,124 @@ export default {
         sublayer.remove();
         setVisibility(false, this);
       }
-      function setVisibility(visible, self){
-        switch (sublayerType){
-          case 'bank': 
-            self.bankVisible = visible; 
+      function setVisibility(visible, self) {
+        switch (sublayerType) {
+          case 'bank':
+            self.bankVisible = visible;
             break;
-          case 'path': 
+          case 'path':
             self.pathVisible = visible;
             break;
-          case 'road': 
+          case 'road':
             self.roadVisible = visible;
             break;
-          case 'bridgeRisk': 
+          case 'bridgeRisk':
             self.bridgeRiskVisible = visible;
             break;
-          case 'bridgeFlooded': 
+          case 'bridgeFlooded':
             self.bridgeFloodedVisible = visible;
             break;
-          case 'facility': 
+          case 'facility':
             self.facilityVisible = visible;
             break;
-          case 'bfe': 
+          case 'bfe':
             self.bfeVisible = visible;
             break;
-          case 'other': 
+          case 'other':
             self.otherVisible = visible;
             break;
         }
-        if (!self.bankVisible && !self.pathVisible && !self.roadVisible && !self.bridgeRiskVisible && !self.bridgeFloodedVisible && !self.facilityVisible && !self.bfeVisible && !self.otherVisible){
+        if (!self.bankVisible && !self.pathVisible && !self.roadVisible && !self.bridgeRiskVisible && !self.bridgeFloodedVisible && !self.facilityVisible && !self.bfeVisible && !self.otherVisible) {
           self.activeLayerTitleVisible = false;
         }
-        else{
+        else {
           self.activeLayerTitleVisible = true;
         }
       }
     },
-    disableShowAll(){
+    disableShowAll() {
       let numChecked = 0;
       this.activeSubtypes.forEach((sublayerType) => {
-        switch (sublayerType){
-          case 'bank': 
-            if(this.bankVisible === true && this.$store.state.bankState === true){
-              numChecked ++;
-            } 
-            break;
-          case 'path': 
-            if(this.pathVisible === true && this.$store.state.pathState === true){
-              numChecked ++;
+        switch (sublayerType) {
+          case 'bank':
+            if (this.bankVisible === true && this.$store.state.bankState === true) {
+              numChecked++;
             }
             break;
-          case 'road': 
-            if(this.roadVisible === true && this.$store.state.roadState === true){
-              numChecked ++;
+          case 'path':
+            if (this.pathVisible === true && this.$store.state.pathState === true) {
+              numChecked++;
             }
             break;
-          case 'bridgeRisk': 
-            if(this.bridgeRiskVisible === true && this.$store.state.bridgeRiskState === true){
-              numChecked ++;
+          case 'road':
+            if (this.roadVisible === true && this.$store.state.roadState === true) {
+              numChecked++;
             }
             break;
-          case 'bridgeFlooded': 
-            if(this.bridgeFloodedVisible === true && this.$store.state.bridgeState === true){
-              numChecked ++;
+          case 'bridgeRisk':
+            if (this.bridgeRiskVisible === true && this.$store.state.bridgeRiskState === true) {
+              numChecked++;
             }
             break;
-          case 'facility': 
-            if(this.facilityVisible === true && this.$store.state.facilityState === true){
-              numChecked ++;
+          case 'bridgeFlooded':
+            if (this.bridgeFloodedVisible === true && this.$store.state.bridgeState === true) {
+              numChecked++;
             }
             break;
-          case 'bfe': 
-            if(this.bfeVisible === true && this.$store.state.bfeState === true){
-              numChecked ++;
+          case 'facility':
+            if (this.facilityVisible === true && this.$store.state.facilityState === true) {
+              numChecked++;
             }
             break;
-          case 'other': 
-            if(this.otherVisible === true && this.$store.state.otherState === true){
-              numChecked ++;
+          case 'bfe':
+            if (this.bfeVisible === true && this.$store.state.bfeState === true) {
+              numChecked++;
+            }
+            break;
+          case 'other':
+            if (this.otherVisible === true && this.$store.state.otherState === true) {
+              numChecked++;
             }
             break;
         }
       });
-      if(numChecked == this.activeSubtypes.length){
+      if (numChecked == this.activeSubtypes.length) {
         this.$store.state.showAllDisabled = true;
       }
     },
-    showAll(){
+    showAll() {
       this.$store.state.showAllDisabled = true;
       this.activeSubtypes.forEach((sublayerType) => {
-        switch (sublayerType){
-          case 'bank': 
+        switch (sublayerType) {
+          case 'bank':
             this.bankVisible = true;
             this.$store.state.bankState = true;
             break;
-          case 'path': 
+          case 'path':
             this.pathVisible = true;
             this.$store.state.pathState = true;
             break;
-          case 'road': 
+          case 'road':
             this.roadVisible = true;
             this.$store.state.roadState = true;
             break;
-          case 'bridgeRisk': 
+          case 'bridgeRisk':
             this.bridgeRiskVisible = true;
             this.$store.state.bridgeRiskState = true;
             break;
-          case 'bridgeFlooded': 
+          case 'bridgeFlooded':
             this.bridgeFloodedVisible = true;
             this.$store.state.bridgeState = true;
             break;
-          case 'facility': 
+          case 'facility':
             this.facilityVisible = true;
             this.$store.state.facilityState = true;
             break;
-          case 'bfe': 
+          case 'bfe':
             this.bfeVisible = true;
             this.$store.state.bfeState = true;
             break;
-          case 'other': 
+          case 'other':
             this.otherVisible = true;
             this.$store.state.otherState = true;
             break;
@@ -2212,7 +2097,7 @@ export default {
                   layerName +
                   "</label>";
                 if (container != null) {
-                   {
+                  {
                     container.appendChild(legendEl);
                   }
                   container.style.display = "inline-block";
@@ -2233,24 +2118,24 @@ export default {
         });
     },
     getAQData() {
-    // get AQ data
+      // get AQ data
       const aqURL = 'https://thresholds.wim.usgs.gov/output.json'
       axios.get(aqURL).then((data) => {
         this.mvpData = data.data
         // loading data from Aquarius
         this.loadAQdata();
-      }).catch(function(error){
-        console.log(error);  
+      }).catch(function (error) {
+        console.log(error);
       });
     },
   },
-  created () {
-      this.getAQData()
-    },
+  created() {
+    this.getAQData()
+  },
   mounted() {
     this.createMap();
     let self = this;
-    eventBus.$on('showAll', function(){
+    eventBus.$on('showAll', function () {
       self.showAll();
     })
   },
@@ -2259,9 +2144,9 @@ export default {
     currentBounds: function () {
       this.streamgageMarkers.clearLayers();
       this.toggleStreamgage(this.streamgageMarkers, this.currentZoom);
-    if (this.map.hasLayer(this.nfhlLayer) && this.nfhlVisible) {
-      this.nfhlLayer.remove();
-      this.toggleNfhl(this.nfhlLayer);
+      if (this.map.hasLayer(this.nfhlLayer) && this.nfhlVisible) {
+        this.nfhlLayer.remove();
+        this.toggleNfhl(this.nfhlLayer);
       }
     },
     currentZoom: function () {
@@ -2322,49 +2207,49 @@ export default {
       this.isDisplayed = "block";
       this.loadAQdata();
       // If visible, update NOAA layer with new time period
-      if (this.tidesVisible){
+      if (this.tidesVisible) {
         this.getNOAATidesLayer();
       }
     },
     "$store.state.rtOpacity": function () {
       let self = this;
-      if(this.map.hasLayer(this.streamgageMarkers)){
-        this.streamgageMarkers.eachLayer(function(marker) {
+      if (this.map.hasLayer(this.streamgageMarkers)) {
+        this.streamgageMarkers.eachLayer(function (marker) {
           marker.setOpacity(self.$store.state.rtOpacity)
         });
       }
     },
     "$store.state.allFeaturesOpacity": function () {
       let self = this;
-      if(this.map.hasLayer(this.allRPMarkers)){
-        this.allRPMarkers.eachLayer(function(marker) {
+      if (this.map.hasLayer(this.allRPMarkers)) {
+        this.allRPMarkers.eachLayer(function (marker) {
           marker.setOpacity(self.$store.state.allFeaturesOpacity)
         });
       }
     },
     "$store.state.noaaOpacity": function () {
       let self = this;
-      if(this.map.hasLayer(this.tideMarkers)){
-        this.tideMarkers.eachLayer(function(marker) {
+      if (this.map.hasLayer(this.tideMarkers)) {
+        this.tideMarkers.eachLayer(function (marker) {
           marker.setOpacity(self.$store.state.noaaOpacity)
         });
       }
     },
     "$store.state.nfhlOpacity": function () {
       let self = this;
-      if(this.map.hasLayer(this.nfhlLayer)){
+      if (this.map.hasLayer(this.nfhlLayer)) {
         this.nfhlLayer.setOpacity(self.$store.state.nfhlOpacity);
       }
     },
     "$store.state.nwsOpacity": function () {
       let self = this;
-      if(this.map.hasLayer(this.radarLayer)){
+      if (this.map.hasLayer(this.radarLayer)) {
         this.radarLayer.setOpacity(self.$store.state.nwsOpacity)
       }
     },
     "$store.state.fwwOpacity": function () {
       let self = this;
-      if(this.map.hasLayer(this.fwwLayer)){
+      if (this.map.hasLayer(this.fwwLayer)) {
         this.fwwLayer.setOpacity(self.$store.state.fwwOpacity);
       }
     },
@@ -2391,6 +2276,7 @@ export default {
 <style>
 /*placing "scoped" after style affects only the current file*/
 @import "../styles/markers.css";
+
 #map {
   height: 100%;
   width: 100%;
@@ -2459,6 +2345,7 @@ export default {
 
 .legendIcon div {
   vertical-align: middle;
+
   label {
     display: inline-block;
     -webkit-justify-content: center;
@@ -2513,7 +2400,8 @@ export default {
   padding: 5px;
 }
 
-.nwisAlertClass, .nfhlAlertClass {
+.nwisAlertClass,
+.nfhlAlertClass {
   position: absolute;
   bottom: 22px;
   right: 10px;
@@ -2639,6 +2527,7 @@ export default {
   opacity: 0;
   transition: opacity 0.3s;
 }
+
 .popupIcon .tooltiptextWIMIcon {
   visibility: hidden;
   width: 120px;
@@ -2665,6 +2554,7 @@ export default {
   border-style: solid;
   border-color: transparent rgb(31, 119, 180) transparent transparent;
 }
+
 .popupIcon .tooltiptextWIMIcon::after {
   content: "";
   position: absolute;
@@ -2680,12 +2570,13 @@ export default {
   visibility: visible;
   opacity: 1;
 }
+
 .popupIcon:hover .tooltiptextWIMIcon {
   visibility: visible;
   opacity: 1;
 }
 
-.v-dialog > .v-card > .v-card__text {
+.v-dialog>.v-card>.v-card__text {
   padding: 20px !important;
 }
 
@@ -2707,16 +2598,20 @@ export default {
   #legendExplanation {
     display: none;
   }
+
   #legendExplanationMobile {
     display: block;
     text-align: center;
   }
+
   #legendContainer {
     width: auto;
   }
+
   #titleContainer {
     padding: 8px 12px;
   }
+
   .v-expansion-panel--active {
     width: 225px !important;
   }
@@ -2781,9 +2676,9 @@ export default {
   #legendExplanation {
     display: block;
   }
+
   #legendExplanationMobile {
     display: none;
   }
 }
-
 </style>
