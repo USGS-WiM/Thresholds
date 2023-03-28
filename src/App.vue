@@ -5,10 +5,7 @@
       <v-app>
         <Sidebar style="position: absolute"></Sidebar>
         <v-app-bar app style="background-color: #0a0a57" absolute>
-          <v-app-bar-nav-icon
-            @click="drawerState = !drawerState"
-            style="color: white"
-          ></v-app-bar-nav-icon>
+          <v-app-bar-nav-icon @click="drawerState = !drawerState" style="color: white"></v-app-bar-nav-icon>
           <v-toolbar-title style="color: white">
             <a href="https://www.usgs.gov/" target="_blank">
               <div class="toolbar-image">
@@ -18,30 +15,24 @@
             <div class="toolbar-text">
               <span class="main-title">{{ this.title() }}</span>
               <span class="beta-subtitle"> {{ this.pilot() }}</span>
-              <span class="mini-title"
-                ><h1>Real-Time Flood Impact Map</h1>
+              <span class="mini-title">
+                <h1>Real-Time Flood Impact Map</h1>
                 <br />
-                <h2>Beta</h2></span
-              >
+                <h2>Beta</h2>
+              </span>
             </div>
           </v-toolbar-title>
           <v-spacer></v-spacer>
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                color="white"
-                v-bind="attrs"
-                v-on="on"
-                @click="spanishState = !spanishState"
-              >
+              <v-btn color="white" v-bind="attrs" v-on="on" @click="spanishState = !spanishState">
                 <v-icon color="#0a0a57">mdi-translate</v-icon>
                 <span v-if="!spanishState">Español</span>
                 <span v-if="spanishState">English</span>
               </v-btn>
             </template>
-            <span v-if="!spanishState">Traducir al español </span
-            ><span v-if="spanishState">Translate to English </span></v-tooltip
-          >
+            <span v-if="!spanishState">Traducir al español </span><span v-if="spanishState">Translate to English
+            </span></v-tooltip>
           <About></About>
         </v-app-bar>
         <Map v-if="mounted"></Map>
@@ -85,6 +76,7 @@ export default {
     },
     spanishState: {
       get() {
+        window.gtag('event', 'Language Toggled');
         return this.$store.getters.spanishState;
       },
       set(v) {
@@ -131,7 +123,7 @@ html {
   height: 100%;
 }
 
-div > .v-application--wrap {
+div>.v-application--wrap {
   min-height: 100vh;
   min-height: var(--height);
 }
@@ -180,6 +172,7 @@ body {
   .toolbar-text {
     font-size: 18px;
   }
+
   .beta-subtitle {
     font-size: 16px;
   }
@@ -190,6 +183,7 @@ body {
     margin-left: -28px;
     margin-bottom: 10px;
   }
+
   .toolbar-image {
     display: none;
   }
@@ -202,24 +196,29 @@ body {
 }
 
 @media screen and (max-width: 640px) {
+
   .main-title,
   .beta-subtitle {
     display: none;
   }
+
   .toolbar-text {
     margin-bottom: -5px;
   }
+
   .mini-title {
     display: inline-block;
     margin-left: 8px;
     line-height: 8px;
   }
+
   .mini-title h1 {
     color: white;
     font-size: 14px;
     margin: 0;
     font-weight: normal;
   }
+
   .mini-title h2 {
     color: red;
     font-size: 12px;
@@ -232,9 +231,11 @@ body {
   .toolbar-text {
     margin-left: -38px;
   }
+
   .mini-title h1 {
     font-size: 11px;
   }
+
   .mini-title h2 {
     font-size: 8px;
   }
