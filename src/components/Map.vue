@@ -379,7 +379,6 @@ export default {
     createMap() {
       //Set 'this' to self to access it inside map events within method
       let self = this;
-
       self.map = L.map("map", {
         center: self.center,
         zoom: self.zoom,
